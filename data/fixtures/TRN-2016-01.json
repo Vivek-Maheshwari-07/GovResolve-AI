@@ -1,0 +1,27 @@
+{
+ "gr_id": "TRN-2016-01",
+ "gr_number": "TRN/2016/01",
+ "gr_number_norm": "TRN/2016/01",
+ "department": "General Administration Department",
+ "issue_date": "2016-04-01",
+ "subject": "Transfer policy",
+ "language": "en",
+ "source_pdf": "TRN-2016-01.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "TRN-2016-01:1",
+   "page": 1,
+   "text": "Transfers shall be made once a year in the month of May.",
+   "clause_label": "1",
+   "section": "operative"
+  },
+  {
+   "chunk_id": "TRN-2016-01:2",
+   "page": 1,
+   "text": "Officers shall not be transferred before completing three years at a station.",
+   "clause_label": "2",
+   "section": "operative"
+  }
+ ]
+}

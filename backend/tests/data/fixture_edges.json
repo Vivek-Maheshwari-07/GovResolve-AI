@@ -1,0 +1,45 @@
+[
+ {
+  "edge_id": "e1",
+  "source_gr": "GAD-2014-07",
+  "target_gr": "GAD-2010-01",
+  "rel_type": "AMENDS",
+  "confidence": "EXPLICIT",
+  "scope": "PARAGRAPH",
+  "target_clauses": [
+   "1"
+  ],
+  "evidence_text": "Para 1 of GR GAD/2010/01 is amended",
+  "evidence_chunk_id": "GAD-2014-07:1"
+ },
+ {
+  "edge_id": "e2",
+  "source_gr": "GAD-2019-22",
+  "target_gr": "GAD-2014-07",
+  "rel_type": "SUPERSEDES",
+  "confidence": "EXPLICIT",
+  "scope": "WHOLE",
+  "evidence_text": "In supersession of GR GAD/2014/07",
+  "evidence_chunk_id": "GAD-2019-22:1"
+ },
+ {
+  "edge_id": "e3",
+  "source_gr": "FIN-2021-09",
+  "target_gr": "FIN-2018-03",
+  "rel_type": "AMENDS",
+  "confidence": "PROBABLE",
+  "scope": "UNKNOWN",
+  "evidence_text": "Further to GR FIN/2018/03",
+  "evidence_chunk_id": "FIN-2021-09:1"
+ },
+ {
+  "edge_id": "e4",
+  "source_gr": "FIN-2021-09",
+  "target_gr": null,
+  "rel_type": "REFERS",
+  "confidence": "EXPLICIT",
+  "scope": "WHOLE",
+  "target_ref_text": "FIN/2015/99",
+  "evidence_chunk_id": "FIN-2021-09:1"
+ }
+]

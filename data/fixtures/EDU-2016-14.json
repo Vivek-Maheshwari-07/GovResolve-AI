@@ -1,0 +1,20 @@
+{
+ "gr_id": "EDU-2016-14",
+ "gr_number": "EDU/2016/14",
+ "gr_number_norm": "EDU/2016/14",
+ "department": "Education Department",
+ "issue_date": "2016-06-20",
+ "subject": "Cancellation of school uniform scheme",
+ "language": "en",
+ "source_pdf": "EDU-2016-14.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "EDU-2016-14:1",
+   "page": 1,
+   "text": "The free school uniform scheme introduced by GR EDU/2008/02 stands cancelled with immediate effect.",
+   "clause_label": "1",
+   "section": "operative"
+  }
+ ]
+}

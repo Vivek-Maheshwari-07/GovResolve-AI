@@ -1,40 +1,37 @@
-# SFIC backend (Squad 3: API + lineage graph)
+# GovResolve-AI backend (Squad 3)
+
+FastAPI service: GR metadata, amendment/supersession lineage graph, clause status, `/ask`, query log, and context store.
+
+## Architecture
+
+Squad 3 provides:
+- **Member A**: Core Lineage Graph, trigger & reference detector, and contract endpoints (`/documents`, `/lineage/{id}`, `/query`). Fully compliant with `backend/API_CONTRACT.md`.
+- **Member B**: Lineage Engine (`app/lineage/`), extended router (`/grs`, `/clauses/{chunk_id}/status`, `/lineage/annotate`, etc.), SQLite store, and vector store.
+
+## Run
 
 ```bash
+cd backend
 pip install -r requirements.txt
-python -m pytest                      # from this folder
-SFIC_SEED=1 uvicorn app.main:app --reload   # synthetic DEMO data, docs at /docs
+python -m pytest                              # run all tests
+python -m uvicorn app.main:app --reload      # http://localhost:8000/docs
+python -m scripts.eval_lineage               # precision / recall vs eval/gold_lineage.csv
 ```
 
-Env: `SFIC_GRAPH_PATH` (JSON persistence file), `SFIC_SEED=1` (load DEMO docs when empty).
+Runs offline: corpus = `data/fixtures/*.json`, SQLite = `data/govresolve.sqlite`, vectors = `data/vector/`.
+
+## Environment variables
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `GOV_CORPUS_DIR` | `data/fixtures` | Folder of GR JSON records (Squad 1 format, `schemas/gr.py`) |
+| `GOV_PDF_DIR` | `data/raw` | Where `/grs/{id}/pdf` looks for `source_pdf` |
+| `GOV_EMBED_MODEL` | `hash` | `hash` = offline lexical embedder. For real Gujarati retrieval use multilingual model |
+| `GOV_DB_PATH`, `GOV_VECTOR_DIR` | under `data/` | SQLite and Chroma locations |
+| `SFIC_GRAPH_PATH` | none | JSON file to persist the graph |
+| `SFIC_SEED` | `0` | `1` loads demo documents if graph is empty |
 
 ## Endpoints
 
-| Method | Path | Purpose |
-|---|---|---|
-| POST | `/documents` | Squad 1 sends a doc with per-page text; detector runs, edges are stored |
-| GET | `/documents`, `/documents/{id}` | metadata (+ lineage status) |
-| GET | `/lineage/{id}` | connected chain: nodes (with status), edges (with quote + page), timeline order |
-| GET | `/lineage/{id}/status` | status of one document |
-| POST | `/query` | calls Squad 2's engine, attaches lineage to each citation, adds warnings |
-
-## Modules
-
-- `schemas.py` - the contract. Edge direction: `source` (newer) acts on `target` (older).
-- `normalize.py` - Gujarati digits, GR-number keys, dates, language detection.
-- `detector.py` - trigger phrases (en + gu) + GR-number/date references, sentence-scoped.
-- `graph.py` - networkx store, reference resolution, `ext:` stubs, status logic, JSON persistence.
-- `engine.py` - `AnswerEngine` protocol for Squad 2 (`NullEngine` always refuses).
-- `seed.py` - synthetic DEMO chain for Squad 4. Not real data.
-
-## Status values
-
-`superseded` / `amended` / `no_later_amendment_found` / `unknown`. There is deliberately no
-"active": absence of a later order in the corpus never proves a rule is current.
-
-## Known limits
-
-- Gujarati trigger words are unvalidated against real GRs.
-- Pronoun references ("the above resolution") are reported in `unresolved`, not linked.
-- Document-level lineage only; no clause-level status yet.
-- A trigger and its reference must share a sentence on the same page.
+- **Contract endpoints (Squads 1, 2, 4)**: `POST /documents`, `GET /documents`, `GET /documents/{id}`, `GET /lineage/{id}`, `GET /lineage/{id}/status`, `POST /query`, `GET /edges`.
+- **Extended endpoints**: `/health`, `/grs`, `/grs/{id}`, `/grs/{id}/pdf`, `/grs/{id}/pages/{n}`, `/grs/{id}/lineage`, `/clauses/{chunk_id}/status`, `POST /lineage/annotate`, `/lineage/as-of`, `/lineage/broken`, `POST /ask`, `POST /feedback`, `/logs`, `POST /admin/rebuild`, `GET|POST /admin/edges/overrides`.

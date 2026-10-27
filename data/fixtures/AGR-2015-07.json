@@ -1,0 +1,27 @@
+{
+ "gr_id": "AGR-2015-07",
+ "gr_number": "ખેતી-૨૦૧૫-૦૭",
+ "gr_number_norm": "ખેતી-2015-07",
+ "department": "કૃષિ વિભાગ",
+ "issue_date": "2015-02-10",
+ "subject": "પાક વીમા યોજના",
+ "language": "gu",
+ "source_pdf": "AGR-2015-07.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "AGR-2015-07:1",
+   "page": 1,
+   "text": "ખેડૂતો માટે પાક વીમા યોજનામાં પ્રીમિયમ ૨ ટકા રહેશે.",
+   "clause_label": "1",
+   "section": "operative"
+  },
+  {
+   "chunk_id": "AGR-2015-07:2",
+   "page": 1,
+   "text": "વીમા દાવાની ચુકવણી ૬૦ દિવસમાં કરવાની રહેશે.",
+   "clause_label": "2",
+   "section": "operative"
+  }
+ ]
+}

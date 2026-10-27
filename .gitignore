@@ -2,3 +2,7 @@ backend/IMPLEMENTATION_PLAN.md
 __pycache__/
 *.pyc
 .pytest_cache/
+.env
+data/govresolve.sqlite
+data/vector/
+data/edges_detected.csv

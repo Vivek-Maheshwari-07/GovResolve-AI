@@ -1,0 +1,20 @@
+{
+ "gr_id": "FIN-2021-09",
+ "gr_number": "FIN/2021/09",
+ "gr_number_norm": "FIN/2021/09",
+ "department": "Finance Department",
+ "issue_date": "2021-03-01",
+ "subject": "Medical reimbursement ceiling",
+ "language": "en",
+ "source_pdf": "FIN-2021-09.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "FIN-2021-09:1",
+   "page": 1,
+   "text": "In supersession of GR FIN/2015/99, the medical reimbursement ceiling is raised to Rs. 75000 per year per employee.",
+   "clause_label": "1",
+   "section": "operative"
+  }
+ ]
+}

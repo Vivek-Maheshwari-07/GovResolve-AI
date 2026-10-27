@@ -1,22 +1,22 @@
-"""FastAPI entry point: ``uvicorn app.main:app --reload``.
-
-Environment:
-  SFIC_GRAPH_PATH  JSON file to load the graph from and save it to after ingest.
-  SFIC_SEED=1      load the synthetic DEMO documents when the graph is empty.
-"""
 from __future__ import annotations
 
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from .config import Settings, settings as default_settings
 from .engine import AnswerEngine, NullEngine
 from .graph import LineageGraph
 from .normalize import detect_language
+from .routers.api import router as member_b_router
+from .schemas.member_a import Citation
 from .schemas import (
-    Citation,
     DocumentDetail,
     DocumentIn,
     DocumentMeta,
@@ -30,14 +30,30 @@ from .schemas import (
     Verdict,
 )
 from .seed import load_demo
+from .state import AppState
+
+
+def jsonable(errors: list[dict]) -> list[dict]:
+    return [{"loc": list(e.get("loc", [])), "msg": e.get("msg", ""), "type": e.get("type", "")} for e in errors]
 
 
 def create_app(
-    graph: LineageGraph | None = None,
+    settings_or_graph: Settings | LineageGraph | None = None,
     engine: AnswerEngine | None = None,
     store_path: str | Path | None = None,
+    *,
+    persist_vectors: bool = True,
+    graph: LineageGraph | None = None,
 ) -> FastAPI:
-    if graph is None:
+    cfg: Settings | None = None
+    if isinstance(settings_or_graph, Settings):
+        cfg = settings_or_graph
+    elif isinstance(settings_or_graph, LineageGraph):
+        graph = settings_or_graph
+    elif settings_or_graph is None and graph is None and engine is None and store_path is None:
+        cfg = default_settings
+
+    if graph is None and cfg is None:
         graph = (
             LineageGraph.load(store_path)
             if store_path and Path(store_path).exists()
@@ -45,108 +61,131 @@ def create_app(
         )
     engine = engine or NullEngine()
 
-    app = FastAPI(title="SFIC GR Lineage API", version="0.1.0")
-    app.add_middleware(
-        CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        if cfg is not None:
+            app.state.gov = AppState.create(cfg, persist_vectors=persist_vectors)
+        yield
+
+    app = FastAPI(
+        title="GovResolve-AI backend",
+        version=cfg.version if cfg else "0.1.0",
+        lifespan=lifespan,
     )
+    cors_origins = cfg.cors_origins if cfg else ["*"]
+    app.add_middleware(CORSMiddleware, allow_origins=cors_origins, allow_methods=["*"], allow_headers=["*"])
+
+    if cfg is not None:
+        app.include_router(member_b_router)
+
+        @app.exception_handler(StarletteHTTPException)
+        async def http_error(_: Request, exc: StarletteHTTPException):
+            return JSONResponse({"error": exc.detail, "reason": exc.detail}, status_code=exc.status_code)
+
+        @app.exception_handler(RequestValidationError)
+        async def validation_error(_: Request, exc: RequestValidationError):
+            return JSONResponse({"error": "validation_error", "reason": "Invalid request",
+                                 "details": jsonable(exc.errors())}, status_code=422)
 
     def persist() -> None:
-        if store_path:
+        if store_path and graph:
             graph.save(store_path)
 
-    @app.get("/health")
-    def health() -> dict:
-        return {"status": "ok", "documents": len(graph.list_documents())}
+    if cfg is None:
+        @app.get("/health")
+        def health() -> dict:
+            return {"status": "ok", "documents": len(graph.list_documents()) if graph else 0}
 
-    @app.post("/documents", response_model=IngestResult)
-    def ingest(doc: DocumentIn) -> IngestResult:
-        result = graph.add_document(doc)
-        persist()
-        return result
+    if graph is not None:
+        @app.post("/documents", response_model=IngestResult)
+        def ingest(doc: DocumentIn) -> IngestResult:
+            result = graph.add_document(doc)
+            persist()
+            return result
 
-    @app.get("/documents", response_model=list[DocumentMeta])
-    def list_documents() -> list[DocumentMeta]:
-        return graph.list_documents()
+        @app.get("/documents", response_model=list[DocumentMeta])
+        def list_documents() -> list[DocumentMeta]:
+            return graph.list_documents()
 
-    @app.get("/documents/{doc_id}", response_model=DocumentDetail)
-    def get_document(doc_id: str) -> DocumentDetail:
-        meta = graph.get_meta(doc_id)
-        if meta is None:
-            raise HTTPException(404, f"Unknown document {doc_id!r}")
-        return DocumentDetail(meta=meta, lineage=graph.status_of(doc_id))
-
-    @app.get("/lineage/{doc_id}", response_model=LineageGraphResponse)
-    def get_lineage(doc_id: str) -> LineageGraphResponse:
-        result = graph.lineage(doc_id)
-        if result is None:
-            raise HTTPException(404, f"Unknown document {doc_id!r}")
-        return result
-
-    @app.get("/lineage/{doc_id}/status", response_model=LineageInfo)
-    def get_status(doc_id: str) -> LineageInfo:
-        if doc_id not in graph:
-            raise HTTPException(404, f"Unknown document {doc_id!r}")
-        return graph.status_of(doc_id)
-
-    @app.get("/edges", response_model=list[Edge])
-    def list_edges() -> list[Edge]:
-        return graph.edges()
-
-    @app.post("/query", response_model=QueryResponse)
-    def query(req: QueryRequest) -> QueryResponse:
-        language = req.language or detect_language(req.question)
-        result = engine.answer(req.question, language)
-
-        citations: list[Citation] = []
-        warnings: list[str] = []
-        for raw in result.citations:
-            meta = graph.get_meta(raw.doc_id)
+        @app.get("/documents/{doc_id}", response_model=DocumentDetail)
+        def get_document(doc_id: str) -> DocumentDetail:
+            meta = graph.get_meta(doc_id)
             if meta is None:
-                warnings.append(f"Dropped citation to unknown document {raw.doc_id!r}.")
-                continue
-            lineage = graph.status_of(raw.doc_id)
-            citations.append(
-                Citation(
-                    doc_id=raw.doc_id,
-                    page=raw.page,
-                    quote=raw.quote,
-                    issue_date=meta.issue_date,
-                    bbox=raw.bbox,
-                    lineage=lineage,
-                )
-            )
-            if lineage.status is LineageStatus.SUPERSEDED:
-                warnings.append(
-                    f"{raw.doc_id} is superseded ({lineage.summary}); this passage may no longer apply."
-                )
-            elif lineage.status is LineageStatus.AMENDED:
-                warnings.append(
-                    f"{raw.doc_id} has been amended ({lineage.summary}); read the passage together with the amendment."
-                )
-            elif lineage.status is LineageStatus.UNKNOWN:
-                warnings.append(f"Current applicability of {raw.doc_id} cannot be established.")
+                raise HTTPException(404, f"Unknown document {doc_id!r}")
+            return DocumentDetail(meta=meta, lineage=graph.status_of(doc_id))
 
-        if not result.answer or not citations:
+        @app.get("/lineage/{doc_id}", response_model=LineageGraphResponse)
+        def get_lineage(doc_id: str) -> LineageGraphResponse:
+            result = graph.lineage(doc_id)
+            if result is None:
+                raise HTTPException(404, f"Unknown document {doc_id!r}")
+            return result
+
+        @app.get("/lineage/{doc_id}/status", response_model=LineageInfo)
+        def get_status(doc_id: str) -> LineageInfo:
+            if doc_id not in graph:
+                raise HTTPException(404, f"Unknown document {doc_id!r}")
+            return graph.status_of(doc_id)
+
+        @app.get("/edges", response_model=list[Edge])
+        def list_edges() -> list[Edge]:
+            return graph.edges()
+
+        @app.post("/query", response_model=QueryResponse)
+        def query(req: QueryRequest) -> QueryResponse:
+            language = req.language or detect_language(req.question)
+            result = engine.answer(req.question, language)
+
+            citations: list[Citation] = []
+            warnings: list[str] = []
+            for raw in result.citations:
+                meta = graph.get_meta(raw.doc_id)
+                if meta is None:
+                    warnings.append(f"Dropped citation to unknown document {raw.doc_id!r}.")
+                    continue
+                lineage = graph.status_of(raw.doc_id)
+                citations.append(
+                    Citation(
+                        doc_id=raw.doc_id,
+                        page=raw.page,
+                        quote=raw.quote,
+                        issue_date=meta.issue_date,
+                        bbox=raw.bbox,
+                        lineage=lineage,
+                    )
+                )
+                if lineage.status is LineageStatus.SUPERSEDED:
+                    warnings.append(
+                        f"{raw.doc_id} is superseded ({lineage.summary}); this passage may no longer apply."
+                    )
+                elif lineage.status is LineageStatus.AMENDED:
+                    warnings.append(
+                        f"{raw.doc_id} has been amended ({lineage.summary}); read the passage together with the amendment."
+                    )
+                elif lineage.status is LineageStatus.UNKNOWN:
+                    warnings.append(f"Current applicability of {raw.doc_id} cannot be established.")
+
+            if not result.answer or not citations:
+                return QueryResponse(
+                    verdict=Verdict.INSUFFICIENT_EVIDENCE,
+                    reason=result.insufficient_reason
+                    or "The available documents do not support an answer.",
+                    warnings=warnings,
+                    language=language,
+                )
             return QueryResponse(
-                verdict=Verdict.INSUFFICIENT_EVIDENCE,
-                reason=result.insufficient_reason
-                or "The available documents do not support an answer.",
+                verdict=Verdict.ANSWERED,
+                answer=result.answer,
+                citations=citations,
                 warnings=warnings,
                 language=language,
             )
-        return QueryResponse(
-            verdict=Verdict.ANSWERED,
-            answer=result.answer,
-            citations=citations,
-            warnings=warnings,
-            language=language,
-        )
 
-    if os.environ.get("SFIC_SEED") == "1" and not graph.list_documents():
-        load_demo(graph)
-        persist()
+        if os.environ.get("SFIC_SEED") == "1" and not graph.list_documents():
+            load_demo(graph)
+            persist()
 
     return app
 
 
-app = create_app(store_path=os.environ.get("SFIC_GRAPH_PATH"))
+app = create_app()

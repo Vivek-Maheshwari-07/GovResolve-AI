@@ -1,0 +1,20 @@
+{
+ "gr_id": "EDU-2008-02",
+ "gr_number": "EDU/2008/02",
+ "gr_number_norm": "EDU/2008/02",
+ "department": "Education Department",
+ "issue_date": "2008-04-02",
+ "subject": "Free school uniform scheme",
+ "language": "en",
+ "source_pdf": "EDU-2008-02.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "EDU-2008-02:1",
+   "page": 1,
+   "text": "Free uniforms shall be given to all girl students of classes 1 to 8.",
+   "clause_label": "1",
+   "section": "operative"
+  }
+ ]
+}

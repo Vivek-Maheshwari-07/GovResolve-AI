@@ -1,0 +1,20 @@
+{
+ "gr_id": "FIN-2018-03",
+ "gr_number": "FIN/2018/03",
+ "gr_number_norm": "FIN/2018/03",
+ "department": "Finance Department",
+ "issue_date": "2018-01-15",
+ "subject": "Medical reimbursement ceiling",
+ "language": "en",
+ "source_pdf": "FIN-2018-03.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "FIN-2018-03:1",
+   "page": 1,
+   "text": "The medical reimbursement ceiling is Rs. 50000 per year per employee.",
+   "clause_label": "1",
+   "section": "operative"
+  }
+ ]
+}

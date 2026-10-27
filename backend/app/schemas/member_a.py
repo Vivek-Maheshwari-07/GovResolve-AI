@@ -116,13 +116,16 @@ class RawCitation(BaseModel):
     bbox: list[float] | None = None
 
 
-class Citation(BaseModel):
+class DocCitation(BaseModel):
     doc_id: str
     page: int
     quote: str
     issue_date: date | None = None
     bbox: list[float] | None = None
     lineage: LineageInfo
+
+
+Citation = DocCitation
 
 
 class QueryRequest(BaseModel):
@@ -133,7 +136,7 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     verdict: Verdict
     answer: str | None = None
-    citations: list[Citation] = Field(default_factory=list)
+    citations: list[DocCitation] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
     reason: str | None = None
     language: str
