@@ -141,6 +141,10 @@ def logs(request: Request, limit: int = Query(20, ge=1, le=500)):
 def rebuild(request: Request):
     st = S(request)
     st.rebuild()
+    cg = getattr(request.app.state, "contract_graph", None)
+    if cg is not None:
+        from ..graph import load_corpus
+        load_corpus(cg, st.corpus, st.lineage)  # idempotent: re-ingest recomputes each document's outgoing links
     return {"ok": True, "gr_count": len(st.corpus.grs), "edge_count": len(st.lineage.edges()), "build_ms": st.build_ms}
 
 

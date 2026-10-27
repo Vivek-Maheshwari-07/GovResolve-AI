@@ -18,6 +18,8 @@ python -m uvicorn app.main:app --reload      # http://localhost:8000/docs
 python -m scripts.eval_lineage               # precision / recall vs eval/gold_lineage.csv
 ```
 
+On startup the contract graph (`/documents`, `/lineage/{id}`, `/edges`, `/query`) is filled from the same corpus using the lineage engine's edges, so both API families always agree. `POST /documents` adds to that graph only; run `POST /admin/rebuild` after changing the corpus folder.
+
 Runs offline: corpus = `data/fixtures/*.json`, SQLite = `data/govresolve.sqlite`, vectors = `data/vector/`.
 
 ## Environment variables

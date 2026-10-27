@@ -26,6 +26,7 @@ from .schemas import (
     LineageInfo,
     LineageNode,
     LineageStatus,
+    PageText,
     Relation,
     UnresolvedReference,
 )
@@ -217,6 +218,7 @@ class LineageGraph:
                 warnings.append("date_conflict: acting document is dated before its target")
             elif not (self._date(u) and self._date(v)):
                 warnings.append("date_unverified: an issue date is missing")
+        warnings.extend(data.get("extra_warnings", []))
         return Edge(
             source=u,
             target=v,
@@ -397,3 +399,67 @@ class LineageGraph:
                 evidence=Evidence(**e["evidence"]),
             )
         return graph
+
+
+_REL_MAP = {
+    "SUPERSEDES": Relation.SUPERSEDES,
+    "AMENDS": Relation.AMENDS,
+    "SUBSTITUTES": Relation.AMENDS,
+    "RESTORES": Relation.AMENDS,
+    "CANCELS": Relation.CANCELS,
+    "CLARIFIES": Relation.REFERS_TO,
+    "REFERS": Relation.REFERS_TO,
+}
+
+
+def _doc_in(gr) -> DocumentIn | None:
+    pages: dict[int, list[str]] = {}
+    for ch in gr.chunks:
+        pages.setdefault(ch.page, []).append(ch.text)
+    if not pages:
+        return None
+    return DocumentIn(
+        doc_id=gr.gr_id, gr_number=gr.gr_number, department=gr.department, subject=gr.subject,
+        issue_date=gr.issue_date, language=gr.language, pdf_url=f"/grs/{gr.gr_id}/pdf",
+        pages=[PageText(page=p, text="\n".join(t)) for p, t in sorted(pages.items())],
+    )
+
+
+def load_corpus(graph: LineageGraph, corpus, lineage=None) -> int:
+    """Fill the document-level graph from a Squad 1 corpus; returns documents added.
+
+    With `lineage` (the clause-level engine) its edges are the single source of truth, so the
+    contract endpoints and `/ask` can never disagree. Without it the text detector is used.
+    PROBABLE edges are downgraded to `amends` with a warning: they must never mark a GR superseded.
+    """
+    n = 0
+    with graph._lock:
+        for gr in corpus.grs.values():
+            doc = _doc_in(gr)
+            if doc is None:
+                continue
+            if lineage is None:
+                graph.add_document(doc)
+            else:
+                graph._remove_outgoing(gr.gr_id)
+                graph._g.add_node(gr.gr_id, meta=DocumentMeta(**doc.model_dump(exclude={"pages"})))
+            n += 1
+        if lineage is None:
+            return n
+        for e in lineage.edges():
+            chunk = corpus.chunk(e.evidence_chunk_id) if e.evidence_chunk_id else None
+            ev = Evidence(page=chunk.page if chunk else 1, quote=e.evidence_text or "")
+            rel = _REL_MAP.get(e.rel_type.value, Relation.REFERS_TO)
+            warns: list[str] = []
+            if e.confidence.value != "EXPLICIT":
+                warns.append("probable: reference inferred, not stated explicitly")
+                if rel in ENDING:
+                    rel = Relation.AMENDS
+            target = e.target_gr
+            if target is None:  # broken link -> external stub, shown greyed out
+                ref = e.target_ref_text or "unknown"
+                target = "ext:" + gr_key(ref)
+                if target not in graph._g:
+                    graph._g.add_node(target, meta=DocumentMeta(doc_id=target, gr_number=ref, is_external=True))
+            graph._g.add_edge(e.source_gr, target, key=e.edge_id, relation=rel, evidence=ev, extra_warnings=warns)
+    return n

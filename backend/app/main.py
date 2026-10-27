@@ -11,8 +11,8 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from .config import Settings, settings as default_settings
-from .engine import AnswerEngine, NullEngine
-from .graph import LineageGraph
+from .engine import AnswerEngine, NullEngine, RetrievalEngine
+from .graph import LineageGraph, load_corpus
 from .normalize import detect_language
 from .routers.api import router as member_b_router
 from .schemas.member_a import Citation
@@ -53,18 +53,24 @@ def create_app(
     elif settings_or_graph is None and graph is None and engine is None and store_path is None:
         cfg = default_settings
 
+    if cfg is not None and graph is None:
+        graph = LineageGraph()  # document-level contract graph, filled from the corpus on startup
     if graph is None and cfg is None:
         graph = (
             LineageGraph.load(store_path)
             if store_path and Path(store_path).exists()
             else LineageGraph()
         )
-    engine = engine or NullEngine()
+    if engine is None:
+        engine = RetrievalEngine(lambda: getattr(app.state, "gov", None)) if cfg is not None else NullEngine()
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         if cfg is not None:
             app.state.gov = AppState.create(cfg, persist_vectors=persist_vectors)
+            app.state.contract_graph = graph
+            if not graph.list_documents():
+                load_corpus(graph, app.state.gov.corpus, app.state.gov.lineage)
         yield
 
     app = FastAPI(
@@ -181,7 +187,7 @@ def create_app(
                 language=language,
             )
 
-        if os.environ.get("SFIC_SEED") == "1" and not graph.list_documents():
+        if cfg is None and os.environ.get("SFIC_SEED") == "1" and not graph.list_documents():
             load_demo(graph)
             persist()
 
