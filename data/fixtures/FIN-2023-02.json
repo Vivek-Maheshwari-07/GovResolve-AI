@@ -1,0 +1,20 @@
+{
+ "gr_id": "FIN-2023-02",
+ "gr_number": "FIN/2023/02",
+ "gr_number_norm": "FIN/2023/02",
+ "department": "Finance Department",
+ "issue_date": "2023-02-10",
+ "subject": "Medical reimbursement ceiling",
+ "language": "en",
+ "source_pdf": "FIN-2023-02.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "FIN-2023-02:1",
+   "page": 1,
+   "text": "All earlier orders on the medical reimbursement ceiling stand cancelled and the ceiling is Rs. 100000 per year per employee.",
+   "clause_label": "1",
+   "section": "operative"
+  }
+ ]
+}

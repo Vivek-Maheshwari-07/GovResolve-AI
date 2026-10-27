@@ -1,0 +1,14 @@
+source_gr,target_gr,rel_type,target_clauses,notes
+GAD-2014-07,GAD-2010-01,AMENDS,1,fixture: partial amendment
+GAD-2019-22,GAD-2014-07,SUPERSEDES,,fixture: chain step 2
+HLT-2012-30,HLT-2005-11,SUPERSEDES,,fixture: whole supersession chain
+HLT-2020-04,HLT-2012-30,SUPERSEDES,,fixture: whole supersession chain
+EDU-2016-14,EDU-2008-02,CANCELS,,fixture: cancellation
+REV-2013-19,REV-2011-08,CLARIFIES,,fixture: clarification only
+TRN-2018-04,TRN-2016-01,AMENDS,1,fixture: same-date amendment
+TRN-2018-05,TRN-2016-01,AMENDS,1,fixture: same-date amendment
+AGR-2018-11,AGR-2012-03,SUPERSEDES,,fixture: Gujarati by number
+AGR-2019-01,AGR-2015-07,AMENDS,2,fixture: Gujarati by date (probable)
+PWD-2019-12,PWD-2017-09,AMENDS,,fixture: Read (2) pointer
+FIN-2023-02,FIN-2018-03,CANCELS,,fixture: blanket cancellation (probable)
+FIN-2023-02,FIN-2021-09,CANCELS,,fixture: blanket cancellation (probable)

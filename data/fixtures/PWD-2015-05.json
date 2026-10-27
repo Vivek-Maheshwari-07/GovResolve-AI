@@ -1,0 +1,20 @@
+{
+ "gr_id": "PWD-2015-05",
+ "gr_number": "PWD/2015/05",
+ "gr_number_norm": "PWD/2015/05",
+ "department": "Public Works Department",
+ "issue_date": "2015-03-02",
+ "subject": "Road maintenance grant",
+ "language": "en",
+ "source_pdf": "PWD-2015-05.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "PWD-2015-05:1",
+   "page": 1,
+   "text": "A grant of Rs. 5 lakh per taluka shall be released annually for road maintenance.",
+   "clause_label": "1",
+   "section": "operative"
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "gr_id": "HLT-2020-04",
+ "gr_number": "HLT/2020/04",
+ "gr_number_norm": "HLT/2020/04",
+ "department": "Health Department",
+ "issue_date": "2020-08-05",
+ "subject": "Hospital reimbursement rates",
+ "language": "en",
+ "source_pdf": "HLT-2020-04.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "HLT-2020-04:1",
+   "page": 1,
+   "text": "In supersession of GR HLT/2012/30 dated 20/02/2012, reimbursement for hospital stay shall be limited to Rs. 3500 per day.",
+   "clause_label": "1",
+   "section": "operative"
+  }
+ ]
+}

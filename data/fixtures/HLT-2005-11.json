@@ -1,0 +1,20 @@
+{
+ "gr_id": "HLT-2005-11",
+ "gr_number": "HLT/2005/11",
+ "gr_number_norm": "HLT/2005/11",
+ "department": "Health Department",
+ "issue_date": "2005-06-10",
+ "subject": "Hospital reimbursement rates",
+ "language": "en",
+ "source_pdf": "HLT-2005-11.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "HLT-2005-11:1",
+   "page": 1,
+   "text": "Reimbursement for private hospital stay shall be limited to Rs. 1000 per day.",
+   "clause_label": "1",
+   "section": "operative"
+  }
+ ]
+}

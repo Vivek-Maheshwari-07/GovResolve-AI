@@ -1,0 +1,27 @@
+{
+ "gr_id": "GAD-2010-01",
+ "gr_number": "GAD/2010/01",
+ "gr_number_norm": "GAD/2010/01",
+ "department": "General Administration Department",
+ "issue_date": "2010-04-01",
+ "subject": "Daily allowance for state employees on tour",
+ "language": "en",
+ "source_pdf": "GAD-2010-01.pdf",
+ "page_count": 1,
+ "chunks": [
+  {
+   "chunk_id": "GAD-2010-01:1",
+   "page": 1,
+   "text": "The daily allowance for employees on official tour shall be Rs. 200 per day.",
+   "clause_label": "1",
+   "section": "operative"
+  },
+  {
+   "chunk_id": "GAD-2010-01:2",
+   "page": 1,
+   "text": "Employees of grade I and above shall travel by train second class.",
+   "clause_label": "2",
+   "section": "operative"
+  }
+ ]
+}
