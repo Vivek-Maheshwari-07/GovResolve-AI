@@ -1,0 +1,4 @@
+backend/IMPLEMENTATION_PLAN.md
+__pycache__/
+*.pyc
+.pytest_cache/

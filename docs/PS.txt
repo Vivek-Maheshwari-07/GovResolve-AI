@@ -1,0 +1,40 @@
+problem Statement Title & Focus Area
+Develop a Gujarati–English AI assistant that helps users locate and understand relevant Government Resolutions (GRs), circulars and notifications through questions asked in everyday language.
+The system must answer using retrieved official documents and provide verifiable evidence, including the supporting document, relevant passage, page number and document date. It must also identify explicit amendments, replacements and superseded orders and clearly indicate when the available documents cannot establish an answer or its current applicability.
+Minimum prototype requirements
+· Search across scanned and digitally generated government documents.
+· Understand Gujarati, English and mixed-language questions.
+· Extract department, subject, GR number and issue date.
+· Retrieve relevant provisions and generate answers grounded in the retrieved documents.
+· Display the supporting document, exact passage and page number.
+· Identify explicit references to amendments, replacement orders and superseded instructions.
+· Distinguish established facts from assumptions and unsupported conclusions.
+· State when available documents are insufficient to determine the answer or current applicability.
+Example: An officer asks, “Which documents are required for this type of leave?” The assistant retrieves the relevant provisions, cites the applicable pages and identifies any explicitly linked amendments.
+Suggested dataset: 100–200 public GRs, including selected amendment chains, with off
+Challenge Context & Background
+Finding a specific government resolution is time consuming and tedious task.
+Exact Problem Specification & Root Cause
+Develop a Gujarati–English AI assistant that helps users locate and understand relevant Government Resolutions (GRs), circulars and notifications through questions asked in everyday language.
+The system must answer using retrieved official documents and provide verifiable evidence, including the supporting document, relevant passage, page number and document date. It must also identify explicit amendments, replacements and superseded orders and clearly indicate when the available documents cannot establish an answer or its current applicability.
+Minimum prototype requirements
+· Search across scanned and digitally generated government documents.
+· Understand Gujarati, English and mixed-language questions.
+· Extract department, subject, GR number and issue date.
+· Retrieve relevant provisions and generate answers grounded in the retrieved documents.
+· Display the supporting document, exact passage and page number.
+· Identify explicit references to amendments, replacement orders and superseded instructions.
+· Distinguish established facts from assumptions and unsupported conclusions.
+· State when available documents are insufficient to determine the answer or current applicability.
+Example: An officer asks, “Which documents are required for this type of leave?” The assistant retrieves the relevant provisions, cites the applicable pages and identifies any explicitly linked amendments.
+Suggested dataset: 100–200 public GRs, including selected amendment chains, with officer-validated questions and answers.
+Target Stakeholders & End Users
+Government officers, establishment branches and citizens.
+Expected Outcomes & Deliverables
+Less time spent searching for rules, fewer unsupported interpretations and better traceability of administrative decisions.
+Potential Societal & Economic Impact
+· Correct-document retrieval accuracy.
+· Citation and page-number accuracy.
+· Answer correctness.
+· Amendment-chain identification.
+· Handling of unanswerable questions and uncertain applicability.
