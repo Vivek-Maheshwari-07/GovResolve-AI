@@ -1,0 +1,175 @@
+# GovResolve-AI Bilingual Glossary
+# Format: term -> canonical_gujarati, canonical_english, synonyms[]
+# Used by Squad 2 for query understanding
+
+terms:
+  # Leave types
+  - term: EL
+    gujarati: "અર્જિત રજા"
+    english: "Earned Leave"
+    synonyms: ["earned leave", "privilege leave", "PL", "અ.ર.", "અર્જીત રજા"]
+
+  - term: CL
+    gujarati: "રોગ રજા"
+    english: "Casual Leave"
+    synonyms: ["casual leave", "casualleave", "સ.ર.", "સામાન્ય રજા"]
+
+  - term: ML
+    gujarati: "તબીબી રજા"
+    english: "Medical Leave"
+    synonyms: ["sick leave", "SL", "medical leave"]
+
+  - term: maternity leave
+    gujarati: "પ્રસૂતિ રજા"
+    english: "Maternity Leave"
+    synonyms: ["prasuti raja", "maternity", "prasuti", "પ્રસૂતિ", "prasuti rja"]
+
+  - term: paternity leave
+    gujarati: "પિતૃત્વ રજા"
+    english: "Paternity Leave"
+    synonyms: ["paternity", "pitruttva raja"]
+
+  - term: LTC
+    gujarati: "પ્રવાસ ભથ્થા"
+    english: "Leave Travel Concession"
+    synonyms: ["leave travel concession", "travel allowance", "LTC", "leave travel"]
+
+  - term: DA
+    gujarati: "મોઘવારી ભથ્થું"
+    english: "Dearness Allowance"
+    synonyms: ["dearness allowance", "dearness", "moghvari", "moghvari bhathu"]
+
+  - term: HRA
+    gujarati: "મકાન ભાડા ભથ્થું"
+    english: "House Rent Allowance"
+    synonyms: ["house rent", "house rent allowance", "makan bhada"]
+
+  - term: TA
+    gujarati: "પ્રવાસ ભથ્થું"
+    english: "Travel Allowance"
+    synonyms: ["travel allowance", "traveling allowance", "pravas bhathu"]
+
+  - term: GPF
+    gujarati: "સામાન્ય ભવિષ્ય નિધિ"
+    english: "General Provident Fund"
+    synonyms: ["general provident fund", "provident fund", "PF"]
+
+  - term: DCRG
+    gujarati: "ઉપદાન"
+    english: "Death-cum-Retirement Gratuity"
+    synonyms: ["gratuity", "death cum retirement gratuity", "updaan"]
+
+  # Document types
+  - term: GR
+    gujarati: "સરકારી ઠરાવ"
+    english: "Government Resolution"
+    synonyms: ["government resolution", "sarkari tharav", "resolution", "ઠ", "ઠરાવ"]
+
+  - term: circular
+    gujarati: "પરિપત્ર"
+    english: "Circular"
+    synonyms: ["paripatr", "circular letter", "instruction"]
+
+  - term: notification
+    gujarati: "જાહેરનામું"
+    english: "Notification"
+    synonyms: ["gazette notification", "jahernamu", "gazzetted", "notification"]
+
+  # Departments
+  - term: GAD
+    gujarati: "સામાન્ય વહીવટ વિભાગ"
+    english: "General Administration Department"
+    synonyms: ["general administration", "samanya vahivat", "general admin"]
+
+  - term: Finance
+    gujarati: "નાણા વિભાગ"
+    english: "Finance Department"
+    synonyms: ["nana vibhag", "finance dept"]
+
+  # Relationships / Lineage
+  - term: amendment
+    gujarati: "સુધારો"
+    english: "Amendment"
+    synonyms: ["sudhaaro", "sanshodhan", "sudharo", "modified", "modified by"]
+
+  - term: supersession
+    gujarati: "અધિક્રમણ"
+    english: "Supersession"
+    synonyms: ["adhikraman", "superseded", "cancelled and replaced", "replaced by"]
+
+  - term: cancelled
+    gujarati: "રદ"
+    english: "Cancelled"
+    synonyms: ["rad", "withdrawn", "abrogated", "revoked", "radh", "radh karvama"]
+
+# Lineage trigger phrases (for regex extraction in Squad 3)
+lineage_phrases:
+  supersedes:
+    english:
+      - "in supersession of"
+      - "in partial supersession of"
+      - "superseding"
+      - "stand superseded"
+      - "is hereby superseded"
+    gujarati:
+      - "ના અધિક્રમણમાં"
+      - "ના સ્થાને"
+      - "અધિક્રમિત"
+      - "અધિક્રમ કરવામાં આવે"
+
+  amends:
+    english:
+      - "is hereby amended"
+      - "shall be amended"
+      - "be read as"
+      - "amended as under"
+      - "amended as follows"
+    gujarati:
+      - "સુધારો કરવામાં આવે"
+      - "સુધારો કરવામાં"
+      - "ફેરફાર કરવામાં"
+      - "નીચે મુજબ સુધારો"
+
+  substitutes:
+    english:
+      - "shall be substituted"
+      - "substituted by"
+      - "substituted as under"
+      - "be replaced by"
+    gujarati:
+      - "ની જગ્યાએ"
+      - "ફેરબદલ"
+      - "ફેરવ"
+
+  cancels:
+    english:
+      - "stands cancelled"
+      - "is hereby cancelled"
+      - "is hereby withdrawn"
+      - "shall stand withdrawn"
+      - "hereby revoked"
+    gujarati:
+      - "રદ કરવામાં"
+      - "પાછો ખેંચ"
+      - "રદ"
+
+  clarifies:
+    english:
+      - "it is clarified"
+      - "for the purpose of clarification"
+      - "clarification is issued"
+    gujarati:
+      - "સ્પષ્ટ કરવામાં"
+      - "ખુલાસો"
+
+  refers:
+    english:
+      - "read with"
+      - "with reference to"
+      - "in continuation of"
+      - "as per"
+    gujarati:
+      - "સાથે વાંચ"
+      - "ના સંદર્ભ"
+      - "અનુસ"
+

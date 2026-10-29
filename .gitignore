@@ -1,0 +1,41 @@
+# GovResolve-AI — Python paths
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment
+.env
+*.env.local
+
+# Data (large files — do not commit)
+data/grs/*.pdf
+data/processed/*.json
+data/index/
+
+# Model cache
+.cache/
+huggingface/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Eval results
+eval/scorecard.json
+
