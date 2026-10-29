@@ -18,6 +18,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import sys
 from pathlib import Path
 from typing import Optional
@@ -37,6 +38,25 @@ from backend.models import (
 try:
     import pytesseract
     TESSERACT_AVAILABLE = True
+
+    # Auto-detect Tesseract binary on Windows and standard paths
+    candidates = [
+        os.getenv("TESSERACT_CMD", ""),
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+        r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+        shutil.which("tesseract") or "",
+    ]
+    for c in candidates:
+        if c and Path(c).is_file():
+            pytesseract.pytesseract.tesseract_cmd = c
+            logger.info(f"Using Tesseract OCR at: {c}")
+            break
+
+    # Setup local or custom tessdata prefix
+    local_tessdata = Path(__file__).parent.parent.parent / "data" / "tessdata"
+    if local_tessdata.exists() and "TESSDATA_PREFIX" not in os.environ:
+        os.environ["TESSDATA_PREFIX"] = str(local_tessdata.resolve())
+        logger.info(f"Using TESSDATA_PREFIX: {local_tessdata.resolve()}")
 except ImportError:
     TESSERACT_AVAILABLE = False
     logger.warning("pytesseract not installed — scanned pages will have empty text.")
@@ -113,17 +133,29 @@ def ocr_image(img: Image.Image) -> tuple[str, float]:
     """Run Tesseract, return (text, confidence 0-1)."""
     if not TESSERACT_AVAILABLE:
         return "", 0.0
-    data = pytesseract.image_to_data(
-        img, lang=TESSERACT_LANG, output_type=pytesseract.Output.DICT
-    )
-    texts, confs = [], []
-    for i, word in enumerate(data["text"]):
-        c = float(data["conf"][i])
-        if c > 0 and word.strip():
-            texts.append(word)
-            confs.append(c / 100.0)
-    confidence = sum(confs) / len(confs) if confs else 0.0
-    return " ".join(texts), confidence
+    try:
+        lang = TESSERACT_LANG
+        try:
+            avail = pytesseract.get_languages()
+            if "guj" not in avail and "eng" in avail:
+                lang = "eng"
+        except Exception:
+            pass
+
+        data = pytesseract.image_to_data(
+            img, lang=lang, output_type=pytesseract.Output.DICT
+        )
+        texts, confs = [], []
+        for i, word in enumerate(data.get("text", [])):
+            c = float(data.get("conf", [0])[i])
+            if c > 0 and word.strip():
+                texts.append(word)
+                confs.append(c / 100.0)
+        confidence = sum(confs) / len(confs) if confs else 0.0
+        return " ".join(texts), confidence
+    except Exception as e:
+        logger.warning(f"OCR failed for image: {e}")
+        return "", 0.0
 
 
 def ocr_page(fitz_page: fitz.Page, page_number: int) -> tuple[str, float, list[TextBlock]]:
@@ -184,15 +216,24 @@ def extract_gr_number(text: str) -> tuple[str, float]:
         m = re.search(pat, text)
         if m:
             return m.group(1).strip(), 0.9
+    norm_text = normalise_gujarati_digits(text)
+    for pat in GR_NUMBER_PATTERNS:
+        m = re.search(pat, norm_text)
+        if m:
+            return m.group(1).strip(), 0.8
     return "UNKNOWN", 0.3
 
 
 def extract_date(text: str) -> Optional[str]:
     """Try to extract the first date and return YYYY-MM-DD."""
+    text = normalise_gujarati_digits(text)
     MONTHS = {
         "January": "01", "February": "02", "March": "03", "April": "04",
         "May": "05", "June": "06", "July": "07", "August": "08",
         "September": "09", "October": "10", "November": "11", "December": "12",
+        "જાન્યુઆરી": "01", "ફેબ્રુઆરી": "02", "માર્ચ": "03", "એપ્રિલ": "04",
+        "મે": "05", "જૂન": "06", "જુલાઈ": "07", "ઓગસ્ટ": "08",
+        "સપ્ટેમ્બર": "09", "ઓક્ટોબર": "10", "નવેમ્બર": "11", "ડિસેમ્બર": "12",
     }
     # DD/MM/YYYY or DD-MM-YYYY
     m = re.search(r"(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})", text)
@@ -200,14 +241,15 @@ def extract_date(text: str) -> Optional[str]:
         d, mo, y = m.group(1).zfill(2), m.group(2).zfill(2), m.group(3)
         if 1 <= int(d) <= 31 and 1 <= int(mo) <= 12:
             return f"{y}-{mo}-{d}"
-    # DD Month YYYY
+    # DD Month YYYY (English or Gujarati)
+    months_pattern = "|".join(MONTHS.keys())
     m = re.search(
-        r"(\d{1,2})\s+(January|February|March|April|May|June|July|August|"
-        r"September|October|November|December)\s+(\d{4})", text, re.IGNORECASE
+        rf"(\d{{1,2}})\s+({months_pattern})\s+(\d{{4}})", text, re.IGNORECASE
     )
     if m:
         d = m.group(1).zfill(2)
-        mo = MONTHS[m.group(2).capitalize()]
+        month_name = m.group(2).capitalize() if m.group(2).isascii() else m.group(2)
+        mo = MONTHS.get(month_name, "01")
         y = m.group(3)
         return f"{y}-{mo}-{d}"
     return None
@@ -435,14 +477,23 @@ def ingest_directory(
     processed_dir: str = "./data/processed",
     skip_existing: bool = True,
 ) -> list[GRRecord]:
-    """Ingest all PDFs in a directory."""
+    """
+    Ingest all PDFs in a directory and any subdirectories recursively.
+    Handles nested folders (e.g. GAD/2021/, Finance/Leave/).
+    """
     records: list[GRRecord] = []
     seen_hashes: set[str] = set()
 
     processed_path = Path(processed_dir)
     existing_ids = {p.stem for p in processed_path.glob("*.json")} if skip_existing else set()
 
-    for pdf_file in sorted(Path(pdf_dir).glob("*.pdf")):
+    # Recursively find all .pdf and .PDF files in subdirectories
+    all_pdf_files = sorted(
+        [p for p in Path(pdf_dir).rglob("*") if p.is_file() and p.suffix.lower() == ".pdf"]
+    )
+    logger.info(f"Found {len(all_pdf_files)} PDF files in {pdf_dir} (including subdirectories).")
+
+    for pdf_file in all_pdf_files:
         fh = file_hash(str(pdf_file))
         if fh in seen_hashes:
             logger.warning(f"Duplicate file skipped: {pdf_file.name}")

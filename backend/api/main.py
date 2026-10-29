@@ -118,9 +118,26 @@ class IngestRequest(BaseModel):
     pdf_dir: Optional[str] = None
 
 
+FRONTEND_DIR = Path(__file__).parent.parent.parent / "frontend"
+FRONTEND_DIST = FRONTEND_DIR / "dist"
+
+if (FRONTEND_DIST / "assets").exists():
+    app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIST / "assets")), name="assets")
+
+
 # ──────────────────────────────────────────────
 # Endpoints
 # ──────────────────────────────────────────────
+
+@app.get("/")
+def serve_ui():
+    if FRONTEND_DIST.exists() and (FRONTEND_DIST / "index.html").exists():
+        return FileResponse(str(FRONTEND_DIST / "index.html"))
+    dev_index = FRONTEND_DIR / "index.html"
+    if dev_index.exists():
+        return FileResponse(str(dev_index))
+    return {"message": "GovResolve-AI API is running. frontend build not found."}
+
 
 @app.get("/api/health")
 def health():
@@ -235,25 +252,53 @@ def get_pdf(gr_id: str, page: int = Query(1, ge=1)):
 
 
 @app.post("/api/ingest")
-def trigger_ingest(req: IngestRequest, background_tasks: BackgroundTasks):
-    pdf_dir = req.pdf_dir or GR_PDF_DIR
+def trigger_ingest(req: Optional[IngestRequest] = None, background_tasks: BackgroundTasks = None):
+    raw_dir = (req.pdf_dir if req and req.pdf_dir else None) or GR_PDF_DIR
+    target_path = Path(raw_dir).resolve()
+
+    if not target_path.exists():
+        raise HTTPException(
+            status_code=400,
+            detail=f"Directory does not exist: '{raw_dir}' (resolved to '{target_path}')"
+        )
+    if not target_path.is_dir():
+        raise HTTPException(
+            status_code=400,
+            detail=f"Path is not a directory: '{raw_dir}'"
+        )
+
+    # Count PDF files in directory and any subdirectories
+    pdf_files = [p for p in target_path.rglob("*") if p.is_file() and p.suffix.lower() == ".pdf"]
+    logger.info(f"Triggering ingestion for {len(pdf_files)} PDFs from {target_path}")
 
     def _run():
         global _records, _index, _pipeline, _lineage
-        logger.info(f"Background ingestion from {pdf_dir}")
-        new_records = ingest_directory(pdf_dir, PROCESSED_DIR)
-        _records = _load_records()
-        _lineage = LineageGraph()
-        _lineage.build(_records)
-        apply_lineage_to_records(_records, _lineage)
-        _lineage.save(LINEAGE_GRAPH)
-        _index = GRIndex(persist_dir=CHROMA_DIR)
-        _index.build(_records)
-        _pipeline = RAGPipeline(_index, _records, lineage_graph=_lineage)
-        logger.success(f"Re-indexed {len(_records)} records.")
+        try:
+            logger.info(f"Starting background ingestion from {target_path}")
+            new_records = ingest_directory(str(target_path), PROCESSED_DIR)
+            _records = _load_records()
+            _lineage = LineageGraph()
+            _lineage.build(_records)
+            apply_lineage_to_records(_records, _lineage)
+            _lineage.save(LINEAGE_GRAPH)
+            _index = GRIndex(persist_dir=CHROMA_DIR)
+            _index.build(_records)
+            _pipeline = RAGPipeline(_index, _records, lineage_graph=_lineage)
+            logger.success(f"Background ingestion completed. Total indexed records: {len(_records)}.")
+        except Exception as e:
+            logger.exception(f"Background ingestion failed: {e}")
 
-    background_tasks.add_task(_run)
-    return {"status": "ingestion started", "pdf_dir": pdf_dir}
+    if background_tasks:
+        background_tasks.add_task(_run)
+    else:
+        _run()
+
+    return {
+        "status": "ingestion started",
+        "pdf_dir": str(target_path),
+        "pdf_count": len(pdf_files),
+        "message": f"Ingestion queued for {len(pdf_files)} PDF(s) found in {target_path.name}."
+    }
 
 
 @app.get("/api/chunks/{gr_id}")
