@@ -130,13 +130,20 @@ if (FRONTEND_DIST / "assets").exists():
 # ──────────────────────────────────────────────
 
 @app.get("/")
-def serve_ui():
-    if FRONTEND_DIST.exists() and (FRONTEND_DIST / "index.html").exists():
+def root():
+    if (FRONTEND_DIST / "index.html").exists():
         return FileResponse(str(FRONTEND_DIST / "index.html"))
     dev_index = FRONTEND_DIR / "index.html"
     if dev_index.exists():
         return FileResponse(str(dev_index))
-    return {"message": "GovResolve-AI API is running. frontend build not found."}
+    return {
+        "status": "online",
+        "service": "GovResolve-AI Backend API",
+        "version": "1.0.0",
+        "docs_url": "/docs",
+        "health_url": "/api/health",
+        "message": "Backend is running. When you pull your frontend into frontend/ and build it, the UI will be served here automatically."
+    }
 
 
 @app.get("/api/health")
