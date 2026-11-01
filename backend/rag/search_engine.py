@@ -188,7 +188,7 @@ class GRIndex:
 
         # ChromaDB index
         if self.collection and docs:
-            batch = 500
+            batch = int(os.getenv("INDEX_BATCH", "500"))  # small (64) for CPU embedders like ollama:bge-m3
             existing = set(self.collection.get(ids=ids)["ids"]) if ids else set()
             new_ids = [i for i in ids if i not in existing]
             new_docs = [d for i, d in zip(ids, docs) if i not in existing]

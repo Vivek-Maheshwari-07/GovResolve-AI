@@ -100,7 +100,7 @@ def convert(pdf: Path, gr_id: str, department: str | None, language: str, paragr
             dept = name
             break
     subj = None
-    m = re.search(r"(?is)\bsubject\s*[:\-]+\s*(.{10,250}?)(?:\n|\.\s|$)", head)
+    m = re.search(r"(?is)(?:\bsubject|વિષય)\s*[:\-ઃ]+\s*(.{10,250}?)(?:\n|\.\s|$)", head)
     if m:
         subj = re.sub(r"\s+", " ", m.group(1)).strip()
     return {"gr_id": gr_id, "gr_number": num.group(0).strip() if num else None,
