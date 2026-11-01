@@ -78,6 +78,7 @@ def create_app(
             app.state.contract_graph = graph
             if not graph.list_documents():
                 load_corpus(graph, app.state.gov.corpus, app.state.gov.lineage)
+            getattr(engine, "prewarm", lambda: None)()  # build the answer pipeline now, off the request path
         yield
 
     app = FastAPI(

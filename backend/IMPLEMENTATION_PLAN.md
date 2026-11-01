@@ -182,3 +182,34 @@ Known problems, not fixed yet:
   Needs the chunk box looked up by (doc, page, quote) in the bridge.
 - A question can be refused when the corpus lacks the text: the 1967 Rules book as converted does not describe how direct recruitment is
   made (2 chunks mention it), and the model correctly said so.
+
+## Roadmap Phase 2 follow-up (Nov 1): latency of the local model
+Measured on this laptop (i5-1235U, 12 threads, no GPU) with `qwen3.5:4b` through Ollama. Ollama's own timers show the model **reads the
+prompt at about 30 tokens/s and writes at about 5.5 tokens/s**; Gujarati costs about 1.5x the tokens per character of English.
+
+| New question (not cached), model already loaded | Before | After |
+|---|---|---|
+| English, amended rule | 60-90 s | 34-37 s |
+| Gujarati | 125-167 s, often timed out and was refused | 52-55 s |
+| Same question asked again (Ollama reuses the processed prompt) | - | 14-25 s |
+
+Beware the last row when benchmarking: repeating a question measures only the writing, and my first "20 s" figures were that. Always
+`ollama stop <model>` and use a new question for a real number.
+
+What changed: (1) the model no longer writes the answer twice (`summary` + statements) and uses a compact reply
+(`{"statements":[{"t":..,"k":"E","ids":[..]}]}`, about 25 output tokens instead of about 110; the old format is still accepted);
+(2) evidence is chosen by overlap with the question and capped (`TOP_K_RERANK=3`, `EVIDENCE_CHARS_PER_CHUNK=500`, `EVIDENCE_MAX_CHARS=1500`,
+Gujarati weighted 1.5x), and letterhead fragments are dropped; (3) the system prompt is identical for every question and the language rule moved
+to the user message; (4) the app builds the pipeline in the background at startup (`LazySquad2Engine.prewarm`), loads the model and sends the
+system prompt once (`warm_up_local_llm`), so the first user does not pay for loading; (5) the reply parser accepts odd shapes (statements as plain
+strings, ids at the top level, truncated JSON) instead of crashing, which `qwen3.5:2b` triggered.
+
+Model comparison on 5 questions (same settings, model loaded): `qwen3.5:2b` is about 1.7x faster on Gujarati (33 s vs 57 s) but garbled a date range
+in the English answer ("between September 18 and August 31, 2022", the GR says 18 Sep 2022 to 31 Aug 2023) and is not faster everywhere. Kept
+`qwen3.5:4b`: a confident wrong date in a legal answer costs more than waiting. Switch with `LOCAL_LLM_MODEL`.
+Evidence sweep (cold): 2200/600/3 chunks -> 35 s EN, 66 s GU; 1500/500/3 -> 34 s, 52 s; 1000/400/2 -> 26 s, 43 s; all answered both questions correctly
+(two questions only, so recall at the smaller budgets is not established).
+
+**The 10 s target is not reachable on this CPU with a 4B model**: reading about 700-1000 evidence tokens alone takes 25-30 s. Options, in order of effect:
+a Gemini key (`GOOGLE_API_KEY`, `LLM_PROVIDER=auto`; seconds, not tested here because there is no key), any machine with a GPU, or a smaller model
+with the accuracy cost above.
