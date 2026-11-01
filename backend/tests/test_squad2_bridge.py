@@ -92,3 +92,10 @@ def test_records_convert_to_squad2_models():
     rec = to_squad2_records([g])[0]
     assert rec.gr_id == "G1" and rec.pages[0].page_number == 2 and rec.chunks[0].pages == [2]
     assert rec.chunks[0].bboxes[0].x1 == 3 and rec.issue_date == "2020-01-02"
+
+
+def test_refusal_shows_the_pipelines_own_reason_not_only_the_generic_text():
+    out = to_engine_result(resp(status="Insufficient Evidence", summary="The sentences do not give the age range.", reason="NO_DOCUMENT"))
+    assert out.insufficient_reason == "NO_DOCUMENT: The sentences do not give the age range."
+    generic = to_engine_result(resp(status="Insufficient Evidence", summary="  ", reason="NO_DOCUMENT"))
+    assert generic.insufficient_reason == "NO_DOCUMENT: No relevant GR found in the corpus."

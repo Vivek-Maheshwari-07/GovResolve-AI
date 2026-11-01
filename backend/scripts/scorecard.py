@@ -37,10 +37,26 @@ def norm(text: str) -> str:
     return re.sub(r"[^0-9a-z\u0a80-\u0aff]+", "", text.translate(_GU_DIGITS).lower())
 
 
+_ORDINAL = {"st", "nd", "rd", "th"}
+
+
+def tokens(text: str) -> list[str]:
+    """Words and numbers, Gujarati digits as ASCII, ordinal suffixes dropped: '1st October, 2015' == ['1', 'october', '2015']."""
+    found = re.findall(r"[0-9]+|[a-z]+|[઀-૿]+", text.translate(_GU_DIGITS).lower())
+    return [t for t in found if t not in _ORDINAL]
+
+
 def key_point_hits(answer: str, key_points: list) -> list[bool]:
-    """One bool per key point; a point is a string or a list of alternatives (any one is enough)."""
-    a = norm(answer)
-    return [any(norm(alt) in a for alt in ([kp] if isinstance(kp, str) else kp)) for kp in key_points]
+    """One bool per key point; a point is a string or a list of alternatives (any one is enough).
+    An alternative matches if it appears as written (ignoring case, spacing, punctuation) or, for two or more words, if all
+    its words and numbers appear in the answer in any order, so 'October 1, 2015' satisfies '1st October, 2015'."""
+    a, a_tokens = norm(answer), set(tokens(answer))
+
+    def hit(alt: str) -> bool:
+        t = tokens(alt)
+        return norm(alt) in a or (len(t) >= 2 and set(t) <= a_tokens)
+
+    return [any(hit(alt) for alt in ([kp] if isinstance(kp, str) else kp)) for kp in key_points]
 
 
 def ranked_docs(chunks: list[dict]) -> list[str]:
@@ -100,24 +116,32 @@ def chain_scores(edges: list, gold_rows: list[dict]) -> dict:
 
 # ── runner ──────────────────────────────────────────────────────────────────
 
-def load_gold(path: Path, category: str | None, limit: int | None) -> list[dict]:
+def load_gold(path: Path, category: str | None, limit: int | None, ids: str | None = None) -> list[dict]:
     qs = json.loads(path.read_text(encoding="utf-8"))
     if category:
         qs = [q for q in qs if q["category"] == category]
+    if ids:
+        qs = [q for q in qs if q["question_id"] in ids.split(",")]
     return qs[:limit] if limit else qs
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--corpus", type=Path, required=True)
+    ap.add_argument("--corpus", type=Path)
     ap.add_argument("--index", type=Path, default=ROOT / "data" / "index" / "chroma")
     ap.add_argument("--gold", type=Path, default=ROOT / "eval" / "gold_questions.json")
     ap.add_argument("--gold-lineage", type=Path, default=ROOT / "eval" / "gold_lineage_verified.csv")
     ap.add_argument("--mode", choices=["retrieval", "full"], default="retrieval")
     ap.add_argument("--category")
+    ap.add_argument("--ids", help="comma-separated question ids, e.g. Q-001,Q-013")
+    ap.add_argument("--rescore", type=Path, help="recompute the answer metrics of a saved full run with the current matcher (no model, no app)")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--out", type=Path, default=ROOT / "eval" / "scorecard_latest.json")
     args = ap.parse_args()
+    if args.rescore:
+        return rescore(args.rescore, args.gold, args.out)
+    if not args.corpus:
+        ap.error("--corpus is required unless --rescore is given")
 
     import tempfile
 
@@ -129,7 +153,7 @@ def main() -> int:
     from app.squad2_runtime import LazySquad2Engine
 
     sys.path.insert(0, str(ROOT))
-    questions = load_gold(args.gold, args.category, args.limit)
+    questions = load_gold(args.gold, args.category, args.limit, args.ids)
     tmp = Path(tempfile.mkdtemp(prefix="scorecard_"))
     cfg = Settings(corpus_dir=args.corpus, db_path=tmp / "db.sqlite", vector_dir=tmp / "vec", embed_model="hash",
                    engine="squad2", squad2_index_dir=args.index)
@@ -185,6 +209,24 @@ def main() -> int:
     args.out.write_text(json.dumps({"summary": summary, "questions": results}, ensure_ascii=False, indent=1), encoding="utf-8")
     print_summary(summary)
     print(f"\nwritten to {args.out}")
+    return 0
+
+
+def rescore(saved: Path, gold_path: Path, out: Path) -> int:
+    """Re-run only the key-point matching over the answers stored in a full run (answers are kept to 300 characters)."""
+    data = json.loads(saved.read_text(encoding="utf-8"))
+    gold = {q["question_id"]: q for q in json.loads(gold_path.read_text(encoding="utf-8"))}
+    before = data["summary"].get("3_answers")
+    for r in data["questions"]:
+        kps = gold[r["id"]].get("key_points")
+        if r.get("verdict") == "answered" and kps:
+            hits = key_point_hits(r["answer"], kps)
+            r.update(points=len(hits), points_hit=sum(hits), all_points=all(hits))
+    chain = data["summary"].get("4_chain")
+    data["summary"] = summarise(data["questions"], chain, data["summary"]["mode"])
+    out.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    print("3_answers before:", before)
+    print("3_answers after: ", data["summary"]["3_answers"])
     return 0
 
 

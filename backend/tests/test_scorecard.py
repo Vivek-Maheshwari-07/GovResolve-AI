@@ -73,3 +73,30 @@ def test_summary_rates_for_both_modes():
     assert f["2_citations"]["on_gold_page"] == 0.5 and f["2_citations"]["quote_verbatim"] == 1.0
     assert f["3_answers"] == {"answered_with_key_points": 1, "all_points_rate": 0.0, "mean_point_coverage": 0.5}
     assert f["5_refusals"]["correctly_refused"] == 1.0 and f["5_refusals"]["wrongly_refused"] == 1.0
+
+
+def test_key_points_accept_the_same_date_in_another_order_or_format():
+    assert key_point_hits("The tariff applied from October 1, 2015.", [["1st October, 2015"]]) == [True]
+    assert key_point_hits("in force on October 1, 2006", ["October, 2006"]) == [True]
+    assert key_point_hits("૩૦ જૂન ૨૦૦૮ સુધી", [["30th June, 2008", "30 જૂન 2008"]]) == [True]
+    # a different day or year is not the same date; one word alone is only matched as written
+    assert key_point_hits("applied from October 2, 2015", ["1st October, 2015"]) == [False]
+    assert key_point_hits("replaced 31st March, 2007 with 31st December, 2007", ["30th June, 2008"]) == [False]
+    assert key_point_hits("the Vodafone offer", ["Vodafone West Limited"]) == [False]
+
+
+def test_rescore_recomputes_answer_points_only(tmp_path):
+    import json
+
+    from scripts.scorecard import rescore
+    gold = [{"question_id": "Q-1", "key_points": [["1st October, 2015"]]}]
+    saved = {"summary": {"mode": "full", "3_answers": {"all_points_rate": 0.0}, "4_chain": {"precision": 1.0}},
+             "questions": [{"id": "Q-1", "category": "simple", "language": "en", "verdict": "answered", "answer": "from October 1, 2015",
+                            "points": 1, "points_hit": 0, "all_points": False, "top1": True, "top3": True, "citations": 1,
+                            "citations_on_gold_page": 1, "citations_verbatim": 1, "refusal_refused": False, "refusal_correct": True,
+                            "refusal_code_ok": True, "seconds": 5.0}]}
+    (tmp_path / "s.json").write_text(json.dumps(saved), encoding="utf-8")
+    (tmp_path / "g.json").write_text(json.dumps(gold), encoding="utf-8")
+    assert rescore(tmp_path / "s.json", tmp_path / "g.json", tmp_path / "o.json") == 0
+    out = json.loads((tmp_path / "o.json").read_text(encoding="utf-8"))
+    assert out["summary"]["3_answers"]["all_points_rate"] == 1.0 and out["summary"]["4_chain"] == {"precision": 1.0}
