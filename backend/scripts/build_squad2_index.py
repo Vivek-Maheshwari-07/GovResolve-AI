@@ -3,7 +3,7 @@
 Usage (from backend/, with the repo .venv and the embedder configured in ../.env, e.g. EMBEDDING_MODEL=ollama:bge-m3):
     python -m scripts.build_squad2_index --corpus D:/test/corpus_v1 --index ../data/index/chroma [--query "..."]
 
-Re-running adds only chunks not already in Chroma; BM25 is rebuilt each time. Output is data, keep it out of git.
+Re-running adds only chunks not already in Chroma and removes chunks that are no longer in the corpus or whose text changed; BM25 is rebuilt each time. Output is data, keep it out of git.
 """
 import argparse
 import json
@@ -47,6 +47,15 @@ def main() -> int:
     print(f"{len(records)} records, {n_chunks} chunks, embedder {EMBEDDING_MODEL} -> {args.index}", flush=True)
     t = time.time()
     index = GRIndex(str(args.index))
+    if index.collection is not None:  # chunks of documents that were re-read (new OCR) have new ids: drop the old ones first
+        current = {c.chunk_id: c.text_clean.strip() for r in records for c in r.chunks}
+        stored = index.collection.get(include=["documents"])
+        # a re-read document keeps its chunk ids but has new text, so compare the text, not just the ids
+        stale = [i for i, doc in zip(stored["ids"], stored["documents"]) if current.get(i) != doc]
+        for k in range(0, len(stale), 2000):
+            index.collection.delete(ids=stale[k:k + 2000])
+        if stale:
+            print(f"removed {len(stale)} stale chunks", flush=True)
     index.build(records)
     print(f"built in {time.time() - t:.0f}s; chroma holds {index.collection.count() if index.collection else 0} chunks")
 

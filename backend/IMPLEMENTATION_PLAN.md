@@ -213,3 +213,75 @@ Evidence sweep (cold): 2200/600/3 chunks -> 35 s EN, 66 s GU; 1500/500/3 -> 34 s
 **The 10 s target is not reachable on this CPU with a 4B model**: reading about 700-1000 evidence tokens alone takes 25-30 s. Options, in order of effect:
 a Gemini key (`GOOGLE_API_KEY`, `LLM_PROVIDER=auto`; seconds, not tested here because there is no key), any machine with a GPU, or a smaller model
 with the accuracy cost above.
+
+## Roadmap Phase 3 (Nov 1, `integration` branch): lineage verification, gold questions, scorecard
+**Honesty note.** Everything below was checked by Claude reading the extracted document text. Nothing is officer-validated. Files carry
+`verified_by` / `validated_by` saying so; a person still has to sign off (see "Needs a human").
+
+### 3.1 The 72 gold lineage pairs (`eval/gold_lineage_review.csv`, `eval/gold_lineage_verified.csv`)
+`scripts/gold_lineage_review.py` pulls, for every pair, the sentence in the amending GR that names the base (page + verbatim quote).
+- **71 confirmed**: each amending text says "further to amend the <base title>" (or "<Amendment> Rules ... In the <base>, in rule 9 ...").
+- **1 rejected (#39)**: file `1_3491` is a Gujarati *circular* (પરિપત્ર) that only lists the 2006 rules and the 2012 notification under "વંચાણે લીધા"
+  and issues instructions; it does not amend anything. The portal listed it under the notification's number. The engine was right to skip it.
+- **5 of the 71 are the same notification published twice** (Gujarati-script and English copies share one notification number: GS/2010/32,
+  GS/2011/10, GS/2013/01, GS/2024/13, GS/2013/25). Both copies do amend the base, but the 72 are not 72 independent amendments: **66 distinct**.
+  Flagged in `duplicate_of_row`.
+- Engine vs verified gold, pair level: precision 0.958 (69/72), recall 0.972 (69/71). Two of the three "false positives" are real amendments that
+  the portal list lacks (2019-05-03 -> 1967 Recruitment Rules; 2020-12-29 -> 2017 Engineering Rules), so precision is understated; one is wrong (below).
+
+### 3.2 A three-step chain: none exists in this corpus
+No document both amends and is amended (engine edges), and a text search for an amendment naming another amendment found only documents stating their
+own short title. Every amendment amends the base directly (F01: one base + 22 amendments; F04's "Second" and "Third Amendment" each amend the 2017 base).
+So the demo can show a *timeline* (base + N amendments in date order), not a 3-hop chain. To demo a chain, a teammate must supply a pair from the portal
+where an amendment cites an earlier amendment.
+
+### 3.3 Out-of-sample check (the 72 pairs were tuned on, so they cannot show overfitting)
+Eight changing edges lay outside the gold. Read one by one: 2 correct, 5 wrong, 1 doubtful. The wrong ones came from `Resolver.match_title`: it accepts a
+candidate when 85% of the candidate's title words occur in order, so "Gujarat Civil Services (Class-I and II) Competitive Examination Rules, **2000**"
+matched sentences that actually name the **2017**, **2023** or Subordinate Services rules (longer titles contain the same words). Fix: when the sentence
+prints a year after "Rules" and none matches the candidate's title year (one OCR-damaged digit allowed), reject the match
+(`_named_year_conflicts`). Result: 8 -> 3 out-of-sample edges (2 correct, 1 wrong), gold score unchanged (P 1.000 / R 0.958 on the old measure).
+Still wrong: `Senior Clerk RR Amendment 2020 -> 1967 rules`; the sentence names the 2015 Senior Clerk rules first and quotes the 1967 rules inside the text it
+substitutes. Needs a "first-named instrument wins" rule. Sample is tiny (8); treat as an indication, not a rate.
+
+### Corpus v2 (`D:/test/corpus_v2`): 66 of 366 documents were unreadable
+Their embedded fonts map Gujarati to Latin gibberish (`Aal, IVLd dietl UMai`), and the manifest tagged them `en`, so the Gujarati OCR pass skipped them.
+`build_corpus` now judges by the text (`looks_garbled`: Latin words that are not English), OCRs with `guj+eng` and keeps the better text; language comes from the
+script (`script_language`). Garbled documents: 66 -> 0 (the last 2 were family records re-read separately). OCR text now used for 137 documents (was 88).
+Index rebuilt (7,501 chunks); `build_squad2_index` now also drops chunks whose text changed (a re-read document keeps its chunk ids).
+
+### Gujarati lineage does not work on real text (the biggest open gap)
+Across 132 Gujarati documents the engine found **4 weak references and 139 unresolved**. Example it misses: `1_3871` (13 May 2025) relaxes `1_3869`
+(9 May 2025, "all leave cancelled"); it cites it by date and number, but in Gujarati wording ("ઉક્ત સૂચનાઓના અનુસંધાને ... રજાઓ મંજૂર કરી શકશે").
+Gold question Q-050 expects this and is reported as failing until patterns are validated on Gujarati text (roadmap "Remaining work").
+No document in `corpus_v2` has status `superseded`, so the gold set has 0 superseded questions.
+
+### 3.4 Gold questions (`eval/gold_questions.json`, built by `scripts/make_gold_questions.py`)
+50 questions: 24 simple, 11 amended, 10 unanswerable, 5 vague, 0 superseded; 22 English, 16 Gujarati, 12 Gujarati-in-Latin-letters.
+Each answerable one has gold document(s) + page and key points; the builder fails unless **every key point occurs on the cited page**. Unanswerable ones
+are backed by a text search showing the corpus lacks the topic (e.g. 0 of 366 documents mention maternity leave). Many Gujarati/mixed questions ask about
+English documents on purpose: that is how users will ask.
+
+### 3.5 Scorecard (`scripts/scorecard.py`)
+`--mode retrieval` (about a minute, no model) and `--mode full` (about 40 s per question on the local model). Five official metrics + lineage status shown + latency.
+Retrieval result (`eval/scorecard_retrieval.json`), 35 answerable questions:
+
+| Question language | top-1 | top-3 |
+|---|---|---|
+| English (15) | 13 | 15 |
+| Gujarati (11) | 4 | 7 |
+| Gujarati in Latin letters (9) | 5 | 5 |
+| **All (35)** | **22 (62.9%)** | **27 (77.1%)** |
+
+English retrieval is strong; **Gujarati and Gujlish retrieval is the weak point**, worst when a Gujarati question targets an English document
+(Q-002, Q-008, Q-016, Q-023). Not tuned on these 50: tuning on the set that scores us would make the next number meaningless.
+
+### Guards (spec AI-15 / "vague or legal-advice trap")
+`is_out_of_scope` caught the legal-advice trap in English only (1 of 3); `is_too_vague` caught 1 of 5. Both widened (English, Gujarati, Gujarati in Latin letters;
+vague = only a broad topic such as leave / salary / rules). They agree with all 50 gold items, but were tuned on the 15 refusal questions, so I also checked
+false positives on 324 document titles used as questions: 0 out-of-scope, 1 vague ("Endorsement", a single word). Pinned by 34 tests.
+
+### Needs a human
+1. Sign off `eval/gold_lineage_verified.csv` (71 rows have page + quote) and especially the rejected row #39.
+2. Send the gold questions to the resource person; the plan calls for officer validation. `validated_by` says "not officer-validated" until then.
+3. Decide how to demo "chain": timeline of base + amendments, or find a real amendment-of-amendment.

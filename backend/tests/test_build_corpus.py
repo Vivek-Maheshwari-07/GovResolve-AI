@@ -30,3 +30,23 @@ def test_listing_overrides_only_fields_it_has():
     assert (rec["issue_date"], rec["gr_number_norm"], rec["subject"]) == ("1999-01-01", "MLS/1363/5421-C", "Endorsement")
     assert rec["field_confidence"] == {"issue_date": 0.6, "gr_number": 0.9, "subject": 0.95}
     assert apply_listing(rec, None) == "extracted"
+
+
+def test_legacy_font_gujarati_read_as_latin_letters_is_garbled_but_english_is_not():
+    from scripts.build_corpus import english_score, looks_garbled
+    real_garbage = ("Aal, IVLd dietl UMai, Ase2-10-oll, aitltana. aluual ddslou ziold uAaal, qvAd AultHU UAaaa, oútltOR. "
+                    "HlloL AaUHSl, st.3.aHAA, OitlotolR Suae da, Uula ala2 AeaOL, AAauaa, aielaoR d2s udua GsWAN UA GAD ausE U2 uAtu "
+                    "s2alll Aid u8 lua YUAilalu vind HAaal zale isel Aal IVLd dietl UMai Ase2 aitlo2 aluual ddslou ziold") * 2
+    english = ("The Governor of Gujarat hereby makes the following rules and the leave shall be admissible for a period "
+               "which the Government may fix under the rules of the department of general administration ") * 3
+    assert looks_garbled(real_garbage) and not looks_garbled(english)
+    assert english_score(english) > 0.2 > english_score(real_garbage)
+    assert not looks_garbled("short text")                              # too little text to judge
+    assert not looks_garbled("કર્મચારીને મહત્તમ ૧૮૦ દિવસની રજા મળવાપાત્ર રહેશે " * 20)  # real Gujarati
+
+
+def test_language_is_judged_from_the_script_of_the_text():
+    from scripts.build_corpus import script_language
+    assert script_language("કર્મચારીને રજા મળવાપાત્ર રહેશે") == "gu"
+    assert script_language("The leave shall be admissible") == "en"
+    assert script_language("The leave shall be admissible. કર્મચારીને મહત્તમ રજા મળવાપાત્ર રહેશે") == "mixed"

@@ -137,3 +137,32 @@ def test_title_match_tolerates_ocr_slips_in_words():
                          corpus.get("NEW")) == ["RULES"]
     # unrelated words that merely look alike do not match
     assert r.match_title("amend the Gujarat Sivil Servants Classical and Recruiting Genial Rulers", corpus.get("NEW")) == []
+
+
+def _title_corpus():
+    return Corpus({g.gr_id: g for g in [
+        gr("RULES00", None, "GAD", date(2000, 10, 19), "Gujarat Civil Services (Class-I and Class-II), Competitive Examination Rules, 2000"),
+        gr("RULES67", None, "GAD", date(1967, 10, 10), "GUJARAT CIVIL SERVICES CLASSIFICATION AND RECRUITMENT (GENERAL) RULES \u2013 1967"),
+        gr("NEW", None, "GAD", date(2025, 1, 1), "Amendment"),
+    ]})
+
+
+def test_title_with_a_different_year_is_not_the_named_instrument():
+    """Found on real data: 'Gujarat Subordinate Services ... Competitive Examination Rules, 2023' matched the 2000 rules because its
+    longer title contains the same words."""
+    r = Resolver(_title_corpus())
+    new = r.corpus.get("NEW")
+    other = "further to amend the Gujarat Subordinate Services, Class III (Combined Competitive Examination) Civil Services Class-I and Class-II Rules, 2023, namely"
+    assert r.match_title(other, new) == []
+    assert r.match_title("further to amend the Gujarat Civil Services (Class I and Class II), Competitive Examination Rules, 2000, namely", new) == ["RULES00"]
+
+
+def test_year_check_survives_ocr_damage_dashes_and_missing_years():
+    r = Resolver(_title_corpus())
+    new = r.corpus.get("NEW")
+    base = "further to amend the Gujarat Civil Services Classification and Recruitment (General) Rules"
+    for printed in (", 1967", ", 4 967", ", 1957", " \u2013 1967", ""):   # clean, split digit, one wrong digit, en dash, no year printed
+        assert r.match_title(base + printed + ", namely", new) == ["RULES67"], printed
+    assert r.match_title(base + ", 1983, namely", new) == []             # a clearly different year
+    # the amendment's own title also ends in a year; only the named instrument's year has to agree
+    assert r.match_title(base + ", 1967, namely: 1. These rules may be called the (Amendment) Rules, 2011", new) == ["RULES67"]

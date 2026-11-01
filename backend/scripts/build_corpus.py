@@ -39,6 +39,38 @@ def gujarati_score(text: str) -> float:
     return sum(w in _COMMON_GU for w in words) / len(words) if words else 0.0
 
 
+_COMMON_EN = set("the and for that with this shall rules government from have been not are was were will which their any all may such "
+                 "under also office officer department general administration gujarat dated order resolution".split())
+_LATIN_WORD = re.compile(r"[A-Za-z]{3,}")
+
+
+def english_score(text: str) -> float:
+    """Share of Latin words that are very common English words. Legacy-font Gujarati read as Latin letters scores near 0."""
+    words = _LATIN_WORD.findall(text.lower())
+    return sum(w in _COMMON_EN for w in words) / len(words) if words else 0.0
+
+
+def text_quality(text: str) -> float:
+    """How readable a text is, in either script (0 = gibberish)."""
+    return max(gujarati_score(text), english_score(text))
+
+
+def looks_garbled(text: str) -> bool:
+    """Text in Latin letters that is not English: a Gujarati PDF whose embedded fonts map to the wrong characters.
+    The manifest's language tag cannot be trusted for these (66 of 366 demo documents were tagged `en`)."""
+    gu = len(_GU_WORD.findall(text))
+    words = _LATIN_WORD.findall(text)
+    return gu < len(words) and len(words) >= 30 and english_score(text) < 0.06
+
+
+def script_language(text: str) -> str:
+    """gu / en / mixed from the share of Gujarati letters among all letters."""
+    gu = sum("઀" <= ch <= "૿" for ch in text)
+    lat = sum(ch.isascii() and ch.isalpha() for ch in text)
+    share = gu / (gu + lat) if gu + lat else 0.0
+    return "gu" if share > 0.8 else "en" if share < 0.2 else "mixed"
+
+
 def parse_listing(path: Path) -> dict[str, dict]:
     """SOURCES file -> {pdf basename (lowercase): {date, number, subject}} from each block's `ROW:` line."""
     out, name = {}, None
@@ -85,14 +117,17 @@ def _work(job: dict) -> dict:
     pdf, gr_id = Path(job["pdf"]), job["gr_id"]
     layer = None if job["text_layer"] == "scanned" else convert(pdf, gr_id, job["department"], job["language"])
     best, source = layer, "text_layer"
-    layer_score = gujarati_score(" ".join(c["text"] for c in layer["chunks"])) if layer else 0.0
+    layer_text = " ".join(c["text"] for c in layer["chunks"]) if layer else ""
+    layer_score = text_quality(layer_text)
     ocr_score, confs = None, []
-    if job["language"] == "gu":
+    if job["language"] == "gu" or looks_garbled(layer_text):  # judge by the text: the manifest's language tag is wrong for many
         ocr = convert(pdf, gr_id, job["department"], "gu", _ocr_reader("guj+eng", job["dpi"], confs))
-        ocr_score = gujarati_score(" ".join(c["text"] for c in ocr["chunks"])) if ocr else 0.0
+        ocr_text = " ".join(c["text"] for c in ocr["chunks"]) if ocr else ""
+        ocr_score = text_quality(ocr_text)
         if ocr and (best is None or ocr_score > layer_score):
             best, source = ocr, "ocr_guj+eng"
             best["field_confidence"]["ocr_mean_word_conf"] = round(sum(confs) / len(confs) / 100, 3) if confs else 0.0
+            best["language"] = script_language(ocr_text)
     return {"job": job, "rec": best, "source": source, "layer_score": round(layer_score, 3),
             "ocr_score": None if ocr_score is None else round(ocr_score, 3)}
 

@@ -69,6 +69,27 @@ def _ordered_coverage(title: tuple[str, ...], text: list[str]) -> float:
     return best / len(title)
 
 
+def _years_after_rules(sentence: str) -> list[str]:
+    """The four characters printed right after each 'Rules' that look like a year (three or more digits), e.g. '1967' or the
+    OCR-damaged '4967' / '1957'."""
+    out = []
+    for m in re.finditer(r"\brules?\b", sentence, re.I):
+        tail = re.sub(r"[\s,.:;()\-–—]", "", sentence[m.end():m.end() + 14])[:4]
+        if len(tail) == 4 and sum(c.isdigit() for c in tail) >= 3:
+            out.append(tail)
+    return out
+
+
+def _named_year_conflicts(sentence: str, subject: str | None) -> bool:
+    """True if the sentence prints a year after 'Rules' but none of them is (within one OCR-damaged character) the year in the
+    candidate's title. 'Rules, 2023' must not resolve to the 'Rules, 2000' that merely shares most of its words."""
+    years = re.findall(r"(?:19|20)\d{2}", subject or "")
+    named = _years_after_rules(sentence)
+    if not years or not named:
+        return False  # no year to compare: fall back on the title words alone
+    return not any(sum(a != b for a, b in zip(n, years[-1])) <= 1 for n in named)
+
+
 class Resolver:
     def __init__(self, corpus: Corpus):
         self.corpus = corpus
@@ -98,14 +119,14 @@ class Resolver:
         """Instruments the sentence names by title, e.g. 'further to amend the Gujarat Civil Services ... Rules, 1967'.
         85% of the title words (OCR drops some, at least 5 words) must appear in the title's own order within a short
         stretch of the text, so a passing mention of 'civil services' or 'recruitment' elsewhere does not count.
-        The most specific title wins, earliest GR on a tie."""
+        The year printed after the title must agree with the candidate's. The most specific title wins, earliest GR on a tie."""
         have = [w for w in re.findall(r"[a-z]{3,}", sentence.lower()) if w not in _TITLE_STOP]
         best: list[tuple[int, date, str]] = []
         for gid, words in self.titles.items():
             g = self.corpus.grs[gid]
             if gid == source.gr_id or (g.issue_date and source.issue_date and g.issue_date >= source.issue_date):
                 continue
-            if _ordered_coverage(words, have) >= TITLE_COVERAGE:
+            if _ordered_coverage(words, have) >= TITLE_COVERAGE and not _named_year_conflicts(sentence, g.subject):
                 best.append((-len(words), g.issue_date or date.max, gid))
         return [sorted(best)[0][2]] if best else []
 

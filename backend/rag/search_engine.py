@@ -68,31 +68,43 @@ normalizer = GujlishNormalizer()
 # Guardrail & Intent Checks
 # ──────────────────────────────────────────────
 
+_OUT_OF_SCOPE = [re.compile(p, re.IGNORECASE) for p in (
+    # English: legal advice, predictions of a case, opinions
+    r"\bsue\b", r"\blawsuit\b", r"\blegal advice\b", r"\bcan I\b.{0,30}\bsue\b",
+    r"\bwill i (?:win|lose)\b", r"\b(?:go|going|went) to (?:the )?court\b", r"\bfile (?:a |the )?(?:case|petition|suit)\b",
+    r"\bchances? of (?:winning|success)\b", r"\bis (?:it|this|that) (?:legal|illegal|lawful|unlawful)\b",
+    r"\bfair\b", r"\bunfair\b", r"\bopinion\b", r"\bjudgement\b", r"\bjudgment\b",
+    # Gujarati
+    r"કેસ કરી શકાય", r"દાવો માંડવો", r"કોર્ટમાં (?:કેસ|જવ|જઈ|દાવ)", r"કેસ (?:કરવો|કરું|કરી|જીત)", r"જીતી શકું|જીતીશ|હારીશ",
+    r"(?:ગેરકાયદે|ગેરકાયદેસર) (?:છે|ગણાય)",
+    # Gujarati written in Latin letters
+    r"\bcourt\b.{0,20}\b(?:jai|jaine|ma|ne)\b.{0,25}\b(?:kes|case|jit\w*|har\w*)\b", r"\bkes\b.{0,25}\b(?:karu|karish|kari|jit\w*)\b",
+    r"\bjit(?:ish|i|vu|shu)\b", r"\bharish\b",
+)]
+
+
 def is_out_of_scope(query: str) -> bool:
-    """Detect legal advice / opinion requests."""
-    patterns = [
-        r"\bsue\b", r"\blawsuit\b", r"\blegal advice\b",
-        r"\bcan I\b.{0,30}\bsue\b",
-        r"\bfair\b", r"\bunfair\b",
-        r"\bopinion\b", r"\bjudgement\b", r"\bjudgment\b",
-        r"કેસ કરી શકાય", r"દાવો માંડવો"
-    ]
-    for p in patterns:
-        if re.search(p, query, re.IGNORECASE):
-            return True
-    return False
+    """Detect legal advice / opinion / outcome-prediction requests, in English, Gujarati and Gujarati in Latin letters."""
+    return any(p.search(query) for p in _OUT_OF_SCOPE)
+
+
+# Words that say nothing about the topic ("tell me about ...", "માહિતી આપો", "ni vaat karo") ...
+_VAGUE_FILLER = set("""tell me about the a an of on for to in please give show what is are was were information details regarding
+    know explain describe say share ni nu na vaat vat karo batao aapo apo janavo janavo mate vishe che shu
+    વિશે માહિતી આપો જણાવો કહો બતાવો શું છે ની નો નું ના માટે વાત કરો અંગે બાબત""".split())
+# ... and topics so broad that naming only them is not a question (a kind of leave, a post or a rule is needed).
+_VAGUE_BROAD = set("""rules rule regulations regulation policy policies gr grs resolution resolutions circular circulars notification
+    notifications leave leaves salary salaries pay allowance allowances pension pensions
+    નિયમ નિયમો ઠરાવ ઠરાવો પરિપત્ર પરિપત્રો નીતિ રજા રજાઓ પગાર ભથ્થું ભથ્થા પેન્શન ઠ""".split())
 
 
 def is_too_vague(query: str) -> bool:
-    """Single-word or very generic queries."""
-    stripped = query.strip()
-    words = stripped.split()
-    if len(words) < 2:
+    """Too little to search on: one word, only generic words, or only a broad topic such as "leave" / "રજા" / "salary"."""
+    tokens = re.findall(r"[\w઀-૿]+", query.lower())
+    if len(tokens) < 2:
         return True
-    generic = {"rules", "regulations", "information", "details", "GR", "ઠ", "ઠરાવ", "નિયમ", "નિયમો"}
-    if len(words) <= 3 and all(w.lower() in generic for w in words):
-        return True
-    return False
+    content = [t for t in tokens if t not in _VAGUE_FILLER]
+    return all(t in _VAGUE_BROAD for t in content)  # also true when nothing is left but filler
 
 
 # ──────────────────────────────────────────────
