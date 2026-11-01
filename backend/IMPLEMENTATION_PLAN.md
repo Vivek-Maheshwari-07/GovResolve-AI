@@ -322,3 +322,29 @@ false positives on 324 document titles used as questions: 0 out-of-scope, 1 vagu
 2. *Cross-lingual retrieval*: search with the question and an English rendering of it (glossary or one short model call), and for Gujarati questions weight the multilingual vector search over BM25 (cause 2).
 3. *Wrong-document answers*: refuse or warn when the cited passage does not contain the question's distinctive numbers/names; a stronger model (hosted API) helps most here.
 4. *Gujarati lineage patterns* on real text (cause 4). Re-run `scripts.scorecard` after each change; do not tune on the 50 questions without also keeping a held-out set.
+
+## Roadmap Phase 3 follow-up (Nov 1): evidence building ("the answer is one chunk over")
+New metric, no model needed: **answer in evidence** = every key point of a gold question occurs in the text `build_evidence` would send. It is the ceiling on
+answer quality, and `scripts.scorecard --mode retrieval` now reports it (35 answerable questions; the 50 gold questions are the dev set, so these are not held-out numbers).
+
+| Step | Answer in evidence (en / gu / gujlish) | Right doc first / first three |
+|---|---|---|
+| Baseline: first 3 chunks, per-chunk sentence budget | 54.3% (60 / 64 / 33) | 62.9% / 77.1% |
+| + document title in every chunk's keyword tokens (no re-embedding, index rebuild 3 s) | 62.9% (67 / 73 / 44) | 68.6% / 82.9% |
+| + sentence pool: the best 8 chunks' sentences compete for one budget, chosen by IDF-weighted word overlap | 71.4% (80 / 73 / 56) | 68.6% / 82.9% |
+| + count the vector search once when the English and Gujarati queries are the same text (it was voting twice against one keyword vote) | 77.1% (87 / 73 / 67) | 65.7% / 82.9% |
+
+What each step does and why:
+1. **Title in the keyword tokens** (`build`): a clause such as "(a) not less than 20 years of age" never says which post it belongs to, so no keyword search could tie it to "Gujarati
+   Stenographer, Grade III". The prompt is unchanged.
+2. **Sentence pool** (`build_evidence`, `select_sentences`): sentences of the best `EVIDENCE_CANDIDATES` (8) chunks, plus the amending passage, compete for `EVIDENCE_MAX_CHARS`.
+   Score = sum of IDF (over the pool) of the question words a sentence contains + a small prior for highly ranked chunks (+3 for the amending passage); a chunk may use
+   `EVIDENCE_CHARS_PER_CHUNK` except for its best sentence. Same prompt size as before, so no extra model time. A bigger pool is *worse*: 12 or 20 chunks gave 66%.
+3. **Fusion fix** (`GRIndex.search`): for an English question both vector queries are the same string, so the vector search counted double. A chunk ranked 1st by keywords and absent from
+   the vector results ended 20th (Q-017). Now one search. For a question in Gujarati script the single search keeps weight 2: keywords cannot reach English documents and the vector
+   search is the only signal across languages (73% with, 55% without, on 11 questions: a hypothesis to re-check on a larger set).
+   Side effect: top-1 document retrieval for Gujarati fell a little (68.6% -> 65.7% overall); the gain is in having the answer in the evidence.
+
+**Still missing (8 of 35):** nearly all Gujarati or Gujlish questions about English documents (Q-008, Q-023, Q-045, Q-050, ...). The question shares no word with the document, so word
+overlap cannot choose sentences, and the answer chunk is in the pool but not selected. The remedy is cross-lingual: render the question in English (one short model call, about 4 s)
+and use it for sentence choice and keywords. Not done.

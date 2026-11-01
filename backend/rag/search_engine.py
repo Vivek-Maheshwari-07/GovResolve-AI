@@ -11,10 +11,12 @@ from __future__ import annotations
 
 import datetime
 import json
+import math
 import os
 import re
 import sys
 import unicodedata
+from collections import Counter
 from pathlib import Path
 from typing import Optional
 
@@ -55,6 +57,7 @@ except ImportError:
 TOP_K_RETRIEVE  = int(os.getenv("TOP_K_RETRIEVE", "20"))
 TOP_K_RERANK    = int(os.getenv("TOP_K_RERANK", "5"))
 # Evidence size sent to the model. Defaults suit a cloud model; on a CPU (local Ollama) set lower, e.g. 3 / 600 / 2200.
+EVIDENCE_CANDIDATES      = int(os.getenv("EVIDENCE_CANDIDATES", "8"))  # chunks whose sentences compete for the evidence budget
 EVIDENCE_CHARS_PER_CHUNK = int(os.getenv("EVIDENCE_CHARS_PER_CHUNK", "1200"))
 EVIDENCE_MAX_CHARS       = int(os.getenv("EVIDENCE_MAX_CHARS", "6000"))
 CHROMA_DIR      = os.getenv("CHROMA_PERSIST_DIR", "./data/index/chroma")
@@ -184,24 +187,38 @@ def evidence_cost(sentence: str) -> int:
     return len(sentence) + gujarati // 2
 
 
-def pick_sentences(sentences: list[str], query_tokens: set[str], chunk_cap: int, total_left: int) -> list[str]:
-    """The sentences worth sending from one chunk, in document order.
+def select_sentences(items: list[dict], query_tokens: set[str], budget: int, chunk_cap: int) -> list[int]:
+    """Indexes of the sentences to send, best first.
 
-    Sentences that share the most words with the question are taken first, until the per-chunk or overall character
-    budget runs out; at least one is always taken while any budget is left. With no overlap at all, document order decides.
+    `items` are the sentences of all candidate chunks, each {"text", "chunk" (chunk position), "rank" (retrieval rank of its chunk),
+    "bonus" (extra weight, e.g. the passage that amends the answer)}. A sentence scores the summed rarity (IDF over the pool) of the
+    question words it contains, plus a small prior for highly ranked chunks. They are taken best first until `budget` (see
+    evidence_cost) is used; a chunk may use at most `chunk_cap`, except that its single best sentence is always allowed. With no word
+    overlap at all, the sentences of the top-ranked chunk are taken in order so the model still gets something to read.
     """
-    scored = sorted(range(len(sentences)),
-                    key=lambda i: (-len(query_tokens & set(tokenize_for_bm25(sentences[i]))), i))
-    chosen, used = [], 0
-    for i in scored:
-        n = evidence_cost(sentences[i])
-        if chosen and (used + n > chunk_cap or n > total_left - used):
-            continue  # a shorter, lower-ranked sentence may still fit
-        if total_left - used <= 0:
-            break
-        chosen.append(i)
-        used += n
-    return [sentences[i] for i in sorted(chosen)]
+    if not items:
+        return []
+    tokens = [set(tokenize_for_bm25(it["text"])) for it in items]
+    df = Counter(t for ts in tokens for t in ts)
+    n = len(items)
+    score = [sum(math.log(1 + n / df[t]) for t in query_tokens & ts) for ts in tokens]
+    total = [(sc + (it.get("bonus", 0.0) if sc > 0 else 0.0) + 1.0 / (1 + it["rank"])) if sc > 0 else 0.0 for sc, it in zip(score, items)]
+    if not any(total):  # nothing shares a word with the question
+        best = min(it["rank"] for it in items)
+        total = [0.001 / (1 + k) if it["rank"] == best else 0.0 for k, it in enumerate(items)]
+    order = sorted((k for k in range(n) if total[k] > 0), key=lambda k: (-total[k], items[k]["rank"], k))
+    chosen, used, per_chunk = [], 0, Counter()
+    for k in order:
+        cost = evidence_cost(items[k]["text"])
+        chunk = items[k]["chunk"]
+        if used + cost > budget and (chosen or cost > 2 * budget):
+            continue  # too big for what is left (a shorter sentence may still fit); the very first one may overshoot a little
+        if per_chunk[chunk] and per_chunk[chunk] + cost > chunk_cap:
+            continue
+        chosen.append(k)
+        used += cost
+        per_chunk[chunk] += cost
+    return chosen
 
 
 def is_substantive(sentence: str) -> bool:
@@ -292,7 +309,9 @@ class GRIndex:
                     "issue_date": rec.issue_date or "",
                     "clause_status": chunk.clause_status.value,
                     # Tokenized with Gujarati Suffix Stripper & Digit Normalizer
-                    "tokens": tokenize_for_bm25(clean_text + " " + rec.gr_number)
+                    # The title is part of every chunk's keywords: a clause such as "(a) not less than 20 years of age" never says
+                    # which post it belongs to, so without the title no keyword search can tie it to "Gujarati Stenographer".
+                    "tokens": tokenize_for_bm25(clean_text + " " + rec.gr_number + " " + (rec.subject or ""))
                 })
 
         # ChromaDB index
@@ -448,7 +467,9 @@ class GRIndex:
         # 2. Dense GU Search
         dense_gu_ranks: dict[str, int] = {}
         dense_gu_chunks: dict[str, dict] = {}
-        if self.collection and bundle.query_gu:
+        # When the "Gujarati" query is the same text as the "English" one (any plain English or Gujarati question) the second
+        # search would only repeat the first and make the vector search count double against the keyword search.
+        if self.collection and bundle.query_gu and bundle.query_gu.strip() != (bundle.query_en or "").strip():
             try:
                 res_gu = self.collection.query(
                     query_texts=[bundle.query_gu],
@@ -494,6 +515,11 @@ class GRIndex:
         K = 60.0
         w_en   = 1.0
         w_gu   = 1.0
+        # One vector search stands for both queries when they are the same text. For a question in Gujarati script it keeps the
+        # weight of the two searches it replaces: keywords cannot reach English documents, so the vector search is the only
+        # signal that crosses languages (measured on 11 Gujarati questions: evidence recall 73% with the weight, 55% without).
+        if bundle.query_gu.strip() == (bundle.query_en or "").strip() and bundle.detected_lang == "gu":
+            w_en = 2.0
         w_bm25 = 1.0
         w_regex_bonus = 2.0  # Extra multiplier for exact GR Number / Year match
 
@@ -651,6 +677,102 @@ class RAGPipeline:
                 return " ".join(b.text for b in pg.blocks)
         return ""
 
+    def build_evidence(self, raw_query: str, passages: list[dict]) -> tuple[str, dict, list[dict]]:
+        """The numbered evidence the model reads: (text, sentence registry, chunks used). No model call, so it can be measured on its own.
+
+        The sentences of the best EVIDENCE_CANDIDATES chunks compete for one budget (EVIDENCE_MAX_CHARS), chosen by how well they
+        match the question. A wide pool with a small prompt: the answer is often a sentence in the 4th-8th chunk of the right
+        document, and sending whole top-3 chunks both missed it and spent the prompt on letterhead.
+        """
+        candidates = passages[:max(EVIDENCE_CANDIDATES, TOP_K_RERANK)]
+
+        # ── Step 3: Pre-Generation Lineage Injection ──
+        # Check if retrieved chunks are Amended/Superseded; inject operative successor clauses!
+        injected_context_chunks = []
+        seen_cids = {c["chunk_id"] for c in candidates}
+
+        for rank, cand in enumerate(candidates):
+            injected_context_chunks.append(cand)
+            meta = cand.get("metadata", {})
+            gr_id = meta.get("gr_id")
+
+            if self.lineage_graph and gr_id:
+                status = self.lineage_graph.get_clause_status(gr_id)
+                cand["metadata"]["clause_status"] = status.value
+
+                # If superseded or amended, fetch the latest version's chunks (for the best-ranked few only)
+                if rank < TOP_K_RERANK and status in (ClauseStatus.AMENDED, ClauseStatus.SUPERSEDED):
+                    latest_id = self.lineage_graph.get_latest_version(gr_id)
+                    if latest_id and latest_id != gr_id and latest_id in self.records_map:
+                        latest_rec = self.records_map[latest_id]
+                        # prefer the chunks where the newer GR actually amends this one; the first chunks are mostly letterhead
+                        ev_ids = set(getattr(self.lineage_graph, "evidence_chunk_ids", lambda *_: [])(gr_id, latest_id))
+                        picked = [ch for ch in latest_rec.chunks if ch.chunk_id in ev_ids] or latest_rec.chunks[:2]
+                        for ch in picked:
+                            if ch.chunk_id not in seen_cids:
+                                seen_cids.add(ch.chunk_id)
+                                injected_context_chunks.append({
+                                    "chunk_id": ch.chunk_id,
+                                    "text": f"[OPERATIVE AMENDMENT/REPLACEMENT GR {latest_rec.gr_number}] {ch.text_clean}",
+                                    "metadata": {
+                                        "gr_id": latest_rec.gr_id,
+                                        "gr_number": latest_rec.gr_number,
+                                        "issue_date": latest_rec.issue_date or "",
+                                        "pages": json.dumps(ch.pages),
+                                        "clause_status": "Latest",
+                                    },
+                                    "rrf_score": 1.0,
+                                    "injected": True,
+                                })
+
+        # ── Step 4: Sentence-ID Indexing (Pillar 3 Fix) ──
+        # Pool every candidate sentence, keep the ones that best match the question, then number them [S1], [S2] ...
+        pool: list[dict] = []
+        for c_idx, c in enumerate(injected_context_chunks):
+            meta = c.get("metadata", {})
+            for s in split_into_sentences(c.get("text", "")):
+                if looks_like_injection(s):
+                    logger.warning(f"Dropped instruction-like sentence from GR {meta.get('gr_number')}: {s[:80]!r}")
+                elif is_substantive(s):  # not letterhead or page furniture: it costs prompt time and answers nothing
+                    pool.append({"text": s, "chunk": c_idx, "rank": c_idx, "bonus": 3.0 if c.get("injected") else 0.0})
+
+        chosen = select_sentences(pool, set(tokenize_for_bm25(raw_query)), EVIDENCE_MAX_CHARS, EVIDENCE_CHARS_PER_CHUNK)
+        by_chunk: dict[int, list[int]] = {}
+        for k in chosen:
+            by_chunk.setdefault(pool[k]["chunk"], []).append(k)
+        # most relevant chunk first (its best sentence's position in `chosen`); sentences keep their order in the document
+        groups = sorted(by_chunk.items(), key=lambda kv: chosen.index(kv[1][0]))
+
+        sentence_registry: dict[str, dict] = {}
+        formatted_context_blocks = []
+        s_counter = 1
+        for n, (c_idx, ks) in enumerate(groups, start=1):
+            c = injected_context_chunks[c_idx]
+            meta = c.get("metadata", {})
+            gr_id = meta.get("gr_id", "UNKNOWN")
+            gr_num = meta.get("gr_number", "UNKNOWN")
+            pages = json.loads(meta.get("pages", "[1]")) if isinstance(meta.get("pages"), str) else meta.get("pages", [1])
+            page_num = pages[0] if pages else 1
+            status = STATUS_LABEL.get(meta.get("clause_status"), meta.get("clause_status") or "Unknown")
+            lines = []
+            for k in sorted(ks):
+                sid = f"S{s_counter}"
+                sentence_registry[sid] = {
+                    "sentence_id": sid,
+                    "gr_id": gr_id,
+                    "gr_number": gr_num,
+                    "issue_date": meta.get("issue_date"),
+                    "page": page_num,
+                    "verbatim_text": pool[k]["text"],
+                }
+                lines.append(f"[{sid}] {pool[k]['text']}")
+                s_counter += 1
+            block_header = f"--- Document {n}: GR {gr_num} (Dated: {meta.get('issue_date','?')}, Page: {page_num}, Status: {status}) ---"
+            formatted_context_blocks.append(f"{block_header}\n" + "\n".join(lines))
+
+        context_str = "\n\n".join(formatted_context_blocks)
+        return context_str, sentence_registry, injected_context_chunks
+
     def answer(
         self,
         raw_query: str,
@@ -702,94 +824,7 @@ class RAGPipeline:
                 collection_latest_date=self.collection_latest_date,
             )
 
-        top_candidates = passages[:TOP_K_RERANK]
-
-        # ── Step 3: Pre-Generation Lineage Injection ──
-        # Check if retrieved chunks are Amended/Superseded; inject operative successor clauses!
-        injected_context_chunks = []
-        seen_cids = {c["chunk_id"] for c in top_candidates}
-
-        for cand in top_candidates:
-            injected_context_chunks.append(cand)
-            meta = cand.get("metadata", {})
-            gr_id = meta.get("gr_id")
-            
-            if self.lineage_graph and gr_id:
-                status = self.lineage_graph.get_clause_status(gr_id)
-                cand["metadata"]["clause_status"] = status.value
-                
-                # If superseded or amended, fetch the latest version's chunks
-                if status in (ClauseStatus.AMENDED, ClauseStatus.SUPERSEDED):
-                    latest_id = self.lineage_graph.get_latest_version(gr_id)
-                    if latest_id and latest_id != gr_id and latest_id in self.records_map:
-                        latest_rec = self.records_map[latest_id]
-                        # prefer the chunks where the newer GR actually amends this one; the first chunks are mostly letterhead
-                        ev_ids = set(getattr(self.lineage_graph, "evidence_chunk_ids", lambda *_: [])(gr_id, latest_id))
-                        picked = [ch for ch in latest_rec.chunks if ch.chunk_id in ev_ids] or latest_rec.chunks[:2]
-                        for ch in picked:
-                            if ch.chunk_id not in seen_cids:
-                                seen_cids.add(ch.chunk_id)
-                                injected_context_chunks.append({
-                                    "chunk_id": ch.chunk_id,
-                                    "text": f"[OPERATIVE AMENDMENT/REPLACEMENT GR {latest_rec.gr_number}] {ch.text_clean}",
-                                    "metadata": {
-                                        "gr_id": latest_rec.gr_id,
-                                        "gr_number": latest_rec.gr_number,
-                                        "issue_date": latest_rec.issue_date or "",
-                                        "pages": json.dumps(ch.pages),
-                                        "clause_status": "Latest",
-                                    },
-                                    "rrf_score": 1.0
-                                })
-
-        # ── Step 4: Sentence-ID Indexing (Pillar 3 Fix) ──
-        # Split each chunk into numbered sentences: [S1], [S2] ...
-        sentence_registry: dict[str, dict] = {}
-        formatted_context_blocks = []
-        s_counter = 1
-
-        total_chars = 0
-        query_tokens = set(tokenize_for_bm25(raw_query))
-        for c_idx, c in enumerate(injected_context_chunks):
-            meta = c.get("metadata", {})
-            raw_text = c.get("text", "")
-            gr_id = meta.get("gr_id", "UNKNOWN")
-            gr_num = meta.get("gr_number", "UNKNOWN")
-            pages = json.loads(meta.get("pages", "[1]")) if isinstance(meta.get("pages"), str) else meta.get("pages", [1])
-            page_num = pages[0] if pages else 1
-            status = STATUS_LABEL.get(meta.get("clause_status"), meta.get("clause_status") or "Unknown")
-
-            sentences = []
-            for s in split_into_sentences(raw_text):
-                if looks_like_injection(s):
-                    logger.warning(f"Dropped instruction-like sentence from GR {gr_num} p{page_num}: {s[:80]!r}")
-                elif is_substantive(s):  # not letterhead or page furniture: it costs prompt time and answers nothing
-                    sentences.append(s)
-            chunk_s_lines = []
-            chunk_chars = 0
-            for s in pick_sentences(sentences, query_tokens, EVIDENCE_CHARS_PER_CHUNK, EVIDENCE_MAX_CHARS - total_chars):
-                sid = f"S{s_counter}"
-                sentence_registry[sid] = {
-                    "sentence_id": sid,
-                    "gr_id": gr_id,
-                    "gr_number": gr_num,
-                    "issue_date": meta.get("issue_date"),
-                    "page": page_num,
-                    "verbatim_text": s,
-                }
-                chunk_s_lines.append(f"[{sid}] {s}")
-                s_counter += 1
-                chunk_chars += evidence_cost(s)
-                total_chars += evidence_cost(s)
-
-            if not chunk_s_lines:
-                continue
-            block_header = f"--- Document {c_idx+1}: GR {gr_num} (Dated: {meta.get('issue_date','?')}, Page: {page_num}, Status: {status}) ---"
-            formatted_context_blocks.append(f"{block_header}\n" + "\n".join(chunk_s_lines))
-            if total_chars >= EVIDENCE_MAX_CHARS:
-                break  # prompt-reading time grows with the evidence; later chunks are the lowest ranked
-
-        context_str = "\n\n".join(formatted_context_blocks)
+        context_str, sentence_registry, injected_context_chunks = self.build_evidence(raw_query, passages)
 
         # ── Step 5: Grounded Generation Prompt ──
         # Kept short on purpose: on a CPU the model reads about 30 tokens/s and writes about 5, so every sentence of prompt and

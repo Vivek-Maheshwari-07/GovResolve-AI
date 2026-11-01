@@ -100,3 +100,11 @@ def test_rescore_recomputes_answer_points_only(tmp_path):
     assert rescore(tmp_path / "s.json", tmp_path / "g.json", tmp_path / "o.json") == 0
     out = json.loads((tmp_path / "o.json").read_text(encoding="utf-8"))
     assert out["summary"]["3_answers"]["all_points_rate"] == 1.0 and out["summary"]["4_chain"] == {"precision": 1.0}
+
+
+def test_summary_reports_how_often_the_answer_is_in_the_evidence():
+    rows = [{"id": "1", "category": "simple", "language": "en", "top1": True, "top3": True, "answer_in_evidence": True},
+            {"id": "2", "category": "simple", "language": "en", "top1": True, "top3": True, "answer_in_evidence": False},
+            {"id": "3", "category": "simple", "language": "gu", "top1": False, "top3": False, "answer_in_evidence": False}]
+    s = summarise(rows, None, "retrieval")["1_evidence"]
+    assert s["questions"] == 3 and s["answer_in_evidence"] == 0.333 and s["by_language"] == {"en": 0.5, "gu": 0.0, "mixed": None}

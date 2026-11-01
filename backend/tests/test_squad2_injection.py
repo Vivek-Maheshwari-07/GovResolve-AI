@@ -113,25 +113,6 @@ def test_evidence_is_capped_and_the_system_prompt_is_the_same_for_every_language
     assert user_en.count("[S") <= 5 and "in English" in user_en and "in Gujarati" in user_gu
 
 
-def test_budget_keeps_the_sentences_that_match_the_question_not_the_first_ones():
-    from backend.rag.search_engine import pick_sentences
-    sentences = ["Notification General Administrative Department of the State.",
-                 "Dated the 29th September 2022 at Gandhinagar by order and in the name of the Governor.",
-                 "The upper age limit for direct selection shall be relaxed by one year for the advertisement period.",
-                 "Copies of this notification shall be forwarded to all departments of the Secretariat."]
-    q = {"upper", "age", "limit", "relaxed", "direct", "selection"}
-    got = pick_sentences(sentences, q, chunk_cap=110, total_left=1000)
-    assert got == [sentences[2]]  # the one that matches fits; document order would have spent the budget on letterhead
-
-
-def test_selection_keeps_document_order_and_respects_both_budgets():
-    from backend.rag.search_engine import pick_sentences
-    s = [f"Sentence number {i} about leave rules for the officers in the department." for i in range(6)]
-    assert pick_sentences(s, set(), chunk_cap=10_000, total_left=10_000) == s  # no overlap -> document order, all fit
-    assert pick_sentences(s, {"zzz"}, chunk_cap=150, total_left=10_000) == s[:2]
-    assert pick_sentences(s, set(), chunk_cap=10_000, total_left=100) == s[:1]  # total budget left allows one
-    assert pick_sentences(s, set(), chunk_cap=10_000, total_left=0) == []
-
 
 @pytest.mark.parametrize("reply,expected", [
     # qwen3.5:2b: statements as plain strings, ids at the top level
@@ -171,3 +152,53 @@ def test_compact_refusal_without_a_status_is_insufficient_evidence(monkeypatch):
 def test_empty_statements_with_blank_text_count_as_no_answer():
     from backend.rag.search_engine import parse_llm_json
     assert parse_llm_json('{"statements": [{"t": "  ", "ids": ["S1"]}]}')["answer_status"] == "Insufficient Evidence"
+
+
+# ── sentence-level evidence: a wide pool, one small budget ──
+
+def _it(text, chunk, rank=None, bonus=0.0):
+    return {"text": text, "chunk": chunk, "rank": chunk if rank is None else rank, "bonus": bonus}
+
+
+Q_AGE = {"age", "range", "direct", "selection", "post", "stenographer", "grade"}
+
+
+def test_the_sentence_that_answers_beats_letterhead_even_from_a_lower_ranked_chunk():
+    from backend.rag.search_engine import select_sentences
+    items = [_it("Appointment to the post of Stenographer, Grade III shall be made by direct selection.", 0),
+             _it("Notification General Administration Department of the State Secretariat Gandhinagar.", 1),
+             _it("(a) not be less than twenty years and more than forty years of age and of good standing:", 5)]
+    got = select_sentences(items, {"age", "range", "direct", "selection", "post", "stenographer", "grade"}, budget=180, chunk_cap=1000)
+    assert got[0] == 0 and 2 in got and 1 not in got  # the age clause (chunk 5) is chosen, the letterhead is not
+
+
+def test_a_long_answer_sentence_is_not_dropped_because_its_chunk_ranked_first():
+    from backend.rag.search_engine import select_sentences
+    long_answer = ("The programme of the State Government will be held at Narmada Hall, Swarnim Sankul, Sachivalaya, Gandhinagar "
+                   "in the presence of the Chief Minister and all Secretaries " * 2)
+    items = [_it("The Constitution Day is celebrated every year on the twenty sixth of November.", 0), _it(long_answer, 0)]
+    got = select_sentences(items, {"programme", "preamble", "reading", "held", "narmada"}, budget=1000, chunk_cap=200)
+    assert 1 in got  # the chunk cap limits extra sentences, never the best one in a chunk
+
+
+def test_budget_is_respected_and_shorter_sentences_still_fit_after_a_long_one_is_skipped():
+    from backend.rag.search_engine import select_sentences
+    big = _it("leave rules " * 40, 0)             # about 480 characters, high overlap
+    small = _it("leave rules apply to all officers", 1)
+    assert select_sentences([big, small], {"leave", "rules"}, budget=100, chunk_cap=1000) == [1]
+    assert select_sentences([big, small], {"leave", "rules"}, budget=10_000, chunk_cap=1000) == [0, 1] or         select_sentences([big, small], {"leave", "rules"}, budget=10_000, chunk_cap=1000) == [1, 0]
+
+
+def test_amending_passage_gets_a_bonus_over_an_equally_matching_base_sentence():
+    from backend.rag.search_engine import select_sentences
+    base = _it("The upper age limit for direct selection is thirty five years.", 0)
+    amendment = _it("The upper age limit for direct selection shall be relaxed by one year.", 1, bonus=3.0)
+    assert select_sentences([base, amendment], {"upper", "age", "limit", "direct", "selection"}, budget=90, chunk_cap=1000) == [1]
+
+
+def test_with_no_word_in_common_the_top_chunk_is_read_in_order():
+    from backend.rag.search_engine import select_sentences
+    items = [_it("First sentence of the best chunk, long enough to count.", 0), _it("Second sentence of the best chunk as well.", 0),
+             _it("A sentence of a lower ranked chunk.", 3)]
+    assert select_sentences(items, {"zzz"}, budget=1000, chunk_cap=1000) == [0, 1]
+    assert select_sentences([], {"x"}, 100, 100) == []

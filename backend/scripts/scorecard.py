@@ -182,8 +182,12 @@ def main() -> int:
             gold_docs = {d["doc_id"] for d in q.get("gold_docs", [])}
             gold_pages = {(d["doc_id"], d["page"]) for d in q.get("gold_docs", [])}
             if gold_docs:
-                ranked = ranked_docs(pipeline.index.search(normalizer.normalize(q["question"]), top_k=20))
+                found = pipeline.index.search(normalizer.normalize(q["question"]), top_k=20)
+                ranked = ranked_docs(found)
                 row.update(top1=retrieval_hit(ranked, gold_docs, 1), top3=retrieval_hit(ranked, gold_docs, 3), ranked=ranked[:3])
+                if q.get("key_points"):  # is the answer in the text the model would be given? (no model call)
+                    evidence, _, _ = pipeline.build_evidence(q["question"], found)   # the pipeline passes every retrieved passage
+                    row["answer_in_evidence"] = all(key_point_hits(evidence, q["key_points"]))
             if args.mode == "full":
                 t = time.time()
                 resp = client.post("/query", json={"question": q["question"]}).json()
@@ -200,7 +204,7 @@ def main() -> int:
                     row.update(points=len(hits), points_hit=sum(hits), all_points=all(hits))
             results.append(row)
             print(f"[{n}/{len(questions)}] {q['question_id']} {q['category']:12} "
-                  + " ".join(f"{k}={row[k]}" for k in ("top1", "top3", "verdict", "all_points", "seconds") if k in row), flush=True)
+                  + " ".join(f"{k}={row[k]}" for k in ("top1", "top3", "answer_in_evidence", "verdict", "all_points", "seconds") if k in row), flush=True)
         chain = None
         if args.gold_lineage.exists():
             chain = chain_scores(state.lineage.edges(), list(csv.DictReader(open(args.gold_lineage, encoding="utf-8"))))
@@ -236,6 +240,11 @@ def summarise(results: list[dict], chain: dict | None, mode: str) -> dict:
                "by_language": dict(Counter(r["language"] for r in results)),
                "1_retrieval": {"questions": len(gold), "top1": rate(sum(r["top1"] for r in gold), len(gold)),
                                "top3": rate(sum(r["top3"] for r in gold), len(gold))}}
+    ev = [r for r in results if "answer_in_evidence" in r]
+    if ev:
+        s["1_evidence"] = {"questions": len(ev), "answer_in_evidence": rate(sum(r["answer_in_evidence"] for r in ev), len(ev)),
+                           "by_language": {lang: rate(sum(r["answer_in_evidence"] for r in ev if r["language"] == lang),
+                                                      sum(1 for r in ev if r["language"] == lang)) for lang in ("en", "gu", "mixed")}}
     if mode == "full":
         cit = [r for r in results if "citations" in r]
         pts = [r for r in results if "points" in r]
