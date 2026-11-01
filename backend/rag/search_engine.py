@@ -127,9 +127,16 @@ class GRIndex:
         Path(self.persist_dir).mkdir(parents=True, exist_ok=True)
         self.chroma_client = chromadb.PersistentClient(path=self.persist_dir)
         try:
-            ef = embedding_functions.SentenceTransformerEmbeddingFunction(
-                model_name=EMBEDDING_MODEL
-            )
+            if EMBEDDING_MODEL.startswith("ollama:"):  # e.g. "ollama:bge-m3", served by a local Ollama
+                ef = embedding_functions.OllamaEmbeddingFunction(
+                    url=os.getenv("OLLAMA_URL", "http://localhost:11434"),
+                    model_name=EMBEDDING_MODEL.split(":", 1)[1],
+                    timeout=int(os.getenv("OLLAMA_EMBED_TIMEOUT", "120")),
+                )
+            else:
+                ef = embedding_functions.SentenceTransformerEmbeddingFunction(
+                    model_name=EMBEDDING_MODEL
+                )
         except Exception as e:
             logger.warning(f"Could not load {EMBEDDING_MODEL}, falling back to default: {e}")
             ef = embedding_functions.DefaultEmbeddingFunction()
