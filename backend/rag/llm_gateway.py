@@ -22,7 +22,7 @@ GEMINI_MODEL    = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 LOCAL_LLM_URL   = os.getenv("LOCAL_LLM_URL", "http://localhost:11434/v1/chat/completions")
 LOCAL_LLM_MODEL = os.getenv("LOCAL_LLM_MODEL", "gemma3:4b")
 LOCAL_LLM_REASONING = os.getenv("LOCAL_LLM_REASONING", "none")  # thinking models (qwen3.5) time out otherwise; "" to omit
-LOCAL_LLM_TIMEOUT = float(os.getenv("LOCAL_LLM_TIMEOUT", "60"))  # seconds; first call also loads the model
+LOCAL_LLM_TIMEOUT = float(os.getenv("LOCAL_LLM_TIMEOUT", "180"))  # seconds; first call also loads the model
 
 try:
     from google import genai
@@ -41,7 +41,7 @@ def call_local_llm(system_prompt: str, user_prompt: str) -> Optional[str]:
             {"role": "user", "content": user_prompt}
         ],
         "temperature": 0.0,
-        "max_tokens": 2048,
+        "max_tokens": int(os.getenv("LOCAL_LLM_MAX_TOKENS", "700")),  # Gujarati costs many tokens; this bounds latency
         "response_format": {"type": "json_object"} if "ollama" not in LOCAL_LLM_URL else None
     }
     if LOCAL_LLM_REASONING:

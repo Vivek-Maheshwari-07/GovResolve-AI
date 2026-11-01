@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     # "hash" = offline deterministic embedder (demo/tests); otherwise a sentence-transformers
     # model name, e.g. "intfloat/multilingual-e5-small"
     embed_model: str = "hash"
+    engine: str = "retrieval"  # /query engine: retrieval (default) | squad2 (RAG pipeline from branch squad2)
+    squad2_index_dir: Path = ROOT / "data" / "index" / "chroma"  # built by scripts.build_squad2_index
     lineage_engine: str = "auto"  # auto = real engine if importable | real | stub
     stub_edges: Path | None = None  # seed edges for the stub engine (tests, demos)
     cors_origins: list[str] = ["*"]
