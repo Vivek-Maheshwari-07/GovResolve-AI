@@ -1,0 +1,137 @@
+[
+  {
+    "question_id": "Q-001",
+    "question": "How many days of casual leave are allowed per year for state government employees?",
+    "language": "en",
+    "expected_status": "Found, no later change",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["casual leave", "days", "per year"],
+    "lineage_edges": [],
+    "validated_by": "sample — replace with officer-validated answers",
+    "notes": "Fill correct_gr_ids and correct_pages after ingesting real GRs"
+  },
+  {
+    "question_id": "Q-002",
+    "question": "maternity leave mate kya documents joie?",
+    "language": "mixed",
+    "expected_status": "Found, amended",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["medical certificate", "application", "documents"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  },
+  {
+    "question_id": "Q-003",
+    "question": "પ્રસૂતિ રજા માટે કેટલા દિવસ મળે છે?",
+    "language": "gu",
+    "expected_status": "Found, no later change",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["પ્રસૂતિ રજા", "દિવસ"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  },
+  {
+    "question_id": "Q-004",
+    "question": "What is the dearness allowance rate for state government employees?",
+    "language": "en",
+    "expected_status": "Found, amended",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["dearness allowance", "rate", "percent"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  },
+  {
+    "question_id": "Q-005",
+    "question": "What documents are required to apply for earned leave?",
+    "language": "en",
+    "expected_status": "Found, no later change",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["earned leave", "application", "documents"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  },
+  {
+    "question_id": "Q-006",
+    "question": "Can I sue the department for rejecting my leave application?",
+    "language": "en",
+    "expected_status": "Insufficient Evidence",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["OUT_OF_SCOPE"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  },
+  {
+    "question_id": "Q-007",
+    "question": "Leave",
+    "language": "en",
+    "expected_status": "Insufficient Evidence",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["TOO_VAGUE"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  },
+  {
+    "question_id": "Q-008",
+    "question": "What is the travel allowance for officers going on tour outside Gujarat?",
+    "language": "en",
+    "expected_status": "Found, no later change",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["travel allowance", "tour", "outside Gujarat"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  },
+  {
+    "question_id": "Q-009",
+    "question": "Which GR governs house rent allowance for Class-II officers in Gandhinagar?",
+    "language": "en",
+    "expected_status": "Found, no later change",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["house rent allowance", "Class-II", "Gandhinagar"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  },
+  {
+    "question_id": "Q-010",
+    "question": "Is the 2010 recruitment GR for Class-III posts still in force?",
+    "language": "en",
+    "expected_status": "Found, superseded",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["superseded", "recruitment", "Class-III"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  },
+  {
+    "question_id": "Q-011",
+    "question": "Rules nathi malti",
+    "language": "mixed",
+    "expected_status": "Insufficient Evidence",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["NO_DOCUMENT"],
+    "lineage_edges": [],
+    "validated_by": "sample",
+    "notes": "Random Gujarati-mixed phrase that should return NO_DOCUMENT or TOO_VAGUE"
+  },
+  {
+    "question_id": "Q-012",
+    "question": "What was the leave encashment rule on 1 January 2015?",
+    "language": "en",
+    "expected_status": "Found, amended",
+    "correct_gr_ids": [],
+    "correct_pages": [],
+    "key_answer_points": ["leave encashment", "2015"],
+    "lineage_edges": [],
+    "validated_by": "sample"
+  }
+]
+

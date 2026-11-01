@@ -1,0 +1,133 @@
+{
+  "functional_stems": {
+    "mate": {"gu": "માટે", "en": "for"},
+    "joie": {"gu": "જોઈએ / જરૂરી", "en": "required / eligible"},
+    "joye": {"gu": "જોઈએ / જરૂરી", "en": "required / eligible"},
+    "joyee": {"gu": "જોઈએ / જરૂરી", "en": "required / eligible"},
+    "su karvu pade": {"gu": "શું કાર્યવાહી / પ્રક્રિયા કરવી પડે", "en": "procedure to follow / what to do"},
+    "shu karvu pade": {"gu": "શું કાર્યવાહી / પ્રક્રિયા કરવી પડે", "en": "procedure to follow / what to do"},
+    "su karvu": {"gu": "શું કાર્યવાહી કરવી", "en": "procedure / actions required"},
+    "shu karvu": {"gu": "શું કાર્યવાહી કરવી", "en": "procedure / actions required"},
+    "lagu pade": {"gu": "લાગુ પડે / પાત્રતા", "en": "applicable / eligible"},
+    "lagu padse": {"gu": "લાગુ પડશે / પાત્ર થશે", "en": "will be applicable / eligible"},
+    "leva mate": {"gu": "મેળવવા માટે / દાવા માટે", "en": "to obtain / claim"},
+    "leva": {"gu": "મેળવવા / લેવા", "en": "to claim / take"},
+    "malva patra": {"gu": "મળવાપાત્ર / અધિકાર", "en": "entitlement / eligible"},
+    "malse": {"gu": "મળશે / સ્વીકાર્ય", "en": "will receive / granted"},
+    "male": {"gu": "મળે / સ્વીકાર્ય", "en": "received / granted"},
+    "arji": {"gu": "અરજી / દરખાસ્ત", "en": "application / proposal"},
+    "arji karvi": {"gu": "અરજી કરવાની કાર્યરીતિ", "en": "how to apply / application procedure"},
+    "nathi": {"gu": "નથી / અમાન્ય", "en": "not / inadmissible"},
+    "nathi malti": {"gu": "પ્રાપ્ત નથી / મળવાપાત્ર નથી", "en": "not entitled / not admissible"},
+    "kevi rite": {"gu": "કેવી રીતે / કાર્યપદ્ધતિ", "en": "how / procedure"},
+    "kya documents": {"gu": "ક્યા ક્યા પુરાવા / દસ્તાવેજો / પ્રમાણપત્રો", "en": "which documents / certificates"},
+    "ketla divas": {"gu": "કેટલા દિવસ / સમયમર્યાદા", "en": "how many days / period"},
+    "ketlu": {"gu": "કેટલું પ્રમાણ / દર", "en": "amount / rate / limit"},
+    "kone male": {"gu": "કોને મળવાપાત્ર છે / પાત્રતા", "en": "who is eligible"}
+  },
+  "secretariat_terms": [
+    {
+      "key": "refund",
+      "canonical_gu": "રીફંડ / વળતર પરત ચૂકવણી / ડિપોઝીટ પરત",
+      "canonical_en": "refund of excess fees or deposits / reimbursement procedure",
+      "synonyms": ["refund", "refound", "parat", "reimbursement", "vadtar", "રીફંડ", "વળતર"]
+    },
+    {
+      "key": "leave_encashment",
+      "canonical_gu": "અર્જિત રજાનું રોકડમાં રૂપાંતર",
+      "canonical_en": "earned leave encashment at retirement / service tenure",
+      "synonyms": ["leave encashment", "encashment", "rokaad", "rokar", "અર્જિત રજા રોકડ", "રોકડ રૂપાંતર"]
+    },
+    {
+      "key": "maternity_leave",
+      "canonical_gu": "પ્રસૂતિ રજા અંગેના નિયમો / તબીબી પ્રમાણપત્ર",
+      "canonical_en": "maternity leave rules eligibility and required certificates",
+      "synonyms": ["maternity leave", "prasuti", "prasooti", "prasuti raja", "પ્રસૂતિ", "પ્રસૂતિ રજા"]
+    },
+    {
+      "key": "paternity_leave",
+      "canonical_gu": "પિતૃત્વ રજા અંગેના નિયમો",
+      "canonical_en": "paternity leave rules eligibility",
+      "synonyms": ["paternity leave", "pitruttva", "pitrutva", "પિતૃત્વ રજા"]
+    },
+    {
+      "key": "casual_leave",
+      "canonical_gu": "પરચૂરણ રજા / કેઝ્યુઅલ લીવ",
+      "canonical_en": "casual leave CL entitlement per calendar year",
+      "synonyms": ["casual leave", "CL", "parchuran raja", "પરચૂરણ રજા", "કેઝ્યુઅલ લીવ"]
+    },
+    {
+      "key": "earned_leave",
+      "canonical_gu": "અર્જિત રજા / પ્રિવિલેજ લીવ",
+      "canonical_en": "earned leave EL accumulation limit",
+      "synonyms": ["earned leave", "EL", "PL", "arjit raja", "અર્જિત રજા"]
+    },
+    {
+      "key": "half_pay_leave",
+      "canonical_gu": "અર્ધપગારી રજા / તબીબી પ્રમાણપત્ર આધારિત રજા",
+      "canonical_en": "half pay leave HPL commuted medical leave",
+      "synonyms": ["half pay", "HPL", "ardhapagari", "અર્ધપગારી"]
+    },
+    {
+      "key": "travel_allowance",
+      "canonical_gu": "પ્રવાસ ભથ્થું / દૈનિક ભથ્થું (ટી.એ. / ડી.એ.)",
+      "canonical_en": "travel allowance TA DA mileage rates for official tours",
+      "synonyms": ["travel allowance", "travelling allowance", "TA", "pravas bhathu", "પ્રવાસ ભથ્થું"]
+    },
+    {
+      "key": "ltc",
+      "canonical_gu": "રજા પ્રવાસ રાહત (એલ.ટી.સી.) બ્લોક સમયગાળો",
+      "canonical_en": "leave travel concession LTC block year rules home town",
+      "synonyms": ["LTC", "leave travel", "pravas rahat", "રજા પ્રવાસ રાહત", "એલટીસી"]
+    },
+    {
+      "key": "dearness_allowance",
+      "canonical_gu": "મોંઘવારી ભથ્થું (ડી.એ.) સુધારેલ દર",
+      "canonical_en": "dearness allowance DA revision effective date",
+      "synonyms": ["dearness allowance", "DA", "moghvari", "મોંઘવારી ભથ્થું"]
+    },
+    {
+      "key": "house_rent_allowance",
+      "canonical_gu": "મકાન ભાડા ભથ્થું (એચ.આર.એ.) વર્ગીકરણ",
+      "canonical_en": "house rent allowance HRA rates city classification",
+      "synonyms": ["house rent", "HRA", "makan bhada", "મકાન ભાડા ભથ્થું"]
+    },
+    {
+      "key": "pension",
+      "canonical_gu": "પેન્શન / કુટુંબ પેન્શન / સેવા નિવૃત્તિ વેતન",
+      "canonical_en": "pension family pension qualifying service rules",
+      "synonyms": ["pension", "family pension", "kutumb pension", "નિવૃત્તિ વેતન", "પેન્શન"]
+    },
+    {
+      "key": "gratuity",
+      "canonical_gu": "નિવૃત્તિ ઉપદાન / મૃત્યુ-સહ-નિવૃત્તિ ઉપદાન (DCRG)",
+      "canonical_en": "death cum retirement gratuity DCRG ceiling limit",
+      "synonyms": ["gratuity", "DCRG", "updan", "ઉપદાન", "ગ્રેચ્યુઇટી"]
+    },
+    {
+      "key": "gpf",
+      "canonical_gu": "સામાન્ય ભવિષ્ય નિધિ (જી.પી.એફ.) ઉપાડ અને એડવાન્સ",
+      "canonical_en": "General Provident Fund GPF withdrawal rules interest rate",
+      "synonyms": ["GPF", "provident fund", "PF", "સામાન્ય ભવિષ્ય નિધિ"]
+    },
+    {
+      "key": "fix_pay",
+      "canonical_gu": "ફિક્સ પગાર / કરાર આધારિત નિશ્ચિત વેતન કર્મચારીઓ",
+      "canonical_en": "fixed pay employees terms conditions regularisation",
+      "synonyms": ["fix pay", "fixed pay", "karar aadharit", "ફિક્સ પગાર", "નિશ્ચિત વેતન"]
+    },
+    {
+      "key": "seniority_promotion",
+      "canonical_gu": "જેષ્ઠતા યાદી / બઢતી માટેની પાત્રતા / પ્રવરતા",
+      "canonical_en": "seniority list promotion criteria departmental exam",
+      "synonyms": ["seniority", "promotion", "badhti", "pravarta", "બઢતી", "વરિષ્ઠતા", "જેષ્ઠતા"]
+    },
+    {
+      "key": "audit_recovery",
+      "canonical_gu": "ઓડિટ વાંધો / વધારાની ચૂકવણીની વસૂલાત",
+      "canonical_en": "CAG audit para recovery of excess payment salary recovery",
+      "synonyms": ["audit para", "recovery", "vasulat", "vandho", "વસૂલાત", "ઓડિટ પેરા"]
+    }
+  ]
+}
+
