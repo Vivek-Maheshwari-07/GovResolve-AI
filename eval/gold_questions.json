@@ -1,0 +1,978 @@
+[
+ {
+  "question_id": "Q-001",
+  "question": "What is the age range for direct selection to the post of Gujarati Stenographer, Grade III?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3989_1_36-594b69",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "20 years",
+   "40 years"
+  ],
+  "evidence_note": "Rules 2019: 'not be less than 20 years and more than 40 years of age'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-002",
+  "question": "ગુજરાતી સ્ટેનોગ્રાફર, ગ્રેડ-૩ની જગ્યા માટે સીધી પસંદગીમાં ઉંમરની મર્યાદા કેટલી છે?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3989_1_36-594b69",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "20",
+   "40"
+  ],
+  "evidence_note": "same page as Q-001 (Gujarati question about an English document)",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-003",
+  "question": "For how long did the Central Government suspend Home Town LTC and All India LTC in 2001?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_728_1_CENTRAL-CIVIL-SERVICE-LTC-RULES-1988-10-5-2001--b3077d",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "two years"
+  ],
+  "evidence_note": "GR 10 May 2001: suspended 'for a period of two years'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-004",
+  "question": "Central government e Home Town LTC ane All India LTC ketla time mate suspend kari hati?",
+  "language": "mixed",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_728_1_CENTRAL-CIVIL-SERVICE-LTC-RULES-1988-10-5-2001--b3077d",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "two years",
+    "2 years",
+    "બે વર્ષ",
+    "બે વરસ"
+   ]
+  ],
+  "evidence_note": "same page as Q-003",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-005",
+  "question": "Which bank holiday did Gujarat cancel in 2013 because of the half yearly closing of accounts?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_551_1_Gh_Notification_22-2-2013-772272",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "30th September, 2013"
+  ],
+  "evidence_note": "Notification 22 Feb 2013 cancels Monday 30 September 2013",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-006",
+  "question": "Banks ni 30 September 2013 ni half yearly closing ni holiday shu cancel thai?",
+  "language": "mixed",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_551_1_Gh_Notification_22-2-2013-772272",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "30th September",
+    "30 September",
+    "30 સપ્ટેમ્બર"
+   ]
+  ],
+  "evidence_note": "same page as Q-005",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-007",
+  "question": "How many suites and rooms does the Garvi Gujarat guest house in New Delhi have?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2023_1_eng-07-09-2019-e18955",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "78"
+  ],
+  "evidence_note": "GR 7 Sep 2019: 'The total number of suites/rooms ... is 78'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-008",
+  "question": "નવી દિલ્હીના ગરવી ગુજરાત ગેસ્ટ હાઉસમાં કુલ કેટલા સ્યુટ અને રૂમ છે?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2023_1_eng-07-09-2019-e18955",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "78"
+  ],
+  "evidence_note": "same page as Q-007",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-009",
+  "question": "From which date did the new mobile phone tariff for government use apply, and whose offer was accepted?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "1st October, 2015",
+   "Vodafone"
+  ],
+  "evidence_note": "Resolution 15 Oct 2015: Vodafone West Limited; tariff from 1 October 2015",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-010",
+  "question": "Government na mobile phone mate navo tariff kya divas thi lagu thayo ane kai company ni offer swikari?",
+  "language": "mixed",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "1st October, 2015",
+    "1 October 2015",
+    "1 ઓક્ટોબર"
+   ],
+   [
+    "Vodafone",
+    "વોડાફોન"
+   ]
+  ],
+  "evidence_note": "same page as Q-009",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-011",
+  "question": "Who was appointed Chief Electoral Officer for Gujarat in May 2021?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2245_1_Shri-Anupam-Anand-CEO-Notification_06_2021_Date_03--781343",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "Anupam Anand"
+  ],
+  "evidence_note": "Notification 3 May 2021",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-012",
+  "question": "મે ૨૦૨૧માં ગુજરાતના મુખ્ય ચૂંટણી અધિકારી તરીકે કોની નિમણૂક થઈ?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2245_1_Shri-Anupam-Anand-CEO-Notification_06_2021_Date_03--781343",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "Anupam Anand",
+    "અનુપમ આનંદ"
+   ]
+  ],
+  "evidence_note": "same page as Q-011",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-013",
+  "question": "From which date were the 2022 amendments to the Gujarat Minister's Travelling Allowances Rules deemed to be in force?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3954_1_travelling-2022-dd68a0",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "22nd March, 2022"
+  ],
+  "evidence_note": "Amendment Rules 2022: 'deemed to have come into force on 22nd March, 2022'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-014",
+  "question": "Gujarat Minister's Travelling Allowances (Amendment) Rules 2022 kya divas thi amal ma gana jashe?",
+  "language": "mixed",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3954_1_travelling-2022-dd68a0",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "22nd March, 2022",
+    "22 March 2022",
+    "22 માર્ચ"
+   ]
+  ],
+  "evidence_note": "same page as Q-013",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-015",
+  "question": "What are the marks and duration of Paper V (Administrative Matters) in the Senior Clerk Class III post-training examination after the 2020 amendment?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2195_1_Sr-Clerk-pre-ser-Paper-5-23-9-20-d9f0b4",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "100",
+   "2 Hours"
+  ],
+  "evidence_note": "Amendment Rules 2020: 'Paper V : Administrative Matters, Marks : 100, Duration: 2 Hours'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-016",
+  "question": "૨૦૨૦ના સુધારા પછી સિનિયર ક્લાર્ક વર્ગ-૩ની પરીક્ષામાં પેપર-૫ (વહીવટી બાબતો)ના ગુણ અને સમય કેટલા છે?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2195_1_Sr-Clerk-pre-ser-Paper-5-23-9-20-d9f0b4",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "100",
+   [
+    "2 hours",
+    "2 કલાક",
+    "બે કલાક"
+   ]
+  ],
+  "evidence_note": "same page as Q-015",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-017",
+  "question": "How much administrative experience must half of the members of the Gujarat Subordinate Service Selection Board have?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2375_1_5-OCT-2021-9c070a",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "ten years"
+  ],
+  "evidence_note": "GR 5 Oct 2021: 'at least ten years' administrative experience'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-018",
+  "question": "Gujarat Subordinate Service Selection Board na aadha members ne ketla varsh no administrative anubhav hovo joie?",
+  "language": "mixed",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2375_1_5-OCT-2021-9c070a",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "ten years",
+    "10 years",
+    "10 વર્ષ",
+    "દસ વર્ષ"
+   ]
+  ],
+  "evidence_note": "same page as Q-017",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-019",
+  "question": "By how much was the upper age limit relaxed for direct selection under the Gujarat Civil Services Classification and Recruitment (General) Rules, 1967, in 2022?",
+  "language": "en",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "one year",
+    "1 year"
+   ]
+  ],
+  "evidence_note": "Notification 29 Sep 2022, new rule 16H: relaxed by one year for advertisements 18 Sep 2022 - 31 Aug 2023",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-020",
+  "question": "From which date do the Gujarat Civil Services Computer Competency Training and Examination Rules, 2006 come into force?",
+  "language": "en",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2209_1_notification-gad-30092006-f9c4e0",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "October, 2006"
+  ],
+  "evidence_note": "Rules 2006, rule 1(2): in force from 1 October 2006; the rules were amended 24 times",
+  "validated_by": "drafted by Claude from the document text; not officer-validated",
+  "expected_status_any": [
+   "amended"
+  ]
+ },
+ {
+  "question_id": "Q-021",
+  "question": "ગુજરાત સિવિલ સર્વિસીસ કમ્પ્યુટર કોમ્પિટન્સી ટ્રેઇનિંગ એન્ડ એક્ઝામિનેશન નિયમો, ૨૦૦૬ કઈ તારીખથી અમલમાં આવ્યા?",
+  "language": "gu",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2209_1_notification-gad-30092006-f9c4e0",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "1 October 2006",
+    "1 ઓક્ટોબર",
+    "October, 2006",
+    "ઓક્ટોબર ૨૦૦૬",
+    "ઓક્ટોબર, ૨૦૦૬"
+   ]
+  ],
+  "evidence_note": "same page as Q-020",
+  "validated_by": "drafted by Claude from the document text; not officer-validated",
+  "expected_status_any": [
+   "amended"
+  ]
+ },
+ {
+  "question_id": "Q-022",
+  "question": "In the September 2007 amendment of the Computer Competency rules, which date replaced 31st December 2007?",
+  "language": "en",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3472_1_20-09-2007-42f7bb",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "30th June, 2008"
+  ],
+  "evidence_note": "Amendment 20 Sep 2007, rule 9(2) proviso",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-023",
+  "question": "સપ્ટેમ્બર ૨૦૦૭ના સુધારામાં કમ્પ્યુટર કૌશલ્ય પરીક્ષા માટે ૩૧ ડિસેમ્બર ૨૦૦૭ને બદલે કઈ તારીખ રાખવામાં આવી?",
+  "language": "gu",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3472_1_20-09-2007-42f7bb",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "30th June, 2008",
+    "30 જૂન, 2008",
+    "30 June 2008",
+    "30 જૂન 2008"
+   ]
+  ],
+  "evidence_note": "same page as Q-022",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-024",
+  "question": "Computer Competency rules ma May 2015 na amendment ma 55 years ni jagyae ketla years karya?",
+  "language": "mixed",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3499_1_22-05-2015-e5a1fb",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "50 years",
+    "50 વર્ષ",
+    "50 varsh",
+    "50"
+   ]
+  ],
+  "evidence_note": "Amendment 22 May 2015: '55 years' replaced by '50 years' in rule 9(2)",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-025",
+  "question": "By the January 2013 amendment, which date replaced 31st December 2012 in the provisos of rule 9(1) of the Computer Competency rules?",
+  "language": "en",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3314_1_31-01-2013-1-9cf4c7",
+    "page": 1
+   },
+   {
+    "doc_id": "GR-1_519_1_K_Notification_31-1-2013-c74696",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "March, 2013"
+  ],
+  "evidence_note": "Amendment 31 Jan 2013",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-026",
+  "question": "How many days of pre-service training did the October 2025 amendment set in rule 6 of the Gazetted Officers' (Pre-service Training and Examination) Rules?",
+  "language": "en",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3906_1_04102025_Gazette-98889f",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "sixty three",
+    "sixty-three",
+    "63"
+   ]
+  ],
+  "evidence_note": "Gazette 4 Oct 2025: 'forty five days' replaced by 'sixty three days'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-027",
+  "question": "Gazetted Officers pre-service training rules ma January 2023 na notification e 60 percent ni jagyae ketla percent karya?",
+  "language": "mixed",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3252_1_20-01-23-gazatted-8e6696",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "50 percent",
+    "50 ટકા",
+    "50%",
+    "50"
+   ]
+  ],
+  "evidence_note": "Notification 20 Jan 2023: '60 percent' replaced by '50 percent'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-028",
+  "question": "૨૦૨૪ના સુધારા દ્વારા કમ્પ્યુટર કૌશલ્ય તાલીમના ૪૫ કલાકની જગ્યાએ કેટલા કલાક કરવામાં આવ્યા?",
+  "language": "gu",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5",
+    "page": 1
+   },
+   {
+    "doc_id": "GR-1_3828_1_CCC_Notification_24july_2024-3e085e",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "60 hours",
+    "60 કલાક",
+    "60"
+   ]
+  ],
+  "evidence_note": "Notification 24 Jul 2024: '45 hours' replaced by '60 hours'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-029",
+  "question": "How many days of maternity leave are allowed to women government employees?",
+  "language": "en",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "text search: 0 of 366 documents mention maternity / પ્રસૂતિ",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-030",
+  "question": "સરકારી મહિલા કર્મચારીઓને પ્રસૂતિ રજા કેટલા દિવસની મળે છે?",
+  "language": "gu",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "same as Q-029",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-031",
+  "question": "Dearness allowance no current rate ketla percent che?",
+  "language": "mixed",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "text search: one passing mention of dearness (a retired-officer pay clause), no allowance rate",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-032",
+  "question": "What is the monthly salary of the Chief Minister of Gujarat?",
+  "language": "en",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "text search: 0 documents give a Chief Minister salary",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-033",
+  "question": "ગુજરાતમાં નવા વાહનની નોંધણી ફી કેટલી છે?",
+  "language": "gu",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "outside the General Administration Department",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-034",
+  "question": "What is the penalty for filing income tax returns late?",
+  "language": "en",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "text search: 0 documents mention income tax",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-035",
+  "question": "Can I sue the department for wrongly denying my promotion and will I win?",
+  "language": "en",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "OUT_OF_SCOPE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "asks for legal advice and a prediction",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-036",
+  "question": "મારું પ્રમોશન ખોટી રીતે અટકાવવામાં આવ્યું છે, શું મારે કોર્ટમાં કેસ કરવો જોઈએ?",
+  "language": "gu",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "OUT_OF_SCOPE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "asks for legal advice",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-037",
+  "question": "Mane promotion nathi malyu, shu hu court ma jaine kes jitish?",
+  "language": "mixed",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "OUT_OF_SCOPE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "asks for legal advice and a prediction",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-038",
+  "question": "Who will be the next Chief Secretary of Gujarat?",
+  "language": "en",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "future event; the Chief Secretary appears only in distribution lists",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-039",
+  "question": "leave",
+  "language": "en",
+  "category": "vague",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "TOO_VAGUE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "one word",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-040",
+  "question": "Tell me about the rules.",
+  "language": "en",
+  "category": "vague",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "TOO_VAGUE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "no subject",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-041",
+  "question": "નિયમો જણાવો",
+  "language": "gu",
+  "category": "vague",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "TOO_VAGUE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "no subject",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-042",
+  "question": "રજા વિશે માહિતી આપો",
+  "language": "gu",
+  "category": "vague",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "TOO_VAGUE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "no kind of leave named",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-043",
+  "question": "salary ni vaat karo",
+  "language": "mixed",
+  "category": "vague",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "TOO_VAGUE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "no post or rule named",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-044",
+  "question": "૨૬ નવેમ્બર ૨૦૨૦ના રોજ બંધારણના આમુખના વાંચનનો રાજ્ય સરકારનો કાર્યક્રમ સચિવાલયમાં ક્યાં યોજાશે?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2208_1_circular-dt-19112020-125cd0",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "નર્મદા હોલ",
+    "Narmada Hall"
+   ]
+  ],
+  "evidence_note": "Circular 19 Nov 2020: Narmada Hall, Swarnim Sankul-1, Sachivalaya",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-045",
+  "question": "Where will the State Government's programme for the reading of the Preamble of the Constitution be held on 26 November 2020?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2208_1_circular-dt-19112020-125cd0",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "Narmada Hall",
+    "નર્મદા હોલ"
+   ]
+  ],
+  "evidence_note": "same page as Q-044 (English question about a Gujarati document)",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-046",
+  "question": "કોવિડ રસીકરણનું પ્રમાણપત્ર ન હોય તો સરકારી કચેરીમાં પ્રવેશ માટે શું માન્ય રહેશે?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2377_1_Covid-Certy-0b4818",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "સ્વ ઘોષણા",
+    "Self Declaration",
+    "સ્વઘોષણા"
+   ]
+  ],
+  "evidence_note": "Circular 28 Feb 2022: self declaration is enough",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-047",
+  "question": "Covid vaccine certificate na hoy to sarkari kacheri ma pravesh mate shu chalse?",
+  "language": "mixed",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2377_1_Covid-Certy-0b4818",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "સ્વ ઘોષણા",
+    "Self Declaration",
+    "self-declaration"
+   ]
+  ],
+  "evidence_note": "same page as Q-046",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-048",
+  "question": "અધિકારી/કર્મચારીએ મુખ્યમથક છોડતા પહેલાં કોની પૂર્વ મંજુરી લેવી જરૂરી છે?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3869_1_leave-cancelation-circular-f02a67",
+    "page": 1
+   },
+   {
+    "doc_id": "GR-1_3871_1_GAD-Circular-13-05-25-65497e",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "વડાની પૂર્વ મંજુરી",
+    "વડાની પૂર્વ મંજૂરી",
+    "વડા"
+   ]
+  ],
+  "evidence_note": "Circular 9 May 2025 (repeated 13 May): prior approval of the head of department / office",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-049",
+  "question": "Leave par hoy tyare officer ane employee e phone ane email par available rehvanu padse?",
+  "language": "mixed",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3871_1_GAD-Circular-13-05-25-65497e",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "ફોન",
+    "phone"
+   ],
+   [
+    "ઈ.મેઈલ",
+    "email",
+    "e-mail",
+    "ઈમેલ",
+    "મેઈલ"
+   ]
+  ],
+  "evidence_note": "Circular 13 May 2025: 'ફોન/ઈ.મેઈલ પર સતત ઉપલબ્ધ રહેવાનું રહેશે'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "Q-050",
+  "question": "શું સરકારી અધિકારી/કર્મચારીઓની તમામ રજાઓ હાલમાં રદ છે?",
+  "language": "gu",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3871_1_GAD-Circular-13-05-25-65497e",
+    "page": 1
+   },
+   {
+    "doc_id": "GR-1_3869_1_leave-cancelation-circular-f02a67",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "સક્ષમ સત્તાધિકારી",
+    "સક્ષમ"
+   ],
+   [
+    "અનિવાર્ય સંજોગો",
+    "અનિવાર્ય"
+   ]
+  ],
+  "evidence_note": "9 May 2025 circular cancelled all leave; the 13 May 2025 circular lets the competent authority grant leave and cancel it only in unavoidable circumstances. KNOWN GAP: the lineage engine does not link these two Gujarati circulars, so no status is shown for the 9 May one.",
+  "validated_by": "drafted by Claude from the document text; not officer-validated",
+  "expected_status_any": [
+   "amended",
+   "superseded"
+  ]
+ }
+]
