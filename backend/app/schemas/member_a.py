@@ -133,6 +133,29 @@ class QueryRequest(BaseModel):
     language: str | None = None
 
 
+class StatementLabel(str, Enum):
+    ESTABLISHED = "established"
+    INFERRED = "inferred"
+    NOT_FOUND = "not_found"
+
+
+class ReasonCode(str, Enum):
+    NO_DOCUMENT = "NO_DOCUMENT"
+    TOO_VAGUE = "TOO_VAGUE"
+    MISSING_FACTS = "MISSING_FACTS"
+    BROKEN_CHAIN = "BROKEN_CHAIN"
+    POOR_SCAN = "POOR_SCAN"
+    OUT_OF_SCOPE = "OUT_OF_SCOPE"
+
+
+class Statement(BaseModel):
+    """One sentence of the answer with its evidence label (v0.2, optional)."""
+
+    text: str
+    label: StatementLabel
+    citations: list[int] = Field(default_factory=list)  # indexes into the response's `citations`
+
+
 class QueryResponse(BaseModel):
     verdict: Verdict
     answer: str | None = None
@@ -140,3 +163,5 @@ class QueryResponse(BaseModel):
     warnings: list[str] = Field(default_factory=list)
     reason: str | None = None
     language: str
+    statements: list[Statement] = Field(default_factory=list)  # v0.2
+    reason_code: ReasonCode | None = None  # v0.2, set only when verdict is insufficient_evidence

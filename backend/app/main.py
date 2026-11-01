@@ -27,6 +27,9 @@ from .schemas import (
     LineageStatus,
     QueryRequest,
     QueryResponse,
+    ReasonCode,
+    Statement,
+    StatementLabel,
     Verdict,
 )
 from .seed import load_demo
@@ -144,11 +147,13 @@ def create_app(
 
             citations: list[Citation] = []
             warnings: list[str] = []
-            for raw in result.citations:
+            kept: dict[int, int] = {}  # engine citation index -> response citation index
+            for i, raw in enumerate(result.citations):
                 meta = graph.get_meta(raw.doc_id)
                 if meta is None:
                     warnings.append(f"Dropped citation to unknown document {raw.doc_id!r}.")
                     continue
+                kept[i] = len(citations)
                 lineage = graph.status_of(raw.doc_id)
                 citations.append(
                     Citation(
@@ -176,6 +181,7 @@ def create_app(
                     verdict=Verdict.INSUFFICIENT_EVIDENCE,
                     reason=result.insufficient_reason
                     or "The available documents do not support an answer.",
+                    reason_code=result.reason_code or ReasonCode.NO_DOCUMENT,
                     warnings=warnings,
                     language=language,
                 )
@@ -185,6 +191,7 @@ def create_app(
                 citations=citations,
                 warnings=warnings,
                 language=language,
+                statements=[_remap_statement(st, kept) for st in result.statements],
             )
 
         if cfg is None and os.environ.get("SFIC_SEED") == "1" and not graph.list_documents():
@@ -192,6 +199,15 @@ def create_app(
             persist()
 
     return app
+
+
+def _remap_statement(st: Statement, kept: dict[int, int]) -> Statement:
+    """Point a statement at the citations that survived; an "established" one left with none is only inferred."""
+    cites = [kept[i] for i in st.citations if i in kept]
+    label = st.label
+    if label is StatementLabel.ESTABLISHED and not cites:
+        label = StatementLabel.INFERRED
+    return Statement(text=st.text, label=label, citations=cites)
 
 
 app = create_app()

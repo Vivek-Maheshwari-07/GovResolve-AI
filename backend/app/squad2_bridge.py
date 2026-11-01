@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from .engine import EngineResult
-from .schemas import GRRecord, RawCitation
+from .schemas import GRRecord, RawCitation, ReasonCode, Statement, StatementLabel
 
 _REASONS = {
     "NO_DOCUMENT": "No relevant GR found in the corpus.",
@@ -23,6 +23,10 @@ _REASONS = {
     "POOR_SCAN": "The relevant page could not be read reliably.",
     "OUT_OF_SCOPE": "This question is outside what the documents can answer.",
 }
+
+
+_LABELS = {"Established": StatementLabel.ESTABLISHED, "Inferred": StatementLabel.INFERRED,
+           "Not found": StatementLabel.NOT_FOUND}
 
 
 def _val(x: Any) -> str:
@@ -39,8 +43,8 @@ def _bbox(b: Any) -> list[float] | None:
 def to_engine_result(resp: Any) -> EngineResult:
     """Squad 2 `QueryResponse` (duck-typed) -> our `EngineResult`.
 
-    Refusals map to `answer=None` with their reason code kept in the text. Citations keep Squad 2's verbatim passage.
-    Their per-statement labels (Established / Inferred / Not found) have no field in the frozen contract yet.
+    Refusals map to `answer=None`, with the reason code in `reason_code` and also kept in the text. Citations keep
+    Squad 2's verbatim passage. Their statements keep their label and point at our citations by index.
     """
     status = _val(resp.answer_status)
     cites = [RawCitation(doc_id=c.gr_id, page=max(int(c.page), 1), quote=c.passage, bbox=_bbox(getattr(c, "bbox", None)))
@@ -49,8 +53,23 @@ def to_engine_result(resp: Any) -> EngineResult:
         code = _val(resp.insufficient_reason)
         why = _REASONS.get(code, "The available documents do not support an answer.")
         extra = (resp.follow_up_question or "").strip()
-        return EngineResult(insufficient_reason=f"{code}: {why}" + (f" {extra}" if extra else "") if code else why)
-    return EngineResult(answer=resp.summary.strip(), citations=cites)
+        return EngineResult(insufficient_reason=f"{code}: {why}" + (f" {extra}" if extra else "") if code else why,
+                            reason_code=ReasonCode(code) if code in _REASONS else None)
+    return EngineResult(answer=resp.summary.strip(), citations=cites,
+                        statements=_statements(getattr(resp, "statements", None) or [], cites))
+
+
+def _statements(stmts: list[Any], cites: list[RawCitation]) -> list[Statement]:
+    """Squad 2 statements -> ours; each statement citation is matched to a top-level citation by (doc, page, quote)."""
+    index = {(c.doc_id, c.page, c.quote): i for i, c in enumerate(cites)}
+    out = []
+    for st in stmts:
+        label = _LABELS.get(_val(st.label))
+        if label is None or not (st.text or "").strip():
+            continue
+        refs = [index.get((c.gr_id, max(int(c.page), 1), c.passage)) for c in (st.citations or [])]
+        out.append(Statement(text=st.text.strip(), label=label, citations=[i for i in refs if i is not None]))
+    return out
 
 
 class Squad2Engine:

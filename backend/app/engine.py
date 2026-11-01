@@ -5,13 +5,15 @@ from typing import Protocol
 
 from pydantic import BaseModel, Field
 
-from .schemas import RawCitation
+from .schemas import RawCitation, ReasonCode, Statement
 
 
 class EngineResult(BaseModel):
     answer: str | None = None
     citations: list[RawCitation] = Field(default_factory=list)
     insufficient_reason: str | None = None
+    reason_code: ReasonCode | None = None
+    statements: list[Statement] = Field(default_factory=list)  # citation indexes point into `citations`
 
 
 class AnswerEngine(Protocol):
