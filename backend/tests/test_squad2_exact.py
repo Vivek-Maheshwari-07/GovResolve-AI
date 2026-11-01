@@ -91,3 +91,62 @@ def test_matched_grs_are_ordered_by_how_well_they_match_the_question():
     idx.bm25 = Scores()
     out = idx.prioritize_exact("MLS/1363/5421-C", [], top_k=5, per_doc=1)
     assert [c["chunk_id"] for c in out] == ["b:0", "a:0"]
+
+
+class _Collection:
+    """Stand-in for a Chroma collection: returns the same ranked chunks for any query and counts the searches."""
+    def __init__(self, ids):
+        self.ids, self.calls = ids, 0
+
+    def count(self):
+        return len(self.ids)
+
+    def query(self, query_texts, n_results, where=None):
+        self.calls += 1
+        ids = self.ids[:n_results]
+        return {"ids": [ids], "documents": [[f"text {i}" for i in ids]], "metadatas": [[{"gr_id": i, "gr_number": ""} for i in ids]]}
+
+
+class _Bm25:
+    def __init__(self, scores):
+        self.scores = scores
+
+    def get_scores(self, tokens):
+        return self.scores
+
+
+def _search_index(dense_ids, bm25_best):
+    idx = GRIndex.__new__(GRIndex)
+    idx.collection = _Collection(dense_ids)
+    idx.bm25_docs = [{"chunk_id": c, "gr_id": c, "gr_number": "", "text": f"text {c}"} for c in dense_ids + [bm25_best]]
+    idx.bm25 = _Bm25([0.0] * len(dense_ids) + [9.0])
+    return idx
+
+
+def test_an_identical_second_query_does_not_make_the_vector_search_count_twice():
+    """Found by the scorecard: a chunk that is rank 1 for keywords and absent from the vector results ranked 20th, because the
+    vector search voted twice (English and Gujarati query were the same text) against one keyword vote."""
+    idx = _search_index(["A", "B", "C"], bm25_best="T")
+    out = [c["chunk_id"] for c in idx.search("administrative experience of half the members of the board", top_k=10)]
+    assert idx.collection.calls == 1                      # one vector search, not two
+    assert out.index("T") < out.index("B")                # keyword rank 1 now outranks vector rank 2
+    assert out[0] in {"A", "T"}
+
+
+def test_a_different_gujarati_query_is_still_searched_separately():
+    from backend.rag.gujlish_normalizer import SearchBundle
+    idx = _search_index(["A", "B"], bm25_best="T")
+    bundle = SearchBundle(original_query="q", query_en="leave rules", query_gu="રજાના નિયમો", keywords=["leave"], detected_lang="gujlish")
+    idx.search(bundle, top_k=5)
+    assert idx.collection.calls == 2
+
+
+def test_a_gujarati_script_question_keeps_double_weight_on_the_vector_search():
+    from backend.rag.gujlish_normalizer import SearchBundle
+    gu = SearchBundle(original_query="રજાના નિયમો શું છે", query_en="રજાના નિયમો શું છે", query_gu="રજાના નિયમો શું છે", keywords=[], detected_lang="gu")
+    idx = _search_index(["A", "B", "C"], bm25_best="T")
+    out = [c["chunk_id"] for c in idx.search(gu, top_k=10)]
+    assert out.index("B") < out.index("T")          # vector rank 2 (weight 2) beats keyword rank 1, unlike for English
+    en = SearchBundle(original_query="leave rules", query_en="leave rules", query_gu="leave rules", keywords=[], detected_lang="en")
+    out = [c["chunk_id"] for c in _search_index(["A", "B", "C"], bm25_best="T").search(en, top_k=10)]
+    assert out.index("T") < out.index("B")
