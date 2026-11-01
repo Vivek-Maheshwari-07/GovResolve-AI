@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from app.engine import EngineResult
 from app.graph import LineageGraph
 from app.main import create_app
-from app.schemas import RawCitation
+from app.schemas import RawCitation, ReasonCode, Statement, StatementLabel
 from app.seed import load_demo
 
 
@@ -101,6 +101,28 @@ def test_query_answer_without_citations_is_refused():
     res = seeded_client(engine).post("/query", json={"question": "anything"}).json()
     assert res["verdict"] == "insufficient_evidence"
     assert res["answer"] is None
+
+
+def test_query_refusal_has_reason_code():
+    res = seeded_client().post("/query", json={"question": "maternity leave rule?"}).json()
+    assert res["reason_code"] == "NO_DOCUMENT"
+    engine = FakeEngine(EngineResult(insufficient_reason="too vague", reason_code=ReasonCode.TOO_VAGUE))
+    assert seeded_client(engine).post("/query", json={"question": "leave?"}).json()["reason_code"] == "TOO_VAGUE"
+
+
+def test_query_statements_follow_kept_citations_and_lose_established_without_one():
+    engine = FakeEngine(
+        EngineResult(
+            answer="A medical certificate is required.",
+            citations=[RawCitation(doc_id="ghost", page=1, quote="x"),
+                       RawCitation(doc_id="demo-2018-045", page=2, quote="medical certificate")],
+            statements=[Statement(text="Certificate required.", label=StatementLabel.ESTABLISHED, citations=[1]),
+                        Statement(text="Ghost claim.", label=StatementLabel.ESTABLISHED, citations=[0])],
+        )
+    )
+    res = seeded_client(engine).post("/query", json={"question": "certificate?"}).json()
+    assert res["verdict"] == "answered" and res["reason_code"] is None
+    assert [(s["label"], s["citations"]) for s in res["statements"]] == [("established", [0]), ("inferred", [])]
 
 
 def test_store_path_persists_ingested_documents(tmp_path):

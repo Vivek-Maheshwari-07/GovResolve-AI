@@ -1,4 +1,4 @@
-# SFIC API contract (v0.1, Squad 3)
+# SFIC API contract (v0.2, Squad 3)
 
 Base URL (dev): `http://localhost:8000`. Interactive docs: `/docs`. CORS is open. JSON everywhere, UTF-8.
 Run with demo data: `SFIC_SEED=1 uvicorn app.main:app --reload` (demo docs are synthetic, ids start `demo-`).
@@ -175,6 +175,30 @@ Response when refused (no answer, no valid citation, or unknown cited document):
 ```
 UI rules: if `verdict` is `insufficient_evidence`, show the refusal and `reason`, never an answer. Always render `warnings` visibly next to the answer. `bbox` is optional and passed through from Squad 2 (the UI owns the coordinate convention, agree it with Squad 2).
 
+#### v0.2 additions (2026-11-01, optional, nothing renamed or removed)
+Two optional fields on every `/query` response. Clients that ignore them keep working.
+```json
+{
+  "statements": [
+    { "text": "A medical certificate must be submitted.", "label": "established", "citations": [0] },
+    { "text": "This likely also applies to adoption leave.", "label": "inferred", "citations": [] }
+  ],
+  "reason_code": null
+}
+```
+- `statements`: the answer split into sentences, each labelled `established` (directly supported by a cited passage),
+  `inferred` (reasoned from the passages, not stated in them) or `not_found`. `citations` holds indexes into the
+  response's top-level `citations`. Empty list when the engine gives no breakdown, and always empty on a refusal.
+  A statement labelled `established` whose citations were all dropped is downgraded to `inferred` by Squad 3.
+- `reason_code`: set only when `verdict` is `insufficient_evidence`; `null` otherwise. One of `NO_DOCUMENT`,
+  `TOO_VAGUE`, `MISSING_FACTS`, `BROKEN_CHAIN`, `POOR_SCAN`, `OUT_OF_SCOPE`. Defaults to `NO_DOCUMENT` when the engine
+  gives none. `reason` stays the human-readable text.
+
+UI rules: show each statement's label next to it (spec AI-16). Choose refusal copy from `reason_code`, not by parsing `reason`.
+
+Squad 2 engine: `EngineResult` gains the matching optional `reason_code` and `statements` (citation indexes point into
+`EngineResult.citations`). `app/squad2_bridge.py` fills both from `QueryResponse.insufficient_reason` and `.statements`.
+
 ### Other
 - `GET /edges`: every edge in the graph (debugging).
 - `GET /health`: `{"status": "ok", "documents": 4}`.
@@ -204,7 +228,7 @@ To plug in: pass the engine to `create_app(engine=YourEngine())` in `app/main.py
 
 ---
 
-## Known limits (v0.1)
+## Known limits (v0.2)
 
 - Lineage is document-level; there is no per-clause status yet.
 - Gujarati amendment wording is not yet validated on real GRs, so some links may be missing; check `unresolved` after ingest.

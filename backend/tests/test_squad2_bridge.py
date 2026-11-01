@@ -65,6 +65,24 @@ def test_query_endpoint_uses_the_bridge_and_drops_citations_to_unknown_documents
     assert body["verdict"] == "insufficient_evidence" and body["citations"] == []
 
 
+def test_refusal_sets_reason_code_and_unknown_codes_stay_text_only():
+    out = to_engine_result(resp(status="Insufficient Evidence", summary="x", reason="BROKEN_CHAIN"))
+    assert out.reason_code.value == "BROKEN_CHAIN"
+    assert to_engine_result(resp(status="Insufficient Evidence", summary="x", reason="SOMETHING_NEW")).reason_code is None
+
+
+def test_statements_keep_labels_and_point_at_citations_by_index():
+    other = NS(**{**CITE.__dict__, "page": 3, "passage": "within 30 days"})
+    stmts = [NS(text="A certificate is required.", label=NS(value="Established"), citations=[CITE]),
+             NS(text="It probably applies to adoption too.", label=NS(value="Inferred"), citations=[]),
+             NS(text="Deadline is 30 days.", label=NS(value="Established"), citations=[other])]
+    r = resp(cites=[CITE, other])
+    r.statements = stmts
+    out = to_engine_result(r)
+    assert [(s.label.value, s.citations) for s in out.statements] == [
+        ("established", [0]), ("inferred", []), ("established", [1])]
+
+
 def test_records_convert_to_squad2_models():
     pytest.importorskip("backend.models", reason="needs the squad2 branch merged")
     from datetime import date

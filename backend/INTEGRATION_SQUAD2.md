@@ -29,10 +29,11 @@ calls `/api/*`, so if Squad 4 reuses it, either the UI is repointed to the contr
 | `answer_status == Insufficient Evidence`, `insufficient_reason`, `follow_up_question` | `verdict: insufficient_evidence`, `reason` = `CODE: text` |
 | `answer_status` (Found / amended / superseded) | **ignored**: status comes from our lineage |
 | `lineage_chain` | **ignored**: we attach `citations[].lineage` ourselves |
-| `statements[].label` (Established / Inferred / Not found) | **no field in the contract** (see gaps) |
+| `statements[].label` (Established / Inferred / Not found) | `statements[].label` (`established` / `inferred` / `not_found`), contract v0.2 |
+| `insufficient_reason` (enum) | `reason_code`, contract v0.2 |
 
 ## Gaps and decisions needed before Nov 5
-1. **Statement labels are lost.** The spec requires Established / Inferred / Not found (AI-16). Proposal: add an optional
+1. **Done in v0.2 (2026-11-01): `statements` and `reason_code` added as optional fields.** Was: statement labels are lost. The spec requires Established / Inferred / Not found (AI-16). Proposal: add an optional
    `statements` list to the `/query` response (adding an optional field does not rename or remove anything). Needs the other squads' OK.
 2. **Insufficient-evidence reason is free text in `reason`.** The spec lists six codes. Proposal: also add an optional `reason_code`
    (`NO_DOCUMENT`, `TOO_VAGUE`, `MISSING_FACTS`, `BROKEN_CHAIN`, `POOR_SCAN`, `OUT_OF_SCOPE`). `BROKEN_CHAIN` is NOT produced anywhere yet: our graph has external stubs for missing GRs, but nothing turns a cited GR's stub into

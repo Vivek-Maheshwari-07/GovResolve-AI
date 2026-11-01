@@ -17,7 +17,10 @@ from .member_a import (  # noqa: F401
     QueryRequest,
     QueryResponse,
     RawCitation,
+    ReasonCode,
     Relation,
+    Statement,
+    StatementLabel,
     UnresolvedReference,
     Verdict,
 )
