@@ -21,6 +21,8 @@ GOOGLE_API_KEY  = os.getenv("GOOGLE_API_KEY", "")
 GEMINI_MODEL    = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 LOCAL_LLM_URL   = os.getenv("LOCAL_LLM_URL", "http://localhost:11434/v1/chat/completions")
 LOCAL_LLM_MODEL = os.getenv("LOCAL_LLM_MODEL", "gemma3:4b")
+LOCAL_LLM_REASONING = os.getenv("LOCAL_LLM_REASONING", "none")  # thinking models (qwen3.5) time out otherwise; "" to omit
+LOCAL_LLM_TIMEOUT = float(os.getenv("LOCAL_LLM_TIMEOUT", "60"))  # seconds; first call also loads the model
 
 try:
     from google import genai
@@ -42,13 +44,15 @@ def call_local_llm(system_prompt: str, user_prompt: str) -> Optional[str]:
         "max_tokens": 2048,
         "response_format": {"type": "json_object"} if "ollama" not in LOCAL_LLM_URL else None
     }
+    if LOCAL_LLM_REASONING:
+        payload["reasoning_effort"] = LOCAL_LLM_REASONING
     
     headers = {"Content-Type": "application/json"}
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(LOCAL_LLM_URL, data=data, headers=headers)
     
     try:
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urllib.request.urlopen(req, timeout=LOCAL_LLM_TIMEOUT) as resp:
             res_body = resp.read().decode("utf-8")
             res_json = json.loads(res_body)
             content = res_json["choices"][0]["message"]["content"]
