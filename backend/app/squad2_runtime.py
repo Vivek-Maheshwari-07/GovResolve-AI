@@ -72,26 +72,47 @@ def build_pipeline(state: Any, graph: LineageGraph, index_dir: Path) -> Any:
         index.build(records)  # first run without a prebuilt index (slow with a CPU embedder)
     else:
         index.load_bm25()
-    return RAGPipeline(index, records, lineage_graph=OurLineageAdapter(graph, state.lineage.edges))
+    from backend.rag.llm_gateway import warm_up_local_llm
+    from backend.rag.search_engine import SYSTEM_PROMPT
+
+    pipeline = RAGPipeline(index, records, lineage_graph=OurLineageAdapter(graph, state.lineage.edges))
+    # Pay model loading and prompt reading now, not during the first user's question (both best effort).
+    warm_up_local_llm(SYSTEM_PROMPT)
+    try:
+        index.search("warm up", top_k=1)  # loads the query embedder
+    except Exception:
+        pass
+    return pipeline
 
 
 class LazySquad2Engine:
-    """Our `AnswerEngine` that builds Squad 2's pipeline on the first question. A failed build is retried next time."""
+    """Our `AnswerEngine` that builds Squad 2's pipeline once. `prewarm()` does it in the background at startup so the
+    first question does not pay for it; a question that arrives mid-build waits for it. A failed build is retried."""
 
     def __init__(self, get_state: Callable[[], Any], graph: LineageGraph, index_dir: Path):
         self._get_state, self._graph, self._index_dir = get_state, graph, index_dir
         self._engine: Squad2Engine | None = None
         self._lock = threading.Lock()
 
-    def answer(self, question: str, language: str) -> EngineResult:
+    def _ensure(self) -> str | None:
+        """Build the pipeline if needed. Returns an error text when it cannot be built, else None."""
         with self._lock:
-            if self._engine is None:
-                state = self._get_state()
-                if state is None:
-                    return EngineResult(insufficient_reason="Backend is still starting.")
-                try:
-                    self._engine = Squad2Engine(build_pipeline(state, self._graph, self._index_dir))
-                except Exception as exc:
-                    return EngineResult(insufficient_reason=f"Answer engine unavailable: {type(exc).__name__}: {exc}")
-            engine = self._engine
-        return engine.answer(question, language)
+            if self._engine is not None:
+                return None
+            state = self._get_state()
+            if state is None:
+                return "Backend is still starting."
+            try:
+                self._engine = Squad2Engine(build_pipeline(state, self._graph, self._index_dir))
+            except Exception as exc:
+                return f"Answer engine unavailable: {type(exc).__name__}: {exc}"
+            return None
+
+    def prewarm(self) -> None:
+        threading.Thread(target=self._ensure, name="squad2-prewarm", daemon=True).start()
+
+    def answer(self, question: str, language: str) -> EngineResult:
+        error = self._ensure()
+        if error:
+            return EngineResult(insufficient_reason=error)
+        return self._engine.answer(question, language)

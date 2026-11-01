@@ -47,3 +47,33 @@ def test_lazy_engine_waits_for_startup_and_reports_a_failed_build_without_cachin
     out = eng.answer("q", "en")
     assert out.answer is None and "unavailable" in out.insufficient_reason and eng._engine is None
     assert isinstance(out, EngineResult)
+
+
+def test_prewarm_builds_once_in_the_background_and_questions_wait_for_it(monkeypatch):
+    import threading
+    import time
+
+    import app.squad2_runtime as rt
+
+    built, gate = [], threading.Event()
+
+    class Pipe:
+        def answer(self, q, f):
+            return NS(answer_status=NS(value="Found, no later change"), summary="ok", insufficient_reason=None,
+                      citations=[], follow_up_question=None)
+
+    def slow_build(state, graph, index_dir):
+        gate.wait(5)
+        built.append(1)
+        return Pipe()
+
+    monkeypatch.setattr(rt, "build_pipeline", slow_build)
+    eng = LazySquad2Engine(lambda: NS(), LineageGraph(), None)
+    eng.prewarm()                                  # returns at once; the build runs in a thread
+    assert built == [] and eng._engine is None
+    threading.Timer(0.2, gate.set).start()
+    start = time.time()
+    out = eng.answer("q", "en")                    # waits for the running build instead of starting a second one
+    assert built == [1] and out.answer == "ok" and time.time() - start >= 0.15
+    eng.answer("again", "en")
+    assert built == [1]
