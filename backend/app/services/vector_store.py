@@ -13,6 +13,7 @@ import numpy as np
 from ..store.corpus import Corpus
 
 DIM = 384
+UPSERT_BATCH = 2000
 _TOKEN = re.compile(r"\w+", re.UNICODE)
 
 
@@ -73,8 +74,10 @@ class VectorStore:
                     "department": gr.department or "", "language": gr.language,
                     "year": gr.issue_date.year if gr.issue_date else 0,
                 })
-        if ids:
-            self.col.upsert(ids=ids, documents=docs, metadatas=metas, embeddings=self.embed(docs))
+        step = UPSERT_BATCH  # Chroma rejects batches above its max (5461 here); real corpora exceed it
+        for i in range(0, len(ids), step):
+            part = docs[i:i + step]
+            self.col.upsert(ids=ids[i:i + step], documents=part, metadatas=metas[i:i + step], embeddings=self.embed(part))
         return len(ids)
 
     def count(self) -> int:

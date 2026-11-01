@@ -33,6 +33,17 @@ def test_db_cache_and_logs():
     assert db.get_log("q")["question"] == "?"
 
 
+def test_vector_store_indexes_in_batches(monkeypatch):
+    import app.services.vector_store as vsm
+    monkeypatch.setattr(vsm, "UPSERT_BATCH", 4)  # fixtures hold 6 chunks -> two upserts
+    vs = VectorStore(None, "hash", name="batched")
+    sizes = []
+    real = vs.col.upsert
+    monkeypatch.setattr(vs.col, "upsert", lambda **kw: (sizes.append(len(kw["ids"])), real(**kw)))
+    assert vs.index_corpus(Corpus.load(DATA / "fixtures")) == 6
+    assert sizes == [4, 2] and vs.count() == 6
+
+
 def test_vector_store_search_and_filters():
     vs = VectorStore(None, "hash", name="unit")
     corpus = Corpus.load(DATA / "fixtures")

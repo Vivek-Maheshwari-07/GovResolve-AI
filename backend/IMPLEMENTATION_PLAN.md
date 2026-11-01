@@ -119,3 +119,31 @@ Caution: the fixes were designed while looking at these same 72 pairs, and the g
 checked against the documents, so treat the numbers as a development score. The 813-document archive and the 247 core files still
 give 0 resolved changing edges (no false ones appeared). Remaining misses: 1_3491 (Gujarati scan), 1_3685 (OCR title too garbled),
 1_3322 (portal title differs from the rule title).
+
+## Roadmap Phase 1 (Nov 1, `integration` branch): demo corpus v1
+Build: `python -m scripts.build_corpus --manifest ../final_dataset/manifest.csv --root ../final_dataset
+--sources ../final_dataset/SOURCES_full_per_file_urls.txt --families-json D:/test/gr_json_families --out D:/test/corpus_v1`
+(about 10 min, 8 workers). Per-record text source and scores: `corpus_v1/corpus_report.csv`.
+
+| | count |
+|---|---|
+| Records (91 rule-family + 238 core + 37 Gujarati from other tiers, de-duplicated) | 366 |
+| Chunks | 7,395 |
+| Subject filled (portal `ROW:` listing, else `Subject:`/`વિષય:` label) | 324 (88.5%, was 1/247 on core) |
+| GR number filled | 355 (97%, was 109/247) |
+| Gujarati documents OCR'd with `guj+eng` and kept because OCR scored higher | 88 of 90 |
+
+- **Most Gujarati text layers are lossy, not just 7 + 26.** Two failure modes: legacy-font remapping (`વાભાન્મ લશીલટ` for
+  `સામાન્ય વહીવટ`, unassigned code points) and dropped conjuncts / misplaced vowel signs (`કમ ચારીઓ` for `કર્મચારીઓ`), even in
+  the best files. Score = share of very common Gujarati words spelled correctly; OCR beat the text layer on 88/90, no file stays
+  below 0.05. Five spot-checked OCR records read correctly (mean word confidence 0.90-0.94).
+- Backend on corpus_v1: 366 documents load in 35 s, 377 edges (131 amends, 6 supersedes, 3 cancels, 237 refers_to),
+  10 documents `amended`, 0 `superseded`, 0 cycles, 255 references to GRs outside the corpus. Fixed on the way: Chroma rejected
+  the 7,395-chunk upsert (max 5,461), now batched.
+- Lineage did not regress: pair-level on the 72 gold pairs is still P 1.000 (69/69), R 0.958 for both the families-only set and
+  corpus_v1. Note `scripts.eval_lineage` scores (source, target, relation) and gives P 0.62 / R 0.90: the relation type often
+  disagrees with the gold (AMENDS vs SUBSTITUTES on the same pair), to settle during hand verification (roadmap 3.1).
+- 8 new PROBABLE changing edges run from core documents into family documents (e.g. `1_3906` 2025 gazette -> `1_3252`, both
+  AMENDS and SUBSTITUTES). Candidates for the gold; not yet checked.
+- Squad 2 index: `python -m scripts.build_squad2_index --corpus D:/test/corpus_v1` with `EMBEDDING_MODEL=ollama:bge-m3`.
+  bge-m3 on this CPU embeds about 1.4 chunks/s, so the first build takes about 90 min (re-runs add only missing chunks).
