@@ -252,3 +252,35 @@ def test_amendment_names_the_base_rules_by_title():
     hit = [e for e in edges if e.source_gr == "AM" and e.target_gr == "BASE"]
     assert hit and hit[0].rel_type == RelType.AMENDS
     assert not [e for e in edges if e.target_gr == "UPD"]
+
+
+def test_title_match_does_not_pick_an_instrument_that_is_merely_cited():
+    from datetime import date
+    from app.lineage import LineageService
+    from app.schemas import Chunk, GRRecord
+    from app.store.corpus import Corpus
+    cls = "The Gujarat Civil Services Classification and Recruitment (General) Rules, 1967"
+    clerk = "Clerk in the Lower Division of the Subordinate Secretariat Service Class III Recruitment Rules"
+    a = GRRecord(gr_id="CLS", issue_date=date(1967, 1, 1), subject=cls, chunks=[Chunk(chunk_id="CLS:1", page=1, text=cls)])
+    b = GRRecord(gr_id="CLERK", issue_date=date(1991, 1, 1), subject=clerk, chunks=[Chunk(chunk_id="CLERK:1", page=1, text=clerk)])
+    am = GRRecord(gr_id="AM", issue_date=date(2020, 8, 13), subject="Clerk Recruitment (Amendment) Rules", chunks=[Chunk(
+        chunk_id="AM:1", page=1, text=("No. GS/2020/22/A2 :- In exercise of the powers conferred by article 309 the Governor makes the "
+                                       "following rules further to amend the " + clerk + ", namely:- 1. The educational qualification "
+                                       "is as prescribed in the Gujarat Civil Services Classification and Recruitment (General) Rules, 1967."))])
+    edges = [e for e in LineageService(Corpus({g.gr_id: g for g in (a, b, am)})).edges() if e.source_gr == "AM"]
+    assert [(e.target_gr, e.rel_type.value) for e in edges] == [("CLERK", "AMENDS")]
+
+
+def test_broken_ocr_header_number_does_not_become_a_broken_link_or_hide_the_title():
+    from datetime import date
+    from app.lineage import LineageService
+    from app.schemas import Chunk, GRRecord
+    from app.store.corpus import Corpus
+    t = "Gujarat Civil Services Computer Competency Training and Examination Rules, 2006"
+    base = GRRecord(gr_id="CCC", issue_date=date(2006, 9, 30), subject=t, chunks=[Chunk(chunk_id="CCC:1", page=1, text=t)])
+    am = GRRecord(gr_id="AM", issue_date=date(2016, 3, 10), subject="CCC (Amendment) Rules, 2016", chunks=[Chunk(
+        chunk_id="AM:1", page=1, text=("Dated the 10th March, 2016. NO.GS-2016-15- BRT-102015-1079-K :- In exercise of the powers conferred "
+                                       "by the proviso to article 309 the Governor hereby makes the following rules fur:her to amend the "
+                                       + t + ", namely:-"))])
+    edges = LineageService(Corpus({g.gr_id: g for g in (base, am)})).edges()
+    assert [(e.target_gr, e.rel_type.value) for e in edges if e.source_gr == "AM"] == [("CCC", "AMENDS")]

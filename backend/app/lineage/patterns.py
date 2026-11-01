@@ -33,7 +33,7 @@ PATTERNS: dict[RelType, list[Phrase]] = {
     + _p("gu", "ને બદલે", "ના સ્થાને", "વાંચવું", "વાંચવા"),
     RelType.AMENDS: _p("en", r"(?:is|are|shall be) (?:hereby )?amended", r"amended as (?:under|follows|below)",
                        r"following amendment", r"hereby amend", r"(?:is|are) (?:hereby )?modified",
-                       r"further to amend")
+                       r"fur\W?t?her[\s|]+[t1][o0]\W{0,2}\s*am[eo]r?[nd]")  # "further to amend", incl. OCR slips (fur:her, 1o, amerd, a stray | between words)
     + _p("gu", "સુધારો કરવામાં આવે છે", "નીચે મુજબ સુધારો", "સુધારો કરવામાં આવ્યો"),
     RelType.RESTORES: _p("en", r"(?:is|are) hereby restored", r"\brevived\b", r"\brestored\b")
     + _p("gu", r"પુન[ઃ:]?સ્થાપિત"),

@@ -182,6 +182,46 @@ def extract_refs(text: str, own_keys: set[str], issue_date: date | None, departm
     return refs
 
 
+_ENACTING = re.compile(r"in\s+exercise\s+of\s+the\s+powers", re.I)
+TITLE_REACH = 300  # characters after the relation phrase in which the amended instrument is named
+
+
+def _after_enacting_words(sentence: str) -> str:
+    """A rule-making notification opens '<its own number> :- In exercise of the powers ...'. Whatever precedes
+    those words is the document's own number (OCR often breaks it so our own-number check misses), never a target."""
+    m = _ENACTING.search(sentence)
+    return sentence[m.start():] if m else sentence
+
+
+_ALL_RULES = re.compile(r"\s*(?:of\s+)?all\s+(?:the\s+)?(?:\w+\s+){0,2}?(?:rules|orders|instructions)\b", re.I)
+
+
+def _names_no_instrument(sentence: str, phrase: str) -> bool:
+    """'in supersession of all the rules made in this behalf' replaces whatever exists; it names nothing to match."""
+    at = sentence.lower().find(phrase.lower())
+    return at >= 0 and bool(_ALL_RULES.match(sentence[at + len(phrase):]))
+
+
+def _title_window(sentences: list[str], k: int, phrase: str) -> str:
+    """Text in which the instrument acted on is named: the sentence up to the relation phrase ('In the X Rules, 1967,
+    ... shall be substituted') plus what follows it ('further to amend the X Rules, 1967'). Not the sentence before:
+    that is where unrelated instruments are cited."""
+    s = sentences[k]
+    at = s.lower().find(phrase.lower())
+    at = max(at, 0)
+    tail = s[at:]
+    for nxt in sentences[k + 1:]:
+        if len(tail) >= TITLE_REACH:
+            break
+        tail += " " + nxt
+    lead, j = s[:at], k - 1
+    # the sentence splitter also cuts at ':' and ';', which OCR sprinkles into titles: step back over those cuts only
+    while j >= 0 and k - j <= 2 and not sentences[j].rstrip().endswith((".", "।", "?", "!")):
+        lead = sentences[j] + " " + lead
+        j -= 1
+    return lead + tail[:TITLE_REACH]
+
+
 def extract_gr(gr: GRRecord, departments: list[str], match_title=None) -> Extraction:
     """`match_title(sentence)` returns gr_ids of instruments the sentence names by title (Resolver.match_title)."""
     out = Extraction()
@@ -192,12 +232,13 @@ def extract_gr(gr: GRRecord, departments: list[str], match_title=None) -> Extrac
         if seg.section != "operative":
             continue
         sentences = split_sentences(join_lines(" ".join(seg.lines)))
-        parsed = [(s, match_relation(s), extract_refs(s, own, gr.issue_date, departments)) for s in sentences]
+        parsed = [(s, match_relation(s), extract_refs(_after_enacting_words(s), own, gr.issue_date, departments))
+                  for s in sentences]
         if match_title:
             for k, (s, rel, refs) in enumerate(parsed):  # "further to amend the X Rules, 1967": a title, no GR number
-                if rel and rel[0] != RelType.REFERS and not refs.has_target():
-                    # a title can straddle a sentence break (OCR turns "Services :" into a split), so look at the neighbours
-                    refs.titles = match_title(" ".join(sentences[max(0, k - 1):k + 2]), gr)
+                if (rel and rel[0] != RelType.REFERS and not refs.has_target()
+                        and not _names_no_instrument(s, rel[1])):
+                    refs.titles = match_title(_title_window(sentences, k, rel[1]), gr)
         for i, (sent, rel, refs) in enumerate(parsed):
             before = sentences[i - 1] if i else ""
             after = sentences[i + 1] if i + 1 < len(sentences) else ""

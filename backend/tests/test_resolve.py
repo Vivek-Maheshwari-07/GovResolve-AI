@@ -110,3 +110,30 @@ def test_number_with_a_different_year_is_a_broken_link():
     assert [t.gr_id for t in out] == ["K14"]
     refs = Refs(numbers=["KP/70"], number_years={"KP/70": 2010})
     assert Resolver(corpus).resolve(refs, corpus.get("NEW"), [])[0].gr_id is None
+
+
+def test_title_words_must_appear_in_order_close_together():
+    corpus = Corpus({g.gr_id: g for g in [
+        gr("RULES", None, "GAD", date(1967, 1, 1), "The Gujarat Civil Services Classification and Recruitment (General) Rules, 1967"),
+        gr("NEW", None, "GAD", date(2020, 1, 1), "Clerk Recruitment (Amendment) Rules"),
+    ]})
+    r = Resolver(corpus)
+    new = corpus.get("NEW")
+    assert r.match_title("further to amend the Gujarat Civil Services Classification and Recruitment (General) Rules, 1967", new) == ["RULES"]
+    assert r.match_title("further to amend the Gujarat Civil Service Classification and Recruitment General Rules", new) == ["RULES"]  # one word garbled
+    # the same words scattered through a longer passage are not a citation of the title
+    scattered = ("classification of posts is by the civil services branch. " + "x " * 30 + "recruitment and general conditions "
+                 "of the rules " + "y " * 30 + "services gujarat")
+    assert r.match_title(scattered, new) == []
+
+
+def test_title_match_tolerates_ocr_slips_in_words():
+    corpus = Corpus({g.gr_id: g for g in [
+        gr("RULES", None, "GAD", date(1967, 1, 1), "The Gujarat Civil Services Classification and Recruitment (General) Rules, 1967"),
+        gr("NEW", None, "GAD", date(2020, 1, 1), "Amendment"),
+    ]})
+    r = Resolver(corpus)
+    assert r.match_title("amend the Gujarat Civili Services Classification and Recruitrnent (General) Rules, 1967",
+                         corpus.get("NEW")) == ["RULES"]
+    # unrelated words that merely look alike do not match
+    assert r.match_title("amend the Gujarat Sivil Servants Classical and Recruiting Genial Rulers", corpus.get("NEW")) == []

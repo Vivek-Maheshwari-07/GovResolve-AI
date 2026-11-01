@@ -140,3 +140,42 @@ def test_header_number_before_leader_is_the_document_itself():
     refs = extract_refs(text, set(), None, [])
     assert "KP/51" not in refs.numbers
     assert "KP/09" in refs.numbers
+
+
+def test_further_to_amend_survives_ocr_slips():
+    from app.lineage.patterns import match_relation
+    for text in ("rules fur:her to amend the", "rules further 1o amend the", "rules further to- amend the",
+                 "rules further to amerd the"):
+        rel = match_relation(text)
+        assert rel and rel[0].value == "AMENDS", text
+    assert match_relation("the committee will further consider the proposal") is None
+
+
+def test_title_window_keeps_text_after_the_phrase_but_not_the_previous_sentence():
+    from app.lineage.extract import _title_window
+    sents = ["It cites the Gujarat Civil Services Classification and Recruitment (General) Rules, 1967.",
+             "The Governor makes rules further to amend the Clerk Recruitment Rules,",
+             "2013, namely:-"]
+    win = _title_window(sents, 1, "further to amend")
+    assert "Clerk Recruitment" in win and "2013" in win and "Classification" not in win
+
+
+def test_merge_continuations_joins_blocks_split_mid_sentence():
+    from scripts.pdf_to_gr_json import merge_continuations
+    out = merge_continuations([("the Governor makes the rules further", (0, 0, 10, 5)),
+                               ("to amend the Gujarat Rules, 1967, namely:-", (0, 6, 12, 10)),
+                               ("1. These rules may be called X.", (0, 11, 9, 15))])
+    assert len(out) == 2 and out[0][0].endswith("namely:-") and out[0][1] == (0, 0, 12, 10)
+
+
+def test_own_header_number_before_enacting_words_is_not_a_target():
+    from app.lineage.extract import _after_enacting_words, extract_refs
+    text = "NO.GS-2016-15- BRT-102015-1079-K :- In exercise of the powers conferred by article 309 the Governor makes rules."
+    assert extract_refs(_after_enacting_words(text), set(), None, []).numbers == []
+
+
+def test_blanket_repeal_names_no_instrument():
+    from app.lineage.extract import _names_no_instrument
+    s = "In exercise of the powers, and in supersession of all the rules made in this behalf, the Governor makes the following rules"
+    assert _names_no_instrument(s, "in supersession of")
+    assert not _names_no_instrument("rules in supersession of the Gujarat Rules, 1967", "in supersession of")

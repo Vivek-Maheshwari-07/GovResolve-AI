@@ -99,3 +99,23 @@ Allowances Rules, 1983, amended in 2022 and 2025). Gold edges therefore have to 
 - Known misses (21): OCR too noisy for the title (confidence under 0.6), titles with the year or a rule number replacing the words,
   amendments whose base we do not hold (F07 Discipline and Appeal 1971, F09 2014-2015 amendments), and one false positive each from
   a consolidated copy and a clerk recruitment rule that mentions the classification rules.
+
+### Phase 2 follow-up: the 21 missed amendments
+Full per-miss table (source PDF, page, amendment wording, reason, whether fixable): `eval/miss_analysis.csv`.
+Causes of the 21: sentence cut at an OCR block boundary, or title straddling sentence splits (14); own header number taken as the
+target, which blocked the title match (3); relation phrase split or garbled by OCR (1); Gujarati-language scan (1); title too garbled
+by OCR (1); portal title differs from the rule's own title (1). 18 are fixed, 3 remain (the last three causes). Fixes (no API change): merge blocks that stop mid-sentence when
+converting; read a rule-making notification from "In exercise of the powers" onwards (the header number is the document itself);
+title window = sentence up to the phrase plus 300 characters after it (never the previous sentence, except across ':' / ';' cuts);
+title words must appear in order within a short stretch and may have one or two OCR slips (edit distance); a blanket repeal
+("in supersession of all the rules") names nothing; "further to amend" tolerates OCR slips and a stray `|`.
+
+| Pair-level, 72 portal-derived gold pairs | precision | recall | F1 |
+|---|---|---|---|
+| Before (commit 3abaf83) | 0.962 (51/53) | 0.708 | 0.816 |
+| After | 1.000 (69/69) | 0.958 | 0.979 |
+
+Caution: the fixes were designed while looking at these same 72 pairs, and the gold is derived from the portal listing and not yet
+checked against the documents, so treat the numbers as a development score. The 813-document archive and the 247 core files still
+give 0 resolved changing edges (no false ones appeared). Remaining misses: 1_3491 (Gujarati scan), 1_3685 (OCR title too garbled),
+1_3322 (portal title differs from the rule title).

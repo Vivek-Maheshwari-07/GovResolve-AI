@@ -57,13 +57,30 @@ def _paragraphs(page) -> list[tuple[str, tuple[float, float, float, float]]]:
     return out
 
 
+_ENDS_SENTENCE = (".", ":", ":-", ";", "?", "!", "।", '"', "”")
+MAX_MERGED = 1500
+
+
+def merge_continuations(paras):
+    """Join consecutive blocks when the first stops mid-sentence. OCR and PDF text blocks often end at a line or column
+    break ('... rules further' / 'to amend the ... Rules'), and the lineage engine reads one chunk at a time."""
+    out = []
+    for txt, bb in paras:
+        if out and not out[-1][0].rstrip().endswith(_ENDS_SENTENCE) and len(out[-1][0]) + len(txt) <= MAX_MERGED:
+            prev, pbb = out[-1]
+            out[-1] = (prev + " " + txt, (min(pbb[0], bb[0]), min(pbb[1], bb[1]), max(pbb[2], bb[2]), max(pbb[3], bb[3])))
+        else:
+            out.append((txt, bb))
+    return out
+
+
 def convert(pdf: Path, gr_id: str, department: str | None, language: str, paragraphs=None) -> dict | None:
     """`paragraphs(page)` defaults to the PDF text layer; scripts.ocr_to_gr_json passes an OCR reader."""
     paragraphs = paragraphs or _paragraphs
     doc = pymupdf.open(pdf)
     chunks, head = [], ""
     for pno, page in enumerate(doc, start=1):
-        for txt, bb in paragraphs(page):
+        for txt, bb in merge_continuations(paragraphs(page)):
             if pno == 1 and len(head) < 2500:
                 head += txt + "\n"
             pieces = [txt]

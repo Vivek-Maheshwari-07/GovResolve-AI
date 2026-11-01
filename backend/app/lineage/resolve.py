@@ -32,16 +32,53 @@ def subject_similarity(a: str | None, b: str | None) -> float:
     return len(ta & tb) / len(ta | tb) if ta and tb else 0.0
 
 
+def _close(a: str, b: str) -> bool:
+    """Same word allowing OCR slips: one edit for words of 5-7 letters, two for 8 or more ('Recruitrnent', 'Civili')."""
+    if a == b:
+        return True
+    limit = 2 if min(len(a), len(b)) >= 8 else 1 if min(len(a), len(b)) >= 5 else 0
+    if abs(len(a) - len(b)) > limit:
+        return False
+    prev = list(range(len(b) + 1))
+    for i, x in enumerate(a, 1):
+        cur = [i]
+        for j, y in enumerate(b, 1):
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (x != y)))
+        prev = cur
+    return prev[-1] <= limit
+
+
+def _lcs(a: tuple[str, ...], b: list[str]) -> int:
+    """Length of the longest common subsequence: title words found in order, tolerating dropped or inserted words."""
+    row = [0] * (len(b) + 1)
+    for x in a:
+        prev = 0
+        for j, y in enumerate(b, 1):
+            cur = row[j]
+            row[j] = prev + 1 if _close(x, y) else max(row[j], row[j - 1])
+            prev = cur
+    return row[-1]
+
+
+def _ordered_coverage(title: tuple[str, ...], text: list[str]) -> float:
+    """Best share of the title's words found in order inside any stretch of the text no longer than the title plus 4."""
+    span, best = len(title) + 4, 0
+    for start in range(len(text)):
+        if any(_close(text[start], t) for t in title):
+            best = max(best, _lcs(title, text[start:start + span]))
+    return best / len(title)
+
+
 class Resolver:
     def __init__(self, corpus: Corpus):
         self.corpus = corpus
         self.by_key: dict[str, list[str]] = {}  # one printed number can belong to several years
         self.by_date: dict[date, list[str]] = {}
         # Base instruments by title words. Amendments and updated copies are not targets by title.
-        self.titles: dict[str, frozenset[str]] = {}
+        self.titles: dict[str, tuple[str, ...]] = {}
         for g in corpus.grs.values():
             low = (g.subject or "").lower()
-            words = frozenset(w for w in re.findall(r"[a-z]{3,}", low) if w not in _TITLE_STOP)
+            words = tuple(dict.fromkeys(w for w in re.findall(r"[a-z]{3,}", low) if w not in _TITLE_STOP))
             if len(words) >= 5 and "amend" not in low and "updated" not in low.replace(" ", "") and "rule-" not in low:
                 self.titles[g.gr_id] = words
         for g in corpus.grs.values():
@@ -59,20 +96,18 @@ class Resolver:
 
     def match_title(self, sentence: str, source: GRRecord) -> list[str]:
         """Instruments the sentence names by title, e.g. 'further to amend the Gujarat Civil Services ... Rules, 1967'.
-        Needs 85% of the title words (OCR drops some) and at least 5; the most specific title wins, earliest GR on a tie."""
-        have = set(re.findall(r"[a-z]{3,}", sentence.lower()))
+        85% of the title words (OCR drops some, at least 5 words) must appear in the title's own order within a short
+        stretch of the text, so a passing mention of 'civil services' or 'recruitment' elsewhere does not count.
+        The most specific title wins, earliest GR on a tie."""
+        have = [w for w in re.findall(r"[a-z]{3,}", sentence.lower()) if w not in _TITLE_STOP]
         best: list[tuple[int, date, str]] = []
         for gid, words in self.titles.items():
             g = self.corpus.grs[gid]
             if gid == source.gr_id or (g.issue_date and source.issue_date and g.issue_date >= source.issue_date):
                 continue
-            if len(words & have) / len(words) >= TITLE_COVERAGE:
+            if _ordered_coverage(words, have) >= TITLE_COVERAGE:
                 best.append((-len(words), g.issue_date or date.max, gid))
-        if not best:
-            return []
-        best.sort()
-        top = best[0][0]
-        return [best[0][2]] if sum(1 for b in best if b[0] == top) >= 1 else []
+        return [sorted(best)[0][2]] if best else []
 
     def _year_ok(self, gr_id: str, year: int | None) -> bool:
         """'KP/51 of 2014' must not resolve to a 'KP/51' issued in 2025. A number may be issued up to a year later."""
