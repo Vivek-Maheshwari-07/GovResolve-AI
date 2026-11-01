@@ -32,7 +32,8 @@ PATTERNS: dict[RelType, list[Phrase]] = {
                             r"in place of")
     + _p("gu", "ને બદલે", "ના સ્થાને", "વાંચવું", "વાંચવા"),
     RelType.AMENDS: _p("en", r"(?:is|are|shall be) (?:hereby )?amended", r"amended as (?:under|follows|below)",
-                       r"following amendment", r"hereby amend", r"(?:is|are) (?:hereby )?modified")
+                       r"following amendment", r"hereby amend", r"(?:is|are) (?:hereby )?modified",
+                       r"further to amend")
     + _p("gu", "સુધારો કરવામાં આવે છે", "નીચે મુજબ સુધારો", "સુધારો કરવામાં આવ્યો"),
     RelType.RESTORES: _p("en", r"(?:is|are) hereby restored", r"\brevived\b", r"\brestored\b")
     + _p("gu", r"પુન[ઃ:]?સ્થાપિત"),

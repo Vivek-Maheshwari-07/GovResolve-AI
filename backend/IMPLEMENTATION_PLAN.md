@@ -51,3 +51,51 @@ Result on the 247 core GAD text-layer files (194 English, 53 Gujarati):
    gr_number needs per-format rules; issue_date takes the first date on page 1 (can be a referenced date).
 9. **Chunking is block-level.** Section markers (Read / Preamble / Resolution) are found inside chunks by the engine,
    so this works, but clause labels are only set when a block starts with a number.
+
+## Phase 2 (in progress): archive run and precision fixes
+Archive run: `python -m scripts.pdf_to_gr_json --pdf-dir D:/test/dataset_organized --out D:/test/gr_json_all` converts every unique
+text-layer PDF (813 of 3,572; 2,759 were scanned, duplicate or unreadable), then `build_lineage` on that folder.
+
+| | 247 core files | 813 archive files (after fixes) |
+|---|---|---|
+| Edges | 127 | 238 (REFERS 229, SUPERSEDES 4, CANCELS 2, SUBSTITUTES 2, CLARIFIES 1) |
+| Resolved non-REFERS edges | 0 | 0 |
+| Documents with a changed status | 0 | 0 |
+
+Fixes made (all with tests, 194 passing):
+- **Own number as target.** A notification's own header number (`No. GU/2025/20/IMD/WRT/e-file/...:-`) was read as a
+  supersession target. The number pattern stops at lowercase parts, so the printed number is a prefix of ours. Own-number
+  check now accepts prefixes, and any number directly before the `:-` leader is treated as the document itself.
+- **Wrong-year matches.** `KP/51 of 2014` resolved to a different `KP/51` issued in 2025. Numbers now carry the year from
+  `of YYYY` and only resolve to a GR issued that year or the next. The resolver keeps every GR sharing a printed number.
+  This removed the only (false) AMENDED document and 5 false edges.
+
+Tried and reverted: footnote handling for consolidated texts ("Inserted vide GN ... dated ..."). The consolidated text is issued
+after the notifications it lists, so an edge between them would break the newer -> older rule. Needs a new relation (for example
+INCORPORATES) in the contract, which is not possible after the freeze.
+
+### Blocker for the 30+ gold edges
+Mining the corpus for real chains finds none that resolve inside it. Named-rule matching ("further to amend the X Rules, 2006")
+gives 6 candidates, and the plausible ones amend a base instrument we do not hold (for example the Ministers' Travelling
+Allowances Rules, 1983, amended in 2022 and 2025). Gold edges therefore have to come from a deliberate search:
+1. Pick 8-10 rule families whose base instrument and amendments are all on the portals (recruitment rules, travelling allowance,
+   computer competency rules, leave rules) and download the missing ones.
+2. OCR the scanned ones in those families (guj+eng).
+3. Read each amendment and write the edge by hand with the verbatim sentence as evidence.
+
+### Phase 2 update: rule families, OCR and named-instrument matching
+- **10 rule families** (91 documents, all already in the archive) are listed in `final_dataset/rule_families.csv`, found from the
+  portal listing titles. 82 are scanned: `python -m scripts.ocr_to_gr_json --families ../final_dataset/rule_families.csv
+  --pdf-root D:/test/dataset_organized --out D:/test/gr_json_families` OCRs them (Tesseract `eng`, 300 DPI; mean word confidence
+  0.85, 14 documents below 0.80). Issue date, number and subject come from the portal listing, not from OCR.
+- **Named-instrument matching** (new): amendments say "further to amend the <Rules title>" with no GR number. `Resolver.match_title`
+  matches the sentence (plus its neighbours, since OCR splits titles at colons) against the titles of base instruments in the corpus
+  (85% of title words, at least 5), earliest GR wins, amendments and "updated" copies are never targets. Edges are PROBABLE.
+  Added the phrase "further to amend" to the AMENDS patterns. 195 tests pass.
+- **Result on the families corpus:** 222 edges, 8 documents now AMENDED (was 0). `eval/gold_lineage_real.csv` holds 72 amendment -> base
+  pairs derived from the portal listing (every listed amendment of a family's base rules). Pair-level score of the engine:
+  precision 0.96 (51 of 53), recall 0.71 (51 of 72). The gold is NOT yet hand-checked against the document text: a teammate must
+  open each amendment and confirm, then fix the notes column.
+- Known misses (21): OCR too noisy for the title (confidence under 0.6), titles with the year or a rule number replacing the words,
+  amendments whose base we do not hold (F07 Discipline and Appeal 1971, F09 2014-2015 amendments), and one false positive each from
+  a consolidated copy and a clerk recruitment rule that mentions the classification rules.

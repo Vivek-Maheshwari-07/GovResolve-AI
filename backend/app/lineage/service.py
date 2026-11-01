@@ -33,7 +33,7 @@ class LineageService:
         edges: list[LineageEdge] = []
         self.review_items = []
         for gr in sorted(self.corpus.grs.values(), key=lambda g: (g.issue_date is None, g.issue_date, g.gr_id)):
-            ex = extract_gr(gr, resolver.departments)
+            ex = extract_gr(gr, resolver.departments, resolver.match_title)
             self.review_items += ex.review
             for item in ex.read_items:  # references in the Read list are REFERS only
                 refs = extract_refs(normalize_text(item.text), set(), gr.issue_date, resolver.departments)
@@ -62,7 +62,7 @@ class LineageService:
                                     resolver.departments)
                 refs.dept_hints = cand.refs.dept_hints
                 refs.pointers = refs.pointers or cand.refs.pointers
-        targets = resolver.resolve(refs, gr, read_items) if (refs.numbers or refs.dates or refs.pointers) else []
+        targets = resolver.resolve(refs, gr, read_items) if (refs.numbers or refs.dates or refs.pointers or refs.titles) else []
         if cand.refs.blanket and not any(t.gr_id for t in targets):
             targets = resolver.blanket(gr) or targets
         if not targets:

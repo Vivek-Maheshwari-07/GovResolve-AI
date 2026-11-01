@@ -122,3 +122,21 @@ def test_clause_label_matching():
     assert label_matches("4", ["4"]) and label_matches("4(a)", ["4"]) and label_matches("4.1", ["4"])
     assert label_matches("4(a)(i)", ["4(a)"]) and label_matches("4 (a)", ["4(a)"])
     assert not label_matches("4", ["4(a)"]) and not label_matches("14", ["4"]) and not label_matches(None, ["4"])
+
+
+def test_year_after_number_and_own_number_prefix():
+    from app.lineage.extract import extract_refs
+    own = {"GU/2025/20/IMD/WRT/E-FILE/9/2025/0586/J".replace("/", "").upper()}
+    text = "No. GU/2025/20/IMD/WRT: in supersession of KP/51 of 2014 and GU/2016/38/MIS/102016/395/D."
+    refs = extract_refs(text, own, None, [])
+    assert "GU/2025/20/IMD/WRT" not in refs.numbers
+    assert refs.number_years.get("KP/51") == 2014
+    assert "GU/2016/38/MIS/102016/395/D" in refs.numbers
+
+
+def test_header_number_before_leader_is_the_document_itself():
+    from app.lineage.extract import extract_refs
+    text = "No' KP/51 of 2014tELCll020tOtl43(1)/G:- In exercise of the powers, in supersession of KP/09 of 2010."
+    refs = extract_refs(text, set(), None, [])
+    assert "KP/51" not in refs.numbers
+    assert "KP/09" in refs.numbers

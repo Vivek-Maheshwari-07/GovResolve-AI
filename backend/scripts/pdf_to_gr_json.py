@@ -9,6 +9,7 @@ Metadata is best-effort and every guess carries a low confidence in field_confid
 """
 import argparse
 import csv
+import hashlib
 import json
 import re
 import sys
@@ -56,11 +57,13 @@ def _paragraphs(page) -> list[tuple[str, tuple[float, float, float, float]]]:
     return out
 
 
-def convert(pdf: Path, gr_id: str, department: str | None, language: str) -> dict | None:
+def convert(pdf: Path, gr_id: str, department: str | None, language: str, paragraphs=None) -> dict | None:
+    """`paragraphs(page)` defaults to the PDF text layer; scripts.ocr_to_gr_json passes an OCR reader."""
+    paragraphs = paragraphs or _paragraphs
     doc = pymupdf.open(pdf)
     chunks, head = [], ""
     for pno, page in enumerate(doc, start=1):
-        for txt, bb in _paragraphs(page):
+        for txt, bb in paragraphs(page):
             if pno == 1 and len(head) < 2500:
                 head += txt + "\n"
             pieces = [txt]
@@ -92,14 +95,51 @@ def convert(pdf: Path, gr_id: str, department: str | None, language: str) -> dic
                                  "subject": 0.5 if subj else 0.0, "department": 0.7 if dept else 0.0}}
 
 
+def _scan_dir(root: Path, out: Path) -> int:
+    """Walk a folder laid out as dept/section/year/file.pdf; keep unique text-layer PDFs only."""
+    seen, done, skipped = set(), 0, 0
+    for pdf in sorted(root.rglob("*.pdf")):
+        sha = hashlib.sha256(pdf.read_bytes()).hexdigest()
+        if sha in seen:
+            skipped += 1
+            continue
+        seen.add(sha)
+        try:
+            doc = pymupdf.open(pdf)
+            n = min(len(doc), 15)
+            texty = sum(len(doc[i].get_text().strip()) >= 80 for i in range(n))
+            sample = "".join(doc[i].get_text() for i in range(min(len(doc), 3)))
+        except Exception:
+            skipped += 1
+            continue
+        if n == 0 or texty < 0.8 * n:
+            skipped += 1
+            continue
+        guj, lat = len(re.findall(r"[઀-૿]", sample)), len(re.findall(r"[A-Za-z]", sample))
+        lang = "gu" if guj > lat else "en"
+        dept = pdf.relative_to(root).parts[0]
+        gr_id = "GR-" + re.sub(r"[^A-Za-z0-9_]+", "-", pdf.stem)[:60] + "-" + sha[:6]
+        rec = convert(pdf, gr_id, dept, lang)
+        if rec is None:
+            skipped += 1
+            continue
+        (out / f"{gr_id}.json").write_text(json.dumps(rec, ensure_ascii=False), encoding="utf-8")
+        done += 1
+    print(f"converted {done}, skipped {skipped} (scanned, duplicate or unreadable) -> {out}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--manifest", type=Path, required=True)
-    ap.add_argument("--root", type=Path, required=True)
+    ap.add_argument("--manifest", type=Path)
+    ap.add_argument("--root", type=Path)
+    ap.add_argument("--pdf-dir", type=Path, help="alternative to --manifest: scan a folder of PDFs")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--tier", default="01_core_gad_searchable")
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
+    if args.pdf_dir:
+        return _scan_dir(args.pdf_dir, args.out)
     done = skipped = 0
     with open(args.manifest, encoding="utf-8-sig", newline="") as f:
         for row in csv.DictReader(f):

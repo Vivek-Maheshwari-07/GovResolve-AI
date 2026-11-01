@@ -231,3 +231,24 @@ def test_api_ask_flags_superseded_answer(api):
 def test_api_edges_are_stored_for_other_squads(api):
     assert len(api.get("/lineage/broken").json()) == 1
     assert api.get("/grs", params={"status": "ABROGATED"}).json()[0]["gr_id"] == "EDU-2008-02"
+
+
+def test_amendment_names_the_base_rules_by_title():
+    from datetime import date
+    from app.lineage import LineageService
+    from app.schemas import Chunk, GRRecord, RelType
+    from app.store.corpus import Corpus
+    title = "The Gujarat Civil Services Classification and Recruitment (General) Rules, 1967"
+    base = GRRecord(gr_id="BASE", issue_date=date(1967, 10, 10), subject=title,
+                    chunks=[Chunk(chunk_id="BASE:1", page=1, text="These rules may be called the " + title + ".")])
+    upd = GRRecord(gr_id="UPD", issue_date=date(2013, 7, 31), subject=title + " (Up dated upto 31-7-2013)",
+                   chunks=[Chunk(chunk_id="UPD:1", page=1, text="Consolidated text.")])
+    am = GRRecord(gr_id="AM", issue_date=date(2019, 2, 22), subject="The Gujarat Civil Services Classification and "
+                  "Recruitment (General) (Amendment) Rules, 2019", chunks=[Chunk(chunk_id="AM:1", page=1, text=(
+                      "In exercise of the powers conferred by the proviso to article 309 of the Constitution of India, "
+                      "the Governor of Gujarat hereby makes the following rules further to amend the Gujarat Civil "
+                      "Services Classification and Recruitment (General) Rules, 1967, namely:-"))])
+    edges = LineageService(Corpus({g.gr_id: g for g in (base, upd, am)})).edges()
+    hit = [e for e in edges if e.source_gr == "AM" and e.target_gr == "BASE"]
+    assert hit and hit[0].rel_type == RelType.AMENDS
+    assert not [e for e in edges if e.target_gr == "UPD"]

@@ -97,3 +97,16 @@ def test_nothing_usable_gives_no_targets():
 def test_subject_similarity():
     assert subject_similarity("Daily allowance on tour", "daily allowance for tour") > 0.5
     assert subject_similarity("a b", None) == 0.0
+
+
+def test_number_with_a_different_year_is_a_broken_link():
+    corpus = Corpus({g.gr_id: g for g in [
+        gr("K25", "KP/51", "PRHRDD", date(2025, 3, 1), "rules"),
+        gr("K14", "KP/51", "PRHRDD", date(2014, 12, 3), "draft rules"),
+        gr("NEW", "KP/60", "PRHRDD", date(2025, 6, 1), "rules"),
+    ]})
+    refs = Refs(numbers=["KP/51"], number_years={"KP/51": 2014})
+    out = Resolver(corpus).resolve(refs, corpus.get("NEW"), [])
+    assert [t.gr_id for t in out] == ["K14"]
+    refs = Refs(numbers=["KP/70"], number_years={"KP/70": 2010})
+    assert Resolver(corpus).resolve(refs, corpus.get("NEW"), [])[0].gr_id is None

@@ -27,14 +27,16 @@ _SPLIT = re.compile(r"(?<=[.!?।])\s+(?=[A-Zઅ-હ\"'“‘])|(?<=[:;])\s+")
 @dataclass
 class Refs:
     numbers: list[str] = field(default_factory=list)
+    number_years: dict[str, int] = field(default_factory=dict)  # "KP/51" -> 2014 when the text says "KP/51 of 2014"
     dates: list[date] = field(default_factory=list)
     pointers: list[int] = field(default_factory=list)
     dept_hints: list[str] = field(default_factory=list)
     blanket: bool = False
     eff_date: date | None = None
+    titles: list[str] = field(default_factory=list)  # gr_ids of instruments named by title ("... Rules, 1967")
 
     def has_target(self) -> bool:
-        return bool(self.numbers or self.dates or self.pointers or self.blanket)
+        return bool(self.numbers or self.dates or self.pointers or self.blanket or self.titles)
 
 
 @dataclass
@@ -133,15 +135,39 @@ def parse_read_items(segments: list[Segment]) -> list[ReadItem]:
     return items
 
 
+_YEAR_AFTER = re.compile(r"\s+of\s+((?:19|20)\d{2})(?!\d)", re.I)
+
+
+def _is_own(key: str, own_keys: set[str]) -> bool:
+    """A printed number is our own when it equals one of ours or is a prefix of / extends one
+    (the number pattern stops at lowercase parts such as '/e-file/', so the header number comes out shorter)."""
+    return any(key == k or (len(key) >= 8 and len(k) >= 8 and (k.startswith(key) or key.startswith(k)))
+               for k in own_keys)
+
+
+_NO_BEFORE = re.compile(r"\bno['.\s]*$", re.I)
+_LEADER = re.compile(r"^[^:]{0,90}:\s*[-–—]")
+
+
+def _is_header_number(text: str, m: re.Match) -> bool:
+    """'No. KP/51 of 2014 ...:- In exercise of ...' opens the notification: it names the document itself,
+    even when OCR garbles the rest of the number so it no longer matches ours."""
+    return bool(_NO_BEFORE.search(text[max(0, m.start() - 8):m.start()]) and _LEADER.match(text[m.end():])
+                and ". " not in text[m.end():][:90].split(":")[0])
+
+
 def extract_refs(text: str, own_keys: set[str], issue_date: date | None, departments: list[str]) -> Refs:
     """Everything in one sentence that can point at another GR. `text` must be normalised."""
     refs = Refs()
     seen = set()
     for m in _NUMBER.finditer(text):
         num = m.group(1)
-        if re.search(r"\d", num) and gr_key(num) not in own_keys and num not in seen:
+        if re.search(r"\d", num) and not _is_own(gr_key(num), own_keys) and not _is_header_number(text, m) and num not in seen:
             seen.add(num)
             refs.numbers.append(num)
+            y = _YEAR_AFTER.match(text, m.end())
+            if y:
+                refs.number_years[num] = int(y.group(1))
     has_noun = bool(_GR_NOUN.search(text))
     for h in find_dates(text):
         if _WEF.search(text[max(0, h.start - 40):h.start]):
@@ -156,7 +182,8 @@ def extract_refs(text: str, own_keys: set[str], issue_date: date | None, departm
     return refs
 
 
-def extract_gr(gr: GRRecord, departments: list[str]) -> Extraction:
+def extract_gr(gr: GRRecord, departments: list[str], match_title=None) -> Extraction:
+    """`match_title(sentence)` returns gr_ids of instruments the sentence names by title (Resolver.match_title)."""
     out = Extraction()
     segments = split_segments(gr)
     out.read_items = parse_read_items(segments)
@@ -166,6 +193,11 @@ def extract_gr(gr: GRRecord, departments: list[str]) -> Extraction:
             continue
         sentences = split_sentences(join_lines(" ".join(seg.lines)))
         parsed = [(s, match_relation(s), extract_refs(s, own, gr.issue_date, departments)) for s in sentences]
+        if match_title:
+            for k, (s, rel, refs) in enumerate(parsed):  # "further to amend the X Rules, 1967": a title, no GR number
+                if rel and rel[0] != RelType.REFERS and not refs.has_target():
+                    # a title can straddle a sentence break (OCR turns "Services :" into a split), so look at the neighbours
+                    refs.titles = match_title(" ".join(sentences[max(0, k - 1):k + 2]), gr)
         for i, (sent, rel, refs) in enumerate(parsed):
             before = sentences[i - 1] if i else ""
             after = sentences[i + 1] if i + 1 < len(sentences) else ""
