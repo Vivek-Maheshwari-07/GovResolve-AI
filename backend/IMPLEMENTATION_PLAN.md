@@ -147,3 +147,8 @@ Build: `python -m scripts.build_corpus --manifest ../final_dataset/manifest.csv 
   AMENDS and SUBSTITUTES). Candidates for the gold; not yet checked.
 - Squad 2 index: `python -m scripts.build_squad2_index --corpus D:/test/corpus_v1` with `EMBEDDING_MODEL=ollama:bge-m3`.
   bge-m3 on this CPU embeds about 1.4 chunks/s, so the first build takes about 90 min (re-runs add only missing chunks).
+
+Index built (Nov 1): 7,395 of 7,395 chunks in Chroma (bge-m3 via Ollama) plus BM25, in `data/index/chroma` (git-ignored). Five test queries
+return in 0.2-0.4 s. Good: the Discipline and Appeal amendment query, the GPSC consultation query (Gujarati) and the Karmayogi LTC query
+find the right documents. Weak: both maternity-leave queries miss, probably because no maternity-leave GR is in this corpus (to confirm
+with a text search before writing gold questions); the Gujarati one returns noise. Several hits have an empty subject.
