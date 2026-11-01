@@ -51,7 +51,8 @@ def to_engine_result(resp: Any) -> EngineResult:
              for c in (resp.citations or []) if c.passage]
     if status == "Insufficient Evidence" or not (resp.summary or "").strip():
         code = _val(resp.insufficient_reason)
-        why = _REASONS.get(code, "The available documents do not support an answer.")
+        # prefer the pipeline's own words ("The sentences do not give the age range") over the generic text for the code
+        why = (resp.summary or "").strip() or _REASONS.get(code, "The available documents do not support an answer.")
         extra = (resp.follow_up_question or "").strip()
         return EngineResult(insufficient_reason=f"{code}: {why}" + (f" {extra}" if extra else "") if code else why,
                             reason_code=ReasonCode(code) if code in _REASONS else None)

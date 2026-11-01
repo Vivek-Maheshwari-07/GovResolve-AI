@@ -285,3 +285,40 @@ false positives on 324 document titles used as questions: 0 out-of-scope, 1 vagu
 1. Sign off `eval/gold_lineage_verified.csv` (71 rows have page + quote) and especially the rejected row #39.
 2. Send the gold questions to the resource person; the plan calls for officer validation. `validated_by` says "not officer-validated" until then.
 3. Decide how to demo "chain": timeline of base + amendments, or find a real amendment-of-amendment.
+
+### Phase 3 result: first full scorecard (Nov 1, `eval/scorecard_full.json`, rescored in `eval/scorecard_full_rescored.json`)
+50 questions through `/query` with local `qwen3.5:4b` (36 s median, 62 s p95). Numbers are small-sample (35 answerable, 15 refusals) and the gold is not officer-validated.
+
+| Metric | Result |
+|---|---|
+| 1. Right document first / in the first three | 62.9% (22/35) / 77.1% (27/35) |
+| 2. Citations on the gold page / quote verbatim on its page | 65.6% (21/32) / **100%** (32/32) |
+| 3. Answers with every key point (20 answered) | 45% as first scored; **55% (11/20)** after the date-format fix below |
+| 4. Amendment pairs vs verified gold | precision 0.958, recall 0.972 (see 3.1 for why precision is understated) |
+| 5. Refusals: unanswerable and vague questions refused, with the right reason code | **100% (15/15)**, both |
+| 5. Answerable questions refused wrongly | **42.9% (15/35)**; 14/35 (40%) after the BROKEN_CHAIN change below |
+| Lineage status shown where one was expected | 2 of 3 (Q-050, Gujarati, fails as predicted) |
+
+**What is good:** the guards and refusals (incl. the legal-advice trap in all three languages), and no fabricated quotes: every quote is verbatim on its page.
+
+**What is wrong, by cause** (15 wrongly refused + 7 wrong answers out of 35 answerable questions):
+1. *Right document first, answer chunk not in the evidence* (7 refusals, all English/Gujlish): Q-001 retrieved the Grade III post but the sentence "not less than 20 years and more
+   than 40 years of age" sits in the next chunk; the 3 chunks sent were that post's first chunk and two chunks of the *Grade II* rules. The model answered honestly that the sentences
+   do not give the age. Retrieval is per chunk and evidence is per chunk: the answer is one chunk over.
+2. *Gujarati and Gujlish questions miss the document* (6 refusals, 3 more wrong answers): top-1 English 13/15, Gujarati 4/11, Gujlish 5/9. Worst when a Gujarati question targets an English GR.
+3. *Plausible wrong answers from a neighbouring document* (Q-016, Q-022, Q-027, Q-044, Q-049; Q-014 partly): e.g. Q-022 gave the April 2007 amendment's dates for the September 2007 question;
+   Q-016 gave "25 marks, 120 minutes" for "100 marks, 2 hours". The quotes are verbatim but from the wrong GR. These are the most dangerous errors and a 4B model does not catch them.
+4. *Gujarati lineage not recognised* (Q-050): the answer says all leave is cancelled, ignoring the 13 May relaxation. Known gap (see above).
+
+**Changes made because of the scorecard**
+- Scorer: a key point matches if the answer has all its words and numbers in any order, so "October 1, 2015" satisfies "1st October, 2015" (4 correct answers had been marked wrong).
+  `--rescore` recomputes this from a saved run without the model. Answer correctness 45% -> 55%; the remaining misses are real.
+- `BROKEN_CHAIN` refusal is now opt-in (`GOV_BROKEN_CHAIN_REFUSES=1`); by default the answer carries the `BROKEN_CHAIN:` warning. It had refused Q-013 ("from which date is this
+  amendment in force?"), which the amendment answers by itself. Verified: Q-013 now answers with all key points.
+- A refusal now shows the pipeline's own reason ("The provided sentences do not mention the age range") instead of the generic "No relevant GR found", which was misleading when a document had been found.
+
+**Recommended next, in order of effect** (not started; each needs a decision):
+1. *Sentence-level evidence*: pool the sentences of the top documents and their neighbouring chunks and pick by overlap with the question (fixes cause 1; no extra model time).
+2. *Cross-lingual retrieval*: search with the question and an English rendering of it (glossary or one short model call), and for Gujarati questions weight the multilingual vector search over BM25 (cause 2).
+3. *Wrong-document answers*: refuse or warn when the cited passage does not contain the question's distinctive numbers/names; a stronger model (hosted API) helps most here.
+4. *Gujarati lineage patterns* on real text (cause 4). Re-run `scripts.scorecard` after each change; do not tune on the 50 questions without also keeping a held-out set.

@@ -50,7 +50,8 @@ def test_broken_links_lists_only_changing_links_to_missing_gr_numbers():
     assert g.broken_links("nobody") == []
 
 
-def test_answer_resting_only_on_an_amendment_of_a_missing_gr_is_refused():
+def test_answer_resting_only_on_an_amendment_of_a_missing_gr_is_refused_when_that_is_switched_on(monkeypatch):
+    monkeypatch.setenv("GOV_BROKEN_CHAIN_REFUSES", "1")
     g = graph_with("a", links=[("a", Relation.AMENDS, "GS/83/45/CH")])
     res = ask(g, "a")
     assert res["verdict"] == "insufficient_evidence" and res["answer"] is None and res["citations"] == []
@@ -75,3 +76,11 @@ def test_a_gr_that_supersedes_a_missing_one_still_answers_but_warns():
 def test_no_broken_link_no_warning():
     res = ask(graph_with("a"), "a")
     assert res["verdict"] == "answered" and not any("BROKEN_CHAIN" in w for w in res["warnings"])
+
+
+def test_by_default_the_amendment_answers_with_a_warning_because_it_may_answer_by_itself():
+    """Found by the scorecard: 'from which date is the 2022 amendment in force?' was refused although the amendment says so."""
+    g = graph_with("a", links=[("a", Relation.AMENDS, "GS/83/45/CH")])
+    res = ask(g, "a")
+    assert res["verdict"] == "answered" and res["reason_code"] is None
+    assert any(w.startswith("BROKEN_CHAIN: a amends GS/83/45/CH") for w in res["warnings"])

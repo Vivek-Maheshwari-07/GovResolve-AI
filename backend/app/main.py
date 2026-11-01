@@ -181,8 +181,9 @@ def create_app(
                 elif lineage.status is LineageStatus.UNKNOWN:
                     warnings.append(f"Current applicability of {raw.doc_id} cannot be established.")
 
-            # A cited GR that changes a GR we do not hold: say so. If every citation is only an amendment of a missing
-            # base, the full rule cannot be stated, so refuse with BROKEN_CHAIN instead of answering from fragments.
+            # A cited GR that changes a GR we do not hold: say so. Refusing when every citation is only an amendment of a
+            # missing base is opt-in (GOV_BROKEN_CHAIN_REFUSES=1): the scorecard showed it refuses questions the amendment
+            # answers by itself (e.g. "from which date is this amendment in force?"), so by default we answer with the warning.
             fragments: list[str] = []
             for cit in citations:
                 broken = graph.broken_links(cit.doc_id)
@@ -191,7 +192,8 @@ def create_app(
                                     "the text it changes cannot be checked.")
                 if any(rel is Relation.AMENDS for rel, _ in broken):
                     fragments.append(cit.doc_id)
-            if result.answer and citations and len(set(fragments)) == len({c.doc_id for c in citations}):
+            if (os.environ.get("GOV_BROKEN_CHAIN_REFUSES") == "1" and result.answer and citations
+                    and len(set(fragments)) == len({c.doc_id for c in citations})):
                 return QueryResponse(
                     verdict=Verdict.INSUFFICIENT_EVIDENCE,
                     reason="Every document found only amends a GR that is not in the collection, so the full rule "
