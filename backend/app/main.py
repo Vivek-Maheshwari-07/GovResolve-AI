@@ -28,11 +28,13 @@ from .schemas import (
     QueryRequest,
     QueryResponse,
     ReasonCode,
+    Relation,
     Statement,
     StatementLabel,
     Verdict,
 )
 from .seed import load_demo
+from .squad2_runtime import LazySquad2Engine
 from .state import AppState
 
 
@@ -64,6 +66,8 @@ def create_app(
             if store_path and Path(store_path).exists()
             else LineageGraph()
         )
+    if engine is None and cfg is not None and cfg.engine == "squad2":
+        engine = LazySquad2Engine(lambda: getattr(app.state, "gov", None), graph, cfg.squad2_index_dir)
     if engine is None:
         engine = RetrievalEngine(lambda: getattr(app.state, "gov", None)) if cfg is not None else NullEngine()
 
@@ -175,6 +179,26 @@ def create_app(
                     )
                 elif lineage.status is LineageStatus.UNKNOWN:
                     warnings.append(f"Current applicability of {raw.doc_id} cannot be established.")
+
+            # A cited GR that changes a GR we do not hold: say so. If every citation is only an amendment of a missing
+            # base, the full rule cannot be stated, so refuse with BROKEN_CHAIN instead of answering from fragments.
+            fragments: list[str] = []
+            for cit in citations:
+                broken = graph.broken_links(cit.doc_id)
+                for rel, ref in broken:
+                    warnings.append(f"BROKEN_CHAIN: {cit.doc_id} {rel.value} {ref}, which is not in the collection; "
+                                    "the text it changes cannot be checked.")
+                if any(rel is Relation.AMENDS for rel, _ in broken):
+                    fragments.append(cit.doc_id)
+            if result.answer and citations and len(set(fragments)) == len({c.doc_id for c in citations}):
+                return QueryResponse(
+                    verdict=Verdict.INSUFFICIENT_EVIDENCE,
+                    reason="Every document found only amends a GR that is not in the collection, so the full rule "
+                           "cannot be established: " + ", ".join(sorted(set(fragments))) + ".",
+                    reason_code=ReasonCode.BROKEN_CHAIN,
+                    warnings=warnings,
+                    language=language,
+                )
 
             if not result.answer or not citations:
                 return QueryResponse(

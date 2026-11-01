@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import threading
 from datetime import date
 from pathlib import Path
@@ -32,6 +33,14 @@ from .schemas import (
 )
 
 ENDING = {Relation.SUPERSEDES, Relation.REPLACES, Relation.CANCELS}
+_DATE_LIKE = re.compile(r"\d{4}[-/.]\d{1,2}[-/.]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\d{4}")
+
+
+def looks_like_gr_number(ref: str) -> bool:
+    """A missing target worth reporting: six or more letters and digits with a digit, and not a date."""
+    ref = ref.translate(str.maketrans("૦૧૨૩૪૫૬૭૮૯", "0123456789")).strip()
+    key = re.sub(r"[^0-9A-Za-z઀-૿]", "", ref)
+    return len(key) >= 6 and any(c.isdigit() for c in key) and not _DATE_LIKE.fullmatch(ref)
 FUZZY_THRESHOLD = 0.88
 
 _VERB = {
@@ -197,6 +206,20 @@ class LineageGraph:
     def get_meta(self, doc_id: str) -> DocumentMeta | None:
         with self._lock:
             return self._g.nodes[doc_id]["meta"] if doc_id in self._g else None
+
+    def broken_links(self, doc_id: str) -> list[tuple[Relation, str]]:
+        """Changing links (amends / replaces / supersedes / cancels) from `doc_id` to a GR that is not in the corpus.
+
+        Each item is (relation, the reference as written). Plain mentions (refers_to) and targets that do not look like a
+        GR number (a date, "rule 9") are not reported.
+        """
+        with self._lock:
+            if doc_id not in self._g:
+                return []
+            found = {(d["relation"], self._g.nodes[v]["meta"].gr_number or "")
+                     for _, v, d in self._g.out_edges(doc_id, data=True)
+                     if d["relation"] is not Relation.REFERS_TO and self._g.nodes[v]["meta"].is_external}
+        return sorted((rel, ref) for rel, ref in found if looks_like_gr_number(ref))
 
     def list_documents(self, include_external: bool = False) -> list[DocumentMeta]:
         with self._lock:

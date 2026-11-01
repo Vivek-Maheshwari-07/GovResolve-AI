@@ -152,3 +152,33 @@ Index built (Nov 1): 7,395 of 7,395 chunks in Chroma (bge-m3 via Ollama) plus BM
 return in 0.2-0.4 s. Good: the Discipline and Appeal amendment query, the GPSC consultation query (Gujarati) and the Karmayogi LTC query
 find the right documents. Weak: both maternity-leave queries miss, probably because no maternity-leave GR is in this corpus (to confirm
 with a text search before writing gold questions); the Gujarati one returns noise. Several hits have an empty subject.
+
+## Roadmap Phase 2 (Nov 1, `integration` branch): Squad 2's pipeline behind `/query`
+Switch: `GOV_ENGINE=squad2` (default stays `retrieval`). `app/squad2_runtime.py` builds `RAGPipeline` on the first question from our corpus
+and the saved index (`data/index/chroma`); `scripts.build_squad2_index` builds the index.
+
+| Task | Result |
+|---|---|
+| 2.1 Wire `/query` to the pipeline | Done. Real run on `corpus_v1`: verdict `answered`, verbatim citation with lineage, `statements[]` with a label. |
+| 2.2 Lineage from our engine | Done. `OurLineageAdapter` answers status and latest version from the contract graph, so Squad 2's own graph (which says Active and links without a reference) is never used. Amending passages are injected using the chunk where our engine found the reference, not the first chunks (letterhead). The prompt never says "Active": it says "No later amendment found in the collection". |
+| 2.3 Exact GR number / date first (AI-8) | Done. Numbers are compared by letters and digits only (Gujarati digits converted), so `MLS/1363 /5421-C`, `CON1062/2961-C` and `પીઆરઓ.-૧૦૮૬-૫૦૬૮-ગ-૨` all match. A named GR is pulled in even if hybrid search missed it, with the chunks that best match the question. A written date works the same, only when at most 3 GRs share that day. 6 of 6 number queries and 1 of 1 date query put the right GR first on the real index. |
+| 2.4 Prompt-injection guard (AI-19) | Done. Instruction-like sentences are dropped before evidence is numbered (so they cannot steer the model or be cited), and the system prompt says document text is evidence only. 7 attack strings caught; 0 of 21,719 real corpus sentences flagged (a first, looser pattern flagged 3 ordinary "above instructions" sentences and was tightened). |
+| 2.5 `statements[]` and `reason_code` | Done in Phase 0, now visible end to end. |
+| 2.6 `BROKEN_CHAIN` | Done. A cited GR that amends/supersedes/cancels a GR not in the collection gets a `BROKEN_CHAIN:` warning. If every citation is only an amendment of a missing base, `/query` refuses with `reason_code: BROKEN_CHAIN` (the full rule cannot be stated). Supersedes-only links warn but still answer. Targets that are dates or "rule 9" are ignored. In `corpus_v1`: 30 unresolved changing edges from 20 documents. |
+| 2.7 Determinism | Done. Temperature 0, fixed top-k. The same question asked twice gave the same answer, citation and statement. |
+
+End-to-end example (English question, amended Recruitment Rules): "By how much was the upper age limit relaxed for direct selection ... in 2022?"
+-> "relaxed by one year", cited to the 2022 notification (rule 16H), statement `established`.
+
+Also changed: the prompt now states the answer language (a 4B model answered an English question in Gujarati); local LLM timeout 180 s and
+output cap 700 tokens (`LOCAL_LLM_TIMEOUT`, `LOCAL_LLM_MAX_TOKENS`).
+
+Known problems, not fixed yet:
+- **Latency is 35-80 s per answer** on this CPU with `qwen3.5:4b` (first call loads the model); target is under 10 s. A Gemini key
+  (`LLM_PROVIDER=auto`) or a smaller/faster local model is the fix; retrieval itself takes 0.3 s.
+- **LLM failure looks like "no document".** If the model is unreachable the pipeline returns a canned summary with no citations and
+  `/query` refuses with the default `NO_DOCUMENT`. Roadmap 5.4 (extractive fallback quoting the top verified passage) should replace it.
+- **Citations carry no `bbox`** from Squad 2's pipeline (it builds citations from sentence text only), so the PDF viewer cannot highlight yet.
+  Needs the chunk box looked up by (doc, page, quote) in the bridge.
+- A question can be refused when the corpus lacks the text: the 1967 Rules book as converted does not describe how direct recruitment is
+  made (2 chunks mention it), and the model correctly said so.
