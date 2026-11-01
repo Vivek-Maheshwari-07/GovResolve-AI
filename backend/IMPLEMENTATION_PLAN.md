@@ -348,3 +348,25 @@ What each step does and why:
 **Still missing (8 of 35):** nearly all Gujarati or Gujlish questions about English documents (Q-008, Q-023, Q-045, Q-050, ...). The question shares no word with the document, so word
 overlap cannot choose sentences, and the answer chunk is in the pool but not selected. The remedy is cross-lingual: render the question in English (one short model call, about 4 s)
 and use it for sentence choice and keywords. Not done.
+
+### Result of the evidence-building work, end to end (`eval/scorecard_full_v2.json`; first run rescored in `eval/scorecard_full_rescored.json`)
+Same 50 questions, same local `qwen3.5:4b`, same scorer. The 50 questions are the dev set the changes were made against, so treat the size of the gain with care.
+
+| Metric | First run | After |
+|---|---|---|
+| Answerable questions answered correctly (35) | 11 (31%) | **19 (54%)** |
+| Answerable questions refused wrongly | 15 (43%) | **10 (29%)** |
+| Answerable questions answered wrongly | 9 | 6 (3 are right but unrecognised, see below) |
+| Of the answers given: every key point present | 55% (11/20) | **76% (19/25)** |
+| Citations on the gold page / quote verbatim | 65.6% / 100% | **76.3% / 100%** |
+| Unanswerable and vague refused, right reason code | 15/15 | 15/15 |
+| Answer in the evidence (no model) | 54.3% | 77.1% |
+| Median / p95 seconds per answer | 36 / 62 | 36 / 66 |
+
+Nothing that worked before broke: of the 9 questions that changed state, 8 improved and 1 went from a wrong answer (Q-049) to an honest refusal.
+Of the 6 "wrong": Q-027 ("fifty percent" for "sixty percent": numbers in words), Q-012 (right person, name misspelled), Q-005 (right holiday, no year) are correct answers the
+scorer cannot recognise (counted as wrong, not loosened further); Q-016 and Q-044 are really wrong; Q-050 is the known Gujarati-lineage gap.
+
+**Still failing (10 refused + 3 wrong):** almost all are Gujarati or Gujlish questions about documents in another language, e.g. Q-008, Q-023, Q-028, Q-047 (the model answers in Gujarati
+"the information was not found"). Next step, unchanged: render the question in English for keyword matching and sentence choice (cross-lingual retrieval). Two English ones remain
+(Q-001, Q-045): the answer chunk ranks 15th and 1st respectively and the sentence is lost in selection.
