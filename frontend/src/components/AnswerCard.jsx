@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Quote, TriangleAlert } from 'lucide-react';
+import { FileText, Quote, TriangleAlert, Sparkles, ListChecks, MessageSquareWarning } from 'lucide-react';
 
 export const citeKey = (c) => (c ? `${c.gr_id}|${c.page}|${c.passage || ''}` : '');
 
@@ -51,14 +51,17 @@ export default function AnswerCard({ response, active, onSelect }) {
         </motion.div>
       )}
 
-      <section className="glass rounded-2xl p-4">
-        <h2 className="mb-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-mist">{answered ? 'Answer' : 'Why there is no answer'}</h2>
+      <section className={`relative overflow-hidden rounded-2xl border p-4 ${answered ? 'border-indigo-100 bg-gradient-to-br from-indigo-50/80 via-white to-white' : 'border-rose-100 bg-gradient-to-br from-rose-50/80 via-white to-white'}`}>
+        <h2 className={`mb-1.5 flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] ${answered ? 'text-indigo-600' : 'text-rose-600'}`}>
+          {answered ? <Sparkles className="h-3.5 w-3.5" /> : <MessageSquareWarning className="h-3.5 w-3.5" />}
+          {answered ? 'Answer' : 'Why there is no answer'}
+        </h2>
         <p className={`${isGu ? 'gu-text' : ''} text-[15px] leading-relaxed text-legal`}>{answered ? response.summary : response.insufficient_reason}</p>
       </section>
 
       {answered && (response.statements || []).length > 0 && (
         <section className="glass space-y-2 rounded-2xl p-4">
-          <h2 className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-mist">Statements and their sources</h2>
+          <h2 className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-violet-600"><ListChecks className="h-3.5 w-3.5" /> Statements and their sources</h2>
           {response.statements.map((st, i) => {
             const label = labelOf(st.label);
             return (
@@ -80,8 +83,8 @@ export default function AnswerCard({ response, active, onSelect }) {
 
       {answered && response.citations.length > 0 && (
         <section className="space-y-2">
-          <h2 className="flex items-center gap-1.5 px-1 font-mono text-[10.5px] uppercase tracking-[0.14em] text-mist">
-            <Quote className="h-3 w-3" /> Verbatim legal quotes
+          <h2 className="flex items-center gap-1.5 px-1 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-amber-700">
+            <Quote className="h-3.5 w-3.5" /> Verbatim legal quotes
           </h2>
           {response.citations.map((c, i) => {
             const on = citeKey(c) === citeKey(active);

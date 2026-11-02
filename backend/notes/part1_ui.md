@@ -39,3 +39,10 @@ Where the brief was changed on purpose (project rules, or the backend has nothin
 - No department filter chips (no filter in the API); the chips are a template (GR No. lookup, Leave rules) and real sample questions. No mock data: it runs on the real corpus.
 - `run.py` adds `D:/test/dataset_organized` (if present) to the PDF search folders, because the rule-family PDFs are not in the repo's `final_dataset`.
 Tests: `npm test` (12: API adapter, time machine, citation text, "no active/safe wording").
+
+## Colour pass (2 Nov 2026)
+Each idea of the problem statement has its own colour, used the same way everywhere: indigo = search / AI, teal = bilingual, amber = evidence and citations,
+violet = amendment lineage, rose = refusals, emerald / amber / rose = the status of an answer. New landing view (`Hero.jsx`): the question the product answers,
+four feature cards, real sample questions colour-coded by kind (English, amended rule, ગુજરાતી, Gujlish, not in the corpus; `lib/samples.js`) and a status legend.
+Header: gradient top rule, coloured telemetry pills (shown by width), teal language switch, Rule Time Machine. Loader: one colour per stage and a progress bar.
+The root `README.md` now uses the same status wording (never "active") and lists the stack actually used.

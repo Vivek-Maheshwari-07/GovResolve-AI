@@ -43,8 +43,8 @@ export const REASONS = {
 
 // Soft pastel pill + deep jewel type (spec values): bg / border / text / dot
 export const TONES = {
-  emerald: { text: 'text-[#065F46]', dot: 'bg-[#10B981]', pill: 'bg-[#ECFDF5]', ring: 'border-[#A7F3D0]', glow: 'shadow-[0_6px_20px_-10px_rgba(16,185,129,0.45)]' },
-  amber: { text: 'text-[#92400E]', dot: 'bg-[#F59E0B]', pill: 'bg-[#FFFBEB]', ring: 'border-[#FDE68A]', glow: 'shadow-[0_6px_20px_-10px_rgba(245,158,11,0.45)]' },
-  rose: { text: 'text-[#9F1239]', dot: 'bg-[#F43F5E]', pill: 'bg-[#FFF1F2]', ring: 'border-[#FECDD3]', glow: 'shadow-[0_6px_20px_-10px_rgba(244,63,94,0.4)]' },
-  slate: { text: 'text-[#475569]', dot: 'bg-[#94A3B8]', pill: 'bg-sand', ring: 'border-[#E6E4DD]', glow: '' },
+  emerald: { text: 'text-[#065F46]', dot: 'bg-[#10B981]', pill: 'bg-[#ECFDF5]', ring: 'border-[#A7F3D0]', iconRing: 'ring-[#A7F3D0]', glow: 'shadow-[0_6px_20px_-10px_rgba(16,185,129,0.45)]' },
+  amber: { text: 'text-[#92400E]', dot: 'bg-[#F59E0B]', pill: 'bg-[#FFFBEB]', ring: 'border-[#FDE68A]', iconRing: 'ring-[#FDE68A]', glow: 'shadow-[0_6px_20px_-10px_rgba(245,158,11,0.45)]' },
+  rose: { text: 'text-[#9F1239]', dot: 'bg-[#F43F5E]', pill: 'bg-[#FFF1F2]', ring: 'border-[#FECDD3]', iconRing: 'ring-[#FECDD3]', glow: 'shadow-[0_6px_20px_-10px_rgba(244,63,94,0.4)]' },
+  slate: { text: 'text-[#475569]', dot: 'bg-[#94A3B8]', pill: 'bg-sand', ring: 'border-[#E6E4DD]', iconRing: 'ring-[#E6E4DD]', glow: '' },
 };

@@ -119,11 +119,26 @@ export default function PdfInspector({ citation, question }) {
 
   if (!citation) {
     return (
-      <div className="glass grid h-full place-items-center rounded-2xl p-8 text-center">
-        <div className="max-w-xs space-y-2">
-          <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl border border-hair bg-sand/60 text-mist"><FileSearch className="h-5 w-5" /></div>
-          <h3 className="text-sm font-semibold">Evidence inspector</h3>
-          <p className="text-xs leading-relaxed text-mist">Ask a question, then click a citation chip or a document in the lineage. The original page opens here with the cited paragraph highlighted.</p>
+      <div className="relative grid h-full place-items-center overflow-hidden rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50/70 via-white to-indigo-50/50 p-8 text-center shadow-lift">
+        <div aria-hidden className="pointer-events-none absolute -right-12 top-10 h-44 w-44 rounded-full bg-amber-200/30 blur-3xl" />
+        <div className="relative max-w-sm space-y-4">
+          <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-[#FFFBEB] shadow-[0_10px_24px_-10px_rgba(217,119,6,0.7)]"><FileSearch className="h-6 w-6" /></div>
+          <div>
+            <h3 className="text-base font-bold text-legal">Evidence inspector</h3>
+            <p className="mt-1 text-xs leading-relaxed text-mist">The original GR opens here, on the cited page, with the paragraph marked.</p>
+          </div>
+          <ol className="space-y-2 text-left">
+            {[
+              ['1', 'Ask a question on the left', 'bg-indigo-100 text-indigo-700'],
+              ['2', 'Click a citation chip or a quote', 'bg-amber-100 text-amber-800'],
+              ['3', 'Read the passage on the real page', 'bg-teal-100 text-teal-700'],
+              ['4', 'Open older orders from the lineage', 'bg-violet-100 text-violet-700'],
+            ].map(([n, t, c]) => (
+              <li key={n} className="flex items-center gap-2.5 rounded-xl border border-hair bg-white/80 px-3 py-2 text-[12.5px] text-legal">
+                <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-lg font-mono text-[11px] font-bold ${c}`}>{n}</span>{t}
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     );

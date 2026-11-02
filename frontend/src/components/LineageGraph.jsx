@@ -49,10 +49,10 @@ export default function LineageGraph({ chain, asOf, activeId, onSelectNode }) {
   if (!chain.length) return null;
 
   return (
-    <section className="glass rounded-2xl p-4" aria-label="Amendment lineage">
+    <section className="rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50/70 via-white to-white p-4 shadow-lift" aria-label="Amendment lineage">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <h2 className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-mist">
-          <GitBranch className="h-3.5 w-3.5" /> Amendment lineage · {counts.total} documents
+        <h2 className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-violet-700">
+          <span className="grid h-6 w-6 place-items-center rounded-lg bg-violet-100 text-violet-700"><GitBranch className="h-3.5 w-3.5" /></span> Amendment lineage · {counts.total} documents
         </h2>
         <div className="flex items-center gap-2">
           {asOf && <span className="rounded-full border border-[rgba(245,158,11,0.35)] bg-[rgba(245,158,11,0.1)] px-2 py-0.5 font-mono text-[10.5px] text-[#92400E]">as of {asOf}: {counts.issued} of {counts.total} issued</span>}
@@ -71,7 +71,7 @@ export default function LineageGraph({ chain, asOf, activeId, onSelectNode }) {
             </div>
           ) : (
             <div className="relative overflow-x-auto pb-2">
-              <div className="absolute left-0 right-0 top-[26px] z-0 h-px bg-gradient-to-r from-iris-500/50 via-iris-400/20 to-transparent" />
+              <div className="absolute left-0 right-0 top-[26px] z-0 h-0.5 rounded-full bg-gradient-to-r from-violet-400 via-indigo-300 to-teal-200" />
               <div className="relative flex w-max gap-2.5 pr-2">
                 {chain.map((n, i) => <Node key={n.gr_id} n={n} st={status[n.gr_id]} index={i} selected={n.gr_id === activeId} onSelect={onSelectNode} />)}
               </div>

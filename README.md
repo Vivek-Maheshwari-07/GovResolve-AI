@@ -27,25 +27,27 @@ Government Resolutions (GRs) and official administrative orders are published co
 
 ---
 
-## 🛡️ Status Taxonomy: "Safe-to-Act" Framework
+## 🛡️ Status Taxonomy: what every answer says about the rule
 
-Every retrieved resolution and query result is classified into a 5-state administrative status taxonomy:
+Every answer carries the lineage status of the documents it cites. Statuses come **only from explicit references** in the documents
+(an order that says it amends, replaces or cancels another), and the system **never calls a rule "active"**: finding no later order in
+the collection does not prove a rule is still in force.
 
 ```mermaid
 flowchart TD
-    Q[Incoming Resolution / Query] --> S{Lineage & Rule Analysis}
-    S -->|Intact, No subsequent amendments| A["✅ Found + No Later Change<br/>(Safe to Act: Current & Operative)"]
-    S -->|Subsequent modifications found| B["⚠️ Found + Amended<br/>(Conditional: Read alongside subsequent GRs)"]
-    S -->|Explicitly repealed or replaced| C["🚫 Found + Superseded<br/>(Do Not Act: Replaced by New Resolution)"]
-    S -->|Contradictory directives across departments| D["⚖️ Conflict Detected<br/>(Flagged: Requires Human Legal Review)"]
-    S -->|Relevant GR not identified in corpus| E["❓ Insufficient Evidence<br/>(Safe Fallback: Guard Against Hallucination)"]
+    Q[Question] --> S{Cited documents + explicit amendment links}
+    S -->|No later order found in the collection| A["🟢 Found + No later change<br/>(none found here; not proof the rule is in force)"]
+    S -->|A later order amends it| B["🟡 Found + Amended<br/>(read the amendment with it)"]
+    S -->|A later order replaces or cancels it| C["🔴 Found + Superseded<br/>(do not act on it; see the successor)"]
+    S -->|The documents cannot establish an answer| E["🔴 Insufficient evidence<br/>(refusal with a reason code)"]
 ```
 
-1. **`Found + No later change` (Safe to Act)**: The resolution is retrieved, verified as active, and no subsequent modifications exist in the government gazette.
-2. **`Found + Amended`**: The resolution is active in principle, but specific clauses or schedules have been modified by later resolutions. Highlights the exact diffs.
-3. **`Found + Superseded`**: The resolution has been repealed, replaced, or rendered obsolete by a subsequent order. Automatically redirects to the operative replacement.
-4. **`Conflict`**: Multiple operative circulars from overlapping jurisdictions or departments issue contradictory directions; flagged for administrative/legal review.
-5. **`Insufficient Evidence`**: The system cannot locate authoritative gazetted GRs addressing the query; guards against hallucinating administrative authority.
+1. **`Found + No later change`**: no later amending or replacing order was found in the indexed documents.
+2. **`Found + Amended`**: a later order amends a cited document; the lineage shows which one and quotes the sentence that says so.
+3. **`Found + Superseded`**: a later order replaces or cancels a cited document; the successor is shown.
+4. **`Insufficient evidence`**: the system refuses, with a reason code (`NO_DOCUMENT`, `TOO_VAGUE`, `OUT_OF_SCOPE`, `BROKEN_CHAIN`, ...), instead of guessing.
+
+Each statement in an answer is also labelled `Established` (stated in a cited passage) or `Inferred`, and every quote is verbatim from its page.
 
 ---
 
@@ -61,7 +63,7 @@ graph LR
     subgraph Intelligence ["2. Core AI & Knowledge Graph"]
         A3 --> B1[Hybrid Vector & Lexical Index]
         A3 --> B2[Temporal Lineage Graph]
-        B1 & B2 --> B3[Temporal Conflict & Supersession Reasoner]
+        B1 & B2 --> B3[Amendment / Supersession Status]
     end
 
     subgraph Service ["3. Backend API"]
@@ -72,7 +74,7 @@ graph LR
     subgraph Interface ["4. Frontend & Citizen/Officer Portal"]
         C2 --> D1[Split-Screen PDF Reader]
         C2 --> D2[Interactive Lineage Timeline]
-        C2 --> D3[Safe-to-Act Verification Badge]
+        C2 --> D3[Lineage Status Badge]
     end
 ```
 
@@ -100,7 +102,7 @@ To deliver a scalable, verifiable GovTech solution, the team is structured into 
 - **Focus**: High-performance backend, vector DB integration, session management, and microservice orchestration.
 - **Key Deliverables**:
   - FastAPI REST endpoints for search, verification, lineage queries, and PDF delivery.
-  - Vector database management (Qdrant / Milvus) with metadata filtering by department, date, and validity.
+  - Vector store (ChromaDB) and BM25 keyword index over every passage, with GR number and date look-up.
   - Audit logging, caching, and administrative RBAC (Role-Based Access Control).
 
 ### 4. Frontend & UX Squad
@@ -108,36 +110,48 @@ To deliver a scalable, verifiable GovTech solution, the team is structured into 
 - **Key Deliverables**:
   - Interactive split-screen interface displaying AI response alongside the original PDF with highlighted coordinates.
   - Visual **Lineage Timeline** tracking parent-child GR relationships over time.
-  - Distinct **Safe-to-Act** indicator badges giving instant clarity on resolution validity.
+  - Clear **lineage status** badges (no later change / amended / superseded / insufficient evidence).
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: React, Vite, Tailwind CSS, Lucide Icons, PDF.js
+- **Frontend**: React 18, Vite, Tailwind CSS, Framer Motion, Lucide icons, PDF.js (fonts and PDF worker bundled, works offline)
 - **Backend**: Python 3.10+, FastAPI, Uvicorn, Pydantic
-- **Vector & Graph Storage**: Qdrant / ChromaDB, NetworkX / Neo4j
-- **AI & NLP**: LangChain / LlamaIndex, Sentence-Transformers (IndicBERT / Multilingual-e5), Gemini / OpenAI API
-- **OCR & Document Processing**: Surya OCR / Tesseract / Marker, PyMuPDF, pdfplumber
+- **Retrieval**: ChromaDB vectors with `bge-m3` embeddings (via Ollama) + BM25 (`rank-bm25`), fused; cross-lingual English rendering of Gujarati / Gujlish questions
+- **Answers**: local `qwen3.5:4b` through Ollama (default, offline); any OpenAI-compatible hosted model optional; a model-free fallback that quotes one verified passage
+- **Lineage**: explicit-reference detector and graph (NetworkX), edges always newer → older
+- **OCR & documents**: PyMuPDF, pdfplumber, Tesseract (`guj+eng`)
 
 ---
 
 ## 🚀 Repository Quickstart
 
 ### Prerequisites
-- Python 3.10 or higher
-- Node.js (v18+) & npm
-- Git
+- Python 3.10+, Node.js 18+ (to build the UI once), Git
+- [Ollama](https://ollama.com) with `ollama pull qwen3.5:4b` and `ollama pull bge-m3`
+- The GR corpus and search index (not in git; see `backend/README.md` to rebuild them from `final_dataset/`)
 
-### Initial Setup
+### Run it
 ```bash
-# Clone the repository
 git clone https://github.com/Vivek-Maheshwari-07/GovResolve-AI.git
 cd GovResolve-AI
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt -r backend/requirements.txt
+copy .env.example .env
+python run.py            # or double-click start.bat; opens http://localhost:8000
 ```
+`run.py` finds the corpus and index, builds the web UI the first time and starts everything on this machine only.
+Without a corpus it starts on small synthetic fixtures and says so.
+
+### Learn more
+- `backend/README.md`: setup, rebuilding the data, configuration, evaluation commands
+- `backend/DEMO.md`: five demo scenarios and their honest limits
+- `eval/SCORECARD_SUMMARY.md`: measured results (development and held-out questions)
+- `backend/API_CONTRACT.md`: the API
 
 ---
 
 ## 📄 License
 
-This project is licensed under the Apache License 2.0 - see the LICENSE file for details.
+Apache License 2.0.

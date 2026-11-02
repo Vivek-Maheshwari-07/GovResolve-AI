@@ -1,91 +1,104 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Scale, Clock3, X } from 'lucide-react';
+import { Scale, Clock3, X, Database, BookText, ScanText, GitBranch } from 'lucide-react';
 
 const LANGS = [
   { id: null, label: 'Auto' },
   { id: 'en', label: 'English' },
   { id: 'gu', label: 'ગુજરાતી' },
-  { id: 'mixed', label: 'Mixed' },
+  { id: 'mixed', label: 'Gujlish' },
 ];
 
-function Pill({ children, tone = 'mist' }) {
-  const dot = tone === 'ok' ? 'bg-[#10B981]' : tone === 'off' ? 'bg-[#64748B]' : null;
+const PILL = {
+  teal: 'border-teal-200 bg-teal-50 text-teal-700',
+  indigo: 'border-indigo-200 bg-indigo-50 text-indigo-700',
+  amber: 'border-amber-200 bg-amber-50 text-amber-800',
+  violet: 'border-violet-200 bg-violet-50 text-violet-700',
+  off: 'border-hair bg-sand text-mist',
+};
+
+const SHOW = { lg: 'lg:inline-flex', xl: 'xl:inline-flex', '2xl': '2xl:inline-flex' };
+
+function Pill({ icon: Icon, color, at = 'lg', children }) {
   return (
-    <span className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full lg:inline-flex border border-hair bg-sand/60 px-2.5 py-1 font-mono text-[11px] text-mist">
-      {dot && <span className={`h-1.5 w-1.5 rounded-full ${dot}`} />}
+    <span className={`hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 font-mono text-[11px] ${SHOW[at]} ${PILL[color]}`}>
+      <Icon className="h-3 w-3" />
       {children}
     </span>
   );
 }
 
-export default function TopBar({ stats, online, language, onLanguage, asOf, onAsOf, latestDate }) {
+export default function TopBar({ stats, online, language, onLanguage, asOf, onAsOf }) {
   return (
-    <header className="glass z-20 flex flex-wrap items-center gap-x-4 gap-y-2 border-x-0 border-t-0 px-4 py-2.5 sm:px-6">
-      <div className="flex items-center gap-3">
-        <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-iris-500 to-iris-400 shadow-[0_6px_16px_-6px_rgba(79,70,229,0.45)]">
-          <Scale className="h-[18px] w-[18px] text-[#F8F7F4]" strokeWidth={2.2} />
-        </div>
-        <div className="leading-tight">
-          <div className="flex items-center gap-2">
-            <h1 className="text-[15px] font-semibold tracking-tight">GovResolve-AI</h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(79,70,229,0.3)] bg-[rgba(79,70,229,0.12)] px-2 py-0.5 text-[10px] font-medium text-iris-700">
-              <span className="h-1.5 w-1.5 animate-pulseDot rounded-full bg-iris-400" />
-              Truth Layer
-            </span>
+    <header className="z-20 border-b border-hair bg-white/80 backdrop-blur-md">
+      <div aria-hidden className="h-[3px] bg-gradient-to-r from-indigo-500 via-violet-500 via-60% to-teal-500" />
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-2.5 sm:px-6">
+        <div className="flex items-center gap-3">
+          <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-[0_6px_16px_-6px_rgba(79,70,229,0.55)]">
+            <Scale className="h-[18px] w-[18px] text-[#F8F7F4]" strokeWidth={2.2} />
           </div>
-          <p className="text-[11px] text-mist">Find the right Government Resolution · every claim has a page</p>
-        </div>
-      </div>
-
-      <div className="flex flex-1 flex-wrap items-center gap-2">
-        <Pill tone={online ? 'ok' : 'off'}>{online ? `${(stats?.total_grs ?? 0).toLocaleString()} GRs indexed` : 'backend offline'}</Pill>
-        {stats?.chunks != null && <Pill>{stats.chunks.toLocaleString()} passages</Pill>}
-        <Pill>Bilingual OCR</Pill>
-        {stats?.lineage_ready && <Pill tone="ok">Lineage graph ready · {stats.edges.toLocaleString()} links</Pill>}
-      </div>
-
-      <div className="flex flex-wrap items-center gap-3">
-        <div role="tablist" aria-label="Question language" className="relative flex rounded-lg border border-hair bg-sand/60 p-0.5">
-          {LANGS.map((l) => {
-            const on = language === l.id;
-            return (
-              <button
-                key={String(l.id)}
-                role="tab"
-                aria-selected={on}
-                onClick={() => onLanguage(l.id)}
-                className={`relative rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${on ? 'text-legal' : 'text-mist hover:text-legal'} ${l.id === 'gu' ? 'gu-text' : ''}`}
-              >
-                {on && (
-                  <motion.span layoutId="lang-pill" className="absolute inset-0 rounded-md bg-[rgba(79,70,229,0.22)] ring-1 ring-[rgba(79,70,229,0.4)]" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />
-                )}
-                <span className="relative">{l.label}</span>
-              </button>
-            );
-          })}
+          <div className="leading-tight">
+            <div className="flex items-center gap-2">
+              <h1 className="bg-gradient-to-r from-indigo-700 to-violet-700 bg-clip-text text-[15px] font-bold tracking-tight text-transparent">GovResolve-AI</h1>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+                <span className="h-1.5 w-1.5 animate-pulseDot rounded-full bg-emerald-500" />
+                Truth Layer
+              </span>
+            </div>
+            <p className="text-[11px] text-mist">Gujarati–English assistant for Government Resolutions</p>
+          </div>
         </div>
 
-        <label
-          className={`flex items-center gap-2 rounded-lg border px-2.5 py-1 text-xs transition-colors ${asOf ? 'border-[rgba(245,158,11,0.4)] bg-[rgba(245,158,11,0.08)]' : 'border-hair bg-sand/60'}`}
-          title="Rule Time Machine: see which amendments existed on a given day (uses the documents' issue dates)"
-        >
-          <Clock3 className={`h-3.5 w-3.5 ${asOf ? 'text-[#92400E]' : 'text-mist'}`} />
-          <span className="hidden text-mist sm:inline">Rules as of</span>
-          <input
-            type="date"
-            value={asOf || ''}
-            max={latestDate || undefined}
-            onChange={(e) => onAsOf(e.target.value || '')}
-            className="w-[7.4rem] bg-transparent font-mono text-[11px] text-legal outline-none "
-            aria-label="View rules as of this date"
-          />
-          {asOf && (
-            <button onClick={() => onAsOf('')} aria-label="Clear date" className="text-mist hover:text-legal">
-              <X className="h-3.5 w-3.5" />
-            </button>
+        <div className="flex min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-hidden">
+          {online ? (
+            <Pill icon={Database} color="teal">{(stats?.total_grs ?? 0).toLocaleString()} GRs indexed</Pill>
+          ) : (
+            <Pill icon={Database} color="off">backend offline</Pill>
           )}
-        </label>
+          {stats?.chunks != null && <Pill icon={BookText} color="indigo" at="2xl">{stats.chunks.toLocaleString()} passages</Pill>}
+          <Pill icon={ScanText} color="amber" at="2xl">Bilingual OCR</Pill>
+          {stats?.lineage_ready && <Pill icon={GitBranch} color="violet" at="xl">{stats.edges.toLocaleString()} lineage links</Pill>}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <div role="tablist" aria-label="Question language" className="relative flex rounded-xl border border-hair bg-sand/70 p-0.5">
+            {LANGS.map((l) => {
+              const on = language === l.id;
+              return (
+                <button
+                  key={String(l.id)}
+                  role="tab"
+                  aria-selected={on}
+                  onClick={() => onLanguage(l.id)}
+                  className={`relative rounded-lg px-2.5 py-1 text-xs font-semibold transition-colors ${on ? 'text-teal-800' : 'text-mist hover:text-legal'} ${l.id === 'gu' ? 'gu-text' : ''}`}
+                >
+                  {on && <motion.span layoutId="lang-pill" className="absolute inset-0 rounded-lg bg-white shadow-sm ring-1 ring-teal-200" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />}
+                  <span className="relative">{l.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <label
+            className={`flex items-center gap-2 rounded-xl border px-2.5 py-1 text-xs transition-colors ${asOf ? 'border-amber-300 bg-amber-50' : 'border-hair bg-sand/70'}`}
+            title="Rule Time Machine: see which amendments existed on a given day (uses the documents' issue dates)"
+          >
+            <Clock3 className={`h-3.5 w-3.5 ${asOf ? 'text-amber-700' : 'text-violet-600'}`} />
+            <span className="hidden font-medium text-mist sm:inline">Rules as of</span>
+            <input
+              type="date"
+              value={asOf || ''}
+              onChange={(e) => onAsOf(e.target.value || '')}
+              className="w-[7.4rem] bg-transparent font-mono text-[11px] text-legal outline-none"
+              aria-label="View rules as of this date"
+            />
+            {asOf && (
+              <button onClick={() => onAsOf('')} aria-label="Clear date" className="text-mist hover:text-legal">
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </label>
+        </div>
       </div>
     </header>
   );

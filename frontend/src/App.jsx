@@ -10,6 +10,7 @@ import StatusBanner from './components/StatusBanner';
 import AnswerCard from './components/AnswerCard';
 import LineageGraph from './components/LineageGraph';
 import PdfInspector from './components/PdfInspector';
+import Hero from './components/Hero';
 
 export default function App() {
   const [stats, setStats] = useState(null);
@@ -60,7 +61,7 @@ export default function App() {
       <main className="grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto p-4 lg:grid-cols-2 lg:overflow-hidden">
         {/* Zone B: investigation feed */}
         <section className="flex min-h-0 flex-col gap-3 lg:overflow-y-auto lg:pr-1" aria-label="Investigation">
-          <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} />
+          <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={!!(response || error || loading)} />
 
           <AnimatePresence mode="wait">
             {loading && <PipelineLoader key="loading" />}
@@ -81,11 +82,8 @@ export default function App() {
               </motion.div>
             )}
             {!loading && !response && !error && (
-              <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid flex-1 place-items-center py-10 text-center">
-                <div className="max-w-sm space-y-2">
-                  <h2 className="text-lg font-semibold tracking-tight">Ask about a Government Resolution</h2>
-                  <p className="text-sm leading-relaxed text-mist">Every answer comes with the document, the page, the verbatim passage, and any amendment or replacement stated in the documents. When they cannot establish an answer, it says so.</p>
-                </div>
+              <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <Hero onAsk={(t) => submit(t, true)} disabled={loading} />
               </motion.div>
             )}
           </AnimatePresence>

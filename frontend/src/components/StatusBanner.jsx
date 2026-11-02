@@ -16,12 +16,13 @@ export default function StatusBanner({ status, reasonCode, asOf, asOfStatus }) {
       initial={{ opacity: 0, y: 10, scale: 0.985 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ type: 'spring', stiffness: 300, damping: 26 }}
-      className={`rounded-2xl border ${t.ring} ${t.pill} ${t.glow} p-4`}
+      className={`relative overflow-hidden rounded-2xl border ${t.ring} ${t.pill} ${t.glow} p-4 pl-5`}
       role="status"
       aria-label={`Status: ${s.label}`}
     >
+      <span aria-hidden className={`absolute inset-y-0 left-0 w-1.5 ${t.dot}`} />
       <div className="flex items-start gap-3">
-        <div className={`mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-sand ${t.text}`}>
+        <div className={`mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white shadow-sm ring-1 ${t.iconRing} ${t.text}`}>
           <Icon className="h-[18px] w-[18px]" />
         </div>
         <div className="min-w-0 flex-1">
