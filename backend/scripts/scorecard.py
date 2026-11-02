@@ -170,8 +170,6 @@ def main() -> int:
             return 1
         pipeline = engine._engine.pipeline
         state = app.state.gov
-        from backend.rag.gujlish_normalizer import GujlishNormalizer
-        normalizer = GujlishNormalizer()
 
         def page_text(doc_id: str, page: int) -> str:
             gr = state.corpus.grs.get(doc_id)
@@ -182,11 +180,12 @@ def main() -> int:
             gold_docs = {d["doc_id"] for d in q.get("gold_docs", [])}
             gold_pages = {(d["doc_id"], d["page"]) for d in q.get("gold_docs", [])}
             if gold_docs:
-                found = pipeline.index.search(normalizer.normalize(q["question"]), top_k=20)
+                bundle = pipeline.prepare(q["question"])   # same path as /query, including the English rendering of non-English questions
+                found = pipeline.index.search(bundle, top_k=20)
                 ranked = ranked_docs(found)
                 row.update(top1=retrieval_hit(ranked, gold_docs, 1), top3=retrieval_hit(ranked, gold_docs, 3), ranked=ranked[:3])
                 if q.get("key_points"):  # is the answer in the text the model would be given? (no model call)
-                    evidence, _, _ = pipeline.build_evidence(q["question"], found)   # the pipeline passes every retrieved passage
+                    evidence, _, _ = pipeline.build_evidence(q["question"], found, bundle)   # the pipeline passes every retrieved passage
                     row["answer_in_evidence"] = all(key_point_hits(evidence, q["key_points"]))
             if args.mode == "full":
                 t = time.time()

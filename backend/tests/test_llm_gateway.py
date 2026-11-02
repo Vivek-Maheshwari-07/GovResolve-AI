@@ -117,3 +117,38 @@ def test_local_warm_up_is_skipped_when_the_api_is_the_first_choice(monkeypatch):
     monkeypatch.setattr(gw.urllib.request, "urlopen", lambda *a, **k: pytest.fail("network call"))
     monkeypatch.setattr(gw, "LLM_PROVIDER", "api")
     assert gw.warm_up_local_llm("system") is False
+
+
+def test_local_call_asks_for_a_json_object_unless_plain_text_is_wanted(monkeypatch):
+    seen = []
+
+    def fake_urlopen(req, timeout):
+        seen.append(json.loads(req.data))
+        return reply("ok")
+
+    monkeypatch.setattr(gw.urllib.request, "urlopen", fake_urlopen)
+    monkeypatch.setattr(gw, "LOCAL_LLM_URL", "http://localhost:11434/v1/chat/completions")   # no "ollama" in the URL
+    gw.call_local_llm("s", "u")
+    gw.call_local_llm("s", "u", json_mode=False)
+    assert seen[0]["response_format"] == {"type": "json_object"} and seen[1]["response_format"] is None
+
+
+def test_plain_text_is_requested_from_the_local_model_only(monkeypatch):
+    got = {}
+    monkeypatch.setattr(gw, "LLM_PROVIDER", "local")
+    monkeypatch.setattr(gw, "call_local_llm", lambda s, u, **k: got.setdefault("local", k) and "x")
+    monkeypatch.setattr(gw, "call_api_llm", lambda s, u, **k: got.setdefault("api", k) and None)
+    gw.execute_llm_generation("s", "u", max_tokens=80, json_mode=False)
+    assert got["local"] == {"max_tokens": 80, "json_mode": False}
+    got.clear()
+    gw.execute_llm_generation("s", "u")                                  # the answers keep their JSON mode and default length
+    assert got["local"] == {}
+
+
+@pytest.mark.parametrize("reply,expected", [
+    ('{"answer": "What is the age limit for direct selection?"}', "What is the age limit for direct selection?"),
+    ('{"content": "When did the rules come into force?"}', "When did the rules come into force?"),
+    ('{"n": 3}', None), ("{ broken json", None),
+])
+def test_a_json_reply_is_unwrapped_for_translation(reply, expected):
+    assert gw._clean_translation(reply) == expected

@@ -9,6 +9,7 @@ Includes all 5 Architectural Patches:
 """
 from __future__ import annotations
 
+import dataclasses
 import datetime
 import json
 import math
@@ -34,7 +35,7 @@ from backend.models import (
 )
 from backend.rag.gujlish_normalizer import GujlishNormalizer, SearchBundle
 from backend.rag.gujarati_stemmer import tokenize_for_bm25, normalize_gujarati_digits
-from backend.rag.llm_gateway import execute_llm_generation
+from backend.rag.llm_gateway import execute_llm_generation, translate_to_english
 from backend.lineage.lineage_graph import LineageGraph
 
 # ── Optional vector / NLP libraries ──────────────────────────────
@@ -696,7 +697,19 @@ class RAGPipeline:
                 return " ".join(b.text for b in pg.blocks)
         return ""
 
-    def build_evidence(self, raw_query: str, passages: list[dict]) -> tuple[str, dict, list[dict]]:
+    def prepare(self, raw_query: str) -> SearchBundle:
+        """The search bundle for a question. For Gujarati, Gujarati-in-Latin-letters and mixed questions it also holds an English rendering
+        (one short model call, remembered): the documents are mostly English, and a Gujarati question shares no words with them, so
+        neither keyword search nor sentence choice could match. Without a model the bundle is unchanged."""
+        bundle = normalizer.normalize(raw_query)
+        if bundle.detected_lang != "en":
+            english = translate_to_english(raw_query)
+            if english:
+                words = [w.lower() for w in re.findall(r"[A-Za-z0-9]{3,}", english)]
+                bundle = dataclasses.replace(bundle, query_en=english, keywords=list(dict.fromkeys(list(bundle.keywords) + words)))
+        return bundle
+
+    def build_evidence(self, raw_query: str, passages: list[dict], bundle: Optional[SearchBundle] = None) -> tuple[str, dict, list[dict]]:
         """The numbered evidence the model reads: (text, sentence registry, chunks used). No model call, so it can be measured on its own.
 
         The sentences of the best EVIDENCE_CANDIDATES chunks compete for one budget (EVIDENCE_MAX_CHARS), chosen by how well they
@@ -755,7 +768,8 @@ class RAGPipeline:
                 elif is_substantive(s):  # not letterhead or page furniture: it costs prompt time and answers nothing
                     pool.append({"text": s, "chunk": c_idx, "rank": c_idx, "bonus": 3.0 if c.get("injected") else 0.0})
 
-        query_tokens = set(tokenize_for_bm25(raw_query))
+        # the English rendering (if any) lets a Gujarati question pick English sentences
+        query_tokens = set(tokenize_for_bm25(raw_query + (" " + bundle.query_en if bundle else "")))
         chosen = select_sentences(pool, query_tokens, EVIDENCE_MAX_CHARS, EVIDENCE_CHARS_PER_CHUNK)
         coverage = sentence_coverage(pool, query_tokens)
         by_chunk: dict[int, list[int]] = {}
@@ -852,7 +866,7 @@ class RAGPipeline:
             )
 
         # Generate Synchronized Search Bundle
-        bundle = normalizer.normalize(raw_query)
+        bundle = self.prepare(raw_query)
         detected_lang = Language.GU if bundle.detected_lang == "gu" else (Language.MIXED if bundle.detected_lang in ("gujlish", "mixed") else Language.EN)
 
         # ── Step 2: Symmetric Hybrid Retrieval ──
@@ -867,7 +881,7 @@ class RAGPipeline:
                 collection_latest_date=self.collection_latest_date,
             )
 
-        context_str, sentence_registry, injected_context_chunks = self.build_evidence(raw_query, passages)
+        context_str, sentence_registry, injected_context_chunks = self.build_evidence(raw_query, passages, bundle)
 
         # ── Step 5: Grounded Generation Prompt ──
         # Kept short on purpose: on a CPU the model reads about 30 tokens/s and writes about 5, so every sentence of prompt and

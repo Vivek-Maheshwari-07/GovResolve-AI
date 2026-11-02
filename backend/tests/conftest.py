@@ -17,3 +17,17 @@ def client(tmp_path):
                    corpus_dir=DATA / "fixtures", lineage_engine="stub", stub_edges=DATA / "fixture_edges.json")
     with TestClient(create_app(cfg, persist_vectors=False)) as c:
         yield c
+
+
+@pytest.fixture(autouse=True)
+def no_translation_call_in_tests(monkeypatch):
+    """The pipeline renders non-English questions in English with a model call. Tests never make it (and never write the translation
+    cache); the cross-lingual tests switch the real function back on and patch the gateway's model call themselves."""
+    monkeypatch.setenv("TRANSLATION_CACHE", "")
+    try:
+        import backend.rag.search_engine as se
+    except Exception:  # the squad2 modules are optional for the API tests
+        yield
+        return
+    monkeypatch.setattr(se, "translate_to_english", lambda question: None)
+    yield

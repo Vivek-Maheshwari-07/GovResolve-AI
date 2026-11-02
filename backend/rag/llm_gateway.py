@@ -39,7 +39,7 @@ except ImportError:
     GEMINI_AVAILABLE = False
 
 
-def call_local_llm(system_prompt: str, user_prompt: str, max_tokens: Optional[int] = None) -> Optional[str]:
+def call_local_llm(system_prompt: str, user_prompt: str, max_tokens: Optional[int] = None, json_mode: bool = True) -> Optional[str]:
     """Call an OpenAI-compatible local LLM endpoint (Ollama / vLLM / LM Studio)."""
     payload = {
         "model": LOCAL_LLM_MODEL,
@@ -49,7 +49,7 @@ def call_local_llm(system_prompt: str, user_prompt: str, max_tokens: Optional[in
         ],
         "temperature": 0.0,
         "max_tokens": max_tokens or int(os.getenv("LOCAL_LLM_MAX_TOKENS", "700")),  # Gujarati costs many tokens; this bounds latency
-        "response_format": {"type": "json_object"} if "ollama" not in LOCAL_LLM_URL else None
+        "response_format": {"type": "json_object"} if json_mode and "ollama" not in LOCAL_LLM_URL else None
     }
     if LOCAL_LLM_REASONING:
         payload["reasoning_effort"] = LOCAL_LLM_REASONING
@@ -137,7 +137,7 @@ def call_gemini_api(system_prompt: str, user_prompt: str) -> Optional[str]:
         return None
 
 
-def execute_llm_generation(system_prompt: str, user_prompt: str) -> tuple[str, str]:
+def execute_llm_generation(system_prompt: str, user_prompt: str, max_tokens: Optional[int] = None, json_mode: bool = True) -> tuple[str, str]:
     """
     Run the prompt through the configured providers in order and return (raw_llm_output, provider_used).
     The first choice is LLM_PROVIDER; the rest follow if it is not configured or fails, so a flaky network never costs
@@ -148,7 +148,12 @@ def execute_llm_generation(system_prompt: str, user_prompt: str) -> tuple[str, s
              "local": ["local", "api", "gemini"], "auto": ["api", "gemini", "local"]}.get(
         LLM_PROVIDER.lower(), ["local", "api", "gemini"])
     for n, name in enumerate(order):
-        out = calls[name](system_prompt, user_prompt)
+        extra = {}
+        if max_tokens and name != "gemini":
+            extra["max_tokens"] = max_tokens
+        if not json_mode and name == "local":
+            extra["json_mode"] = False  # plain text wanted (translation), not the JSON object the answers use
+        out = calls[name](system_prompt, user_prompt, **extra)
         if out:
             return out, name
         if n == 0:
@@ -163,3 +168,71 @@ def execute_llm_generation(system_prompt: str, user_prompt: str) -> tuple[str, s
         "follow_up_question": None
     }
     return json.dumps(fallback_response), "fallback"
+
+
+TRANSLATE_SYSTEM = (
+    "You translate questions about Gujarat Government Resolutions into English. The question may be in Gujarati, in Gujarati written in "
+    "Latin letters, or mixed with English. Reply with the English translation only: one sentence, no quotes, no explanation. "
+    "Keep numbers, dates, GR numbers and names exactly as written. If the question is already English, repeat it."
+)
+_TRANSLATIONS: dict[str, str] = {}
+_TRANSLATIONS_LOADED = False
+
+
+def _translation_cache_path() -> Optional[str]:
+    """Where translations are remembered between runs (so the same question costs one model call ever); '' disables the file."""
+    path = os.getenv("TRANSLATION_CACHE")
+    if path is None:
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "data", "index", "translations.json")
+    return os.path.abspath(path) if path else None
+
+
+def _clean_translation(reply: str) -> Optional[str]:
+    """The model's reply as one plain English sentence, or None if it is empty or not English (a failed translation)."""
+    reply = (reply or "").strip()
+    if reply.startswith("{"):  # a model told to answer in JSON: take its first string value
+        try:
+            values = [v for v in json.loads(reply).values() if isinstance(v, str)]
+        except (ValueError, AttributeError):
+            values = []
+        reply = values[0] if values else ""
+    lines = [ln.strip() for ln in reply.splitlines() if ln.strip()]
+    if not lines:
+        return None
+    text = re.sub(r"^(?:english\s+)?translation\s*[:\-]\s*", "", lines[0], flags=re.I).strip().strip("\"'`“”‘’ ")
+    latin = len(re.findall(r"[A-Za-z]", text))
+    gujarati = len(re.findall(r"[઀-૿]", text))
+    if len(text) < 3 or latin < 3 or gujarati > latin:
+        return None
+    return text[:300]
+
+
+def translate_to_english(question: str) -> Optional[str]:
+    """One short model call that renders a Gujarati / Gujlish question in English, so keyword search and sentence choice can match the
+    (mostly English) documents. None when no model answers or the reply is not English; the caller then searches as before.
+    Remembered in memory and in a small JSON file, so repeated runs and repeated questions cost nothing."""
+    global _TRANSLATIONS_LOADED
+    path = _translation_cache_path()
+    if path and not _TRANSLATIONS_LOADED:
+        _TRANSLATIONS_LOADED = True
+        try:
+            with open(path, encoding="utf-8") as f:
+                _TRANSLATIONS.update(json.load(f))
+        except (OSError, ValueError):
+            pass
+    key = question.strip()
+    if key in _TRANSLATIONS:
+        return _TRANSLATIONS[key] or None
+    reply, provider = execute_llm_generation(TRANSLATE_SYSTEM, key, max_tokens=80, json_mode=False)
+    if provider == "fallback":
+        return None  # nothing answered; do not remember a failure
+    english = _clean_translation(reply)
+    _TRANSLATIONS[key] = english or ""
+    if path:
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(_TRANSLATIONS, f, ensure_ascii=False, indent=0)
+        except OSError:
+            pass
+    return english
