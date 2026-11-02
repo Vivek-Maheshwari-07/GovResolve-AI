@@ -90,6 +90,18 @@ def _named_year_conflicts(sentence: str, subject: str | None) -> bool:
     return not any(sum(a != b for a, b in zip(n, years[-1])) <= 1 for n in named)
 
 
+_QUOTED = re.compile('"[^"]{6,}?"|“[^”]{6,}?”')
+
+
+def _without_quoted_text(sentence: str) -> str:
+    """The sentence minus anything inside quotation marks. A title inside quotes is wording being inserted or replaced ('... for the
+    words "as laid down in the Gujarat Civil Services ... Rules, 1967" shall be substituted'), not the instrument being amended,
+    which is named first ('In the Senior Clerk ... Recruitment Rules, 2015, ...'). Unbalanced quotes (OCR) leave the sentence as it is."""
+    if sentence.count('"') % 2:
+        return sentence
+    return _QUOTED.sub(" ", sentence)
+
+
 class Resolver:
     def __init__(self, corpus: Corpus):
         self.corpus = corpus
@@ -119,7 +131,9 @@ class Resolver:
         """Instruments the sentence names by title, e.g. 'further to amend the Gujarat Civil Services ... Rules, 1967'.
         85% of the title words (OCR drops some, at least 5 words) must appear in the title's own order within a short
         stretch of the text, so a passing mention of 'civil services' or 'recruitment' elsewhere does not count.
-        The year printed after the title must agree with the candidate's. The most specific title wins, earliest GR on a tie."""
+        The year printed after the title must agree with the candidate's. Text inside quotation marks is not searched. The most specific
+        title wins, earliest GR on a tie."""
+        sentence = _without_quoted_text(sentence)
         have = [w for w in re.findall(r"[a-z]{3,}", sentence.lower()) if w not in _TITLE_STOP]
         best: list[tuple[int, date, str]] = []
         for gid, words in self.titles.items():

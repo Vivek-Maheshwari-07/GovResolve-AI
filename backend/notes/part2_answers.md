@@ -101,3 +101,9 @@ Why the engine finds almost nothing in Gujarati (4 weak links, 139 unresolved re
 If someone continues: (a) break inline markers and items in `split_segments` (insert a newline before "વંચાણે/વંચાણમાં લીધા", "આમુખ", "ઠરાવ:" and before "(n)" inside the read section, mapping "ર" to 2);
 (b) Gujarati pointer forms incl. ranges ("(૧) થી (૩)"), "અને" lists and "તમામ" = all read items; (c) the phrases above, each tied to a pointer, date or number in the same sentence; (d) treat read-list items that match a corpus GR as REFERS;
 (e) check every new edge by reading it, and keep the English gold pairs at P 1.000 / R 0.972. Roadmap item 2.3 is therefore deferred, with this note as its starting point.
+
+## 2.4 The wrong Senior Clerk edge (fixed)
+The 2020 Senior Clerk amendment was linked to the 1967 Recruitment Rules because the 1967 title appears inside the quoted text being substituted ("... as laid down in the
+Gujarat Civil Services ... Rules, 1967"). `Resolver.match_title` now ignores text inside quotation marks (balanced pairs only; unbalanced OCR quotes leave the sentence as it was): a quoted title is inserted
+wording, not the instrument being amended. Result on `corpus_v2`: the wrong edge is gone, gold pairs unchanged (69 of 71 found), precision 0.958 -> **0.972**, recall 0.972, no changing edges
+outside the gold documents. Tests in `tests/test_resolve.py`.

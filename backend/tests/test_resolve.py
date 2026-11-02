@@ -166,3 +166,39 @@ def test_year_check_survives_ocr_damage_dashes_and_missing_years():
     assert r.match_title(base + ", 1983, namely", new) == []             # a clearly different year
     # the amendment's own title also ends in a year; only the named instrument's year has to agree
     assert r.match_title(base + ", 1967, namely: 1. These rules may be called the (Amendment) Rules, 2011", new) == ["RULES67"]
+
+
+def _quote_corpus():
+    return Corpus({g.gr_id: g for g in [
+        gr("RULES67", None, "GAD", date(1967, 10, 10), "GUJARAT CIVIL SERVICES CLASSIFICATION AND RECRUITMENT (GENERAL) RULES \u2013 1967"),
+        gr("NEW", None, "GAD", date(2020, 8, 31), "Amendment"),
+    ]})
+
+
+SENIOR_CLERK = ('In the Senior Clerk, class III, in the subordinate service of the Non Secretariat Departments, Recruitment Rules, 2015, '
+                '(herein after referred to as the said rules) in rule 3, in clause (a) for the words, "by promotion of a person of proved merit", '
+                'the words "by promotion of a person who possess good benchmark as laid down in the Gujarat Civil Services Classification and '
+                'Recruitment (General) Rules, 1967" shall be substituted.')
+
+
+def test_a_title_inside_quotation_marks_is_inserted_wording_not_the_amended_instrument():
+    """Found by the out-of-sample check: the 2020 Senior Clerk amendment was linked to the 1967 rules named inside the substituted text."""
+    r = Resolver(_quote_corpus())
+    new = r.corpus.get("NEW")
+    assert r.match_title(SENIOR_CLERK, new) == []
+    assert r.match_title(SENIOR_CLERK.replace('"', "\u201c", 1).replace('"', "\u201d", 1).replace('"', "\u201c", 1).replace('"', "\u201d", 1), new) == []
+
+
+def test_the_named_instrument_still_matches_when_other_text_is_quoted():
+    r = Resolver(_quote_corpus())
+    new = r.corpus.get("NEW")
+    named = ('further to amend the Gujarat Civil Services Classification and Recruitment (General) Rules, 1967, '
+             'in rule 9 for the words "the Clerk Recruitment Rules" the words "the Senior Clerk Recruitment Rules" shall be substituted')
+    assert r.match_title(named, new) == ["RULES67"]
+
+
+def test_unbalanced_quotes_from_ocr_leave_the_sentence_untouched():
+    r = Resolver(_quote_corpus())
+    new = r.corpus.get("NEW")
+    broken = 'for the words "as laid down in the Gujarat Civil Services Classification and Recruitment (General) Rules, 1967 shall be substituted'
+    assert r.match_title(broken, new) == ["RULES67"]      # odd number of quote marks: nothing is stripped, the old behaviour stays
