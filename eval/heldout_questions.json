@@ -1,0 +1,299 @@
+[
+ {
+  "question_id": "H-001",
+  "question": "તા. ૧-૪-૨૦૧૬ પછી ચાલુ નોકરી દરમ્યાન અવસાન પામનાર વર્ગ-૩ અને વર્ગ-૪ના કર્મચારીના આશ્રિત કુટુંબને કેટલા લાખની ઉચ્ચક નાણાકીય સહાય મળે છે?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_1719_1_070416-0d2a5c",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "૮ (આઠ ) લાખ",
+    "આઠ",
+    "8 લાખ",
+    "8 lakh"
+   ]
+  ],
+  "evidence_note": "Resolution 7 Apr 2016: lump sum raised to Rs 8 lakh",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-002",
+  "question": "સચિવાલયના સંયુક્ત સચિવો અને નાયબ સચિવોને મોબાઇલ ફોનની સુવિધામાં માસિક એર ટોક ટાઇમની મર્યાદા કેટલી મંજૂર થઈ?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_1730_1_RESO-ALL-DS-JS-SACHIVALAYA-207468",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "૫૦૦",
+    "500"
+   ]
+  ],
+  "evidence_note": "Resolution 29 Apr 2016: air talk time limit Rs 500 a month, no handset",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-003",
+  "question": "Which monthly payment limit for outsourced stenographers was removed by the June 2024 resolution, and what replaced it?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3801_1_OutsourseStenographerOrder2024-85e68a",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "15000",
+   [
+    "minimum wage",
+    "લઘુત્તમ વેતન"
+   ]
+  ],
+  "evidence_note": "Resolution 11 Jun 2024: Rs 15,000 limit removed; minimum wage of skilled workers applies",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-004",
+  "question": "Class-4 karmchario na uniform kapad na bhav ni july 2024 ni spashtata ma 'pratī set' ni jagyae shu vanchvanu che?",
+  "language": "mixed",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3808_1_Draft-Letter_modified-GR-eef0d4",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "બે જોડી",
+    "two pairs",
+    "be jodi"
+   ]
+  ],
+  "evidence_note": "Resolution 24 Jul 2024: 'પ્રતિ સેટ' to be read as 'બે જોડી માટે'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-005",
+  "question": "What must a Secretariat department do if it receives a complaint against an IAS officer?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_780_1_PRELIMANARY-INQUIRY-AGAINST-IAS-e48e9e",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "transferred to GAD"
+  ],
+  "evidence_note": "Circular 9 Jan 2009: no direct dealing; transfer the complaint to GAD forthwith",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-006",
+  "question": "How is the pay fixed for a retired AIS officer appointed on contract under the June 2004 circular?",
+  "language": "en",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_738_1_CONTRACT-BASIS-RET-IAS-24-6-2004--f41728",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "Last Pay Drawn minus Pension"
+  ],
+  "evidence_note": "Circular 24 Jun 2004, term (1)",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-007",
+  "question": "Retired AIS officer ne contract par rakhya hoy to darek varsh ma ketla divas ni paid leave made?",
+  "language": "mixed",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_738_1_CONTRACT-BASIS-RET-IAS-24-6-2004--f41728",
+    "page": 2
+   }
+  ],
+  "key_points": [
+   [
+    "15 days",
+    "15 divas",
+    "15"
+   ]
+  ],
+  "evidence_note": "Circular 24 Jun 2004, term (7): 15 days' paid leave per completed year",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-008",
+  "question": "૨૯ સપ્ટેમ્બર ૨૦૨૬ના જાહેરનામાથી ગુજરાત જાહેર સેવા આયોગના સભ્ય તરીકે કોની નિમણૂક કરવામાં આવી?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_4065_1_Prof-Jyoti-Iyer-dc2f79",
+    "page": 2
+   }
+  ],
+  "key_points": [
+   [
+    "Jyoti Iyer",
+    "જ્યોતિ ઐયર",
+    "જ્યોતિ અય્યર"
+   ]
+  ],
+  "evidence_note": "Gazette 29 Sep 2026: Prof. (Dr.) Jyoti Iyer",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-009",
+  "question": "Which Act replaced the entry at serial no. 5 of Paper II (Service Matters-2) by the May 2026 amendment of the Section Officer, Class-II Departmental Examination Rules?",
+  "language": "en",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_4029_1_1-5-2026_amendment_so_department_exam_rules-83e875",
+    "page": 2
+   }
+  ],
+  "key_points": [
+   "Right of Citizens to Public Services"
+  ],
+  "evidence_note": "Gazette 1 May 2026: entry 5 replaced by 'The Gujarat (Right of Citizens to Public Services) Act, 2013'",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-010",
+  "question": "What assistance may a Government servant take to present the case on his behalf, according to the 1986 amendment of the Gujarat Civil Services (Discipline and Appeal) Rules, 1971?",
+  "language": "en",
+  "category": "amended",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_3916_1_notification_16-4-86-54d29f",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   "retired Government"
+  ],
+  "evidence_note": "Notification 16 Apr 1986: note added after rule 9(5)(c); OCR of this scan is poor",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-011",
+  "question": "ધોરણ-૧૦ અને ૧૧નો અભ્યાસક્રમ બદલાય ત્યારે હિન્દી ભાષા પરીક્ષામાં નાપાસ થયેલા ઉમેદવારો જૂના અભ્યાસક્રમ મુજબ કેટલી પરીક્ષાઓ આપી શકશે?",
+  "language": "gu",
+  "category": "simple",
+  "expected_verdict": "answered",
+  "expected_reason_code": null,
+  "gold_docs": [
+   {
+    "doc_id": "GR-1_2232_1_13-10-2004-ddbc37",
+    "page": 1
+   }
+  ],
+  "key_points": [
+   [
+    "બે પરીક્ષા",
+    "બે પરીક્ષાઓ",
+    "two"
+   ]
+  ],
+  "evidence_note": "Resolution 13 Oct 2004: old syllabus allowed for the next two examinations",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-012",
+  "question": "How many days of child care leave can a woman government employee take?",
+  "language": "en",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "text search: 0 documents mention child care leave / બાળ સંભાળ",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-013",
+  "question": "ગુજરાતમાં ડ્રાઇવિંગ લાયસન્સ રિન્યુ કરવાની ફી કેટલી છે?",
+  "language": "gu",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "text search: 0 documents mention driving licences",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-014",
+  "question": "Students ne scholarship ketli madse?",
+  "language": "mixed",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "NO_DOCUMENT",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "text search: 0 documents mention scholarship / શિષ્યવૃત્તિ",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-015",
+  "question": "Should I file a case in court against my transfer order and will the court cancel it?",
+  "language": "en",
+  "category": "unanswerable",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "OUT_OF_SCOPE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "asks for legal advice and a prediction",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ },
+ {
+  "question_id": "H-016",
+  "question": "pension",
+  "language": "en",
+  "category": "vague",
+  "expected_verdict": "insufficient_evidence",
+  "expected_reason_code": "TOO_VAGUE",
+  "gold_docs": [],
+  "key_points": [],
+  "evidence_note": "one word, no rule or person named",
+  "validated_by": "drafted by Claude from the document text; not officer-validated"
+ }
+]

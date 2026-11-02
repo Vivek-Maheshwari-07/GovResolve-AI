@@ -107,3 +107,28 @@ The 2020 Senior Clerk amendment was linked to the 1967 Recruitment Rules because
 Gujarat Civil Services ... Rules, 1967"). `Resolver.match_title` now ignores text inside quotation marks (balanced pairs only; unbalanced OCR quotes leave the sentence as it was): a quoted title is inserted
 wording, not the instrument being amended. Result on `corpus_v2`: the wrong edge is gone, gold pairs unchanged (69 of 71 found), precision 0.958 -> **0.972**, recall 0.972, no changing edges
 outside the gold documents. Tests in `tests/test_resolve.py`.
+
+## 2.6 Held-out set (16 questions, scored once, nothing tuned on them)
+`eval/heldout_questions.json`, built by `scripts/make_heldout_questions.py`: 11 answerable (8 simple, 3 amended) + 5 refusals (3 absent topics, 1 legal-advice trap, 1 vague); en 8 / gu 5 / mixed 3.
+All cited documents are ones no gold question uses (the builder and `tests/test_heldout_questions.py` check this), and every key point was verified on the cited page.
+Drafted by Claude, **not officer-validated**. Saved runs: `eval/heldout_retrieval.json` (no model) and `eval/heldout_full.json` (local `qwen3.5:4b`, log in `eval/heldout_full.log`).
+Run: `python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --gold ../eval/heldout_questions.json --mode full --out ../eval/heldout_full.json`
+
+| | Held-out (11 answerable + 5 refusals) | Dev set (`scorecard_full_v3`, 35 + 15) |
+|---|---|---|
+| Right document first / first three | 72.7% / 72.7% | 82.9% / 94.3% |
+| Answer in the evidence | 63.6% | 85.7% |
+| Answerable questions answered correctly | **6 of 11 (55%)** | 24 of 35 (69%) |
+| Answerable questions refused wrongly | 2 of 11 (H-003, H-004) | 4 of 35 (11%) |
+| Answered wrongly or incompletely | 3 of 11 (H-008, H-009, H-011) | 4 genuinely wrong |
+| Citations on the gold page / quote verbatim | 71.4% / 100% | 83% / 100% |
+| Refusals correct, with the right reason code | 5/5 | 15/15 |
+| Median / p95 seconds | 48 / 76 | 45 / 66 |
+
+The scorer says 5 of 9 answers have every key point; reading them, **6 are right**: H-005 ("transfer the complaint to GAD immediately") is correct but the key point was "transferred to GAD".
+What went wrong, by cause:
+- **Wrong document (H-008, Gujarati):** the question names the GPSC member appointed on 29 Sep 2026 (Jyoti Iyer, `1_4065`); retrieval ranked the sibling gazette notices for other members (`1_4062`, `1_4063`) first and the model answered with their names. Plausible, verbatim-quoted and wrong: the dangerous kind.
+- **Wrongly refused (H-003, H-004):** both are about Gujarati-text documents (`1_3801`, `1_3808`) that were not in the first three; the model said the sentences do not mention it.
+- **Right document, answer not in the evidence (H-009):** the model named the amending rules instead of the Act that replaced entry 5.
+- **Incomplete (H-011, Gujarati):** quoted the right paragraph but not "two examinations".
+Conclusion: the dev-set numbers overstate what a new question gets. Expect roughly 55-65% fully correct on unseen questions with this local model, with refusals reliable and wrong-document answers the main risk (the hosted-model run, item 2.5, is the test of whether a stronger model fixes it). 16 questions is a very small sample.

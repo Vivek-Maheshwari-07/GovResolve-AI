@@ -1,0 +1,536 @@
+{
+ "summary": {
+  "mode": "full",
+  "questions": 16,
+  "by_category": {
+   "simple": 8,
+   "amended": 3,
+   "unanswerable": 4,
+   "vague": 1
+  },
+  "by_language": {
+   "gu": 5,
+   "en": 8,
+   "mixed": 3
+  },
+  "1_retrieval": {
+   "questions": 11,
+   "top1": 0.727,
+   "top3": 0.727,
+   "top1_by_category": {
+    "simple": 0.75,
+    "amended": 0.667
+   }
+  },
+  "1_evidence": {
+   "questions": 11,
+   "answer_in_evidence": 0.636,
+   "by_language": {
+    "en": 0.6,
+    "gu": 0.75,
+    "mixed": 0.5
+   }
+  },
+  "2_citations": {
+   "answers_with_citations": 9,
+   "citations": 14,
+   "on_gold_page": 0.714,
+   "quote_verbatim": 1.0
+  },
+  "3_answers": {
+   "answered_with_key_points": 9,
+   "all_points_rate": 0.556,
+   "mean_point_coverage": 0.556
+  },
+  "5_refusals": {
+   "should_refuse": 5,
+   "correctly_refused": 1.0,
+   "right_reason_code": 1.0,
+   "should_answer": 11,
+   "wrongly_refused": 0.182
+  },
+  "lineage_status_shown": {
+   "questions": 0,
+   "right_status_cited": null
+  },
+  "seconds": {
+   "p50": 47.9,
+   "p95": 76.0,
+   "max": 76.0
+  },
+  "4_chain": {
+   "gold_pairs": 71,
+   "detected_touching_gold_docs": 71,
+   "true_positive": 69,
+   "precision": 0.972,
+   "recall": 0.972,
+   "edges_outside_gold": 0,
+   "all_changing_edges": 71
+  }
+ },
+ "questions": [
+  {
+   "id": "H-001",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1719_1_070416-0d2a5c",
+    "GR-1_2217_1_7-1-2021-7c01ae",
+    "GR-1_1981_1_RHM-25-06-19-4b41ba"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 72.3,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "૨૦૧૬-૦૪-૦૭ના ઠરાવ મુજબ ૮ લાખની ઉચ્ચક નાણાકીય સહાય મળે છે. ૨૦૧૯-૦૬-૨૫ના ઠરાવથી આ યોજના રદ કરવામાં આવેલ છે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_1719_1_070416-0d2a5c",
+     "page": 1,
+     "quote": "ર ન જૂ ૮ (આઠ ) લાખ ચૂકવવાનું આથી ઠરાવવામાં આવે છે."
+    },
+    {
+     "doc_id": "GR-1_1981_1_RHM-25-06-19-4b41ba",
+     "page": 1,
+     "quote": "જે યોજના રદ કરીને સંદર્ભ (ર) પરના તા.૫-૭-૨૦૧૧ના ઠરાવથી ચાલુ નોકરી દરમ્યાન અવસાન પામનાર વર્ગ-૩ અને વર્ગ-૪ ના કર્મચારીઓના આશ્રિત કુટુંબને ઉચ્ચક નાણાકીય સહાય ચૂકવવ"
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "H-002",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1730_1_RESO-ALL-DS-JS-SACHIVALAYA-207468",
+    "GR-1_1383_1_Outsource30-11-06-4598ac",
+    "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 73.7,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "રાજ્ય સરકારના અધિકારીશ્રીઓ માટે ૫૦૦/- ની એર ટોક ટાઇમ મર્યાદા મંજૂર કરવામાં આવી છે. સચિવાલયના સંયુક્ત સચિવો અને નાયબ સચિવોને પણ ૫૦૦/- ની એર ટોક ટાઇમ મર્યાદા મંજૂર કરવામાં આવી છે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_1730_1_RESO-ALL-DS-JS-SACHIVALAYA-207468",
+     "page": 1,
+     "quote": "૫૦૦/- ની એર ટોક ટાઇમ મર્યાદામાં મોબાઇલ ફોનની સુવિધા મંજૂર કરવાનું આથી ઠરાવવામાં આવે છે."
+    },
+    {
+     "doc_id": "GR-1_1730_1_RESO-ALL-DS-JS-SACHIVALAYA-207468",
+     "page": 1,
+     "quote": "ઠરાવ: સરકાર દ્વારા વિચારણાને અંતે સચિવાલયના તમામ સંયુક્ત સચિવશ્રીઓ અને નાયબ સચિવશ્રીઓને, મોબાઇલ હેન્ડસેટ મંજૂર નહિ કરવાની શરતે માસિક રુ."
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "H-003",
+   "category": "simple",
+   "language": "en",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3812_1_GR-b0e194",
+    "GR-1_3805_1_22072024_HOD_CADRE_STRENGTH_GR1-a5355d",
+    "GR-1_3901_1_20-industries_mines-eff51d"
+   ],
+   "answer_in_evidence": false,
+   "seconds": 47.9,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: The provided sentences do not mention any monthly payment limits for outsourced stenographers or their removal.",
+   "refusal_refused": true,
+   "refusal_correct": false,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "H-004",
+   "category": "amended",
+   "language": "mixed",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3901_1_20-industries_mines-eff51d",
+    "GR-1_3899_1_18-labour_skill_development-30bd44",
+    "GR-1_3978_1_Steno-RPWD-13-11-2024-sd-si-02d485"
+   ],
+   "answer_in_evidence": false,
+   "seconds": 42.2,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: The provided sentences do not specify the uniform color for Class-4 employees.",
+   "refusal_refused": true,
+   "refusal_correct": false,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "H-005",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_780_1_PRELIMANARY-INQUIRY-AGAINST-IAS-e48e9e",
+    "GR-1_730_1_CIVIL-SERVICE-TRIBUNAL-ACT-1980-5-3-1981--7b2071",
+    "GR-1_739_1_CONTRACTUAL-APPOINTMENTS-14-11-1998--ae1b08"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 42.2,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The department must transfer the complaint to GAD immediately.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_780_1_PRELIMANARY-INQUIRY-AGAINST-IAS-e48e9e",
+     "page": 1,
+     "quote": "Vide GAD Circulars No.AIS-4191-2161-G, dated 4.6.1991, and No.AIS/4194/UOR/312, dated 14.3.1995, instructions have been issued to the effect that if a Secretari"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 0,
+   "all_points": false
+  },
+  {
+   "id": "H-006",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_738_1_CONTRACT-BASIS-RET-IAS-24-6-2004--f41728",
+    "GR-1_740_1_CR-RULES-1970-9-10-2006--40bbf3",
+    "GR-1_732_1_CONFIDENTIA-REPORT-ROLLS-1970-16-3-2001--f2dcab"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 49.4,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "Pay is fixed using the formula: Last Pay Drawn minus Pension.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_738_1_CONTRACT-BASIS-RET-IAS-24-6-2004--f41728",
+     "page": 1,
+     "quote": "( I ) His pay shall be fixed on the basis of the formula of \"Last Pay Drawn minus Pension\"."
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "H-007",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_738_1_CONTRACT-BASIS-RET-IAS-24-6-2004--f41728",
+    "GR-1_1383_1_Outsource30-11-06-4598ac",
+    "GR-1_739_1_CONTRACTUAL-APPOINTMENTS-14-11-1998--ae1b08"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 40.9,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "Retired AIS officers get 15 days paid leave every completed year.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_738_1_CONTRACT-BASIS-RET-IAS-24-6-2004--f41728",
+     "page": 2,
+     "quote": "(7) He will be allowed 15 days' paid leave on non-cumulative and ."
+    },
+    {
+     "doc_id": "GR-1_738_1_CONTRACT-BASIS-RET-IAS-24-6-2004--f41728",
+     "page": 2,
+     "quote": "non-encashable basis during every completed year of contraci: but he will not be allowed to ancash the accumulated Earned Leave on completion of the contract pe"
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "H-008",
+   "category": "simple",
+   "language": "gu",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_4062_1_Shri-K-S-Vasava-b69a52",
+    "GR-1_4063_1_Shri-K-C-Sampat-01376e",
+    "GR-1_4064_1_Shri-K-L-Bachani-e15fc8"
+   ],
+   "answer_in_evidence": false,
+   "seconds": 57.7,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "શ્રી કે.એસ.સંપાત અને શ્રી કે.એસ.વસાવાને સભ્ય તરીકે નિમણૂક કરવામાં આવી.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_4063_1_Shri-K-C-Sampat-01376e",
+     "page": 1,
+     "quote": ": G5/2026/231G AD1202412800/GPSC Co-ordination ln exercise of the powers conferred by clause (1) of Article 316 of the Constitution of lndia, the Governor of Gu"
+    },
+    {
+     "doc_id": "GR-1_4062_1_Shri-K-S-Vasava-b69a52",
+     "page": 1,
+     "quote": "Dated the 28th September, 2026 No.: No.: GSl2026l24lGAOl2024l2800lcPSC Co-ordination ln exercise of the powers conferred by clause (1) of Article 316 of the Con"
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 0,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 0,
+   "all_points": false
+  },
+  {
+   "id": "H-009",
+   "category": "amended",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_4029_1_1-5-2026_amendment_so_department_exam_rules-83e875",
+    "GR-1_3688_1_10-05-1991-5e27f4",
+    "GR-1_3687_1_27-09-1988-4750f7"
+   ],
+   "answer_in_evidence": false,
+   "seconds": 49.3,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The entry was replaced by the Section Officer, Class-II (Departmental Examination) (Amendment) Rules, 2026.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_4029_1_1-5-2026_amendment_so_department_exam_rules-83e875",
+     "page": 1,
+     "quote": "(1)  These rules may be called Section Officer, Class-II (Departmental Examination) (Amendment) Rules, 2026."
+    }
+   ],
+   "warnings": [
+    "BROKEN_CHAIN: GR-1_4029_1_1-5-2026_amendment_so_department_exam_rules-83e875 amends MATTERS-2, which is not in the colle"
+   ],
+   "citations": 1,
+   "citations_on_gold_page": 0,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 0,
+   "all_points": false
+  },
+  {
+   "id": "H-010",
+   "category": "amended",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3916_1_notification_16-4-86-54d29f",
+    "GR-1_1134_1_4-4c3015",
+    "GR-1_2259_1_08-06-2021-Head-Clerk-Pre-Service-Rules-6617b3"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 47.7,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "A Government servant may take assistance of a retired Government servant.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3916_1_notification_16-4-86-54d29f",
+     "page": 1,
+     "quote": "In the Gujarat Civil Services ( Discipline and Ne Appeal )Rules,1971 - { hereinafter referred to as ‘Rules ') in rule 9, in sub-rule (5), after clause (c), the "
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "H-011",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2232_1_13-10-2004-ddbc37",
+    "GR-1_3877_1_Gujarati-Gazzette03032025-GPSC-CLASS-1-2-f9358e",
+    "GR-1_3722_1_31-12-2013-2626a3"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 76.0,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "તેની તરત અગાઉના અભ્યાસક્રમ મુજબ ઉક્ત ભાષા પરીક્ષામાં નાપાસ થયેલા ઉમેદવારો જૂના અભ્યાસક્રમ મુજબ. નવો અભ્યાસક્રમ બદલાય ત્યારે ઉક્ત નિયમોથી નકકી કરાયેલ અભ્યાસક્રમ આપોઆપ બદલાયેલો ગણાશે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2232_1_13-10-2004-ddbc37",
+     "page": 1,
+     "quote": "પરંતુ તેની તરત અગાઉના અભ્યાસકમ મુજબ ઉક્ત ભાષા પરીક્ષામાં નાપાસ થયેલા ઉમેદવારો જુના ."
+    },
+    {
+     "doc_id": "GR-1_2232_1_13-10-2004-ddbc37",
+     "page": 1,
+     "quote": "“ ગુજરાતઃ રાજય શાળા પાઠયપુસ્તક મંડળ, ધોરણ-૧૦ અને ધોરણ-૧૧નો Ql વિષયનો અભ્યાસક્રમ બદલે ત્યારે ઉક્ત નિયમોથી નકકી કરાયેલ અભ્યાસક્રમ આપોઆપ બદલાયેલો ગણાશે અને નવા અભ્"
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 0,
+   "all_points": false
+  },
+  {
+   "id": "H-012",
+   "category": "unanswerable",
+   "language": "en",
+   "seconds": 39.3,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: The provided sentences do not mention child care leave for women employees.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "H-013",
+   "category": "unanswerable",
+   "language": "gu",
+   "seconds": 53.2,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: પૂર્ણકારોમાં ડ્રાઇવિંગ લાયસન્સ રિન્યુ કરવાની ફી વિશે કોઈ માહિતી નથી.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "H-014",
+   "category": "unanswerable",
+   "language": "mixed",
+   "seconds": 32.5,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: The provided sentences do not mention student scholarships.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "H-015",
+   "category": "unanswerable",
+   "language": "en",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "OUT_OF_SCOPE",
+   "answer": "OUT_OF_SCOPE: This question requests legal advice or an opinion. GovResolve-AI only provides information from gazetted Government Resolutions and cannot give legal advice.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "H-016",
+   "category": "vague",
+   "language": "en",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "TOO_VAGUE",
+   "answer": "TOO_VAGUE: Your question is too broad. Could you please specify the department, allowance, or leave type? Which specific department or rule (e.g., Casual Leave, LTC, Maternity Leave) are you asking about?",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  }
+ ]
+}

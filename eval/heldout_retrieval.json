@@ -1,0 +1,214 @@
+{
+ "summary": {
+  "mode": "retrieval",
+  "questions": 16,
+  "by_category": {
+   "simple": 8,
+   "amended": 3,
+   "unanswerable": 4,
+   "vague": 1
+  },
+  "by_language": {
+   "gu": 5,
+   "en": 8,
+   "mixed": 3
+  },
+  "1_retrieval": {
+   "questions": 11,
+   "top1": 0.727,
+   "top3": 0.727,
+   "top1_by_category": {
+    "simple": 0.75,
+    "amended": 0.667
+   }
+  },
+  "1_evidence": {
+   "questions": 11,
+   "answer_in_evidence": 0.636,
+   "by_language": {
+    "en": 0.6,
+    "gu": 0.75,
+    "mixed": 0.5
+   }
+  },
+  "4_chain": {
+   "gold_pairs": 71,
+   "detected_touching_gold_docs": 71,
+   "true_positive": 69,
+   "precision": 0.972,
+   "recall": 0.972,
+   "edges_outside_gold": 0,
+   "all_changing_edges": 71
+  }
+ },
+ "questions": [
+  {
+   "id": "H-001",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1719_1_070416-0d2a5c",
+    "GR-1_2217_1_7-1-2021-7c01ae",
+    "GR-1_1981_1_RHM-25-06-19-4b41ba"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "H-002",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1730_1_RESO-ALL-DS-JS-SACHIVALAYA-207468",
+    "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
+    "GR-1_1701_1_CDR-162005-613-part-7-Inq_Cell-Panel-List-Dt-07-12--035b1a"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "H-003",
+   "category": "simple",
+   "language": "en",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3812_1_GR-b0e194",
+    "GR-1_3805_1_22072024_HOD_CADRE_STRENGTH_GR1-a5355d",
+    "GR-1_3901_1_20-industries_mines-eff51d"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "H-004",
+   "category": "amended",
+   "language": "mixed",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3901_1_20-industries_mines-eff51d",
+    "GR-1_3899_1_18-labour_skill_development-30bd44",
+    "GR-1_3978_1_Steno-RPWD-13-11-2024-sd-si-02d485"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "H-005",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_780_1_PRELIMANARY-INQUIRY-AGAINST-IAS-e48e9e",
+    "GR-1_730_1_CIVIL-SERVICE-TRIBUNAL-ACT-1980-5-3-1981--7b2071",
+    "GR-1_739_1_CONTRACTUAL-APPOINTMENTS-14-11-1998--ae1b08"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "H-006",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_738_1_CONTRACT-BASIS-RET-IAS-24-6-2004--f41728",
+    "GR-1_740_1_CR-RULES-1970-9-10-2006--40bbf3",
+    "GR-1_732_1_CONFIDENTIA-REPORT-ROLLS-1970-16-3-2001--f2dcab"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "H-007",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_738_1_CONTRACT-BASIS-RET-IAS-24-6-2004--f41728",
+    "GR-1_1383_1_Outsource30-11-06-4598ac",
+    "GR-1_739_1_CONTRACTUAL-APPOINTMENTS-14-11-1998--ae1b08"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "H-008",
+   "category": "simple",
+   "language": "gu",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_4062_1_Shri-K-S-Vasava-b69a52",
+    "GR-1_4063_1_Shri-K-C-Sampat-01376e",
+    "GR-1_4064_1_Shri-K-L-Bachani-e15fc8"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "H-009",
+   "category": "amended",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_4029_1_1-5-2026_amendment_so_department_exam_rules-83e875",
+    "GR-1_3688_1_10-05-1991-5e27f4",
+    "GR-1_3687_1_27-09-1988-4750f7"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "H-010",
+   "category": "amended",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3916_1_notification_16-4-86-54d29f",
+    "GR-1_1134_1_4-4c3015",
+    "GR-1_2259_1_08-06-2021-Head-Clerk-Pre-Service-Rules-6617b3"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "H-011",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2232_1_13-10-2004-ddbc37",
+    "GR-1_3877_1_Gujarati-Gazzette03032025-GPSC-CLASS-1-2-f9358e",
+    "GR-1_3722_1_31-12-2013-2626a3"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "H-012",
+   "category": "unanswerable",
+   "language": "en"
+  },
+  {
+   "id": "H-013",
+   "category": "unanswerable",
+   "language": "gu"
+  },
+  {
+   "id": "H-014",
+   "category": "unanswerable",
+   "language": "mixed"
+  },
+  {
+   "id": "H-015",
+   "category": "unanswerable",
+   "language": "en"
+  },
+  {
+   "id": "H-016",
+   "category": "vague",
+   "language": "en"
+  }
+ ]
+}
