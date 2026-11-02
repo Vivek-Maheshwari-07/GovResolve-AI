@@ -202,3 +202,13 @@ def test_with_no_word_in_common_the_top_chunk_is_read_in_order():
              _it("A sentence of a lower ranked chunk.", 3)]
     assert select_sentences(items, {"zzz"}, budget=1000, chunk_cap=1000) == [0, 1]
     assert select_sentences([], {"x"}, 100, 100) == []
+
+
+def test_sentence_coverage_counts_a_question_word_found_nowhere_against_every_sentence():
+    from backend.rag.search_engine import sentence_coverage
+    items = [_it("The officer was appointed as Chief Electoral Officer for Gujarat in May 2021.", 0),
+             _it("Distribution list: Chief Secretary, Gujarat, Gandhinagar and all departments.", 1)]
+    full = sentence_coverage(items, {"appointed", "chief", "electoral", "officer", "gujarat"})
+    assert full[0] > 0.9 > full[1]
+    missing = sentence_coverage(items, {"chief", "gujarat", "salary", "monthly"})   # 'salary' and 'monthly' occur nowhere
+    assert max(missing) < 0.5 and sentence_coverage([], {"x"}) == [] and sentence_coverage(items, set()) == [0.0, 0.0]

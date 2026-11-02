@@ -14,6 +14,7 @@ class EngineResult(BaseModel):
     insufficient_reason: str | None = None
     reason_code: ReasonCode | None = None
     statements: list[Statement] = Field(default_factory=list)  # citation indexes point into `citations`
+    warnings: list[str] = Field(default_factory=list)  # e.g. answered without the language model; shown with the lineage warnings
 
 
 class AnswerEngine(Protocol):

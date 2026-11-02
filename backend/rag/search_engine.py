@@ -57,6 +57,9 @@ except ImportError:
 TOP_K_RETRIEVE  = int(os.getenv("TOP_K_RETRIEVE", "20"))
 TOP_K_RERANK    = int(os.getenv("TOP_K_RERANK", "5"))
 # Evidence size sent to the model. Defaults suit a cloud model; on a CPU (local Ollama) set lower, e.g. 3 / 600 / 2200.
+# Without a model, quote a passage only if it has at least this share of the question's (rare) words. A floor against zero-signal matches, not a
+# test of relevance: on the 50 gold questions answerable and unanswerable ones overlap (0.14-0.66 vs 0.20-0.58), so no threshold can separate them.
+EXTRACTIVE_MIN_COVERAGE  = float(os.getenv("EXTRACTIVE_MIN_COVERAGE", "0.2"))
 EVIDENCE_CANDIDATES      = int(os.getenv("EVIDENCE_CANDIDATES", "8"))  # chunks whose sentences compete for the evidence budget
 EVIDENCE_CHARS_PER_CHUNK = int(os.getenv("EVIDENCE_CHARS_PER_CHUNK", "1200"))
 EVIDENCE_MAX_CHARS       = int(os.getenv("EVIDENCE_MAX_CHARS", "6000"))
@@ -185,6 +188,20 @@ def evidence_cost(sentence: str) -> int:
     """Prompt cost of a sentence in characters, weighting Gujarati (about 1.5x the tokens per character of English)."""
     gujarati = sum("઀" <= ch <= "૿" for ch in sentence)
     return len(sentence) + gujarati // 2
+
+
+def sentence_coverage(items: list[dict], query_tokens: set[str]) -> list[float]:
+    """For each sentence: the share of the question's words it contains, weighted by rarity (IDF over the pool). A question word that
+    occurs in no candidate sentence counts at full rarity against every sentence, so "monthly salary of the Chief Minister" scores low
+    against passages that only share "Gujarat" and "maximum". 1.0 means the sentence has every question word."""
+    if not items or not query_tokens:
+        return [0.0] * len(items)
+    tokens = [set(tokenize_for_bm25(it["text"])) for it in items]
+    df = Counter(t for ts in tokens for t in ts)
+    n = len(items)
+    idf = {t: math.log(1 + n / df[t]) if df[t] else math.log(1 + n) for t in query_tokens}
+    total = sum(idf.values())
+    return [sum(idf[t] for t in query_tokens & ts) / total for ts in tokens]
 
 
 def select_sentences(items: list[dict], query_tokens: set[str], budget: int, chunk_cap: int) -> list[int]:
@@ -663,6 +680,8 @@ class RAGPipeline:
         self.records_map: dict[str, GRRecord] = {r.gr_id: r for r in all_records}
         self.lineage_graph = lineage_graph
         self.collection_latest_date = self._get_latest_date(all_records)
+        # chunk id -> its box on the page (PDF points, origin top-left), so a citation can say where to highlight
+        self._chunk_box = {ch.chunk_id: ch.bboxes[0] for r in all_records for ch in r.chunks if ch.bboxes}
 
     def _get_latest_date(self, records: list[GRRecord]) -> str:
         dates = [r.issue_date for r in records if r.issue_date]
@@ -736,7 +755,9 @@ class RAGPipeline:
                 elif is_substantive(s):  # not letterhead or page furniture: it costs prompt time and answers nothing
                     pool.append({"text": s, "chunk": c_idx, "rank": c_idx, "bonus": 3.0 if c.get("injected") else 0.0})
 
-        chosen = select_sentences(pool, set(tokenize_for_bm25(raw_query)), EVIDENCE_MAX_CHARS, EVIDENCE_CHARS_PER_CHUNK)
+        query_tokens = set(tokenize_for_bm25(raw_query))
+        chosen = select_sentences(pool, query_tokens, EVIDENCE_MAX_CHARS, EVIDENCE_CHARS_PER_CHUNK)
+        coverage = sentence_coverage(pool, query_tokens)
         by_chunk: dict[int, list[int]] = {}
         for k in chosen:
             by_chunk.setdefault(pool[k]["chunk"], []).append(k)
@@ -764,6 +785,9 @@ class RAGPipeline:
                     "issue_date": meta.get("issue_date"),
                     "page": page_num,
                     "verbatim_text": pool[k]["text"],
+                    "bbox": self._chunk_box.get(c.get("chunk_id")),  # the paragraph's box: coarse, not the exact line
+                    "rank": chosen.index(k),                         # 0 = best match for the question
+                    "coverage": coverage[k],                         # share of the question's (rare) words in this sentence
                 }
                 lines.append(f"[{sid}] {pool[k]['text']}")
                 s_counter += 1
@@ -772,6 +796,25 @@ class RAGPipeline:
 
         context_str = "\n\n".join(formatted_context_blocks)
         return context_str, sentence_registry, injected_context_chunks
+
+    def _extractive_response(self, raw_query: str, sentence_registry: dict, language: Language) -> QueryResponse:
+        """Answer without a language model: the best-matching evidence sentence (just one: the runner-up was usually unrelated), verbatim, labelled `inferred` (nobody checked that they
+        answer the question) and flagged with a warning. With no evidence at all this is still a refusal."""
+        best = [e for e in sorted(sentence_registry.values(), key=lambda e: e["rank"])[:1] if e["coverage"] >= EXTRACTIVE_MIN_COVERAGE]
+        if not best:
+            return QueryResponse(
+                question=raw_query, answer_status=AnswerStatus.INSUFFICIENT, insufficient_reason=InsufficientReason.NO_DOCUMENT,
+                summary="No passage in the documents shares enough of the question's words (and the language model is unavailable).",
+                language_detected=language, collection_latest_date=self.collection_latest_date)
+        cites = [Citation(gr_id=e["gr_id"], gr_number=e["gr_number"], issue_date=e["issue_date"], page=e["page"],
+                          passage=e["verbatim_text"], bbox=e.get("bbox")) for e in best]
+        return QueryResponse(
+            question=raw_query, answer_status=AnswerStatus.NO_LATER_CHANGE,
+            summary=" ".join(c.passage for c in cites),
+            statements=[AnswerStatement(text=c.passage, label=StatementLabel.INFERRED, citations=[c]) for c in cites],
+            citations=cites, language_detected=language, collection_latest_date=self.collection_latest_date,
+            warnings=["The language model is unavailable, so this is the passage that best matches the question's words, not a written "
+                      "answer, and nobody has checked that it answers the question. Check it against the cited page."])
 
     def answer(
         self,
@@ -844,6 +887,8 @@ class RAGPipeline:
         )
 
         raw_llm, provider_used = execute_llm_generation(system_prompt, user_prompt)
+        if provider_used == "fallback":  # no model answered (offline, unreachable, no key): quote the best passages instead
+            return self._extractive_response(raw_query, sentence_registry, detected_lang)
 
         # Parse LLM Response
         parsed = parse_llm_json(raw_llm)
@@ -865,6 +910,7 @@ class RAGPipeline:
                         issue_date=s_data["issue_date"],
                         page=s_data["page"],
                         passage=s_data["verbatim_text"],
+                        bbox=s_data.get("bbox"),
                     )
                     stmt_cits.append(cit)
                     verified_citations.append(cit)

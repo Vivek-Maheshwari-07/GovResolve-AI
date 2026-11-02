@@ -167,4 +167,5 @@ class QueryResponse(BaseModel):
     follow_up_question: Optional[str]      = None
     collection_latest_date: Optional[str]  = None   # for "no later change" caveat
     language_detected: Language = Language.EN
+    warnings:        list[str]             = Field(default_factory=list)  # e.g. 'answered without the language model'
 

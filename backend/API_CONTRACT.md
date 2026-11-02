@@ -194,6 +194,11 @@ Two optional fields on every `/query` response. Clients that ignore them keep wo
   `TOO_VAGUE`, `MISSING_FACTS`, `BROKEN_CHAIN`, `POOR_SCAN`, `OUT_OF_SCOPE`. Defaults to `NO_DOCUMENT` when the engine
   gives none. `reason` stays the human-readable text.
 
+- `citations[].bbox` (added to the example above earlier, now filled by the Squad 2 pipeline): `[x0, y0, x1, y1]` in PDF points, origin at the top-left of the
+  cited `page`, the box of the paragraph the quote sits in (coarse). `null` when unknown. Highlight it on the PDF page.
+- `warnings` may now also carry a line starting "The language model is unavailable": the answer is then one verbatim passage, not a written answer
+  (statement label `inferred`). Always show it.
+
 UI rules: show each statement's label next to it (spec AI-16). Choose refusal copy from `reason_code`, not by parsing `reason`.
 
 Squad 2 engine: `EngineResult` gains the matching optional `reason_code` and `statements` (citation indexes point into

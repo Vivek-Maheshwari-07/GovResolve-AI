@@ -151,7 +151,7 @@ def create_app(
             result = engine.answer(req.question, language)
 
             citations: list[Citation] = []
-            warnings: list[str] = []
+            warnings: list[str] = list(result.warnings)
             kept: dict[int, int] = {}  # engine citation index -> response citation index
             for i, raw in enumerate(result.citations):
                 meta = graph.get_meta(raw.doc_id)

@@ -55,9 +55,10 @@ def to_engine_result(resp: Any) -> EngineResult:
         why = (resp.summary or "").strip() or _REASONS.get(code, "The available documents do not support an answer.")
         extra = (resp.follow_up_question or "").strip()
         return EngineResult(insufficient_reason=f"{code}: {why}" + (f" {extra}" if extra else "") if code else why,
-                            reason_code=ReasonCode(code) if code in _REASONS else None)
+                            reason_code=ReasonCode(code) if code in _REASONS else None, warnings=list(getattr(resp, "warnings", None) or []))
     return EngineResult(answer=resp.summary.strip(), citations=cites,
-                        statements=_statements(getattr(resp, "statements", None) or [], cites))
+                        statements=_statements(getattr(resp, "statements", None) or [], cites),
+                        warnings=list(getattr(resp, "warnings", None) or []))
 
 
 def _statements(stmts: list[Any], cites: list[RawCitation]) -> list[Statement]:
