@@ -81,3 +81,23 @@ needs a hosted model or a GPU. Nothing hosted has been measured yet: there is no
 4. With a fast model also try the bigger evidence budget (`EVIDENCE_MAX_CHARS=6000`, `EVIDENCE_CHARS_PER_CHUNK=1200`, `TOP_K_RERANK=5`) and `ANSWER_CHECK=warn` (2.2).
 Questions and GR text are sent to the provider; the GRs are public documents, but check that the challenge rules allow an outside service. For an offline demo keep local Ollama
 (and the model-free fallback, item 1.5) as the fallback.
+
+## 2.3 Gujarati lineage: diagnosis (measured on the 134 Gujarati documents of `corpus_v2`; no engine change made)
+Why the engine finds almost nothing in Gujarati (4 weak links, 139 unresolved references) and what it would take:
+1. **The read list is never parsed (0 items in every Gujarati document tried).** A chunk is one long OCR paragraph, so "વંચાણે લીધા:- (૧)... (૨)... આમુખ... ઠરાવ:-" sits on one line, and
+   `split_segments` / `parse_read_items` only recognise headings and numbered items at the *start of a line*. Without items, "cancel items 1 to 3" or "the resolution at reference (1)" cannot point anywhere.
+2. **The guessed phrases do not match real wording.** `patterns.py` says its Gujarati phrases are unconfirmed. Seen in the corpus (documents / sentences): "અધિક્રમણ" (supersede) 0; the exact amend phrases 2 docs;
+   "રદ કરવામાં આવે છે" 4; "ને બદલે" 10; "ના સ્થાને" 7. What the documents actually say: "…પરિપત્રો **આથી રદ કરવામાં આવે છે**" (cancel; targets are read-list items: "ક્રમાંક (૧) થી (૩) પરના", "વંચાણે લીધેલ **તમામ**"),
+   "…પરિપત્રો **રદ કરીને બહાર પાડવામાં આવે છે**" (supersedes the preamble circulars), "**ઉક્ત સુધારા વધારા સિવાય** … સંદર્ભ (૧)માં દર્શાવેલ ઠરાવની તમામ બાબતો **યથાવત રહે છે**" (amends the resolution at reference 1),
+   "…નિયમો, ૧૯૭૧ **સુધારવા** નીચેના નિયમો કરે છે" (rules amendment, target named by title, which the title matcher cannot read: it only knows Latin words), "**સમાનાંકી** પરિપત્ર" (the circular of the same number, a reference).
+   The pointer regex needs the number right after "વંચાણે લીધેલ" but real text writes "ક્રમાંક (૧) થી (૩) પરના", "સંદર્ભ (૨) પરના", "ક્રમ-૩ અને ૪ ના", and OCR writes "ર" for "૨". Words like "સુધાર" (48 docs) and "રદ" (42 docs)
+   are mostly noise for lineage ("rates revised", "amending the charges", "leave cancelled"), so matching them loosely would create false edges.
+3. **Most targets are not in the corpus.** Only 30 of the 134 Gujarati documents have a readable read list with dates, and only 11 of those cite a date that matches a GR we hold (a few by coincidence). Examples: 2028 (2019) cancels GRs of
+   2000-2004; the real in-corpus links (2025 Karmayogi LTC circular -> the Oct 2024 leave circulars; 2026 circular -> the three 26 Sep 2025 documents) are "in continuation of" references, not amendments.
+   Expect roughly 6-10 new "related document" links and almost no new amended / superseded statuses from a perfect reader. That is why this was not built before the freeze.
+4. **Q-050 cannot be met by explicit-text rules.** The 13 May 2025 circular relaxes the 9 May one with no amend/cancel verb ("ઉક્ત સૂચનાઓના અનુસંધાને ... રજાઓ મંજૂર કરી શકશે"); it cites it only as the "સમાનાંકી પરિપત્ર" in its read list. That is a reference
+   (REFERS), and recognising it as a modification needs reading the meaning (a model), which the hard rules (explicit references only) rule out for the status.
+
+If someone continues: (a) break inline markers and items in `split_segments` (insert a newline before "વંચાણે/વંચાણમાં લીધા", "આમુખ", "ઠરાવ:" and before "(n)" inside the read section, mapping "ર" to 2);
+(b) Gujarati pointer forms incl. ranges ("(૧) થી (૩)"), "અને" lists and "તમામ" = all read items; (c) the phrases above, each tied to a pointer, date or number in the same sentence; (d) treat read-list items that match a corpus GR as REFERS;
+(e) check every new edge by reading it, and keep the English gold pairs at P 1.000 / R 0.972. Roadmap item 2.3 is therefore deferred, with this note as its starting point.
