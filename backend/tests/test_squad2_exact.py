@@ -1,4 +1,4 @@
-"""Exact GR-number / date lookup in Squad 2's index (roadmap 2.3, spec AI-8). Needs the squad2 modules (integration branch)."""
+"""Exact GR-number / date lookup in Squad 2's index (roadmap 2.3, spec AI-8). Needs the squad2 code (merged into squad3)."""
 import json
 
 import pytest

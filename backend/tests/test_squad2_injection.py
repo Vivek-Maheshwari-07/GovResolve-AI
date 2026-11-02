@@ -1,4 +1,4 @@
-"""Prompt-injection guard (roadmap 2.4, spec AI-19). Needs the squad2 modules (integration branch)."""
+"""Prompt-injection guard (roadmap 2.4, spec AI-19). Needs the squad2 code (merged into squad3)."""
 import pytest
 
 pytest.importorskip("backend.rag.search_engine")

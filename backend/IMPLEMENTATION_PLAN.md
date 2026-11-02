@@ -120,7 +120,7 @@ checked against the documents, so treat the numbers as a development score. The 
 give 0 resolved changing edges (no false ones appeared). Remaining misses: 1_3491 (Gujarati scan), 1_3685 (OCR title too garbled),
 1_3322 (portal title differs from the rule title).
 
-## Roadmap Phase 1 (Nov 1, `integration` branch): demo corpus v1
+## Roadmap Phase 1 (Nov 1, squad2 + squad3 merged): demo corpus v1
 Build: `python -m scripts.build_corpus --manifest ../final_dataset/manifest.csv --root ../final_dataset
 --sources ../final_dataset/SOURCES_full_per_file_urls.txt --families-json D:/test/gr_json_families --out D:/test/corpus_v1`
 (about 10 min, 8 workers). Per-record text source and scores: `corpus_v1/corpus_report.csv`.
@@ -153,7 +153,7 @@ return in 0.2-0.4 s. Good: the Discipline and Appeal amendment query, the GPSC c
 find the right documents. Weak: both maternity-leave queries miss, probably because no maternity-leave GR is in this corpus (to confirm
 with a text search before writing gold questions); the Gujarati one returns noise. Several hits have an empty subject.
 
-## Roadmap Phase 2 (Nov 1, `integration` branch): Squad 2's pipeline behind `/query`
+## Roadmap Phase 2 (Nov 1, squad2 + squad3 merged): Squad 2's pipeline behind `/query`
 Switch: `GOV_ENGINE=squad2` (default stays `retrieval`). `app/squad2_runtime.py` builds `RAGPipeline` on the first question from our corpus
 and the saved index (`data/index/chroma`); `scripts.build_squad2_index` builds the index.
 
@@ -214,7 +214,7 @@ Evidence sweep (cold): 2200/600/3 chunks -> 35 s EN, 66 s GU; 1500/500/3 -> 34 s
 a Gemini key (`GOOGLE_API_KEY`, `LLM_PROVIDER=auto`; seconds, not tested here because there is no key), any machine with a GPU, or a smaller model
 with the accuracy cost above.
 
-## Roadmap Phase 3 (Nov 1, `integration` branch): lineage verification, gold questions, scorecard
+## Roadmap Phase 3 (Nov 1, squad2 + squad3 merged): lineage verification, gold questions, scorecard
 **Honesty note.** Everything below was checked by Claude reading the extracted document text. Nothing is officer-validated. Files carry
 `verified_by` / `validated_by` saying so; a person still has to sign off (see "Needs a human").
 

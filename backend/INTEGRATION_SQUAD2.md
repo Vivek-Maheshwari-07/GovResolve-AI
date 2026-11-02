@@ -52,6 +52,6 @@ calls `/api/*`, so if Squad 4 reuses it, either the UI is repointed to the contr
 ## Order of work
 1. Squad 2: clean venv, run their tests, report what fails (day 1).
 2. Squad 2: build the index from `to_squad2_records(corpus)`; run five questions against the 91 family documents.
-3. Squad 3: merge `squad2` into an integration branch, wire `create_app(engine=Squad2Engine(pipeline))`, add the optional fields if agreed.
+3. Squad 3: merge `squad2` into `squad3` (done Nov 1), wire `create_app(engine=Squad2Engine(pipeline))`, add the optional fields if agreed.
 4. Both: run the eval on the gold questions; fix retrieval misses.
 5. Demo scenarios: amended rule, superseded rule, unanswerable, Gujarati question.
