@@ -93,3 +93,17 @@ test('a failing request raises the backend reason', async () => {
 test('pdf url is encoded', () => {
   assert.equal(pdfUrl('GR-1_2 x'), '/grs/GR-1_2%20x/pdf');
 });
+
+test('library statuses never pass "ACTIVE" through', async () => {
+  const { mapGrStatus, listGrs } = await import('./api.js');
+  assert.equal(mapGrStatus('ACTIVE'), 'no_change');
+  assert.equal(mapGrStatus('ABROGATED'), 'superseded');
+  assert.equal(mapGrStatus('CONFLICT'), 'unknown');
+  fakeFetch({ 'GET /grs': [
+    { gr_id: 'a', gr_number: 'A', issue_date: '2010-01-01', status: 'ACTIVE' },
+    { gr_id: 'b', gr_number: 'B', issue_date: '2020-01-01', status: 'AMENDED' },
+  ] });
+  const rows = await listGrs();
+  assert.deepEqual(rows.map((r) => r.gr_id), ['b', 'a']);      // newest first
+  assert.ok(!JSON.stringify(rows).includes('ACTIVE'));
+});

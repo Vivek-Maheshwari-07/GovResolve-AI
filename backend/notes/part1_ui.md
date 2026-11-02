@@ -46,3 +46,13 @@ violet = amendment lineage, rose = refusals, emerald / amber / rose = the status
 four feature cards, real sample questions colour-coded by kind (English, amended rule, ગુજરાતી, Gujlish, not in the corpus; `lib/samples.js`) and a status legend.
 Header: gradient top rule, coloured telemetry pills (shown by width), teal language switch, Rule Time Machine. Loader: one colour per stage and a progress bar.
 The root `README.md` now uses the same status wording (never "active") and lists the stack actually used.
+
+## Workspaces, tour and shortcuts (2 Nov 2026)
+Patterns borrowed as ideas (not visuals) from a well-made hackathon app: a workspace rail, a spotlight tour, live counters, small-caps eyebrows over big titles, keyboard hints.
+- **Rail** (`Rail.jsx`): Ask, Library, Method (+ Tour, Keys); a bottom tab bar on phones.
+- **Library** (`Library.jsx`): all GRs from `/grs`, search by GR number / subject / date, filters by language and status (with counts), open a GR to read it and see its lineage.
+  `/grs` uses the lineage engine's own words; `mapGrStatus` turns `ACTIVE` into "No later change" so "active" is never shown (test in `api.test.mjs`).
+- **Method** (`Method.jsx`): the five pipeline steps, measured results (same numbers as `eval/SCORECARD_SUMMARY.md`, with their caveats), the rules it never breaks, live corpus counts.
+- **Tour** (`Tour.jsx`): five spotlight steps on `data-tour` targets; shown once (remembered in `localStorage`, safe when storage is blocked); `?` replays it.
+- **Session counters** in the header: questions, verified answers, refusals, last answer time (this browser session only).
+- **Shortcuts**: `/` ask (switches to Ask and focuses the box), `1 2 3` workspaces, `[ ]` previous/next citation, `?` tour, `Esc` close; listed in the footer and a dialog.

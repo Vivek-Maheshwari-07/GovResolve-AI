@@ -121,3 +121,23 @@ export async function ask(question, language = null) {
     lineage_chain: chain,
   };
 }
+
+// The library: every GR with its status. `/grs` uses the lineage engine's internal words (ACTIVE, ABROGATED, ...);
+// they are mapped here so the UI never shows "active" (finding no later order is not proof that a rule is in force).
+const GR_STATUS = { ACTIVE: 'no_change', AMENDED: 'amended', SUPERSEDED: 'superseded', ABROGATED: 'superseded' };
+export const mapGrStatus = (s) => GR_STATUS[String(s || '').toUpperCase()] || 'unknown';
+
+export async function listGrs() {
+  const rows = await getJson('/grs');
+  return rows
+    .map((g) => ({
+      gr_id: g.gr_id,
+      gr_number: g.gr_number || g.gr_id,
+      department: g.department,
+      issue_date: g.issue_date,
+      subject: g.subject,
+      language: g.language,
+      status: mapGrStatus(g.status),
+    }))
+    .sort((a, b) => String(b.issue_date || '').localeCompare(String(a.issue_date || '')));
+}

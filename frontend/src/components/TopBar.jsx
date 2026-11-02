@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Scale, Clock3, X, Database, BookText, ScanText, GitBranch } from 'lucide-react';
+import { Scale, Clock3, X, Database, MessageCircleQuestion, BadgeCheck, ShieldX, Timer } from 'lucide-react';
 
 const LANGS = [
   { id: null, label: 'Auto' },
@@ -17,18 +17,19 @@ const PILL = {
   off: 'border-hair bg-sand text-mist',
 };
 
-const SHOW = { lg: 'lg:inline-flex', xl: 'xl:inline-flex', '2xl': '2xl:inline-flex' };
-
-function Pill({ icon: Icon, color, at = 'lg', children }) {
+function Counter({ icon: Icon, label, value, color }) {
   return (
-    <span className={`hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 font-mono text-[11px] ${SHOW[at]} ${PILL[color]}`}>
-      <Icon className="h-3 w-3" />
-      {children}
-    </span>
+    <div className="flex items-center gap-2" title={label}>
+      <Icon className={`h-4 w-4 ${color}`} />
+      <div className="leading-none">
+        <p className="text-[9.5px] font-medium uppercase tracking-wider text-mist">{label}</p>
+        <p className="mt-0.5 font-mono text-[14px] font-semibold text-legal">{value}</p>
+      </div>
+    </div>
   );
 }
 
-export default function TopBar({ stats, online, language, onLanguage, asOf, onAsOf }) {
+export default function TopBar({ stats, online, language, onLanguage, asOf, onAsOf, session }) {
   return (
     <header className="z-20 border-b border-hair bg-white/80 backdrop-blur-md">
       <div aria-hidden className="h-[3px] bg-gradient-to-r from-indigo-500 via-violet-500 via-60% to-teal-500" />
@@ -49,15 +50,18 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
           </div>
         </div>
 
-        <div className="flex min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-hidden">
-          {online ? (
-            <Pill icon={Database} color="teal">{(stats?.total_grs ?? 0).toLocaleString()} GRs indexed</Pill>
-          ) : (
-            <Pill icon={Database} color="off">backend offline</Pill>
-          )}
-          {stats?.chunks != null && <Pill icon={BookText} color="indigo" at="2xl">{stats.chunks.toLocaleString()} passages</Pill>}
-          <Pill icon={ScanText} color="amber" at="2xl">Bilingual OCR</Pill>
-          {stats?.lineage_ready && <Pill icon={GitBranch} color="violet" at="xl">{stats.edges.toLocaleString()} lineage links</Pill>}
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <span className={`hidden items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 font-mono text-[11px] lg:inline-flex ${online ? PILL.teal : PILL.off}`}>
+            <Database className="h-3 w-3" />
+            {online ? `${(stats?.total_grs ?? 0).toLocaleString()} GRs indexed` : 'backend offline'}
+          </span>
+        </div>
+
+        <div className="hidden items-center gap-5 border-x border-hair px-5 xl:flex" aria-label="This session">
+          <Counter icon={MessageCircleQuestion} label="Questions" value={session.asked} color="text-indigo-600" />
+          <Counter icon={BadgeCheck} label="Verified answers" value={session.verified} color="text-emerald-600" />
+          <Counter icon={ShieldX} label="Refusals" value={session.refused} color="text-rose-600" />
+          <Counter icon={Timer} label="Last answer" value={session.lastSec != null ? `${session.lastSec}s` : '—'} color="text-amber-600" />
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -80,6 +84,7 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
           </div>
 
           <label
+            data-tour="timemachine"
             className={`flex items-center gap-2 rounded-xl border px-2.5 py-1 text-xs transition-colors ${asOf ? 'border-amber-300 bg-amber-50' : 'border-hair bg-sand/70'}`}
             title="Rule Time Machine: see which amendments existed on a given day (uses the documents' issue dates)"
           >

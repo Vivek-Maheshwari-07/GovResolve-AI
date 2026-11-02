@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Sparkles, Keyboard, CornerDownLeft } from 'lucide-react';
 import GujaratiKeyboard from './GujaratiKeyboard';
@@ -10,18 +10,21 @@ const TEMPLATES = [
   { label: 'Leave rules', text: 'Leave rules: ' },
 ];
 
-export default function QueryDock({ value, onChange, onSubmit, loading, compact }) {
+export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal }) {
   const [kb, setKb] = useState(false);
   const ref = useRef(null);
+  // focus when asked (the '/' shortcut), also right after this workspace mounts
+  useEffect(() => { if (focusSignal) ref.current?.focus(); }, [focusSignal]);
   const submit = () => { if (value.trim() && !loading) onSubmit(value.trim()); };
 
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-2.5" data-tour="ask">
       <div className="glass rounded-2xl p-2 shadow-lift transition-shadow focus-within:shadow-[0_0_0_1px_rgba(79,70,229,0.45),0_10px_30px_-14px_rgba(79,70,229,0.35)]">
         <div className="flex items-start gap-2">
           <Search className="ml-2 mt-3 h-[18px] w-[18px] shrink-0 text-indigo-500" />
           <textarea
             ref={ref}
+            id="question-input"
             rows={2}
             value={value}
             onChange={(e) => onChange(e.target.value)}
