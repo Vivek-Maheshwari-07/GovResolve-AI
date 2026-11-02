@@ -31,6 +31,6 @@ Answer counts are after reading the answers: the automatic scorer misses right a
 6. The dev numbers rose during Part 2 (answered correctly 11 -> 24 of 35) through retrieval and evidence changes, each tuned on those 50 questions.
 
 ## Not measured
-- Hosted model (Groq `openai/gpt-oss-120b`): connection tested only. The full run, the bigger evidence budget and `ANSWER_CHECK=warn` are still to do (item 2.5).
+- Hosted model (Groq `openai/gpt-oss-120b`, free tier): measured, see `backend/notes/part2_answers.md` section 2.5. The one clean run (`ANSWER_CHECK=warn`) answered 26/35 correctly (local 24/35), citations on the gold page 100%, 9-11 s per answer; the bigger-evidence runs (30-31/35) are mixed with local fallbacks after rate-limit errors, so a clean number needs a higher quota. Held-out set on the hosted model: about 6 of 11, no better than local.
 - Officer validation of the gold questions and the lineage pairs (`gold_lineage_verified.csv`) is pending.
-- The final full scorecard for the submitted build has to be re-run after the Part 1 merge.
+- The final full scorecard for the submitted build has to be re-run after the UI branch (`part1-impl`) is merged.

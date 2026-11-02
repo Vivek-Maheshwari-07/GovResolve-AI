@@ -1,6 +1,6 @@
 # Part 1 notes (UI, PDF route, one-command start, security): branch `part1-impl`
 
-Built on top of `part2-answers`, not on the friend's `part1-ui` (which was not on GitHub yet). Where the two overlap, one of them has to be dropped or merged by hand.
+Built on top of `part2-answers` (branch `part1-impl`).
 
 ## What was there
 `frontend/` was a React UI written for Squad 2's old API (`/api/query`, `/api/pdf/...`, an "Ingest PDFs" button). Our backend serves the contract API (`/query`, `/lineage/{id}`, `/documents/{id}`, `/grs/{id}/pdf`).
