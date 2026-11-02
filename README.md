@@ -149,6 +149,7 @@ Without a corpus it starts on small synthetic fixtures and says so.
 - `backend/DEMO.md`: five demo scenarios and their honest limits
 - `eval/SCORECARD_SUMMARY.md`: measured results (development and held-out questions)
 - `backend/API_CONTRACT.md`: the API
+- `docs/PROJECT_DOCUMENTATION.md`: the full project documentation
 
 ---
 
