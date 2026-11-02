@@ -58,6 +58,13 @@ except ImportError:
 TOP_K_RETRIEVE  = int(os.getenv("TOP_K_RETRIEVE", "20"))
 TOP_K_RERANK    = int(os.getenv("TOP_K_RERANK", "5"))
 # Evidence size sent to the model. Defaults suit a cloud model; on a CPU (local Ollama) set lower, e.g. 3 / 600 / 2200.
+# Optional second model call after an answer: "do the cited sentences directly answer the question?". off (default) | warn | refuse.
+# Measured on the 31 answers of the gold set with qwen3.5:4b: it flags 2 of the 4 genuinely wrong answers (the wrong-document ones) and also 2 of the
+# 24 right ones, and costs about 10 s per answer, so it stays off on a CPU. With a hosted model it is cheap and stronger.
+ANSWER_CHECK = os.getenv("ANSWER_CHECK", "off").lower()
+CHECK_SYSTEM = ("You check an answer against evidence from a Government Resolution. Reply with exactly one word. "
+                "YES if the evidence sentences state the answer to the question directly and the answer matches them. "
+                "NO if the answer is about something else (another document, another date, another item) or the sentences do not state it.")
 # Without a model, quote a passage only if it has at least this share of the question's (rare) words. A floor against zero-signal matches, not a
 # test of relevance: on the 50 gold questions answerable and unanswerable ones overlap (0.14-0.66 vs 0.20-0.58), so no threshold can separate them.
 EXTRACTIVE_MIN_COVERAGE  = float(os.getenv("EXTRACTIVE_MIN_COVERAGE", "0.2"))
@@ -811,6 +818,19 @@ class RAGPipeline:
         context_str = "\n\n".join(formatted_context_blocks)
         return context_str, sentence_registry, injected_context_chunks
 
+    def _check_answer(self, question: str, answer: str, citations: list) -> Optional[bool]:
+        """True / False if a second model call confirms / does not confirm that the cited sentences answer the question; None when the
+        check is off, no model answered, or the reply was neither yes nor no."""
+        if ANSWER_CHECK not in ("warn", "refuse") or not citations:
+            return None
+        sentences = "\n".join(f"- {c}" for c in dict.fromkeys(c.passage for c in citations))
+        reply, provider = execute_llm_generation(CHECK_SYSTEM, f"QUESTION: {question}\nANSWER: {answer[:300]}\nEVIDENCE:\n{sentences}",
+                                                 max_tokens=3, json_mode=False)
+        if provider == "fallback":
+            return None
+        word = reply.strip().upper()[:1]
+        return True if word == "Y" else False if word == "N" else None
+
     def _extractive_response(self, raw_query: str, sentence_registry: dict, language: Language) -> QueryResponse:
         """Answer without a language model: the best-matching evidence sentence (just one: the runner-up was usually unrelated), verbatim, labelled `inferred` (nobody checked that they
         answer the question) and flagged with a warning. With no evidence at all this is still a refusal."""
@@ -963,10 +983,20 @@ class RAGPipeline:
             elif c_status == ClauseStatus.SUPERSEDED.value and answer_status == AnswerStatus.NO_LATER_CHANGE:
                 answer_status = AnswerStatus.SUPERSEDED
 
+        warnings: list[str] = []
+        if answer_status != AnswerStatus.INSUFFICIENT and self._check_answer(raw_query, summary, verified_citations) is False:
+            if ANSWER_CHECK == "refuse":
+                return QueryResponse(
+                    question=raw_query, answer_status=AnswerStatus.INSUFFICIENT, insufficient_reason=InsufficientReason.NO_DOCUMENT,
+                    summary="A second check could not confirm that the cited passage answers the question, so no answer is given.",
+                    language_detected=detected_lang, collection_latest_date=self.collection_latest_date)
+            warnings.append("A second check could not confirm that the cited passage answers this question. Read the cited page before relying on the answer.")
+
         return QueryResponse(
             question=raw_query,
             answer_status=answer_status,
             insufficient_reason=InsufficientReason.NO_DOCUMENT if answer_status == AnswerStatus.INSUFFICIENT else None,
+            warnings=warnings,
             summary=summary,
             statements=final_statements,
             citations=verified_citations,

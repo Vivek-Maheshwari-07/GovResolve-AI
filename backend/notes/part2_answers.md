@@ -52,3 +52,20 @@ Eight questions changed: Q-008, Q-010, Q-018, Q-028, Q-047 went from refused to 
 2006 rules apply") is now wrong (the model gave the notification date 2006-09-30, not 1 October) and **Q-023** went from refused to a plausible wrong answer (the April 2007
 amendment's dates for the September 2007 question). English is unchanged. Still missing the answer in the evidence: Q-001, Q-045 (English, answer chunk too far down),
 Q-016, Q-021, Q-050 (Gujarati; Q-050 is the known Gujarati-lineage gap).
+
+## 2.2 Wrong-document answers: what was tried, what works, what does not
+Measured on the 31 answers of the gold set (`eval/scorecard_full_v3.json`, citations recorded by a re-run). Of the 7 answers the scorer marks wrong, 3 are right answers it
+cannot read (Q-005 date without the year, Q-009, Q-012 name spelled differently); **4 are genuinely wrong: Q-016, Q-021, Q-023, Q-050.** Only Q-023 cited another
+document (the April 2007 amendment for a September 2007 question); Q-016, Q-021 and Q-050 cite the *right* GR and the model reads the wrong figure from it (Q-021 took the
+notification date from the header, not the commencement date).
+
+| Idea | Result |
+|---|---|
+| **Lexical support check**: do the question's rare words, numbers and dates occur in the cited document (sentence, page, title, number, date)? | **Rejected.** Question words like "how", "many", "did" are rare in GR text and swamp the score (right answers 0.25-0.5); with only numbers and month names it flags none of the 4 wrong answers and 1 right one. Removed, not shipped. |
+| **Number words in the scorer** ("fifty percent" = "50 percent", "sixty three" = 63) | Kept. Answers with every key point 77.4% -> 80.6% on the saved run (Q-027). |
+| **Second model call** "do the cited sentences answer the question?" (`ANSWER_CHECK`) | Built, **off by default**. With `qwen3.5:4b`: flags **2 of the 4** wrong answers (Q-016, Q-023, the wrong-document ones), misses Q-021 and Q-050, and also flags **2 of the 24** right ones (Q-022, Q-025). About 10 s per answer. |
+
+`ANSWER_CHECK=off` (default) | `warn` (keep the answer, add a warning "A second check could not confirm that the cited passage answers this question") | `refuse`
+(`insufficient_evidence`, `NO_DOCUMENT`). A reply that is neither yes nor no, or no model, never blocks an answer; a refusal by the model is not checked again.
+Recommended: `warn` with a hosted model (one extra call of about a second, a stronger checker); not on the local CPU model. 4 genuinely wrong answers is a tiny sample: treat the
+2/4 and 2/24 figures as an indication only. The remaining wrong answers (right document, wrong figure) need a stronger model, not a rule.

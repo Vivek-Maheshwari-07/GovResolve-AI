@@ -108,3 +108,15 @@ def test_summary_reports_how_often_the_answer_is_in_the_evidence():
             {"id": "3", "category": "simple", "language": "gu", "top1": False, "top3": False, "answer_in_evidence": False}]
     s = summarise(rows, None, "retrieval")["1_evidence"]
     assert s["questions"] == 3 and s["answer_in_evidence"] == 0.333 and s["by_language"] == {"en": 0.5, "gu": 0.0, "mixed": None}
+
+
+def test_number_words_count_as_the_same_number_as_digits():
+    assert key_point_hits("substituting 'fifty percent' for 'sixty percent'", [["50 percent", "50"]]) == [True]
+    assert key_point_hits("training of sixty three days", ["63 days"]) == [True]
+    assert key_point_hits("twenty years", ["20 years"]) == [True] and key_point_hits("sixty-three days", ["63"]) == [True]
+    assert key_point_hits("one year", [["1 year"]]) == [True]
+    # a different number is still a different number
+    assert key_point_hits("fifty-one percent", ["50"]) == [False] and key_point_hits("sixty days", ["63"]) == [False]
+    assert key_point_hits("the sixty-third rule", ["63"]) == [False]   # 'third' is not a cardinal here
+    from scripts.scorecard import number_words
+    assert number_words(["sixty", "three", "days"]) == ["63", "days"] and number_words(["seventy"]) == ["70"] and number_words(["ten", "days"]) == ["10", "days"]

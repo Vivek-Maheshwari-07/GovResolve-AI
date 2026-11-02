@@ -40,10 +40,36 @@ def norm(text: str) -> str:
 _ORDINAL = {"st", "nd", "rd", "th"}
 
 
+_ONES = {w: i for i, w in enumerate(
+    "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split())}
+_TENS = {w: 10 * (i + 2) for i, w in enumerate("twenty thirty forty fifty sixty seventy eighty ninety".split())}
+
+
+def number_words(words: list[str]) -> list[str]:
+    """English number words as digits: ['sixty', 'three', 'days'] -> ['63', 'days']; 'fifty' -> '50'. Words that are not part of a number stay."""
+    out, i = [], 0
+    while i < len(words):
+        w = words[i]
+        if w in _TENS:
+            nxt = words[i + 1] if i + 1 < len(words) else ""
+            if 1 <= _ONES.get(nxt, 0) <= 9:
+                out.append(str(_TENS[w] + _ONES[nxt]))
+                i += 2
+                continue
+            out.append(str(_TENS[w]))
+        elif w in _ONES:
+            out.append(str(_ONES[w]))
+        else:
+            out.append(w)
+        i += 1
+    return out
+
+
 def tokens(text: str) -> list[str]:
-    """Words and numbers, Gujarati digits as ASCII, ordinal suffixes dropped: '1st October, 2015' == ['1', 'october', '2015']."""
+    """Words and numbers, Gujarati digits as ASCII, ordinal suffixes dropped, number words as digits:
+    '1st October, 2015' == ['1', 'october', '2015'] and 'fifty percent' == ['50', 'percent']."""
     found = re.findall(r"[0-9]+|[a-z]+|[઀-૿]+", text.translate(_GU_DIGITS).lower())
-    return [t for t in found if t not in _ORDINAL]
+    return number_words([t for t in found if t not in _ORDINAL])
 
 
 def key_point_hits(answer: str, key_points: list) -> list[bool]:
@@ -54,7 +80,7 @@ def key_point_hits(answer: str, key_points: list) -> list[bool]:
 
     def hit(alt: str) -> bool:
         t = tokens(alt)
-        return norm(alt) in a or (len(t) >= 2 and set(t) <= a_tokens)
+        return norm(alt) in a or bool(t and (len(t) >= 2 or t[0].isdigit()) and set(t) <= a_tokens)
 
     return [any(hit(alt) for alt in ([kp] if isinstance(kp, str) else kp)) for kp in key_points]
 
@@ -195,6 +221,8 @@ def main() -> int:
                 row["answer"] = (resp.get("answer") or resp.get("reason") or "")[:300]
                 row.update({f"refusal_{k}": v for k, v in refusal_outcome(q, resp).items()})
                 row["status_ok"] = status_ok(q, resp)
+                row["cited"] = [{"doc_id": c["doc_id"], "page": c["page"], "quote": c["quote"][:160]} for c in resp.get("citations", [])]
+                row["warnings"] = [w[:120] for w in resp.get("warnings", [])]
                 if resp["verdict"] == "answered" and gold_docs:
                     c, g, v = citation_checks(resp["citations"], gold_pages, page_text)
                     row.update(citations=c, citations_on_gold_page=g, citations_verbatim=v)
