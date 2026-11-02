@@ -162,6 +162,7 @@ def main() -> int:
     ap.add_argument("--ids", help="comma-separated question ids, e.g. Q-001,Q-013")
     ap.add_argument("--rescore", type=Path, help="recompute the answer metrics of a saved full run with the current matcher (no model, no app)")
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--pause", type=float, default=0, help="seconds to wait after each question that called the model (keeps a hosted free tier under its tokens-per-minute limit, so no answer silently falls back to the local model)")
     ap.add_argument("--out", type=Path, default=ROOT / "eval" / "scorecard_latest.json")
     args = ap.parse_args()
     if args.rescore:
@@ -232,6 +233,8 @@ def main() -> int:
             results.append(row)
             print(f"[{n}/{len(questions)}] {q['question_id']} {q['category']:12} "
                   + " ".join(f"{k}={row[k]}" for k in ("top1", "top3", "answer_in_evidence", "verdict", "all_points", "seconds") if k in row), flush=True)
+            if args.pause and row.get("seconds", 0) > 0.5:
+                time.sleep(args.pause)
         chain = None
         if args.gold_lineage.exists():
             chain = chain_scores(state.lineage.edges(), list(csv.DictReader(open(args.gold_lineage, encoding="utf-8"))))

@@ -132,3 +132,23 @@ What went wrong, by cause:
 - **Right document, answer not in the evidence (H-009):** the model named the amending rules instead of the Act that replaced entry 5.
 - **Incomplete (H-011, Gujarati):** quoted the right paragraph but not "two examinations".
 Conclusion: the dev-set numbers overstate what a new question gets. Expect roughly 55-65% fully correct on unseen questions with this local model, with refusals reliable and wrong-document answers the main risk (the hosted-model run, item 2.5, is the test of whether a stronger model fixes it). 16 questions is a very small sample.
+
+## 2.5 Hosted-model test (Groq, `openai/gpt-oss-120b`, 2 Nov 2026; free tier)
+Smoke test: reply in 0.9 s (`scripts.llm_smoke`). Model chosen because `llama-3.3-70b-versatile` is not available to this key; the key lists only `gpt-oss-20b/120b`, `qwen3.8-27b`, `allam-2-7b` for chat.
+**The free tier allows 8,000 tokens per minute for this model**, so some requests get HTTP 429 and the gateway falls back to local Ollama *silently*. A hosted answer takes 1-8 s, a fallback 40-160 s,
+so `seconds > 20` on an answered question marks a local answer. Runs on the 50 dev questions (answerable = 35); files in `eval/`:
+
+| Run | Correct | Gujarati | Wrong / incomplete | Refused wrongly | Answers from local fallback | Clean? |
+|---|---|---|---|---|---|---|
+| Local only (`scorecard_full_v3`) | 24 | 5/11 | 7 | 4 | all | yes |
+| Hosted, default budget (`scorecard_full_hosted`) | 26 | 7/11 | 3 | 6 | 3 | mostly |
+| Hosted, `ANSWER_CHECK=warn` (`..._hosted_check`) | 26 | 6/11 | 3 | 6 | 0 | **yes** |
+| Hosted, bigger evidence (`..._hosted_big`) | 31 | 9/11 | 1 | 3 | 7 | no |
+| Same, paused 25 s between questions (`..._hosted_big2`) | 30 | 9/11 | 3 | 2 | 14 of 33 | no |
+
+- **Clean hosted result:** 26/35 correct (vs 24 local), citations on the gold page 100% (vs 83%), refusals 15/15, 9-11 s per answer with the check on. Not a big step up for the default evidence budget.
+- **Bigger evidence looks better (30-31/35) but is contaminated** by local fallbacks; the 25 s pause did not fix it (each question makes several calls). A clean number needs a higher rate limit (paid tier, another provider, a model with a bigger per-minute budget) or a pause of about 60 s.
+- **Held-out set, hosted, default budget** (`heldout_full_hosted`): 5 of 11 by the scorer, 6 with the right answer the scorer misses (H-005); 4 refused (local: 2), H-008 still wrong; refusals 5/5. A stronger model did **not** fix the wrong-document answer or the Gujarati-document misses.
+- **The hosted model is not deterministic**: with the same settings Q-009 and Q-044 were answered in one run and refused in another. The Phase 2.7 note "same question, same answer" holds for the local model only.
+- `scripts.scorecard --pause N` waits N seconds after each question that called a model (for rate-limited tiers).
+- Not done: a clean bigger-evidence run, the held-out set with the bigger budget, a larger-quota provider. `.env` is back on `LLM_PROVIDER=local` (key and model stay in it); the Groq key was pasted in chat once and should be rotated.

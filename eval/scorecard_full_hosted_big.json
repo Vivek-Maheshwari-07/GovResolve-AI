@@ -1,0 +1,1549 @@
+{
+ "summary": {
+  "mode": "full",
+  "questions": 50,
+  "by_category": {
+   "simple": 24,
+   "amended": 11,
+   "unanswerable": 10,
+   "vague": 5
+  },
+  "by_language": {
+   "en": 22,
+   "gu": 16,
+   "mixed": 12
+  },
+  "1_retrieval": {
+   "questions": 35,
+   "top1": 0.829,
+   "top3": 0.943,
+   "top1_by_category": {
+    "simple": 0.833,
+    "amended": 0.818
+   }
+  },
+  "1_evidence": {
+   "questions": 35,
+   "answer_in_evidence": 0.971,
+   "by_language": {
+    "en": 0.933,
+    "gu": 1.0,
+    "mixed": 1.0
+   }
+  },
+  "2_citations": {
+   "answers_with_citations": 32,
+   "citations": 42,
+   "on_gold_page": 0.952,
+   "quote_verbatim": 1.0
+  },
+  "3_answers": {
+   "answered_with_key_points": 32,
+   "all_points_rate": 0.969,
+   "mean_point_coverage": 0.973
+  },
+  "5_refusals": {
+   "should_refuse": 15,
+   "correctly_refused": 1.0,
+   "right_reason_code": 1.0,
+   "should_answer": 35,
+   "wrongly_refused": 0.086
+  },
+  "lineage_status_shown": {
+   "questions": 3,
+   "right_status_cited": 0.667
+  },
+  "seconds": {
+   "p50": 1.8,
+   "p95": 130.3,
+   "max": 161.3
+  },
+  "4_chain": {
+   "gold_pairs": 71,
+   "detected_touching_gold_docs": 71,
+   "true_positive": 69,
+   "precision": 0.972,
+   "recall": 0.972,
+   "edges_outside_gold": 0,
+   "all_changing_edges": 71
+  }
+ },
+ "questions": [
+  {
+   "id": "Q-001",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3989_1_36-594b69",
+    "GR-1_3991_1_34-0ddb9b",
+    "GR-1_3882_1_1-gad-3d07ae"
+   ],
+   "answer_in_evidence": false,
+   "seconds": 1.6,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: No evidence provides the age range for direct selection to the post of Gujarati Stenographer, Grade III.",
+   "refusal_refused": true,
+   "refusal_correct": false,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-002",
+   "category": "simple",
+   "language": "gu",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_3812_1_GR-b0e194",
+    "GR-1_3989_1_36-594b69",
+    "GR-1_3805_1_22072024_HOD_CADRE_STRENGTH_GR1-a5355d"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.6,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: No age limit for direct recruitment of Gujarati Stenographer Grade-3 is mentioned in the provided sentences.",
+   "refusal_refused": true,
+   "refusal_correct": false,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-003",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_728_1_CENTRAL-CIVIL-SERVICE-LTC-RULES-1988-10-5-2001--b3077d",
+    "GR-1_4040_1_Circular-Draft-Dated-b0900c",
+    "GR-1_3847_1_Leave-LTC-Notification_25-10-24-08701b"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 125.2,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The Central Government suspended these Leave Travel Concessions for a period of two years.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_728_1_CENTRAL-CIVIL-SERVICE-LTC-RULES-1988-10-5-2001--b3077d",
+     "page": 1,
+     "quote": "The Central Government have declded to suspend the Wllties of both Home Town LTC and All India LTC available to the offlccrs/empkyees of the Central Civil Servi"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-004",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_728_1_CENTRAL-CIVIL-SERVICE-LTC-RULES-1988-10-5-2001--b3077d",
+    "GR-1_4040_1_Circular-Draft-Dated-b0900c",
+    "GR-1_3854_1_LTC-Karmyogi-Circular-dated-24-03-25-76df1c"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 2.0,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The suspension was for two years.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_728_1_CENTRAL-CIVIL-SERVICE-LTC-RULES-1988-10-5-2001--b3077d",
+     "page": 1,
+     "quote": "The Central Government have declded to suspend the Wllties of both Home Town LTC and All India LTC available to the offlccrs/empkyees of the Central Civil Servi"
+    },
+    {
+     "doc_id": "GR-1_728_1_CENTRAL-CIVIL-SERVICE-LTC-RULES-1988-10-5-2001--b3077d",
+     "page": 1,
+     "quote": "Accordingly, the facility of Home Town LTCIAII Itxfia LTC available to the AIs Offkers born on the State cadre and working In connection with the affairs of the"
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-005",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_551_1_Gh_Notification_22-2-2013-772272",
+    "GR-1_547_1_G5_Notification_31-1-2013-34c019",
+    "GR-1_3492_1_03-04-2013-1-631753"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.6,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "Gujarat cancelled the bank holiday on Monday, 30 September 2013. The cancellation was due to the holiday being for half‑yearly closing of accounts.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_551_1_Gh_Notification_22-2-2013-772272",
+     "page": 1,
+     "quote": "Looking to this decision made by Ministry of Finance, Government of India, the Government of Gujarat hereby cancels Monday, 30th September, 2013 / 8 Ashwin, 193"
+    },
+    {
+     "doc_id": "GR-1_551_1_Gh_Notification_22-2-2013-772272",
+     "page": 1,
+     "quote": "After examining the issue, Ministry of Finance, Government of India has decided to do away with the holiday observed by all banks on account of half yearly clos"
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-006",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_551_1_Gh_Notification_22-2-2013-772272",
+    "GR-1_3741_1_Revenue-Grant_order_July_Sept-23-d9e705",
+    "GR-1_3494_1_22-07-2013-1-6573bc"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.8,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The Ministry of Finance decided to do away with the 30 September bank holiday for half‑yearly closing. The Government of Gujarat cancelled the 30 September 2013 holiday for banks.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_551_1_Gh_Notification_22-2-2013-772272",
+     "page": 1,
+     "quote": "After examining the issue, Ministry of Finance, Government of India has decided to do away with the holiday observed by all banks on account of half yearly clos"
+    },
+    {
+     "doc_id": "GR-1_551_1_Gh_Notification_22-2-2013-772272",
+     "page": 1,
+     "quote": "Looking to this decision made by Ministry of Finance, Government of India, the Government of Gujarat hereby cancels Monday, 30th September, 2013 / 8 Ashwin, 193"
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-007",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2023_1_eng-07-09-2019-e18955",
+    "GR-1_3201_1_Vacancy-Circular-3dd95d",
+    "GR-1_3260_1_Revenue-Grant-order-Jan-to-Feb-23_001-c145c2"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.4,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The Garvi Gujarat guest house has a total of 78 suites and rooms.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2023_1_eng-07-09-2019-e18955",
+     "page": 1,
+     "quote": "The total number of suites/rooms in this State Guest House is 78 and they are earmarked by the competent authority of State Government as below:"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-008",
+   "category": "simple",
+   "language": "gu",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_3201_1_Vacancy-Circular-3dd95d",
+    "GR-1_2023_1_eng-07-09-2019-e18955",
+    "GR-1_2024_1_guj-07-09-2019-add876"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 130.3,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "ગરવી ગુજરાત ગેસ્ટ હાઉસમાં કુલ ૭૮ સ્યુટ/રૂમ છે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2023_1_eng-07-09-2019-e18955",
+     "page": 1,
+     "quote": "The total number of suites/rooms in this State Guest House is 78 and they are earmarked by the competent authority of State Government as below:"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-009",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
+    "GR-1_2023_1_eng-07-09-2019-e18955",
+    "GR-1_1493_1_Recruitment-Rules-Book-1967-English-f0ba24"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 2.2,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The new mobile phone tariff for government use applied from 1st October 2015. The accepted offer was from M/s. Vodafone West Limited, Ahmedabad.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
+     "page": 1,
+     "quote": "In pursuance of the above agreement, the tariff for mobile phones in Government use with effect from 1st October, 2015 and in supersession to this department’s "
+    },
+    {
+     "doc_id": "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
+     "page": 1,
+     "quote": "Vodafone West Limited, Ahmedabad was accepted and an agreement was entered into with the said company on 30th September, 2015."
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 2,
+   "points_hit": 2,
+   "all_points": true
+  },
+  {
+   "id": "Q-010",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
+    "GR-1_2023_1_eng-07-09-2019-e18955",
+    "GR-1_2259_1_08-06-2021-Head-Clerk-Pre-Service-Rules-6617b3"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.5,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "Mobile phone tariff for Government use became effective on 1st October 2015. The accepted offer was from M/s. Vodafone West Limited, Ahmedabad.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
+     "page": 1,
+     "quote": "In pursuance of the above agreement, the tariff for mobile phones in Government use with effect from 1st October, 2015 and in supersession to this department’s "
+    },
+    {
+     "doc_id": "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
+     "page": 1,
+     "quote": "Vodafone West Limited, Ahmedabad was accepted and an agreement was entered into with the said company on 30th September, 2015."
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 2,
+   "points_hit": 2,
+   "all_points": true
+  },
+  {
+   "id": "Q-011",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2245_1_Shri-Anupam-Anand-CEO-Notification_06_2021_Date_03--781343",
+    "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07",
+    "GR-1_2375_1_5-OCT-2021-9c070a"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.5,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "Shri Anupam Anand, IAS was appointed Chief Electoral Officer for Gujarat in May 2021.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2245_1_Shri-Anupam-Anand-CEO-Notification_06_2021_Date_03--781343",
+     "page": 1,
+     "quote": "154/GJ/2021-P.Admn/553 dated 05.03.2021, Shri Anupam Anand, IAS (RR:GUJ:2000), Secretary to Government, Tribal Development Department, Sachivalaya, Gandhinagar "
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-012",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2245_1_Shri-Anupam-Anand-CEO-Notification_06_2021_Date_03--781343",
+    "GR-1_1715_1_GPSC-chairman-member-Appoinment-ba49f6",
+    "GR-samanya-chutni-panchayat-540949"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 2.2,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "શ્રી અનુપમ આનંદ, IAS, મે 2021માં ગુજરાતના મુખ્ય ચૂંટણી અધિકારી તરીકે નિમણૂક થયા.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2245_1_Shri-Anupam-Anand-CEO-Notification_06_2021_Date_03--781343",
+     "page": 1,
+     "quote": "154/GJ/2021-P.Admn/553 dated 05.03.2021, Shri Anupam Anand, IAS (RR:GUJ:2000), Secretary to Government, Tribal Development Department, Sachivalaya, Gandhinagar "
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-013",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3954_1_travelling-2022-dd68a0",
+    "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07",
+    "GR-1_4029_1_1-5-2026_amendment_so_department_exam_rules-83e875"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 56.7,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The amendments were deemed to have come into force on 22nd March, 2022.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3954_1_travelling-2022-dd68a0",
+     "page": 1,
+     "quote": "(2) They shall be deemed to have come into force on 22nd March, 2022."
+    }
+   ],
+   "warnings": [
+    "BROKEN_CHAIN: GR-1_3954_1_travelling-2022-dd68a0 amends ચનયમ-3ના, which is not in the collection; the text it changes ca",
+    "BROKEN_CHAIN: GR-1_3954_1_travelling-2022-dd68a0 amends પેટા-ચનયમ(5)ના, which is not in the collection; the text it chan"
+   ],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-014",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3954_1_travelling-2022-dd68a0",
+    "GR-1_3108_1_Grant-order-July-to-September-2022-66ab9a",
+    "GR-1_2367_1_Appointment-of-Secretary-Legal-Department-Notificat-8575ee"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 2.1,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The Gujarat Minister's Traveling Allowances (Amendment) Rules, 2022 will be deemed to have come into force on 22 March 2022.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3954_1_travelling-2022-dd68a0",
+     "page": 1,
+     "quote": "(2) They shall be deemed to have come into force on 22nd March, 2022."
+    }
+   ],
+   "warnings": [
+    "BROKEN_CHAIN: GR-1_3954_1_travelling-2022-dd68a0 amends ચનયમ-3ના, which is not in the collection; the text it changes ca",
+    "BROKEN_CHAIN: GR-1_3954_1_travelling-2022-dd68a0 amends પેટા-ચનયમ(5)ના, which is not in the collection; the text it chan"
+   ],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-015",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2195_1_Sr-Clerk-pre-ser-Paper-5-23-9-20-d9f0b4",
+    "GR-1_2205_1_01-senior-clerk-61e31b",
+    "GR-1_3638_1_31-03-2015-6fe10a"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.4,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "Paper V (Administrative Matters) carries 100 marks and a duration of 2 hours.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2195_1_Sr-Clerk-pre-ser-Paper-5-23-9-20-d9f0b4",
+     "page": 1,
+     "quote": "\" Paper V : Administrative Matters, Marks : 100, Duration: 2 Hours."
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 2,
+   "points_hit": 2,
+   "all_points": true
+  },
+  {
+   "id": "Q-016",
+   "category": "simple",
+   "language": "gu",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3638_1_31-03-2015-6fe10a",
+    "GR-1_3876_1_239-1137d7",
+    "GR-1_3877_1_Gujarati-Gazzette03032025-GPSC-CLASS-1-2-f9358e"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 3.0,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "Paper‑5 (Administrative Matters) માટે 100 ગુણ અને 2 કલાક સમય છે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2195_1_Sr-Clerk-pre-ser-Paper-5-23-9-20-d9f0b4",
+     "page": 1,
+     "quote": "\" Paper V : Administrative Matters, Marks : 100, Duration: 2 Hours."
+    },
+    {
+     "doc_id": "GR-1_2195_1_Sr-Clerk-pre-ser-Paper-5-23-9-20-d9f0b4",
+     "page": 1,
+     "quote": "These rules may be called the Senior Clerk, Class III, (Pre-service Training and passing of post-training examination) (Amendment) Rules, 2020."
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 2,
+   "points_hit": 2,
+   "all_points": true
+  },
+  {
+   "id": "Q-017",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2375_1_5-OCT-2021-9c070a",
+    "GR-1_1926_1_12-12-18-ENG-SER-CIVIL-CLASS-12-6ac648",
+    "GR-1_3260_1_Revenue-Grant-order-Jan-to-Feb-23_001-c145c2"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.5,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "At least ten years of administrative experience is required for roughly half of the Board members.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2375_1_5-OCT-2021-9c070a",
+     "page": 1,
+     "quote": "Provided that as nearly as may be one half of the members of the Board shall be persons who at the dates of their respective appointments have for at least ten "
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-018",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2375_1_5-OCT-2021-9c070a",
+    "GR-1_3252_1_20-01-23-gazatted-8e6696",
+    "GR-1_3260_1_Revenue-Grant-order-Jan-to-Feb-23_001-c145c2"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.4,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "બોર્ડના અડધા સભ્યો પાસે ઓછામાં ઓછા દસ વર્ષનું પ્રશાસનિક અનુભવ હોવું જોઈએ.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2375_1_5-OCT-2021-9c070a",
+     "page": 1,
+     "quote": "Provided that as nearly as may be one half of the members of the Board shall be persons who at the dates of their respective appointments have for at least ten "
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-019",
+   "category": "amended",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07",
+    "GR-1_4008_1_CCE-Rules-2026-gazette-ae48aa",
+    "GR-1_3197_1_English-The-Gujarat-Civil-Services-Classification-a-de2c2c"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 85.4,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The upper age limit was relaxed by one year for direct selection in 2022. This relaxation applies to advertisements published between September 18, 2022 and August 31, 2023.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07",
+     "page": 1,
+     "quote": "Notwithstanding anything contained in these rules or in any other rules or orders relating to recruitment to any service or post included in the State, Subordin"
+    },
+    {
+     "doc_id": "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07",
+     "page": 1,
+     "quote": "Notwithstanding anything contained in these rules or in any other rules or orders relating to recruitment to any service or post included in the State, Subordin"
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-020",
+   "category": "amended",
+   "language": "en",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5",
+    "GR-1_2209_1_notification-gad-30092006-f9c4e0",
+    "GR-1_519_1_K_Notification_31-1-2013-c74696"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 2.4,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The Gujarat Civil Services Computer Competency Training and Examination Rules, 2006 came into force on 1 October 2006.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": true,
+   "cited": [
+    {
+     "doc_id": "GR-1_2209_1_notification-gad-30092006-f9c4e0",
+     "page": 1,
+     "quote": "| (2) They shall come into force on and from 1* October, - 2006."
+    }
+   ],
+   "warnings": [
+    "GR-1_2209_1_notification-gad-30092006-f9c4e0 has been amended (Amended by GS/2007/08/ખતપ/102005/1519/K dated 2007-04-30;"
+   ],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-021",
+   "category": "amended",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2209_1_notification-gad-30092006-f9c4e0",
+    "GR-1_519_1_K_Notification_31-1-2013-c74696",
+    "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 2.4,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "ગુજરાત સિવિલ સર્વિસીસ કમ્પ્યુટર કોમ્પિટન્સી ટ્રેઇનિંગ એન્ડ એક્ઝામિનેશન નિયમો, 2006 1 ઓક્ટોબર 2006 થી અમલમાં આવ્યા.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": true,
+   "cited": [
+    {
+     "doc_id": "GR-1_2209_1_notification-gad-30092006-f9c4e0",
+     "page": 1,
+     "quote": "| (2) They shall come into force on and from 1* October, - 2006."
+    }
+   ],
+   "warnings": [
+    "GR-1_2209_1_notification-gad-30092006-f9c4e0 has been amended (Amended by GS/2007/08/ખતપ/102005/1519/K dated 2007-04-30;"
+   ],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-022",
+   "category": "amended",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3472_1_20-09-2007-42f7bb",
+    "GR-1_3470_1_30-04-2007-108c35",
+    "GR-1_515_1_K_Notification_1-1-2011-ef1fbd"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.7,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The September 2007 amendment replaced 31st December 2007 with 30th June 2008.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3472_1_20-09-2007-42f7bb",
+     "page": 1,
+     "quote": "In the Gujarat Civil Services Computer Competency Training and Examination Rules, 2006, in rule 9, in the | © proviso to sub rule (2), for the words and figures"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-023",
+   "category": "amended",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3472_1_20-09-2007-42f7bb",
+    "GR-1_3470_1_30-04-2007-108c35",
+    "GR-1_515_1_K_Notification_1-1-2011-ef1fbd"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 132.2,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "તારીખ '૩૧ ડિસેમ્બર, ૨૦૦૭'ને બદલે '૩૦ જૂન, ૨૦૦૮' રાખવામાં આવી. આ સુધારો ૨૦૦૭ના અપ્રેલ મહિનાના ઠરાવ દ્વારા કરવામાં આવ્યો હતો.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3472_1_20-09-2007-42f7bb",
+     "page": 1,
+     "quote": "In the Gujarat Civil Services Computer Competency Training and Examination Rules, 2006, in rule 9, in the | © proviso to sub rule (2), for the words and figures"
+    },
+    {
+     "doc_id": "GR-1_3470_1_30-04-2007-108c35",
+     "page": 1,
+     "quote": "| oe Dated the 30 th April, 2007."
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-024",
+   "category": "amended",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3499_1_22-05-2015-e5a1fb",
+    "GR-1_1527_1_notification-g5-26-05-2015-3e739f",
+    "GR-1_3494_1_22-07-2013-1-6573bc"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.6,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The May 2015 amendment replaces “55 years” with “50 years”.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3499_1_22-05-2015-e5a1fb",
+     "page": 1,
+     "quote": "Inthe Gujarat Civil Services Computer Competency Training and Examination Rules ,2006 , in rule 9 , in the second proviso to sub rule(2), for the figures and wo"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-025",
+   "category": "amended",
+   "language": "en",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_3494_1_22-07-2013-1-6573bc",
+    "GR-1_519_1_K_Notification_31-1-2013-c74696",
+    "GR-1_3314_1_31-01-2013-1-9cf4c7"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.7,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The January 2013 amendment replaced “31st December 2012” with “31 March 2013” in rule 9(1) provisos.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_519_1_K_Notification_31-1-2013-c74696",
+     "page": 1,
+     "quote": "in the Gujarat Civil Services Computer Competency Training and Examination Rules, 2006, in rule 9, in sub-rule (1) in the first and second provisos, for the fig"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-026",
+   "category": "amended",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3906_1_04102025_Gazette-98889f",
+    "GR-1_3252_1_20-01-23-gazatted-8e6696",
+    "GR-1_3254_1_The-Probationary-Section-Officer17-01-23--151acb"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.7,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The October 2025 amendment set pre‑service training at sixty‑three days in rule 6.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3906_1_04102025_Gazette-98889f",
+     "page": 1,
+     "quote": "In the Gazetted Officers’ (Pre-service Training and Examination) Rules, 1970, (hereinafter referred to as “the said rules”) in rule 6, for the words, “forty fiv"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-027",
+   "category": "amended",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3252_1_20-01-23-gazatted-8e6696",
+    "GR-1_3906_1_04102025_Gazette-98889f",
+    "GR-1_3254_1_The-Probationary-Section-Officer17-01-23--151acb"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.8,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The January 2023 notification replaced 60 percent with 50 percent in the Gazetted Officers pre‑service training rules.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3252_1_20-01-23-gazatted-8e6696",
+     "page": 1,
+     "quote": "for the figures and word, \"60 percent\", the words, \"50 percent\""
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-028",
+   "category": "amended",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3828_1_CCC_Notification_24july_2024-3e085e",
+    "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5",
+    "GR-1_2209_1_notification-gad-30092006-f9c4e0"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 93.8,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "૨૦૨૪ના સુધારા દ્વારા ૪૫ કલાકની જગ્યાએ ૬૦ કલાક કરવામાં આવ્યા.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5",
+     "page": 1,
+     "quote": "In the Gujarat Civil Services Computer Competency Training and Examination Rules, 2006 (hereinafter referred to as “the said rules”), in rule-8, in sub-rule (1)"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-029",
+   "category": "unanswerable",
+   "language": "en",
+   "seconds": 3.5,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: No evidence provided on maternity leave days for women government employees.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-030",
+   "category": "unanswerable",
+   "language": "gu",
+   "seconds": 2.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: પ્રમાણિત માહિતી ઉપલબ્ધ નથી.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-031",
+   "category": "unanswerable",
+   "language": "mixed",
+   "seconds": 1.6,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: No sentence provides the current Dearness Allowance rate percentage.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-032",
+   "category": "unanswerable",
+   "language": "en",
+   "seconds": 1.3,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: No evidence provides the monthly salary of the Chief Minister of Gujarat.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-033",
+   "category": "unanswerable",
+   "language": "gu",
+   "seconds": 1.6,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: દસ્તાવેજોમાં નોંધણી ફી વિશે માહિતી નથી.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-034",
+   "category": "unanswerable",
+   "language": "en",
+   "seconds": 1.1,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: No evidence provided about late filing penalty",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-035",
+   "category": "unanswerable",
+   "language": "en",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "OUT_OF_SCOPE",
+   "answer": "OUT_OF_SCOPE: This question requests legal advice or an opinion. GovResolve-AI only provides information from gazetted Government Resolutions and cannot give legal advice.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-036",
+   "category": "unanswerable",
+   "language": "gu",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "OUT_OF_SCOPE",
+   "answer": "OUT_OF_SCOPE: This question requests legal advice or an opinion. GovResolve-AI only provides information from gazetted Government Resolutions and cannot give legal advice.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-037",
+   "category": "unanswerable",
+   "language": "mixed",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "OUT_OF_SCOPE",
+   "answer": "OUT_OF_SCOPE: This question requests legal advice or an opinion. GovResolve-AI only provides information from gazetted Government Resolutions and cannot give legal advice.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-038",
+   "category": "unanswerable",
+   "language": "en",
+   "seconds": 80.9,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: The provided sentences do not contain information about who will be the next Chief Secretary.",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-039",
+   "category": "vague",
+   "language": "en",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "TOO_VAGUE",
+   "answer": "TOO_VAGUE: Your question is too broad. Could you please specify the department, allowance, or leave type? Which specific department or rule (e.g., Casual Leave, LTC, Maternity Leave) are you asking about?",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-040",
+   "category": "vague",
+   "language": "en",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "TOO_VAGUE",
+   "answer": "TOO_VAGUE: Your question is too broad. Could you please specify the department, allowance, or leave type? Which specific department or rule (e.g., Casual Leave, LTC, Maternity Leave) are you asking about?",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-041",
+   "category": "vague",
+   "language": "gu",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "TOO_VAGUE",
+   "answer": "TOO_VAGUE: Your question is too broad. Could you please specify the department, allowance, or leave type? Which specific department or rule (e.g., Casual Leave, LTC, Maternity Leave) are you asking about?",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-042",
+   "category": "vague",
+   "language": "gu",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "TOO_VAGUE",
+   "answer": "TOO_VAGUE: Your question is too broad. Could you please specify the department, allowance, or leave type? Which specific department or rule (e.g., Casual Leave, LTC, Maternity Leave) are you asking about?",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-043",
+   "category": "vague",
+   "language": "mixed",
+   "seconds": 0.0,
+   "verdict": "insufficient_evidence",
+   "reason_code": "TOO_VAGUE",
+   "answer": "TOO_VAGUE: Your question is too broad. Could you please specify the department, allowance, or leave type? Which specific department or rule (e.g., Casual Leave, LTC, Maternity Leave) are you asking about?",
+   "refusal_refused": true,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-044",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2208_1_circular-dt-19112020-125cd0",
+    "GR-1_3768_1_CONSTITUTION_DAY-26-11-2023-730baa",
+    "GR-1_3875_1_Notification-Gazette-210625-1-63ea23"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 4.1,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "બંધારણના આમુખના વાંચનનો કાર્યક્રમ નર્મદા હોલ, સ્વર્ણિમ સંકુલ‑૧, સચિવાલય, ગાંધીનગર ખાતે યોજાશે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2208_1_circular-dt-19112020-125cd0",
+     "page": 1,
+     "quote": "૨૬મી નવેમ્બરને “બંધારણ દિવસ' ની ઉજવણી સંદર્ભે બંધારણના આમુખના વાંચન કાર્યક્રમ અન્વયે રાજ્ય સરકારનો કાર્યક્રમ માન.મુખ્યમંત્રીશ્રી, માન.નાયબ મુખ્યમંત્રીશ્રી, માન."
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-045",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2208_1_circular-dt-19112020-125cd0",
+    "GR-1_2187_1_Senior-Clerk-RR-Amendment-31082020-a01c5e",
+    "GR-1_2186_1_US-RR-Amendment-26-06-20-ea028f"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 2.7,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "The reading programme will be held at Narmada Hall, Swarnim Complex‑1, Secretariat, Gandhinagar.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2208_1_circular-dt-19112020-125cd0",
+     "page": 1,
+     "quote": "૨૬મી નવેમ્બરને “બંધારણ દિવસ' ની ઉજવણી સંદર્ભે બંધારણના આમુખના વાંચન કાર્યક્રમ અન્વયે રાજ્ય સરકારનો કાર્યક્રમ માન.મુખ્યમંત્રીશ્રી, માન.નાયબ મુખ્યમંત્રીશ્રી, માન."
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-046",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2377_1_Covid-Certy-0b4818",
+    "GR-1_1493_1_Recruitment-Rules-Book-1967-English-f0ba24",
+    "GR-1_1349_1_Aii-India-civil-services-14-15--5e11fc"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 1.9,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "Covid રસીકરણ પ્રમાણપત્ર ન હોય તો સ્વ ઘોષણા (Self Declaration) ને પ્રવેશ માટે માન્ય ગણવામાં આવશે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2377_1_Covid-Certy-0b4818",
+     "page": 1,
+     "quote": "“રાજ્યની તમામ સરકારી, અર્ધ સરકારી કચેરીમાં તથા ઉપક્રમોમાં આવતા નાગરિકો/ મુલાકાતીઓને મુશ્કેલી ન પડે તે હેતુથી Covid Vaccine Certificate (કોવિડ રસીકરણ અંગેનું પ્ર"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-047",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2377_1_Covid-Certy-0b4818",
+    "GR-2015-ad2836",
+    "GR-1_1493_1_Recruitment-Rules-Book-1967-English-f0ba24"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 2.0,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "Covid vaccine certificate ન હોય તો સ્વ ઘોષણા (Self Declaration) દ્વારા સરકારી કચેરીમાં પ્રવેશ આપી શકાય છે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_2377_1_Covid-Certy-0b4818",
+     "page": 1,
+     "quote": "“રાજ્યની તમામ સરકારી, અર્ધ સરકારી કચેરીમાં તથા ઉપક્રમોમાં આવતા નાગરિકો/ મુલાકાતીઓને મુશ્કેલી ન પડે તે હેતુથી Covid Vaccine Certificate (કોવિડ રસીકરણ અંગેનું પ્ર"
+    }
+   ],
+   "warnings": [],
+   "citations": 1,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 1,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-048",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3871_1_GAD-Circular-13-05-25-65497e",
+    "GR-g2_gr_2025-07e608",
+    "GR-1_3869_1_leave-cancelation-circular-f02a67"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 161.3,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "અધિકારી/કર્મચારીને વિભાગના વડા, ખાતાના વડા અથવા કચેરીના વડાની પૂર્વ મંજુરી જરૂરી છે. વિદેશ પ્રવાસ માટે સક્ષમ સત્તાધિકારીની અલગથી પૂર્વ મંજૂરી પણ ફરજિયાત છે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [
+    {
+     "doc_id": "GR-1_3869_1_leave-cancelation-circular-f02a67",
+     "page": 1,
+     "quote": "વધુમાં, અધિકારી/કર્મચારીને વિભાગના વડા/ખાતાના વડા/કચેરીના વડાની પૂર્વ મંજુરી સિવાય મુખ્યમથક ન છોડવા પણ આથી જણાવવામાં આવે છે."
+    },
+    {
+     "doc_id": "GR-g2_gr_2026-2d6b7c",
+     "page": 11,
+     "quote": "આવા દરેક કિસ્સામાં વિદેશ પ્રવાસ માટે સક્ષમ સત્તાધિકારીની અલગથી પૂર્વ મંજૂરી મેળવવી ફરજિયાત રહેશે."
+    }
+   ],
+   "warnings": [
+    "BROKEN_CHAIN: GR-g2_gr_2026-2d6b7c amends અહેવાલ/2/ર, which is not in the collection; the text it changes cannot be chec"
+   ],
+   "citations": 2,
+   "citations_on_gold_page": 1,
+   "citations_verbatim": 2,
+   "points": 1,
+   "points_hit": 1,
+   "all_points": true
+  },
+  {
+   "id": "Q-049",
+   "category": "simple",
+   "language": "mixed",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3306_1_06-05-2021-e15672",
+    "GR-1_3847_1_Leave-LTC-Notification_25-10-24-08701b",
+    "GR-1_4056_1_CIrcular_Karmyogi_API-Request-Form-b8d901"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 6.3,
+   "verdict": "insufficient_evidence",
+   "reason_code": "NO_DOCUMENT",
+   "answer": "NO_DOCUMENT: The model's reply could not be read.",
+   "refusal_refused": true,
+   "refusal_correct": false,
+   "refusal_code_ok": true,
+   "status_ok": null,
+   "cited": [],
+   "warnings": []
+  },
+  {
+   "id": "Q-050",
+   "category": "amended",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3869_1_leave-cancelation-circular-f02a67",
+    "GR-1_3871_1_GAD-Circular-13-05-25-65497e",
+    "GR-g2_gr_2025-07e608"
+   ],
+   "answer_in_evidence": true,
+   "seconds": 2.5,
+   "verdict": "answered",
+   "reason_code": null,
+   "answer": "સરકારી અધિકારીઓ/કર્મચારીઓની તમામ અનિવાર્ય નહીં એવી રજાઓ તાત્કાલિક રદ કરવામાં આવી છે. અનિવાર્ય સંજોગોમાં અધિકારી રજાઓ રદ કરી શકે છે, તેથી તે રજાઓ હજુ પણ માન્ય હોઈ શકે.",
+   "refusal_refused": false,
+   "refusal_correct": true,
+   "refusal_code_ok": true,
+   "status_ok": false,
+   "cited": [
+    {
+     "doc_id": "GR-1_3869_1_leave-cancelation-circular-f02a67",
+     "page": 1,
+     "quote": "તા.૦૯/0૫/૨૦૨૫ પરિપત્ર: પ્રવર્તમાન પરિસ્થિતિને ધ્યાને લેતાં, સરકારશ્રી દ્વારા સાવચેતીના ભાગરૂપે કોઇ પણ પ્રકારની પરિસ્થિતિને પહોંચી વળવા માટે સર્વે વિભાગ તથા વિભા"
+    },
+    {
+     "doc_id": "GR-1_3871_1_GAD-Circular-13-05-25-65497e",
+     "page": 1,
+     "quote": "પરંતુ, અનિવાર્ય સંજોગોમાં સક્ષમ સત્તાધિકારી રજાઓ રદ કરી શકશે, અને તે અન્વયે સંબંધિત કર્મચારી/અધિકારીએ તાત્કાલિક ફરજ પર હાજર થવાનું રહેશે."
+    }
+   ],
+   "warnings": [],
+   "citations": 2,
+   "citations_on_gold_page": 2,
+   "citations_verbatim": 2,
+   "points": 2,
+   "points_hit": 1,
+   "all_points": false
+  }
+ ]
+}
