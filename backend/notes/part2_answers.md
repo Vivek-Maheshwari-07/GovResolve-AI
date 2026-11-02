@@ -69,3 +69,15 @@ notification date from the header, not the commencement date).
 (`insufficient_evidence`, `NO_DOCUMENT`). A reply that is neither yes nor no, or no model, never blocks an answer; a refusal by the model is not checked again.
 Recommended: `warn` with a hosted model (one extra call of about a second, a stronger checker); not on the local CPU model. 4 genuinely wrong answers is a tiny sample: treat the
 2/4 and 2/24 figures as an indication only. The remaining wrong answers (right document, wrong figure) need a stronger model, not a rule.
+
+## 2.5 Speed and model decision (needs a hosted-model key: not run yet)
+On the CPU, answers take a median 45 s (reading the evidence ~30 s, writing ~15 s, +5-12 s the first time a non-English question is translated); the 10 s target
+needs a hosted model or a GPU. Nothing hosted has been measured yet: there is no key in `.env`. To run the comparison:
+1. Get a key (free tiers: Groq or OpenRouter; check each service's current limits and model names). Put it in `.env` only, never in chat or git (`.env` is git-ignored):
+   `LLM_PROVIDER=api`, `LLM_API_URL=...`, `LLM_API_KEY=...`, `LLM_API_MODEL=...` (examples in `.env.example`). The local model stays the automatic fallback.
+2. `python -m scripts.llm_smoke` (from `backend/`): one tiny request per provider, prints OK/FAILED and seconds, never the key.
+3. Full comparison on the 50 gold questions: `python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --mode full --out ../eval/scorecard_full_hosted.json`
+   and compare with `eval/scorecard_full_v3.json` (local): median / p95 seconds, answered correctly (esp. Gujarati), wrongly refused, citations on the gold page.
+4. With a fast model also try the bigger evidence budget (`EVIDENCE_MAX_CHARS=6000`, `EVIDENCE_CHARS_PER_CHUNK=1200`, `TOP_K_RERANK=5`) and `ANSWER_CHECK=warn` (2.2).
+Questions and GR text are sent to the provider; the GRs are public documents, but check that the challenge rules allow an outside service. For an offline demo keep local Ollama
+(and the model-free fallback, item 1.5) as the fallback.
