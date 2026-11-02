@@ -18,7 +18,7 @@ MONTHS = {
 }
 _MON = "|".join(sorted(map(re.escape, MONTHS), key=len, reverse=True))
 
-_NUMERIC = re.compile(r"(?<![\d/\-.])(\d{1,2})\s*[/\-.]\s*(\d{1,2})\s*[/\-.]\s*(\d{4}|\d{2})(?![\d/\-])")
+_NUMERIC = re.compile(r"(?<![\d/\-])(?<!\d\.)(\d{1,2})\s*[/\-.]\s*(\d{1,2})\s*[/\-.]\s*(\d{4}|\d{2})(?![\d/\-])")
 _ISO = re.compile(r"(?<![\d/\-])(\d{4})-(\d{2})-(\d{2})(?!\d)")
 _DMY_NAME = re.compile(rf"(?<!\d)(\d{{1,2}})(?:st|nd|rd|th)?[\s\-,.]*(?:of\s+)?({_MON})[a-z]*\.?[\s\-,.]*(\d{{4}})(?!\d)", re.I)
 _MDY_NAME = re.compile(rf"\b({_MON})[a-z]*\.?[\s\-]*(\d{{1,2}})(?:st|nd|rd|th)?[\s,\-]+(\d{{4}})(?!\d)", re.I)

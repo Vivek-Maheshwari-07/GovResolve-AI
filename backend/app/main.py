@@ -80,6 +80,9 @@ def create_app(
             app.state.contract_graph = graph
             if not graph.list_documents():
                 load_corpus(graph, app.state.gov.corpus, app.state.gov.lineage)
+            if os.getenv("SFIC_SEED", "0") == "1":
+                from .seed import load_demo
+                load_demo(graph)
             getattr(engine, "prewarm", lambda: None)()  # build the answer pipeline now, off the request path
         yield
 

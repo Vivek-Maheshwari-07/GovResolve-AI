@@ -36,7 +36,11 @@ class LineageService:
             ex = extract_gr(gr, resolver.departments, resolver.match_title)
             self.review_items += ex.review
             for item in ex.read_items:  # references in the Read list are REFERS only
-                refs = extract_refs(normalize_text(item.text), set(), gr.issue_date, resolver.departments)
+                item_text = normalize_text(item.text)
+                refs = extract_refs(item_text, set(), gr.issue_date, resolver.departments)
+                if ("સરખા ક્રમાંક" in item_text or "સમાનાંકી" in item_text) and gr.gr_number:
+                    if gr.gr_number not in refs.numbers:
+                        refs.numbers.append(gr.gr_number)
                 for t in resolver.resolve(refs, gr, []):
                     edges.append(self._edge(gr.gr_id, item.chunk_id, t, RelType.REFERS, Scope.WHOLE, [],
                                             f"Read ({item.number}): {item.text}", "regex", None))
@@ -62,7 +66,7 @@ class LineageService:
                                     resolver.departments)
                 refs.dept_hints = cand.refs.dept_hints
                 refs.pointers = refs.pointers or cand.refs.pointers
-        targets = resolver.resolve(refs, gr, read_items) if (refs.numbers or refs.dates or refs.pointers or refs.titles) else []
+        targets = resolver.resolve(refs, gr, read_items) if (refs.numbers or refs.dates or refs.pointers or refs.titles or refs.all_read_items) else []
         if cand.refs.blanket and not any(t.gr_id for t in targets):
             targets = resolver.blanket(gr) or targets
         if not targets:

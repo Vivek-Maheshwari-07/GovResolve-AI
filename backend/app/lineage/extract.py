@@ -5,23 +5,40 @@ from datetime import date
 
 from ..schemas import GRRecord, RelType
 from .normalize import find_dates, gr_key, join_lines, normalize_text
-from .patterns import BLANKET, NOW_THEREFORE, SECTION_MARKER, match_relation, section_for_marker
+from .patterns import BLANKET, CHANGING, NOW_THEREFORE, SECTION_MARKER, match_relation, section_for_marker
 from .scope import parse_scope
 from ..schemas import Scope
 
 # [Guessing] Printed GR-number formats vary by department and year; this is a generic shape
 # (letters, then separator-joined parts, at least one digit). Rebuild it from ~20 real numbers.
 _NUMBER = re.compile(r"(?<![\w/])([A-Zઅ-હ][A-Z઀-૿0-9]*(?:[-/][A-Z઀-૿0-9()]+)+)")
-_GR_NOUN = re.compile(r"\b(?:GRs?|G\.R\.|resolutions?|orders?|circulars?|notifications?|instructions?)\b|ઠરાવ|પરિપત્ર|આદેશ|હુકમ|સૂચના", re.I)
+_GR_NOUN = re.compile(r"\b(?:GRs?|G\.R\.|resolutions?|orders?|circulars?|notifications?|instructions?)\b|ઠરાવ|પરિપત્ર|આદેશ|હુકમ|સૂચના|પત્ર|પત્રાંક", re.I)
 _WEF = re.compile(r"(?:w\.?\s*e\.?\s*f\.?|with\s+effect\s+from|effective\s+from)\s*[:\-]?\s*$", re.I)
 _POINTERS = [
     re.compile(r"\bread\s+(?:at\s+)?(?:(?:sr\.?\s*)?no\.?\s*)?\(\s*(\d{1,2})\s*\)", re.I),
     re.compile(r"\bread\s+at\s+(?:sr\.?\s*)?(?:no\.?\s*)?(\d{1,2})\b", re.I),
     re.compile(r"વંચાણે\s+લીધેલ\s*\(?\s*(\d{1,2})\s*\)?"),
 ]
-_ITEM = re.compile(r"^\s*\(?(\d{1,2})[\).:]\s*(.*)$")
-_ABBREV = re.compile(r"\b(No|Nos|Rs|Dr|Sr|Shri|Smt|Dept|Govt|Dt|dt|Sec|Ref|Vide|Mr|Mrs|Ms|Co|Ltd|St|etc|viz)\.")
+_ITEM = re.compile(r"^\s*\(?([0-9]{1,2}|[૧-૯૦-૯]|ર|પ)[\).:]\s*(.*)$")
+_ABBREV = re.compile(r"\b(No|Nos|Rs|Dr|Sr|Shri|Smt|Dept|Govt|Dt|dt|Sec|Ref|Vide|Mr|Mrs|Ms|Co|Ltd|St|etc|viz|તા|નં|ક્ર)\.")
 _SPLIT = re.compile(r"(?<=[.!?।])\s+(?=[A-Zઅ-હ\"'“‘])|(?<=[:;])\s+")
+
+_GU_DIGIT_MAP = {"૦": 0, "૧": 1, "૨": 2, "૩": 3, "૪": 4, "૫": 5, "૬": 6, "૭": 7, "૮": 8, "૯": 9, "ર": 2, "પ": 5}
+
+
+def _parse_gu_item_num(s: str) -> int:
+    s = s.strip()
+    if s.isdigit():
+        return int(s)
+    val = 0
+    for ch in s:
+        if ch in _GU_DIGIT_MAP:
+            val = val * 10 + _GU_DIGIT_MAP[ch]
+        elif ch.isdigit():
+            val = val * 10 + int(ch)
+        else:
+            return 0
+    return val
 
 
 @dataclass
@@ -34,9 +51,10 @@ class Refs:
     blanket: bool = False
     eff_date: date | None = None
     titles: list[str] = field(default_factory=list)  # gr_ids of instruments named by title ("... Rules, 1967")
+    all_read_items: bool = False
 
     def has_target(self) -> bool:
-        return bool(self.numbers or self.dates or self.pointers or self.blanket or self.titles)
+        return bool(self.numbers or self.dates or self.pointers or self.blanket or self.titles or self.all_read_items)
 
 
 @dataclass
@@ -83,7 +101,16 @@ def split_sentences(text: str) -> list[str]:
 def _is_heading(m: re.Match) -> bool:
     """'Read:' / 'Resolution' alone on a line is a heading; 'Order issued today' is not."""
     sep = m.group("sep") or ""
-    return ":" in sep or "ઃ" in sep or not m.group("rest").strip()
+    return ":" in sep or "ઃ" in sep or "-" in sep or not m.group("rest").strip()
+
+
+_INLINE_HEADING = re.compile(
+    r"(?<=\S)\s+(?=(?:વંચાણે|વંચાણમાં)\s+લીધ|(?:આમુખ|પ્રસ્તાવના)\s*[:ઃ\-–—.]|(?:ઠરાવ|હુકમ|સરકારશ્રીનો\s+ઠરાવ|પરિપત્ર)\s*[:ઃ\-–—.])",
+    re.I,
+)
+_INLINE_ITEM = re.compile(
+    r"(?<=\S)\s+(?=\((?:[0-9]{1,2}|[૧-૯૦-૯]|ર|પ)\)[\s.:\-–—]|\b(?:[0-9]{1,2}|[૧-૯૦-૯])\s*[\).:])"
+)
 
 
 def split_segments(gr: GRRecord) -> list[Segment]:
@@ -91,9 +118,14 @@ def split_segments(gr: GRRecord) -> list[Segment]:
     segments: list[Segment] = []
     running = "operative"  # no headings at all -> everything counts as operative
     for chunk in gr.chunks:
+        raw = normalize_text(chunk.text)
+        raw = _INLINE_HEADING.sub("\n", raw)
+        raw = re.sub(r"\(\s*ર\s*\)", "(2)", raw)
+        raw = re.sub(r"\(\s*પ\s*\)", "(5)", raw)
+        raw = _INLINE_ITEM.sub("\n", raw)
         state = chunk.section if chunk.section != "other" else running
         current = Segment(state, [], chunk.chunk_id)
-        for line in normalize_text(chunk.text).split("\n"):
+        for line in raw.split("\n"):
             m = SECTION_MARKER.match(line)
             if m and _is_heading(m):
                 new_state, rest = section_for_marker(m.group("m")), m.group("rest")
@@ -124,7 +156,8 @@ def parse_read_items(segments: list[Segment]) -> list[ReadItem]:
         for line in seg.lines:
             m = _ITEM.match(line)
             if m:
-                cur = ReadItem(int(m.group(1)), m.group(2).strip(), seg.chunk_id)
+                num = _parse_gu_item_num(m.group(1)) or (len(items) + 1)
+                cur = ReadItem(num, m.group(2).strip(), seg.chunk_id)
                 items.append(cur)
             elif cur and line.strip():
                 cur.text += " " + line.strip()
@@ -156,6 +189,31 @@ def _is_header_number(text: str, m: re.Match) -> bool:
                 and ". " not in text[m.end():][:90].split(":")[0])
 
 
+_ALL_READ_ITEMS = re.compile(
+    r"(?:ઉપર\s+)?વંચાણે\s+લીધેલ\s+તમામ|વંચાણે\s+લીધેલ\s+બધા|તમામ\s+(?:ઉક્ત\s+)?(?:ઠરાવો|પરિપત્રો|પત્રો)",
+    re.I,
+)
+
+
+def _extract_gujarati_pointers(text: str) -> tuple[list[int], bool]:
+    pointers: list[int] = []
+    all_items = bool(_ALL_READ_ITEMS.search(text))
+    # 1. Range: ક્રમાંક (૧) થી (૩) or સંદર્ભ ૧ થી ૩
+    for m in re.finditer(r"(?:ક્રમાંક|ક્રમ|સંદર્ભ)\s*\(?\s*([0-9૧-૯રપ]{1,2})\s*\)?\s*થી\s*\(?\s*([0-9૧-૯રપ]{1,2})\s*\)?", text):
+        a = _parse_gu_item_num(m.group(1))
+        b = _parse_gu_item_num(m.group(2))
+        if a and b and 1 <= a <= b <= 30:
+            pointers.extend(range(a, b + 1))
+
+    # 2. Lists and individual pointers: સંદર્ભ (૧), (૨), અને (૬) or ક્રમ-૩ અને ૪ or સંદર્ભ (૨)
+    for m in re.finditer(r"(?:સંદર્ભ|ક્રમાંક|ક્રમ|વંચાણે\s+લીધ\S*)\s*[:\-–]?\s*((?:\(?[0-9૧-૯રપ]{1,2}\)?[\s,/-]*(?:અને|તથા)?\s*)+)", text):
+        for num_match in re.finditer(r"\(?\s*([0-9૧-૯રપ]{1,2})\s*\)?", m.group(1)):
+            n = _parse_gu_item_num(num_match.group(1))
+            if n and 1 <= n <= 30 and n not in pointers:
+                pointers.append(n)
+    return pointers, all_items
+
+
 def extract_refs(text: str, own_keys: set[str], issue_date: date | None, departments: list[str]) -> Refs:
     """Everything in one sentence that can point at another GR. `text` must be normalised."""
     refs = Refs()
@@ -176,6 +234,12 @@ def extract_refs(text: str, own_keys: set[str], issue_date: date | None, departm
             refs.dates.append(h.value)
     for rx in _POINTERS:
         refs.pointers += [int(x) for x in rx.findall(text) if int(x) not in refs.pointers]
+    gu_ptrs, all_items = _extract_gujarati_pointers(text)
+    for p in gu_ptrs:
+        if p not in refs.pointers:
+            refs.pointers.append(p)
+    if all_items:
+        refs.all_read_items = True
     low = text.lower()
     refs.dept_hints = [d for d in departments if d and d.lower() in low]
     refs.blanket = bool(BLANKET.search(text))
@@ -229,7 +293,7 @@ def extract_gr(gr: GRRecord, departments: list[str], match_title=None) -> Extrac
     out.read_items = parse_read_items(segments)
     own = {gr_key(x) for x in (gr.gr_number, gr.gr_number_norm, gr.gr_id) if x}
     for seg in segments:
-        if seg.section != "operative":
+        if seg.section not in ("operative", "preamble"):
             continue
         sentences = split_sentences(join_lines(" ".join(seg.lines)))
         parsed = [(s, match_relation(s), extract_refs(_after_enacting_words(s), own, gr.issue_date, departments))
@@ -240,6 +304,9 @@ def extract_gr(gr: GRRecord, departments: list[str], match_title=None) -> Extrac
                         and not _names_no_instrument(s, rel[1])):
                     refs.titles = match_title(_title_window(sentences, k, rel[1]), gr)
         for i, (sent, rel, refs) in enumerate(parsed):
+            # In preamble, only explicit changing relations create candidates
+            if seg.section == "preamble" and (rel is None or rel[0] not in CHANGING):
+                continue
             before = sentences[i - 1] if i else ""
             after = sentences[i + 1] if i + 1 < len(sentences) else ""
             evidence = sent

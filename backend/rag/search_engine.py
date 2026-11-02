@@ -68,7 +68,7 @@ CHECK_SYSTEM = ("You check an answer against evidence from a Government Resoluti
 # Without a model, quote a passage only if it has at least this share of the question's (rare) words. A floor against zero-signal matches, not a
 # test of relevance: on the 50 gold questions answerable and unanswerable ones overlap (0.14-0.66 vs 0.20-0.58), so no threshold can separate them.
 EXTRACTIVE_MIN_COVERAGE  = float(os.getenv("EXTRACTIVE_MIN_COVERAGE", "0.2"))
-EVIDENCE_CANDIDATES      = int(os.getenv("EVIDENCE_CANDIDATES", "8"))  # chunks whose sentences compete for the evidence budget
+EVIDENCE_CANDIDATES      = int(os.getenv("EVIDENCE_CANDIDATES", "10"))  # chunks whose sentences compete for the evidence budget
 EVIDENCE_CHARS_PER_CHUNK = int(os.getenv("EVIDENCE_CHARS_PER_CHUNK", "1200"))
 EVIDENCE_MAX_CHARS       = int(os.getenv("EVIDENCE_MAX_CHARS", "6000"))
 CHROMA_DIR      = os.getenv("CHROMA_PERSIST_DIR", "./data/index/chroma")
@@ -243,6 +243,15 @@ def select_sentences(items: list[dict], query_tokens: set[str], budget: int, chu
         chosen.append(k)
         used += cost
         per_chunk[chunk] += cost
+        # Context preservation for numerical figures and clause headings
+        if k > 0 and items[k - 1]["chunk"] == chunk and (k - 1) not in chosen:
+            prev_text = items[k - 1]["text"]
+            prev_cost = evidence_cost(prev_text)
+            if re.search(r"\d", items[k]["text"]) or prev_text.rstrip().endswith((":", ":-", "--")):
+                if used + prev_cost <= budget and per_chunk[chunk] + prev_cost <= chunk_cap + 350:
+                    chosen.append(k - 1)
+                    used += prev_cost
+                    per_chunk[chunk] += prev_cost
     return chosen
 
 
@@ -540,12 +549,17 @@ class GRIndex:
         K = 60.0
         w_en   = 1.0
         w_gu   = 1.0
+        if bundle.detected_lang in ("gu", "gujlish", "mixed"):
+            w_gu = 1.3
+            w_en = 1.3
+            w_bm25 = 0.85
+        else:
+            w_bm25 = 1.0
         # One vector search stands for both queries when they are the same text. For a question in Gujarati script it keeps the
         # weight of the two searches it replaces: keywords cannot reach English documents, so the vector search is the only
         # signal that crosses languages (measured on 11 Gujarati questions: evidence recall 73% with the weight, 55% without).
         if bundle.query_gu.strip() == (bundle.query_en or "").strip() and bundle.detected_lang == "gu":
             w_en = 2.0
-        w_bm25 = 1.0
         w_regex_bonus = 2.0  # Extra multiplier for exact GR Number / Year match
 
         scored_candidates = []
@@ -586,8 +600,14 @@ class GRIndex:
 _GU_DIGITS = str.maketrans("૦૧૨૩૪૫૬૭૮૯", "0123456789")
 _MONTHS = {m: i + 1 for i, m in enumerate(
     "january february march april may june july august september october november december".split())}
+_GU_MONTHS = {
+    "જાન્યુઆરી": 1, "ફેબ્રુઆરી": 2, "માર્ચ": 3, "એપ્રિલ": 4,
+    "મે": 5, "જૂન": 6, "જુલાઈ": 7, "ઓગસ્ટ": 8,
+    "સપ્ટેમ્બર": 9, "ઓક્ટોબર": 10, "ઓકટોબર": 10, "નવેમ્બર": 11, "ડિસેમ્બર": 12,
+}
 _DATE_NUM = re.compile(r"\b(\d{1,2})\s*[./\-]\s*(\d{1,2})\s*[./\-]\s*(\d{4})\b")
 _DATE_WORD = re.compile(r"\b(\d{1,2})\s*(?:st|nd|rd|th)?\s+(" + "|".join(_MONTHS) + r")[a-z]*[\s,]+(\d{4})\b", re.I)
+_DATE_GU = re.compile(r"(\d{1,2})\s*(" + "|".join(_GU_MONTHS) + r")[a-z\u0a80-\u0aff]*[\s,]+(\d{4})")
 
 
 MAX_DATE_PULL = 3
@@ -599,13 +619,15 @@ def norm_ref(text: str) -> str:
 
 
 def dates_in(text: str) -> set[str]:
-    """ISO dates written in the question: 22/07/1963, 22-07-1963, 22.7.1963, 22nd July 1963."""
+    """ISO dates written in the question: 22/07/1963, 22-07-1963, 22.7.1963, 22nd July 1963, ૨૯ સપ્ટેમ્બર ૨૦૨૬."""
     text = text.translate(_GU_DIGITS)
     found = set()
     for d, mo, y in _DATE_NUM.findall(text):
         found.add((int(y), int(mo), int(d)))
     for d, mon, y in _DATE_WORD.findall(text):
         found.add((int(y), _MONTHS[mon.lower()], int(d)))
+    for d, mon, y in _DATE_GU.findall(text):
+        found.add((int(y), _GU_MONTHS[mon], int(d)))
     out = set()
     for y, mo, d in found:
         try:
@@ -723,7 +745,38 @@ class RAGPipeline:
         match the question. A wide pool with a small prompt: the answer is often a sentence in the 4th-8th chunk of the right
         document, and sending whole top-3 chunks both missed it and spent the prompt on letterhead.
         """
-        candidates = passages[:max(EVIDENCE_CANDIDATES, TOP_K_RERANK)]
+        raw_cands = passages[:max(EVIDENCE_CANDIDATES, TOP_K_RERANK)]
+        candidates = []
+        seen_cand_ids = set()
+        for cand in raw_cands:
+            cid = cand.get("chunk_id")
+            if cid and cid not in seen_cand_ids:
+                seen_cand_ids.add(cid)
+                candidates.append(cand)
+            # Pull in sequential continuation chunk if chunk ends in colon, dash or namely
+            t = cand.get("text", "").strip()
+            gid = cand.get("metadata", {}).get("gr_id")
+            if t.endswith((":", ":-", "--", "namely:-", "namely:", "નીચે મુજબ:-", "નીચે પ્રમાણે:-")) and gid in self.records_map:
+                r_chunks = self.records_map[gid].chunks
+                for ci, ch in enumerate(r_chunks):
+                    if ch.chunk_id == cid and ci + 1 < len(r_chunks):
+                        next_ch = r_chunks[ci + 1]
+                        if next_ch.chunk_id not in seen_cand_ids:
+                            seen_cand_ids.add(next_ch.chunk_id)
+                            candidates.append({
+                                "chunk_id": next_ch.chunk_id,
+                                "text": next_ch.text_clean,
+                                "metadata": {
+                                    "gr_id": gid,
+                                    "gr_number": cand.get("metadata", {}).get("gr_number", ""),
+                                    "issue_date": cand.get("metadata", {}).get("issue_date", ""),
+                                    "pages": json.dumps(next_ch.pages),
+                                    "clause_status": cand.get("metadata", {}).get("clause_status", "Unknown"),
+                                    "ocr_conf": next_ch.ocr_confidence or 1.0,
+                                },
+                                "rrf_score": cand.get("rrf_score", 1.0) * 0.9,
+                            })
+                        break
 
         # ── Step 3: Pre-Generation Lineage Injection ──
         # Check if retrieved chunks are Amended/Superseded; inject operative successor clauses!
@@ -776,7 +829,10 @@ class RAGPipeline:
                     pool.append({"text": s, "chunk": c_idx, "rank": c_idx, "bonus": 3.0 if c.get("injected") else 0.0})
 
         # the English rendering (if any) lets a Gujarati question pick English sentences
-        query_tokens = set(tokenize_for_bm25(raw_query + (" " + bundle.query_en if bundle else "")))
+        extra = ""
+        if bundle:
+            extra = f" {bundle.query_en or ''} {bundle.query_gu or ''} {' '.join(bundle.keywords)}"
+        query_tokens = set(tokenize_for_bm25(raw_query + extra))
         chosen = select_sentences(pool, query_tokens, EVIDENCE_MAX_CHARS, EVIDENCE_CHARS_PER_CHUNK)
         coverage = sentence_coverage(pool, query_tokens)
         by_chunk: dict[int, list[int]] = {}

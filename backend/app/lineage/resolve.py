@@ -60,13 +60,22 @@ def _lcs(a: tuple[str, ...], b: list[str]) -> int:
     return row[-1]
 
 
-def _ordered_coverage(title: tuple[str, ...], text: list[str]) -> float:
-    """Best share of the title's words found in order inside any stretch of the text no longer than the title plus 4."""
-    span, best = len(title) + 4, 0
+def _ordered_coverage_and_pos(title: tuple[str, ...], text: list[str]) -> tuple[float, int]:
+    """Best share of the title's words found in order inside any stretch of text no longer than title plus 4, and start position."""
+    span, best, best_pos = len(title) + 4, 0, len(text)
     for start in range(len(text)):
         if any(_close(text[start], t) for t in title):
-            best = max(best, _lcs(title, text[start:start + span]))
-    return best / len(title)
+            cov = _lcs(title, text[start:start + span])
+            if cov > best:
+                best = cov
+                best_pos = start
+    return best / len(title), best_pos
+
+
+def _ordered_coverage(title: tuple[str, ...], text: list[str]) -> float:
+    """Best share of the title's words found in order inside any stretch of the text no longer than the title plus 4."""
+    cov, _ = _ordered_coverage_and_pos(title, text)
+    return cov
 
 
 def _years_after_rules(sentence: str) -> list[str]:
@@ -131,18 +140,19 @@ class Resolver:
         """Instruments the sentence names by title, e.g. 'further to amend the Gujarat Civil Services ... Rules, 1967'.
         85% of the title words (OCR drops some, at least 5 words) must appear in the title's own order within a short
         stretch of the text, so a passing mention of 'civil services' or 'recruitment' elsewhere does not count.
-        The year printed after the title must agree with the candidate's. Text inside quotation marks is not searched. The most specific
-        title wins, earliest GR on a tie."""
+        The year printed after the title must agree with the candidate's. Text inside quotation marks is not searched.
+        First-named instrument wins (earliest match position in sentence), most specific on tie, earliest GR on tie."""
         sentence = _without_quoted_text(sentence)
         have = [w for w in re.findall(r"[a-z]{3,}", sentence.lower()) if w not in _TITLE_STOP]
-        best: list[tuple[int, date, str]] = []
+        best: list[tuple[int, int, date, str]] = []
         for gid, words in self.titles.items():
             g = self.corpus.grs[gid]
             if gid == source.gr_id or (g.issue_date and source.issue_date and g.issue_date >= source.issue_date):
                 continue
-            if _ordered_coverage(words, have) >= TITLE_COVERAGE and not _named_year_conflicts(sentence, g.subject):
-                best.append((-len(words), g.issue_date or date.max, gid))
-        return [sorted(best)[0][2]] if best else []
+            cov, pos = _ordered_coverage_and_pos(words, have)
+            if cov >= TITLE_COVERAGE and not _named_year_conflicts(sentence, g.subject):
+                best.append((pos, -len(words), g.issue_date or date.max, gid))
+        return [sorted(best)[0][3]] if best else []
 
     def _year_ok(self, gr_id: str, year: int | None) -> bool:
         """'KP/51 of 2014' must not resolve to a 'KP/51' issued in 2025. A number may be issued up to a year later."""
@@ -172,11 +182,21 @@ class Resolver:
                 unresolved.append(num)
             elif gid != source.gr_id:
                 targets.append(Target(gid, Confidence.EXPLICIT, num, "gr number"))
-        for n in refs.pointers:
+        pointers = list(refs.pointers)
+        if refs.all_read_items and read_items:
+            for item in read_items:
+                if item.number not in pointers:
+                    pointers.append(item.number)
+        for n in pointers:
             item = next((i for i in read_items if i.number == n), None)
             if item is None:
                 continue
-            sub = extract_refs(normalize_text(item.text), set(), source.issue_date, self.departments)
+            item_text = normalize_text(item.text)
+            sub = extract_refs(item_text, set(), source.issue_date, self.departments)
+            # If the read item says "સરખા ક્રમાંકનો" or "સમાનાંકી", its GR number is source's own GR number
+            if ("સરખા ક્રમાંક" in item_text or "સમાનાંકી" in item_text) and source.gr_number:
+                if source.gr_number not in sub.numbers:
+                    sub.numbers.append(source.gr_number)
             for t in self.resolve(sub, source, []):
                 targets.append(Target(t.gr_id, t.confidence, f"Read ({n}): {t.ref_text}", t.note))
         if not targets and refs.titles:

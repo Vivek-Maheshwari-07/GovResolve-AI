@@ -24,23 +24,26 @@ def _p(lang: str, *patterns: str) -> list[Phrase]:
 PATTERNS: dict[RelType, list[Phrase]] = {
     RelType.SUPERSEDES: _p("en", r"in supersession of", r"\bsupersedes?\b", r"stands? superseded",
                            r"hereby supersed(?:es|ed)", r"\bsuperseding\b")
-    + _p("gu", "અધિક્રમણ કરીને", "ના અધિક્રમણમાં", "અધિક્રમિત"),
+    + _p("gu", "અધિક્રમણ કરીને", "ના અધિક્રમણમાં", "અધિક્રમિત",
+         r"રદ\s+કરી(?:ને)?\s+(?:નવેસરથી\s+)?બહાર\s+પાડવામાં\s+આવે\s+છે",
+         r"રદ\s+કરી(?:ને)?\s+બહાર\s+પાડવામાં\s+આવ"),
     RelType.CANCELS: _p("en", r"stands? cancell?ed", r"(?:is|are) hereby (?:withdrawn|cancell?ed|rescinded)",
                         r"\brescinded\b", r"ceases? to operate", r"hereby repealed")
-    + _p("gu", "રદ કરવામાં આવે છે", "રદ ગણવો", "રદ ગણવા", "પરત ખેંચવામાં આવે છે", "રદબાતલ"),
+    + _p("gu", r"આથી\s+રદ\s+કરવામાં\s+આવે\s+છે", "રદ કરવામાં આવે છે", "રદ ગણવો", "રદ ગણવા", "પરત ખેંચવામાં આવે છે", "રદબાતલ"),
     RelType.SUBSTITUTES: _p("en", r"shall be substituted", r"substituted by", r"for the words\b.{0,200}?\bread\b",
                             r"in place of")
     + _p("gu", "ને બદલે", "ના સ્થાને", "વાંચવું", "વાંચવા"),
     RelType.AMENDS: _p("en", r"(?:is|are|shall be) (?:hereby )?amended", r"amended as (?:under|follows|below)",
                        r"following amendment", r"hereby amend", r"(?:is|are) (?:hereby )?modified",
                        r"fur\W?t?her[\s|]+[t1][o0]\W{0,2}\s*am[eo]r?[nd]")  # "further to amend", incl. OCR slips (fur:her, 1o, amerd, a stray | between words)
-    + _p("gu", "સુધારો કરવામાં આવે છે", "નીચે મુજબ સુધારો", "સુધારો કરવામાં આવ્યો"),
+    + _p("gu", "સુધારો કરવામાં આવે છે", "નીચે મુજબ સુધારો", "સુધારો કરવામાં આવ્યો",
+         r"સુધારા\s+વધારા\s+સિવાય", r"ફેરફાર\s+સિવાય"),
     RelType.RESTORES: _p("en", r"(?:is|are) hereby restored", r"\brevived\b", r"\brestored\b")
     + _p("gu", r"પુન[ઃ:]?સ્થાપિત"),
     RelType.CLARIFIES: _p("en", r"it is (?:hereby )?clarified", r"\bclarification\b")
     + _p("gu", "સ્પષ્ટતા કરવામાં આવે છે", "સ્પષ્ટતા"),
     RelType.REFERS: _p("en", r"read with", r"with reference to", r"\bvide\b")
-    + _p("gu", "સંદર્ભ", "વંચાણે લીધા"),
+    + _p("gu", "સંદર્ભ", "વંચાણે લીધા", "વંચાણમાં લીધા", "સમાનાંકી"),
 }
 
 # One relationship per sentence: the first type in this order wins.
@@ -58,21 +61,32 @@ BLANKET = re.compile(
 
 # Section headings of a Gujarat GR: Read list -> preamble -> operative resolution.
 SECTION_MARKER = re.compile(
-    r"^\s*(?P<m>read|references?|reference\s+list|વંચાણે\s+લીધ\S*(?:\s+\S+){0,2}?|preamble|introduction|preface|"
-    r"પ્રસ્તાવના|resolution|government\s+resolution|order|resolved|ઠરાવ|હુકમ|સરકારશ્રીનો\s+ઠરાવ)"
-    r"\s*(?P<sep>[:ઃ][-–—]*|[-–—]+)?\s*(?P<rest>.*)$",
+    r"^\s*(?P<m>read|references?|reference\s+list|(?:વંચાણે|વંચાણમાં)\s+લીધ\S*(?:\s+\S+){0,2}?|preamble|introduction|preface|"
+    r"પ્રસ્તાવના|આમુખ|resolution|government\s+resolution|order|resolved|ઠરાવ|હુકમ|સરકારશ્રીનો\s+ઠરાવ|પરિપત્ર)"
+    r"\s*(?P<sep>[:ઃ][-–—.:]*|[-–—.:]+)?\s*(?P<rest>.*)$",
     re.I,
 )
-SECTION_OF = {"read": "read", "reference": "read", "references": "read", "reference list": "read",
-              "preamble": "preamble", "introduction": "preamble", "preface": "preamble", "પ્રસ્તાવના": "preamble"}
+SECTION_OF = {
+    "read": "read", "reference": "read", "references": "read", "reference list": "read",
+    "preamble": "preamble", "introduction": "preamble", "preface": "preamble",
+    "પ્રસ્તાવના": "preamble", "આમુખ": "preamble",
+    "પરિપત્ર": "operative",
+}
 NOW_THEREFORE = re.compile(r"^\s*now,?\s+therefore\b", re.I)
 
 
 def section_for_marker(marker: str) -> str:
     m = re.sub(r"\s+", " ", marker.lower().strip())
-    if m.startswith("વંચાણે"):
+    if m.startswith(("વંચાણે", "વંચાણમાં")):
         return "read"
     return SECTION_OF.get(m, "operative")
+
+
+_LEAVE_CANCELLED = re.compile(r"\b(?:રજા|રજાઓ)\s+રદ\b", re.I)
+_GR_NOUN_OR_REF = re.compile(
+    r"(?:ઠરાવ|પરિપત્ર|આદેશ|હુકમ|સૂચના|હુકમો|પરિપત્રો|ઠરાવો|વંચાણે|વંચાણમાં|સંદર્ભ|ક્રમાંક|નિયમ)\b",
+    re.I,
+)
 
 
 def match_relation(sentence: str) -> tuple[RelType, str, str] | None:
@@ -81,5 +95,8 @@ def match_relation(sentence: str) -> tuple[RelType, str, str] | None:
         for ph in PATTERNS[rel]:
             m = ph.regex.search(sentence)
             if m:
+                # Guard against false positive "leave cancelled" (રજા રદ) matching RelType.CANCELS
+                if rel == RelType.CANCELS and _LEAVE_CANCELLED.search(sentence) and not _GR_NOUN_OR_REF.search(sentence):
+                    continue
                 return rel, m.group(0), ph.lang
     return None

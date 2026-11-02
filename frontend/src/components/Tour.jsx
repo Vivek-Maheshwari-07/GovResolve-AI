@@ -1,33 +1,62 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, X } from 'lucide-react';
+import { ArrowRight, X, Sparkles } from 'lucide-react';
 
-// A short spotlight tour for first-time users (and judges). Each step points at an element marked data-tour="...".
+// Spotlight tour for judges and executives. Each step points at an element marked data-tour="...".
 export const TOUR_STEPS = [
-  { target: 'rail', title: 'Three workspaces', text: 'Ask questions, browse the whole Library of GRs, or read the Method and its measured results.' },
-  { target: 'ask', title: 'Ask your way', text: 'Type in ગુજરાતી, English or Gujlish. Press / from anywhere to jump here.' },
-  { target: 'answer', title: 'Every answer carries a status', text: 'No later change, amended, superseded, or a refusal with its reason. It never claims a rule is in force.' },
-  { target: 'evidence', title: 'Proof on the page', text: 'The original GR opens on the cited page with the paragraph marked. Copy a court-ready citation in one click.' },
-  { target: 'timemachine', title: 'Rule Time Machine', text: 'Pick a date to see which amendments had been issued by then.' },
+  {
+    target: 'rail',
+    title: 'Executive Workspaces',
+    text: 'Seamlessly switch between Inquiry (Ask), the Resolution Library, and the Method & Benchmark scorecard.',
+  },
+  {
+    target: 'ask',
+    title: 'Multi-Script Legal Search',
+    text: 'Type questions naturally in ગુજરાતી, English, or Gujlish. Press / anywhere on your keyboard to instantly focus.',
+  },
+  {
+    target: 'answer',
+    title: 'Deterministic Status & Grounding',
+    text: 'Every answer displays a verified status: No later change, Amended, Superseded, or Refused. It never claims a rule is in force.',
+  },
+  {
+    target: 'evidence',
+    title: 'Verbatim Evidence Inspector',
+    text: 'The official Government Resolution opens automatically on the cited page with the illuminated paragraph bounding box.',
+  },
+  {
+    target: 'timemachine',
+    title: 'Rule Time Machine',
+    text: 'Select any historical date to travel back in time and view which amendments were promulgated as of that day.',
+  },
 ];
 
 const PAD = 8;
 
 function useRect(target, open) {
   const [rect, setRect] = useState(null);
+
   useLayoutEffect(() => {
     if (!open) return undefined;
     const measure = () => {
       const el = document.querySelector(`[data-tour="${target}"]`);
-      if (!el) { setRect(null); return; }
+      if (!el) {
+        setRect(null);
+        return;
+      }
       const r = el.getBoundingClientRect();
       setRect(r.width && r.height ? { x: r.left - PAD, y: r.top - PAD, w: r.width + PAD * 2, h: r.height + PAD * 2 } : null);
     };
+
     measure();
     window.addEventListener('resize', measure);
-    const t = setInterval(measure, 400); // layout can move while answers animate in
-    return () => { window.removeEventListener('resize', measure); clearInterval(t); };
+    const t = setInterval(measure, 400);
+    return () => {
+      window.removeEventListener('resize', measure);
+      clearInterval(t);
+    };
   }, [target, open]);
+
   return rect;
 }
 
@@ -36,7 +65,10 @@ export default function Tour({ open, onClose }) {
   const step = TOUR_STEPS[i];
   const rect = useRect(step.target, open);
 
-  useEffect(() => { if (open) setI(0); }, [open]);
+  useEffect(() => {
+    if (open) setI(0);
+  }, [open]);
+
   useEffect(() => {
     if (!open) return undefined;
     const onKey = (e) => {
@@ -49,53 +81,91 @@ export default function Tour({ open, onClose }) {
   }, [open, onClose]);
 
   const last = i === TOUR_STEPS.length - 1;
-  // card goes beside the spotlight when there is room, else centred
   const vw = typeof window !== 'undefined' ? window.innerWidth : 1200;
   const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
-  let pos = { left: vw / 2 - 170, top: vh / 2 - 90 };
+  let pos = { left: vw / 2 - 175, top: vh / 2 - 90 };
+
   if (rect) {
-    if (rect.x + rect.w + 360 < vw) pos = { left: rect.x + rect.w + 14, top: Math.min(Math.max(16, rect.y), vh - 220) };
-    else if (rect.x - 360 > 0) pos = { left: rect.x - 354, top: Math.min(Math.max(16, rect.y), vh - 220) };
-    else if (rect.y + rect.h + 220 < vh) pos = { left: Math.min(Math.max(16, rect.x), vw - 356), top: rect.y + rect.h + 14 };
-    else pos = { left: Math.min(Math.max(16, rect.x), vw - 356), top: Math.max(16, rect.y - 214) };
+    if (rect.x + rect.w + 370 < vw) pos = { left: rect.x + rect.w + 16, top: Math.min(Math.max(16, rect.y), vh - 220) };
+    else if (rect.x - 370 > 0) pos = { left: rect.x - 364, top: Math.min(Math.max(16, rect.y), vh - 220) };
+    else if (rect.y + rect.h + 220 < vh) pos = { left: Math.min(Math.max(16, rect.x), vw - 366), top: rect.y + rect.h + 16 };
+    else pos = { left: Math.min(Math.max(16, rect.x), vw - 366), top: Math.max(16, rect.y - 220) };
   }
 
   return (
     <AnimatePresence>
       {open && (
-        <motion.div className="fixed inset-0 z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} role="dialog" aria-modal="true" aria-label="Guided tour">
+        <motion.div
+          className="fixed inset-0 z-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Guided tour"
+        >
           {rect ? (
             <motion.div
               className="pointer-events-none absolute rounded-2xl ring-2 ring-indigo-400"
-              style={{ boxShadow: '0 0 0 9999px rgba(15, 23, 42, 0.42)' }}
+              style={{ boxShadow: '0 0 0 9999px rgba(15, 23, 42, 0.45)' }}
               animate={{ left: rect.x, top: rect.y, width: rect.w, height: rect.h }}
               transition={{ type: 'spring', stiffness: 260, damping: 30 }}
             />
           ) : (
-            <div className="absolute inset-0 bg-[rgba(15,23,42,0.42)]" />
+            <div className="absolute inset-0 bg-[rgba(15,23,42,0.45)]" />
           )}
+
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-            className="absolute w-[340px] rounded-2xl border border-indigo-100 bg-white p-4 shadow-[0_20px_50px_-20px_rgba(15,23,42,0.45)]"
+            className="absolute w-[350px] rounded-2xl border border-indigo-100 bg-white p-5 shadow-float"
             style={pos}
           >
-            <div className="mb-1 flex items-center justify-between">
-              <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-indigo-600">Welcome · {i + 1} / {TOUR_STEPS.length}</p>
-              <button onClick={onClose} aria-label="Close tour" className="rounded p-0.5 text-mist hover:text-legal"><X className="h-4 w-4" /></button>
+            <div className="mb-2 flex items-center justify-between pb-1.5 border-b border-hair">
+              <span className="flex items-center gap-1 font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-indigo-600">
+                <Sparkles className="h-3 w-3" /> System Tour · {i + 1} / {TOUR_STEPS.length}
+              </span>
+              <button
+                onClick={onClose}
+                aria-label="Close tour"
+                className="rounded-lg p-1 text-mist hover:text-legal hover:bg-sand"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
-            <h3 className="text-[17px] font-bold tracking-tight text-legal">{step.title}</h3>
+
+            <h3 className="text-[17px] font-extrabold tracking-tight text-legal">{step.title}</h3>
             <p className="mt-1 text-[13px] leading-relaxed text-mist">{step.text}</p>
-            <div className="mt-3 flex items-center justify-between">
-              <div className="flex gap-1">
-                {TOUR_STEPS.map((_, n) => <span key={n} className={`h-1.5 rounded-full transition-all ${n === i ? 'w-5 bg-indigo-500' : 'w-1.5 bg-stone'}`} />)}
+
+            <div className="mt-4 flex items-center justify-between pt-2 border-t border-hair/70">
+              <div className="flex gap-1.5">
+                {TOUR_STEPS.map((_, n) => (
+                  <span
+                    key={n}
+                    className={`h-1.5 rounded-full transition-all ${
+                      n === i ? 'w-5 bg-indigo-600' : 'w-1.5 bg-stone'
+                    }`}
+                  />
+                ))}
               </div>
+
               <div className="flex gap-2">
-                {i > 0 && <button onClick={() => setI(i - 1)} className="rounded-lg px-2.5 py-1.5 text-xs font-semibold text-mist hover:text-legal">Back</button>}
-                <button onClick={() => (last ? onClose() : setI(i + 1))} className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-3 py-1.5 text-xs font-semibold text-[#F8F7F4]">
-                  {last ? 'Start' : 'Next'} <ArrowRight className="h-3.5 w-3.5" />
+                {i > 0 && (
+                  <button
+                    onClick={() => setI(i - 1)}
+                    className="rounded-xl px-3 py-1.5 text-xs font-semibold text-mist hover:text-legal hover:bg-sand"
+                  >
+                    Back
+                  </button>
+                )}
+                <button
+                  onClick={() => (last ? onClose() : setI(i + 1))}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition hover:brightness-110 active:scale-98"
+                >
+                  <span>{last ? 'Get Started' : 'Next'}</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>

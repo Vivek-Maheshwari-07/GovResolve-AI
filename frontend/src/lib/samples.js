@@ -30,6 +30,12 @@ export const SAMPLES = [
     label: 'Maternity leave days',
     text: 'How many days of maternity leave are allowed to women government employees?',
   },
+  {
+    kind: 'amended',
+    badge: 'Rule Timeline Demo',
+    label: 'Section Officer Rules (1983-2026)',
+    text: 'Which Act replaced the entry at serial no. 5 of Paper II (Service Matters-2) by the May 2026 amendment of the Section Officer, Class-II Departmental Examination Rules?',
+  },
 ];
 
 // one colour family per kind (light washes, deep text)

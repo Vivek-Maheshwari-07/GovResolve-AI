@@ -18,6 +18,19 @@ from loguru import logger
 # Load GAD Glossary
 _GLOSSARY_PATH = Path(__file__).parent.parent.parent / "config" / "gad_glossary.json"
 
+_GUJLISH_MARKERS = {
+    "na", "ni", "nu", "no", "ma", "che", "shu", "su", "mate", "joie", "joye",
+    "ketla", "ketli", "ketlu", "kya", "kyare", "kone", "pachi", "pahela",
+    "sudhi", "bhav", "karmchari", "karmchario", "nathi", "aapo", "apo",
+    "leva", "male", "malse", "spashtata", "jagyae", "vanchvanu", "ganvesh",
+}
+
+_DISTINCTIVE_GUJLISH = {
+    "vanchvanu", "karmchario", "spashtata", "jagyae", "malse", "ketla", "ketli",
+    "ketlu", "ganvesh", "pachi", "pahela", "sudhi", "nathi",
+}
+
+
 @dataclass
 class SearchBundle:
     original_query:  str
@@ -50,7 +63,7 @@ class GujlishNormalizer:
             return "gu"
         
         # Check for Gujlish keywords in Latin script
-        words = re.findall(r"[a-zA-Z]+", text.lower())
+        words = set(re.findall(r"[a-zA-Z]+", text.lower()))
         gujlish_hits = 0
         for stem in self.functional_stems.keys():
             stem_words = stem.split()
@@ -58,6 +71,12 @@ class GujlishNormalizer:
                 gujlish_hits += 1
             elif len(stem_words) > 1 and stem in text.lower():
                 gujlish_hits += 2
+
+        # Check distinctive markers
+        if any(w in words for w in _DISTINCTIVE_GUJLISH):
+            gujlish_hits += 2
+        elif sum(1 for w in words if w in _GUJLISH_MARKERS) >= 2:
+            gujlish_hits += 2
 
         if gujlish_hits >= 1:
             return "gujlish" if gu_chars == 0 else "mixed"
@@ -125,7 +144,8 @@ class GujlishNormalizer:
         matched_stems_gu = []
         matched_stems_en = []
         for stem, mapping in sorted(self.functional_stems.items(), key=lambda x: len(x[0]), reverse=True):
-            if stem in lower_raw:
+            pattern = r"\b" + re.escape(stem) + r"\b"
+            if re.search(pattern, lower_raw):
                 matched_stems_gu.append(mapping["gu"])
                 matched_stems_en.append(mapping["en"])
 
@@ -142,6 +162,10 @@ class GujlishNormalizer:
             for tok in re.findall(r"[A-Za-z0-9]+", raw):
                 if tok.lower() not in self.functional_stems and len(tok) > 2:
                     keywords.add(tok)
+            # Add Gujarati tokens from matched terms
+            for tok in re.findall(r"[\u0A80-\u0AFF0-9]+", " ".join(gu_parts)):
+                if len(tok) >= 2:
+                    keywords.add(tok)
                     
         elif detected_lang == "gu":
             # Native Gujarati query -> Generate English equivalent
@@ -151,7 +175,7 @@ class GujlishNormalizer:
             en_parts = matched_en_terms + matched_stems_en
             query_en = " ".join(dict.fromkeys(en_parts)) if en_parts else raw
             for tok in re.findall(r"[\u0A80-\u0AFF0-9]+", raw):
-                if len(tok) >= 3:
+                if len(tok) >= 2:
                     keywords.add(tok)
                     
         else: # "en"
@@ -164,6 +188,9 @@ class GujlishNormalizer:
             for tok in re.findall(r"[A-Za-z0-9]+", raw):
                 if len(tok) >= 3:
                     keywords.add(tok.lower())
+            for tok in re.findall(r"[\u0A80-\u0AFF0-9]+", " ".join(gu_parts)):
+                if len(tok) >= 2:
+                    keywords.add(tok)
 
         return SearchBundle(
             original_query=raw,
@@ -174,4 +201,3 @@ class GujlishNormalizer:
             extracted_gr_no=gr_no,
             extracted_year=year
         )
-
