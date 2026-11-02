@@ -1,6 +1,6 @@
 @echo off
-title GovResolve-AI Server
+title GovResolve-AI
 cd /d "%~dp0"
-python run.py
+if exist ".venv\Scripts\python.exe" (set PY=.venv\Scripts\python.exe) else (set PY=python)
+%PY% run.py %*
 pause
-

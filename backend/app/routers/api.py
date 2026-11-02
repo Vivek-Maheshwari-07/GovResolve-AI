@@ -3,6 +3,8 @@ from datetime import date
 from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import FileResponse
 
+from ..config import ROOT
+from ..pdf_lookup import find_pdf
 from ..schemas import (
     AnnotateRequest, AskRequest, AskResponse, ChunkLineage, EdgeOverrideIn, FeedbackIn, GRRecord, GRSummary,
     LineageEdge,
@@ -66,10 +68,10 @@ def get_gr(gr_id: str, request: Request):
 def get_pdf(gr_id: str, request: Request):
     st = S(request)
     rec = _gr_or_404(st, gr_id)
-    path = (st.settings.pdf_dir / rec.source_pdf) if rec.source_pdf else None
-    if path is None or not path.is_file():
+    path = find_pdf(rec.source_pdf, st.settings.pdf_dir, ROOT)
+    if path is None:
         raise HTTPException(404, f"PDF for '{gr_id}' is not available")
-    return FileResponse(path, media_type="application/pdf")
+    return FileResponse(path, media_type="application/pdf", headers={"Content-Disposition": "inline"})
 
 
 @router.get("/grs/{gr_id}/pages/{n}")

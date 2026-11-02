@@ -7,6 +7,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
@@ -15,6 +16,7 @@ from .engine import AnswerEngine, NullEngine, RetrievalEngine
 from .graph import LineageGraph, load_corpus
 from .normalize import detect_language
 from .routers.api import router as member_b_router
+from .security import HardeningMiddleware
 from .schemas.member_a import Citation
 from .schemas import (
     DocumentDetail,
@@ -88,6 +90,8 @@ def create_app(
     )
     cors_origins = cfg.cors_origins if cfg else ["*"]
     app.add_middleware(CORSMiddleware, allow_origins=cors_origins, allow_methods=["*"], allow_headers=["*"])
+    if cfg is not None:
+        app.add_middleware(HardeningMiddleware)
 
     if cfg is not None:
         app.include_router(member_b_router)
@@ -224,6 +228,10 @@ def create_app(
         if cfg is None and os.environ.get("SFIC_SEED") == "1" and not graph.list_documents():
             load_demo(graph)
             persist()
+
+    if cfg is not None and (cfg.frontend_dir / "index.html").is_file():
+        # last, so every API route above wins; `html=True` serves index.html at /
+        app.mount("/", StaticFiles(directory=cfg.frontend_dir, html=True), name="ui")
 
     return app
 

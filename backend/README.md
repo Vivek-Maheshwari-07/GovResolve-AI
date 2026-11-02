@@ -66,9 +66,13 @@ The shared `corpus_v2` zip is the quick route when OCR is not needed.
 
 ### 3. Run
 ```bash
-set GOV_ENGINE=squad2 && set GOV_CORPUS_DIR=D:/test/corpus_v2
-python -m uvicorn app.main:app          # http://localhost:8000/docs
+python run.py                           # from the repo root; or double-click start.bat. http://localhost:8000 (UI) and /docs (API)
 ```
+`run.py` uses the real collection when it finds a corpus (`GOV_CORPUS_DIR`, `data/corpus_v2`, or `D:/test/corpus_v2`) plus `data/index/chroma`, otherwise the synthetic fixtures (and says so).
+It builds the web UI the first time (needs Node 18+). By hand: `set GOV_ENGINE=squad2 && set GOV_CORPUS_DIR=D:/test/corpus_v2 && python -m uvicorn app.main:app` from `backend/`.
+PDFs are found by file name under `data/raw`, `final_dataset/` and `GOV_PDF_EXTRA_DIRS` (searched recursively).
+Security: the server listens on this machine only; `GOV_ADMIN_TOKEN` protects `/admin/*` and writes to `/documents` (header `X-Admin-Token`); `GOV_QUERY_RATE_PER_MIN` (default 120) limits questions per client;
+a question is at most 2,000 characters; CORS is limited to localhost (`GOV_CORS_ORIGINS` to change). UI tests: `cd frontend && npm test` (12).
 The first question builds the pipeline; the app warms the model at startup. Expect 40-70 s per answer with the local model (see `DEMO.md`).
 Switches (all in `.env.example`): `ANSWER_CHECK=off|warn|refuse` (second check of the answer, off by default),
 `EVIDENCE_MAX_CHARS`, `EVIDENCE_CHARS_PER_CHUNK`, `TOP_K_RERANK` (evidence size), `TRANSLATION_CACHE` (file of English renderings of non-English questions; empty turns it off),

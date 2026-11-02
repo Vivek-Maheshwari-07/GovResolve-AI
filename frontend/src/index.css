@@ -1,32 +1,58 @@
+@import '@fontsource/plus-jakarta-sans/400.css';
+@import '@fontsource/plus-jakarta-sans/500.css';
+@import '@fontsource/plus-jakarta-sans/600.css';
+@import '@fontsource/plus-jakarta-sans/700.css';
+@import '@fontsource/noto-sans-gujarati/400.css';
+@import '@fontsource/noto-sans-gujarati/500.css';
+@import '@fontsource/noto-sans-gujarati/600.css';
+@import '@fontsource/merriweather/400.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+html, body, #root { height: 100%; }
+
 body {
-  font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', sans-serif;
+  background: #F8F7F4;
+  color: #1E293B;
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(900px 420px at 10% -10%, rgba(79, 70, 229, 0.06), transparent 60%),
+    radial-gradient(700px 380px at 100% 0%, rgba(217, 119, 6, 0.045), transparent 60%);
+  background-attachment: fixed;
 }
 
-.verbatim-highlight {
-  background: linear-gradient(120deg, rgba(254, 240, 138, 0.7) 0%, rgba(253, 224, 71, 0.7) 100%);
-  padding: 2px 4px;
-  border-radius: 4px;
-  border-bottom: 2px solid #eab308;
+@layer components {
+/* Gujarati text and verbatim legal quotes: roomy line height for long reading */
+.legal-text { font-family: Merriweather, 'Noto Sans Gujarati', Georgia, serif; line-height: 1.75; }
+.gu-text { font-family: 'Noto Sans Gujarati', 'Plus Jakarta Sans', sans-serif; line-height: 1.75; }
+
+.glass {
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid #E6E4DD;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
 }
 
-/* Custom scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+.skeleton {
+  background: linear-gradient(90deg, #F1EFEA 25%, #E6E4DD 50%, #F1EFEA 75%);
+  background-size: 200% 100%;
 }
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
 }
 
+::selection { background: rgba(79, 70, 229, 0.18); }
+
+* { scrollbar-width: thin; scrollbar-color: rgba(100, 116, 139, 0.35) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

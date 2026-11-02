@@ -45,3 +45,7 @@ Thumbs.db
 *.log
 logs/
 eval/scorecard.json
+
+# frontend build output
+frontend/node_modules/
+frontend/dist/

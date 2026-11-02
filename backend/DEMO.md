@@ -3,17 +3,13 @@
 Five scenarios that together show what the spec asks for: grounded answers with page and quote, amendment/supersession status, Gujarati and mixed questions,
 and an honest "I cannot tell". Every answer below was produced by the saved scorecard runs (`eval/scorecard_full_v3.json`, local `qwen3.5:4b`); nothing is invented for the demo.
 
-**Setup for the demo** (one terminal, from `backend/`; details in `README.md`):
+**Setup for the demo** (from the repo root; details in `backend/README.md`):
 ```bash
-# real corpus (366 GRs), answers through the RAG pipeline
-set GOV_ENGINE=squad2
-set GOV_CORPUS_DIR=D:/test/corpus_v2
-python -m uvicorn app.main:app
+python run.py        # or double-click start.bat
 ```
-Showing the PDF page with the highlighted box needs the PDF route and viewer from Part 1 (`source_pdf` in the corpus is a bare file name, and the PDFs sit in sub-folders of
-`dataset_organized`, so the route must search them). Until that is merged, show the citation (document, page, quote, `bbox`) in `/docs` or the JSON.
+It finds the real corpus and index, answers through the RAG pipeline and opens http://localhost:8000 (the web UI: answer, citation chips, the PDF page with the cited paragraph boxed, lineage tab).
 Ollama must be running (`qwen3.5:4b`, `bge-m3`). Allow **40-70 s per answer** on this CPU; ask the first question before the audience arrives (it loads the model).
-Scenario 5 uses the synthetic fixtures instead and is run with the default settings (no `GOV_ENGINE`, no `GOV_CORPUS_DIR`).
+Scenario 5c uses the synthetic fixtures: stop the app and, from `backend/`, run `python -m uvicorn app.main:app --port 8001` (default settings = fixtures, search without a model) and open http://localhost:8001.
 
 | # | What it shows | Question (ask it as written) | What the system says | Where to look |
 |---|---|---|---|---|
@@ -29,6 +25,7 @@ Scenario 5 uses the synthetic fixtures instead and is run with the default setti
 - On 16 questions it had never seen the system answered **6 of 11 correctly** (5 of 5 refusals correct). On the 50 development questions it was 24 of 35. See `eval/SCORECARD_SUMMARY.md`.
 - Gujarati lineage barely works (4 weak links found in 134 Gujarati documents), so a Gujarati amendment is usually **not** flagged. Gold Q-050 (the 13 May 2025 relaxation of the 9 May 2025 leave circular) shows this.
 - Without a model (Ollama stopped) the system quotes one passage and warns that it is not a written answer; for an unanswerable question that passage can be unrelated.
+- Wording varies: in the first live UI test of scenario 1 the answer read "The new tariff applied from 01-10-2015 based on M/s.'s accepted offer" (the company name was dropped; the cited passage on the PDF names Vodafone West Limited). Point at the passage, not the sentence.
 - A wrong-document answer is possible and looks convincing (held-out H-008 named other GPSC members). Always read the cited quote.
 
 ## Not for the live demo
