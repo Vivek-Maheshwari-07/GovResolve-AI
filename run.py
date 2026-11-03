@@ -23,8 +23,8 @@ sys.path.insert(0, str(ROOT / "backend"))
 
 
 def find_corpus() -> Path | None:
-    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "corpus_v2", "D:/test/corpus_v2"):
-        if c and Path(c).is_dir() and any(Path(c).glob("GR-*.json")):
+    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "processed", ROOT / "data" / "corpus_v2", "D:/test/corpus_v2"):
+        if c and Path(c).is_dir() and any(Path(c).glob("*.json")):
             return Path(c)
     return None
 
@@ -67,7 +67,7 @@ def main() -> int:
         elif not index.is_dir():
             print(f"  [!] No search index at {index}. Build it: cd backend && python -m scripts.build_squad2_index --corpus {corpus} --index ../data/index/chroma")
     # PDFs live outside git: look in the usual places as well as GOV_PDF_DIR / final_dataset (searched by file name, recursively)
-    extra = [p for p in (ROOT / "data" / "pdfs", Path("D:/test/dataset_organized")) if p.is_dir()]
+    extra = [p for p in (ROOT / "data" / "grs", ROOT / "data" / "pdfs", Path("D:/test/dataset_organized")) if p.is_dir()]
     if extra:
         os.environ["GOV_PDF_EXTRA_DIRS"] = os.pathsep.join([os.environ.get("GOV_PDF_EXTRA_DIRS", ""), *map(str, extra)]).strip(os.pathsep)
     build_ui()

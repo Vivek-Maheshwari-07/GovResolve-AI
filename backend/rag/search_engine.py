@@ -26,6 +26,15 @@ from loguru import logger
 from dotenv import load_dotenv
 
 load_dotenv()
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+
+try:
+    import torch
+    torch.set_num_threads(os.cpu_count() or 8)
+except Exception:
+    pass
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from backend.models import (
@@ -309,8 +318,16 @@ class GRIndex:
         )
         logger.info(f"ChromaDB collection 'gr_chunks': {self.collection.count()} docs")
 
-    def build(self, records: list[GRRecord]) -> None:
+    def build(self, records: list[GRRecord], reset: bool = False) -> None:
         """Index all chunks with both Dense Embeddings and Suffix-Stripped BM25."""
+        if reset and self.chroma_client:
+            try:
+                self.chroma_client.delete_collection("gr_chunks")
+                logger.info("Reset gr_chunks collection in ChromaDB.")
+            except Exception as e:
+                logger.warning(f"Could not delete collection: {e}")
+            self._setup_chroma()
+
         docs, ids, metas = [], [], []
         bm25_corpus = []
 
@@ -320,7 +337,7 @@ class GRIndex:
                 if not clean_text:
                     continue
                 cid = chunk.chunk_id
-                docs.append(clean_text)
+                docs.append(clean_text[:1000])
                 ids.append(cid)
                 metas.append({
                     "gr_id":       chunk.gr_id,
@@ -351,12 +368,18 @@ class GRIndex:
 
         # ChromaDB index
         if self.collection and docs:
-            batch = int(os.getenv("INDEX_BATCH", "500"))  # small (64) for CPU embedders like ollama:bge-m3
-            existing = set(self.collection.get(ids=ids)["ids"]) if ids else set()
+            batch = int(os.getenv("INDEX_BATCH", "100"))
+            existing = set()
+            for chunk_start in range(0, len(ids), 500):
+                chunk_slice = ids[chunk_start:chunk_start + 500]
+                existing.update(self.collection.get(ids=chunk_slice)["ids"])
+
             new_ids = [i for i in ids if i not in existing]
             new_docs = [d for i, d in zip(ids, docs) if i not in existing]
             new_metas = [m for i, m in zip(ids, metas) if i not in existing]
+            logger.info(f"Adding {len(new_ids)} new chunks to ChromaDB (already existed: {len(existing)})...")
             for start in range(0, len(new_ids), batch):
+                logger.info(f"  Adding batch {start}/{len(new_ids)} chunks to ChromaDB...")
                 self.collection.add(
                     documents=new_docs[start:start+batch],
                     ids=new_ids[start:start+batch],

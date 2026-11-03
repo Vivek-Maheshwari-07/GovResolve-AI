@@ -28,7 +28,7 @@ final_dataset/
 data/govresolve.sqlite
 data/vector/
 data/edges_detected.csv
-data/grs/*.pdf
+data/grs/
 data/processed/*.json
 data/index/
 
