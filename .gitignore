@@ -1,5 +1,8 @@
 # Python
 __pycache__/
+.ruff_cache/
+.coverage
+htmlcov/
 *.pyc
 *.pyo
 *.pyd
@@ -34,6 +37,7 @@ data/index/
 huggingface/
 
 # IDE / OS
+.claude/
 .vscode/
 .idea/
 *.swp

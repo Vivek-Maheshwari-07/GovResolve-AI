@@ -1,0 +1,4 @@
+# Optional extras. Install only what you use:  pip install -r requirements-optional.txt
+
+google-genai>=1.0                 # LLM_PROVIDER=gemini
+sentence-transformers>=3.0        # EMBEDDING_MODEL=<huggingface name>, e.g. BAAI/bge-m3, instead of ollama:bge-m3

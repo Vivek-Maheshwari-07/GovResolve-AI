@@ -36,6 +36,7 @@ from backend.models import (
 from backend.rag.gujlish_normalizer import GujlishNormalizer, SearchBundle
 from backend.rag.gujarati_stemmer import tokenize_for_bm25
 from backend.rag.llm_gateway import execute_llm_generation, translate_to_english
+from backend.rag.providers import ollama_host
 from backend.lineage.lineage_graph import LineageGraph
 
 # ── Optional vector / NLP libraries ──────────────────────────────
@@ -134,7 +135,7 @@ def split_into_sentences(text: str) -> list[str]:
     return sentences
 
 
-# Identical for every question, so the model server can keep its processed form cached (see llm_gateway.warm_up_local_llm).
+# Identical for every question, so the model server can keep its processed form cached (see llm_gateway.warm_up_llm).
 SYSTEM_PROMPT = """You are GovResolve-AI, the official bilingual (Gujarati-English) assistant for Government Resolutions.
 
 RULES:
@@ -289,7 +290,7 @@ class GRIndex:
         try:
             if EMBEDDING_MODEL.startswith("ollama:"):  # e.g. "ollama:bge-m3", served by a local Ollama
                 ef = embedding_functions.OllamaEmbeddingFunction(
-                    url=os.getenv("OLLAMA_URL", "http://localhost:11434"),
+                    url=ollama_host(),
                     model_name=EMBEDDING_MODEL.split(":", 1)[1],
                     timeout=int(os.getenv("OLLAMA_EMBED_TIMEOUT", "120")),
                 )

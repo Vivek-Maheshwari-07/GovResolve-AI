@@ -41,7 +41,7 @@ calls `/api/*`, so if Squad 4 reuses it, either the UI is repointed to the contr
 3. **Their pipeline has never been run.** Installing `requirements.txt` in a clean venv (needs `loguru`, `rank_bm25`,
    `indic_transliteration`; `BAAI/bge-m3` is a large download) and running `tests/test_pipeline.py` and `eval/evaluate.py` is Squad 2's job
    and the first thing to do. Until then the bridge is tested only against stand-ins.
-4. **They need a language model.** `llm_gateway.py` wants a Gemini key or a local Ollama model. Without one the pipeline falls back
+4. **They need a language model.** `llm_gateway.py` wants a running Ollama model or a Groq key (see `docs/LLM_PROVIDERS.md`). Without one the pipeline falls back
    to a deterministic answer. Decide which model the demo uses.
 5. **Document ids must match.** Both sides must use the same `doc_id` as `gr_id`. Our converters build `GR-<file stem>-<sha6>`;
    `POST /documents` ids are Squad 1's. Pick one rule and keep it.

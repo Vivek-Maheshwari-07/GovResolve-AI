@@ -28,8 +28,9 @@ def search_roots(pdf_dir: Path, repo_root: Path) -> list[Path]:
 def _build(roots: list[Path]) -> dict[str, Path]:
     found: dict[str, Path] = {}
     for root in roots:
-        for p in root.rglob("*.pdf"):
-            found.setdefault(p.name.lower(), p)   # first folder in the list wins
+        for p in root.rglob("*"):
+            if p.suffix.lower() == ".pdf" and p.is_file():   # case-insensitive: *.PDF is common, and Linux file systems are case-sensitive
+                found.setdefault(p.name.lower(), p)   # first folder in the list wins
     return found
 
 

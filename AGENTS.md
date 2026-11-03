@@ -1,11 +1,11 @@
-# SFIC project: instructions for AI coding tools
+# Project instructions for AI coding tools
 
 Project: Gujarati-English assistant for Government Resolutions (PS000230), Seva First Innovation Challenge.
-This repo currently holds Squad 3's backend (API + amendment/supersession lineage graph) in `backend/`.
+Layout: `backend/` (FastAPI service, RAG pipeline, lineage engine), `frontend/` (React app), `docs/`, `eval/`. See `README.md`.
 
-Before changing anything, read `backend/IMPLEMENTATION_PLAN.md` (context, code map, rules, task list).
-API contract shared with other squads: `backend/API_CONTRACT.md`. Original docs: `docs/`.
+Before changing anything, read `CONTRIBUTING.md` and `backend/IMPLEMENTATION_PLAN.md` (context, code map, rules).
+API contract: `backend/API_CONTRACT.md`. Language-model providers (Ollama, Groq): `docs/LLM_PROVIDERS.md`, code in `backend/rag/providers/`.
 
 Hard rules: edge direction is newer -> older; never output an "active" status; only explicit references create edges;
-quotes are verbatim; do not rename or remove existing API fields (frozen after Nov 2); add tests and run
-`python -m pytest` from `backend/` before finishing.
+quotes are verbatim; do not rename or remove existing API fields (frozen after Nov 2); add tests.
+Before finishing run `make test` and `make lint` (or `python -m pytest` from `backend/`, and `npm test` in `frontend/`).

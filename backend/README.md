@@ -1,4 +1,4 @@
-# GovResolve-AI backend (Squad 3)
+# GovResolve-AI backend
 
 FastAPI service: GR metadata, amendment/supersession lineage graph, clause status, `/ask`, query log, and context store.
 
@@ -44,12 +44,13 @@ Runs offline: corpus = `data/fixtures/*.json`, SQLite = `data/govresolve.sqlite`
 
 ### 1. Setup
 ```bash
-python -m venv .venv && .venv\Scripts\python -m pip install -r requirements.txt -r backend/requirements.txt   # the root file is for rag/ (chromadb etc.)
+python -m venv .venv && .venv\Scripts\python -m pip install -r requirements.txt   # one dependency file at the repository root
 copy .env.example .env        # then edit .env; it is git-ignored, never commit keys
 ollama pull qwen3.5:4b && ollama pull bge-m3      # local model + embedder (the offline fallback)
 ```
-`.env`: `LLM_PROVIDER=local` (default, offline). For a hosted model set `LLM_PROVIDER=api` and `LLM_API_URL`, `LLM_API_KEY`, `LLM_API_MODEL`
-(examples in `.env.example`); local Ollama stays the fallback. `python -m scripts.llm_smoke` tests each provider with one tiny request and never prints the key.
+`.env`: `LLM_PROVIDER=ollama` (default, offline). For Groq set `LLM_PROVIDER=groq` and `GROQ_API_KEY`; the other provider stays the fallback
+(settings in `.env.example`, guide in `docs/LLM_PROVIDERS.md`). `python -m backend.scripts.llm_smoke` (or `make llm-check`, from the repository root) tests each
+provider with one tiny request and never prints the key.
 Questions and GR text are sent to a hosted provider: the GRs are public, but check the challenge rules first.
 
 ### 2. Rebuild the data from `final_dataset/`

@@ -214,8 +214,8 @@ sequenceDiagram
 "The language model is unavailable ...". With too little word overlap it refuses with `NO_DOCUMENT`. Word overlap cannot tell answerable from unanswerable questions,
 so offline an unanswerable question can still get an unrelated quote; the warning says so.
 
-**Models.** Local `qwen3.5:4b` through Ollama (default, offline), with the system prompt warmed at start-up. Any OpenAI-compatible hosted model can be set in `.env`
-(`LLM_PROVIDER=api`); the local model stays the fallback.
+**Models.** Local `qwen3.5:4b` through Ollama (default, offline), with the system prompt warmed at start-up, or Groq's hosted API (`LLM_PROVIDER=groq`);
+each is the other's fallback. Any other OpenAI-compatible service and Gemini are optional. See [LLM_PROVIDERS.md](LLM_PROVIDERS.md).
 
 ---
 
@@ -346,7 +346,7 @@ python -m scripts.build_corpus --manifest ../final_dataset/manifest.csv --root .
 python -m scripts.build_squad2_index --corpus D:/test/corpus_v2 --index ../data/index/chroma
 ```
 
-**Use a hosted model:** in `.env` set `LLM_PROVIDER=api`, `LLM_API_URL`, `LLM_API_KEY`, `LLM_API_MODEL`; check with `python -m scripts.llm_smoke` (prints OK/FAILED and seconds, never the key).
+**Use a hosted model:** in `.env` set `LLM_PROVIDER=groq` and `GROQ_API_KEY` (or `LLM_PROVIDER=openai` with `LLM_API_URL`, `LLM_API_KEY`, `LLM_API_MODEL`); check with `make llm-check` (prints OK/FAILED and seconds, never the key). Details: [LLM_PROVIDERS.md](LLM_PROVIDERS.md).
 
 **Develop the UI:** `cd frontend && npm ci && npm run dev` (port 3000, proxies the API on 8000); `npm run build` for the served build; `npm test` for the logic tests.
 
@@ -358,9 +358,10 @@ All in `.env` (template: `.env.example`) or the environment.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `LLM_PROVIDER` | `local` | `local` (Ollama), `api` (hosted, OpenAI-compatible), `gemini`, `auto`. The local model is always the fallback. |
-| `LLM_API_URL`, `LLM_API_KEY`, `LLM_API_MODEL`, `LLM_API_TIMEOUT` | empty, 60 | Hosted model. |
-| `LOCAL_LLM_URL`, `LOCAL_LLM_MODEL` | Ollama, `qwen3.5:4b` | Local model. Also `LOCAL_LLM_REASONING=none`, `LOCAL_LLM_TIMEOUT=180`, `LOCAL_LLM_MAX_TOKENS=700`, `LOCAL_LLM_KEEP_ALIVE=30m`. |
+| `LLM_PROVIDER` | `ollama` | First choice: `ollama`, `groq`, `openai` (any OpenAI-compatible API), `gemini`, `auto`. The others are fallbacks. Legacy `local` and `api` still work. |
+| `OLLAMA_HOST`, `OLLAMA_MODEL` | `http://localhost:11434`, `qwen3.5:4b` | Local model. Also `OLLAMA_REASONING=none`, `OLLAMA_TIMEOUT=180`, `OLLAMA_MAX_TOKENS=700`, `OLLAMA_KEEP_ALIVE=30m` (older `LOCAL_LLM_*` names work). |
+| `GROQ_API_KEY`, `GROQ_MODEL` | empty, `openai/gpt-oss-120b` | Groq. Also `GROQ_TIMEOUT`, `GROQ_MAX_TOKENS`, `GROQ_MAX_RETRIES`, `GROQ_REASONING_EFFORT`. |
+| `LLM_API_URL`, `LLM_API_KEY`, `LLM_API_MODEL`, `LLM_API_TIMEOUT` | empty, 60 | Any other OpenAI-compatible service. |
 | `EMBEDDING_MODEL` | `ollama:bge-m3` | Embedder for the vector index. |
 | `CHROMA_PERSIST_DIR` | `./data/index/chroma` | Search index location. |
 | `TOP_K_RETRIEVE`, `TOP_K_RERANK` | 20, 3 | Passages retrieved / sent on. |

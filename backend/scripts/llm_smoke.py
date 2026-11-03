@@ -1,56 +1,74 @@
-"""Check which language-model providers work, and how fast, with one tiny request each. Run this after editing .env.
+"""LLM doctor: check that Ollama and Groq (and any other configured provider) work, and how fast. Run it after editing .env.
 
-Usage (from backend/):
-    python -m scripts.llm_smoke
+Usage (from the repository root):
+    python -m backend.scripts.llm_smoke                 # every provider, in the order the app would try them
+    python -m backend.scripts.llm_smoke --provider groq # only one
+    python -m backend.scripts.llm_smoke --no-ping       # configuration and reachability only, no generation
 
-Prints, for the hosted API, Gemini and the local model: configured or not, whether a one-word reply came back, and the seconds it took.
-Only the host name of the API URL and the model name are shown; the key is never printed.
+For each provider it prints whether it is configured, whether the server answers (Ollama: is the model installed; Groq: does the key
+work and is the model available), and the seconds one tiny request takes. Keys are never printed.
+Exit status: 0 when at least one provider works (the app falls back to it), 1 when none does.
 """
+from __future__ import annotations
+
+import argparse
 import sys
 import time
 from pathlib import Path
-from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
 SYSTEM = "Reply with the single word OK."
 USER = "ping"
 
 
-def timed(call):
-    start = time.time()
-    reply = call(SYSTEM, USER)
-    return reply, time.time() - start
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--provider", choices=["ollama", "groq", "openai", "gemini"], help="check only this provider")
+    ap.add_argument("--no-ping", action="store_true", help="skip the one-word generation test")
+    args = ap.parse_args(argv)
 
-
-def main() -> int:
     sys.path.insert(0, str(ROOT))
     from dotenv import load_dotenv
 
     load_dotenv(ROOT / ".env")
-    import backend.rag.llm_gateway as gw
+    from backend.rag.providers import build_providers, selected_provider
 
-    host = urlparse(gw.LLM_API_URL).netloc or "-"
-    api_set = all(gw._is_set(v) for v in (gw.LLM_API_URL, gw.LLM_API_KEY, gw.LLM_API_MODEL))
-    print(f"LLM_PROVIDER={gw.LLM_PROVIDER}   first choice: {gw.LLM_PROVIDER}, then the others if it fails or is not configured")
-    rows = [
-        ("hosted API", api_set, f"{host} / {gw.LLM_API_MODEL or '-'}", gw.call_api_llm),
-        ("Gemini", gw._is_set(gw.GOOGLE_API_KEY), gw.GEMINI_MODEL, gw.call_gemini_api),
-        ("local Ollama", True, f"{gw.LOCAL_LLM_URL} / {gw.LOCAL_LLM_MODEL}", gw.call_local_llm),
-    ]
-    ok_any = False
-    for name, configured, detail, call in rows:
-        if not configured:
-            print(f"  {name:13} not configured ({detail})")
+    first = selected_provider()
+    chain = build_providers()
+    print(f"LLM_PROVIDER={first}   order tried: {' -> '.join(p.name for p in chain)}\n")
+
+    results: list[tuple[str, bool]] = []
+    for provider in chain:
+        if args.provider and provider.name != args.provider:
             continue
-        reply, seconds = timed(call)
-        ok = bool(reply and reply.strip())
-        ok_any = ok_any or ok
-        print(f"  {name:13} {'OK ' if ok else 'FAILED'} {seconds:5.1f}s  {detail}  reply={((reply or '').strip()[:30])!r}")
-        if not ok:
-            print("                see the warning above this line for the HTTP code or error (401 = wrong key, 404 = wrong model name or URL, 429 = rate limit)")
-    if not api_set:
-        print("\nTo test a hosted API, fill LLM_API_URL, LLM_API_KEY and LLM_API_MODEL in .env (see .env.example) and set LLM_PROVIDER=api.")
-    return 0 if ok_any else 1
+        info = ", ".join(f"{k}={v}" for k, v in provider.describe().items() if k != "provider")
+        print(f"{provider.label}  ({info})")
+        d = provider.diagnose()
+        print(f"  {'OK    ' if d.ok else 'PROBLEM' if provider.is_configured() else 'skipped'}  {d.summary}")
+        if d.hint:
+            print(f"          -> {d.hint}")
+        if d.models and not d.ok:
+            print(f"          available: {', '.join(d.models[:12])}{' ...' if len(d.models) > 12 else ''}")
+        ok = d.ok
+        if d.ok and not args.no_ping and provider.is_configured():
+            start = time.time()
+            reply = provider.generate(SYSTEM, USER, max_tokens=8, json_mode=False)
+            seconds = time.time() - start
+            ok = bool(reply and reply.strip())
+            print(f"  {'OK    ' if ok else 'FAILED'}  ping {seconds:.1f}s  reply={(reply or '').strip()[:30]!r}")
+            if not ok:
+                print("          see the warning above for the HTTP status (401 wrong key, 404 wrong model or URL, 429 rate limit)")
+        if provider.is_configured():
+            results.append((provider.name, ok))
+        print()
+
+    working = [name for name, ok in results if ok]
+    if not working:
+        print("No provider works. Start Ollama (and `ollama pull` the model), or set GROQ_API_KEY in .env. See docs/LLM_PROVIDERS.md.")
+        return 1
+    if results and not results[0][1]:
+        print(f"Note: the first choice ({results[0][0]}) is not working; answers will come from {working[0]}.")
+    return 0
 
 
 if __name__ == "__main__":

@@ -72,12 +72,12 @@ def build_pipeline(state: Any, graph: LineageGraph, index_dir: Path) -> Any:
         index.build(records)  # first run without a prebuilt index (slow with a CPU embedder)
     else:
         index.load_bm25()
-    from backend.rag.llm_gateway import warm_up_local_llm
+    from backend.rag.llm_gateway import warm_up_llm
     from backend.rag.search_engine import SYSTEM_PROMPT
 
     pipeline = RAGPipeline(index, records, lineage_graph=OurLineageAdapter(graph, state.lineage.edges))
     # Pay model loading and prompt reading now, not during the first user's question (both best effort).
-    warm_up_local_llm(SYSTEM_PROMPT)
+    warm_up_llm(SYSTEM_PROMPT)
     try:
         index.search("warm up", top_k=1)  # loads the query embedder
     except Exception:

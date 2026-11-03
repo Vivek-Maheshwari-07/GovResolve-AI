@@ -1,0 +1,62 @@
+# GovResolve-AI with Docker.
+#
+#   cp .env.example .env        # set GOV_ADMIN_TOKEN, and GROQ_API_KEY (or use the Ollama profile)
+#   docker compose up -d        # API + web app on http://localhost:8000
+#
+# Local models instead of Groq:
+#   docker compose --profile ollama up -d
+#   docker compose --profile init run --rm ollama-pull      # downloads qwen3.5:4b and bge-m3 once
+#
+# The corpus and search index are not in git: put them under ./data (see README, "Using your own collection").
+name: govresolve
+
+services:
+  api:
+    build: .
+    image: govresolve-ai:latest
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      OLLAMA_HOST: ${OLLAMA_HOST:-http://ollama:11434}
+      # The container listens on every interface, so the write endpoints must be protected.
+      GOV_ADMIN_TOKEN: ${GOV_ADMIN_TOKEN:?Set GOV_ADMIN_TOKEN in .env (any long random string)}
+      GOV_CORS_ORIGINS: ${GOV_CORS_ORIGINS:-["http://localhost:8000"]}
+    volumes:
+      - ./data:/app/data
+      - ${GOV_PDF_HOST_DIR:-./data/raw}:/app/data/raw:ro
+    restart: unless-stopped
+
+  ollama:
+    profiles: ["ollama"]
+    image: ollama/ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+    # NVIDIA GPU (needs the NVIDIA container toolkit): uncomment
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - { driver: nvidia, count: all, capabilities: [gpu] }
+
+  ollama-pull:
+    profiles: ["init"]
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["/bin/sh", "-c", "ollama pull ${OLLAMA_MODEL:-qwen3.5:4b} && ollama pull bge-m3"]
+    restart: "no"
+
+volumes:
+  ollama:

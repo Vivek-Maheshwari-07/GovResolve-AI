@@ -1,11 +1,10 @@
 """Unit tests for Gujarati lineage parsing: inline OCR read-lists, numerals, pointer ranges,
 explicit cancellation/amendment phrasing, and false-positive immunity (e.g. 'રજા રદ')."""
-import pytest
 from datetime import date
-from app.schemas import GRRecord, Chunk, RelType, Scope
-from app.lineage.extract import extract_gr, extract_refs, split_segments, parse_read_items
+from app.schemas import GRRecord, Chunk, RelType
+from app.lineage.extract import extract_refs, split_segments, parse_read_items
 from app.lineage.patterns import match_relation
-from app.lineage.resolve import Resolver, _without_quoted_text, _ordered_coverage_and_pos
+from app.lineage.resolve import _without_quoted_text
 
 
 def _make_gr(gr_id: str, text: str, gr_number: str = "TEST-101", issue_date: date = date(2021, 5, 10)) -> GRRecord:

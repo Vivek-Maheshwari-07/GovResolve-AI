@@ -81,7 +81,7 @@ def main() -> int:
   Answers take 40-70 s with the local model (Ollama must be running).
 ==============================================================
 """)
-    if os.environ.get("GOV_ENGINE") == "squad2" and not shutil.which("ollama") and os.environ.get("LLM_PROVIDER", "local") == "local":
+    if os.environ.get("GOV_ENGINE") == "squad2" and not shutil.which("ollama") and os.environ.get("LLM_PROVIDER", "ollama").lower() in ("ollama", "local"):
         print("  [!] 'ollama' not found on PATH: without a model, answers are one quoted passage with a warning.\n")
     if not args.no_browser:
         threading.Timer(3.0, lambda: webbrowser.open(url)).start()

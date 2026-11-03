@@ -1,0 +1,23 @@
+[project]
+name = "govresolve-ai"
+version = "0.1.0"
+description = "Bilingual (Gujarati-English) assistant for Government Resolutions: grounded answers, verbatim citations and amendment lineage."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.ruff]
+line-length = 160
+target-version = "py310"
+extend-exclude = ["frontend", "data", "final_dataset", "docs"]
+
+[tool.ruff.lint]
+# Correctness only (pyflakes + syntax errors). Style is left to the existing code.
+select = ["F", "E9"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401"]   # package re-exports
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+pythonpath = ["backend", "."]

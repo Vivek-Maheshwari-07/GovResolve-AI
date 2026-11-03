@@ -19,7 +19,7 @@ GovResolve-AI is a high-accuracy, bilingual (Gujarati–English) AI assistant fo
 | Role | Model | Deployment Mode | Latency |
 |---|---|---|---|
 | **Answer Model (Default Local)** | `qwen3.5:4b` | Local Ollama (CPU) | ~40–45 s |
-| **Answer Model (Production/Cloud)** | `openai/gpt-oss-120b` (Groq API) | Hosted Cloud API | **< 10 s per answer** |
+| **Answer Model (Hosted, optional)** | `openai/gpt-oss-120b` (Groq API) | Hosted API | 9–11 s in one partial run (free-tier rate limits); held-out accuracy not better than local |
 | **Embeddings** | `bge-m3` (`ollama:bge-m3`) | Local ChromaDB (`data/index/chroma`) | ~0.2 s |
 | **Keyword Search** | Suffix-Stripped BM25 | In-Memory (`rank_bm25`) | ~0.05 s |
 | **Fallback Engine** | Verified Citation Extractor | Zero-dependency Local Rule Engine | < 0.1 s |
@@ -36,12 +36,17 @@ Evaluated over the verified gold benchmarks (`eval/gold_questions.json` and `eva
 | **Top-3 Retrieval Hit Rate** | **97.1%** (0.971) | **100.0%** (1.000) | $\ge$ 90% | **PASSED (Perfect Recall)** |
 | **Top-1 Amended GR Retrieval** | **81.8%** (0.818) | **100.0%** (1.000) | $\ge$ 80% | **PASSED** |
 | **Top-1 Native Gujarati Retrieval** | **81.8%** (0.818) | **100.0%** (1.000) | $\ge$ 80% | **PASSED** |
-| **Answer in Evidence Context** | **82.9%** (0.829) | **63.6%** (0.636) | $\ge$ 75% | **PASSED** |
-| **Mixed Script Evidence Coverage** | **88.9%** (0.889) | **50.0%** (0.500) | $\ge$ 70% | **PASSED** |
+| **Answer in Evidence Context** | **82.9%** (0.829) | **63.6%** (0.636) | $\ge$ 75% | Dev met · **held-out NOT MET** |
+| **Mixed Script Evidence Coverage** | **88.9%** (0.889) | **50.0%** (0.500) | $\ge$ 70% | Dev met · **held-out NOT MET** |
 | **Lineage Precision** | **0.972** (97.2%) | **0.972** (97.2%) | $\ge$ 80% | **PASSED (Gold Target)** |
 | **Lineage Recall** | **0.972** (97.2%) | **0.972** (97.2%) | $\ge$ 80% | **PASSED (Gold Target)** |
 | **Verbatim Quote Accuracy** | **100%** | **100%** | 100% | **PASSED** |
 | **Refusal Accuracy (Out of Scope / Vague)** | **100%** (15 of 15) | **100%** (5 of 5) | $\ge$ 90% | **PASSED** |
+
+> **Reading these figures.** The Top-1 / Top-3 rows are measured in retrieval-only mode. In the full pipeline the held-out set scored 72.7% / 72.7%
+> (correct document first / in first three), with 6 of 11 answerable questions answered correctly (see `eval/SCORECARD_SUMMARY.md`). The gold questions and
+> the 71 lineage pairs were drafted by the team and are not yet validated by officers. This report is historical; for the current assessment, evidence
+> and open issues see `docs/GovResolve-AI_HLD_LLD.pdf` (section 5).
 
 ---
 
@@ -49,7 +54,7 @@ Evaluated over the verified gold benchmarks (`eval/gold_questions.json` and `eva
 
 | Suite | Scope | Result | Execution Time |
 |---|---|---|---|
-| **Backend Suite (`pytest`)** | API contract, lineage graph, patterns, cross-lingual RRF, guards, injections | **413 passed**, 0 failed | **6.73 s** |
+| **Backend Suite (`pytest`)** | API contract, lineage graph, patterns, cross-lingual RRF, guards, injections | 413 tests at the time of writing (439 now, including the provider tests); all pass | a few seconds |
 | **Frontend Suite (`npm test`)** | Lineage time machine, API adapter, status mapping, verbatim court citations | **13 passed**, 0 failed | **0.13 s** |
 
 *Note: Always invoke backend tests via the virtual environment (`.venv\Scripts\python -m pytest backend/`).*

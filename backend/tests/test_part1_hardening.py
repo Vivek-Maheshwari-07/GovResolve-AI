@@ -1,5 +1,4 @@
 """Part 1: PDF lookup in sub-folders, security middleware, question limit, and the UI mount."""
-from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient

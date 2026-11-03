@@ -42,7 +42,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from backend.models import (
     BoundingBox, Chunk, ClauseStatus, GRRecord, Language,
-    LineageEdge, LineageType, LinkConfidence, PageRecord,
+    PageRecord,
     SourceType, TextBlock,
 )
 from backend.lineage.lineage_graph import LineageGraph, apply_lineage_to_records
@@ -475,7 +475,7 @@ def ingest_dataset(
     index.build(records)
 
     print("\n" + "=" * 65)
-    print(f"HIGH-ACCURACY DATASET INGESTION COMPLETED")
+    print("HIGH-ACCURACY DATASET INGESTION COMPLETED")
     print("=" * 65)
     print(f"Total PDFs Ingested:    {len(records)}")
     print(f"Total Chunks Indexed:   {sum(len(r.chunks) for r in records)}")

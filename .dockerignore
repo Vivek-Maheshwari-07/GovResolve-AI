@@ -1,0 +1,17 @@
+.git
+.github
+.env
+.venv
+**/__pycache__
+**/.pytest_cache
+.ruff_cache
+frontend/node_modules
+frontend/dist
+final_dataset
+data/index
+data/vector
+data/*.sqlite
+docs
+eval
+*.md
+!README.md

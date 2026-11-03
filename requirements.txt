@@ -1,28 +1,27 @@
-# Squad 2 RAG pipeline (backend/rag, backend/api, backend/ingestion).
-# Lists only what the code imports. Squad 3's API has its own backend/requirements.txt.
+# Runtime dependencies for the API, the RAG pipeline and the corpus tools.
+# Python 3.10+. Install:  pip install -r requirements.txt
 
-# Retrieval and embeddings
-chromadb>=0.5.0
-sentence-transformers>=3.0.0
-rank-bm25>=0.2.2
-numpy>=1.26.0
-ollama>=0.4.0   # only for EMBEDDING_MODEL=ollama:<model>
-
-# LLM gateway (code imports `from google import genai`, the google-genai SDK)
-google-genai>=1.0.0
-
-# Document processing
-pymupdf>=1.24.0
-pdfplumber>=0.11.0
-pytesseract>=0.3.10
-Pillow>=10.0.0
-
-# Backend API
-fastapi>=0.115.0
-uvicorn>=0.30.0
+# API
+fastapi>=0.115
+uvicorn>=0.30
+pydantic>=2.7
+pydantic-settings>=2.3
 python-multipart>=0.0.9
-pydantic>=2.0.0
+python-dotenv>=1.0
+loguru>=0.7
 
-# Utilities
-python-dotenv>=1.0.0
-loguru>=0.7.0
+# Lineage graph and retrieval
+networkx>=3.3
+numpy>=1.26
+rank-bm25>=0.2.2
+chromadb>=1.0
+opentelemetry-exporter-otlp-proto-grpc==1.37.0   # pinned: newer releases conflict with chromadb's telemetry
+httpx>=0.27
+
+# Language models: Ollama and Groq need no extra package (plain HTTPS). Embeddings come from Ollama (bge-m3).
+ollama>=0.4
+
+# Documents: PDF text layers and OCR (also install the Tesseract binary; Gujarati data is in data/tessdata)
+pymupdf>=1.24
+Pillow>=10.0
+pytesseract>=0.3.10
