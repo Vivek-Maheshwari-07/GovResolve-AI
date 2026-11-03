@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ServerCrash, X, RotateCcw } from 'lucide-react';
-import { ask, fetchStats } from './api';
+import { ask, fetchStats, lineageChain } from './api';
 import { statusAsOf } from './lib/lineage';
 import { citeKey } from './components/AnswerCard';
 import TopBar from './components/TopBar';
@@ -12,12 +12,17 @@ import StatusBanner from './components/StatusBanner';
 import AnswerCard from './components/AnswerCard';
 import LineageGraph from './components/LineageGraph';
 import PdfInspector from './components/PdfInspector';
-import Hero, { HeroHeader, Specimen } from './components/Hero';
+import Hero, { HeroHeader, Specimen } from './components/AskLanding';
 import Library from './components/Library';
 import Method from './components/Method';
 import Tour from './components/Tour';
+import LandingPage from './pages/Hero';
+import { SAMPLES } from './lib/samples';
 
 const TOUR_KEY = 'govresolve.tour.seen';
+const INTRO_KEY = 'govresolve.intro.seen';
+const HISTORY_KEY = 'govresolve.history';
+const HISTORY_MAX = 8;
 const SHORTCUTS = [
   ['/', 'Focus inquiry input'],
   ['1  2  3', 'Inquiry · Library · Method'],
@@ -33,6 +38,17 @@ function seenTour() {
 }
 function rememberTour() {
   try { localStorage.setItem(TOUR_KEY, '1'); } catch { /* private mode fallback */ }
+}
+function seenIntro() {
+  try { return localStorage.getItem(INTRO_KEY) === '1'; } catch { return true; }
+}
+function rememberIntro() {
+  try { localStorage.setItem(INTRO_KEY, '1'); } catch { /* private mode fallback */ }
+}
+// ?intro=1 always shows the introduction (handy for demos); otherwise only a first visit does
+const forceIntro = () => { try { return new URLSearchParams(window.location.search).get('intro') === '1'; } catch { return false; } };
+function loadHistory() {
+  try { return JSON.parse(sessionStorage.getItem(HISTORY_KEY) || '[]').slice(0, HISTORY_MAX); } catch { return []; }
 }
 
 function ShortcutsDialog({ open, onClose }) {
@@ -168,12 +184,17 @@ export default function App() {
   const [active, setActive] = useState(null); // Active citation in Inquiry view
   const [libActive, setLibActive] = useState(null); // Active citation in Library view
   const [session, setSession] = useState({ asked: 0, verified: 0, refused: 0, lastSec: null });
+  const [stage, setStage] = useState(() => (forceIntro() || !seenIntro() ? 'hero' : 'app')); // 'hero' | 'app'
   const [tour, setTour] = useState(false);
+  const [history, setHistory] = useState(loadHistory);
+  const [chains, setChains] = useState({}); // lineage chains of other cited documents, fetched when selected
   const [keys, setKeys] = useState(false);
   const [focusAsk, setFocusAsk] = useState(0);
   const [ratio, setRatio] = useSplit();
   const mainRef = useRef(null);
   const abortRef = useRef(null);
+  const typeTimer = useRef(null);
+  const submitRef = useRef(null);
 
   useEffect(() => {
     fetchStats()
@@ -182,16 +203,27 @@ export default function App() {
         setOnline(true);
       })
       .catch(() => setOnline(false));
-
-    if (!seenTour()) {
-      const timer = setTimeout(() => setTour(true), 800);
-      return () => clearTimeout(timer);
-    }
   }, []);
 
-  const closeTour = useCallback(() => {
+  // introduction -> application, with or without the tour
+  const startTour = useCallback(() => {
+    rememberIntro();
+    setStage('app');
+    setTimeout(() => setTour(true), 700);
+  }, []);
+  const skipIntro = useCallback(() => {
+    rememberIntro();
+    setStage('app');
+  }, []);
+
+  const closeTour = useCallback((finished) => {
+    clearInterval(typeTimer.current);
     setTour(false);
     rememberTour();
+    if (finished) {
+      setWorkspace('ask');
+      setFocusAsk((n) => n + 1);
+    }
   }, []);
 
   const submit = async (text, fromSample = false) => {
@@ -212,6 +244,7 @@ export default function App() {
       const sec = Math.round((performance.now() - t0) / 1000);
       setResponse(r);
       setOnline(true);
+      setHistory((h) => [{ id: `${Date.now()}`, question: q, response: r, at: Date.now() }, ...h.filter((x) => x.question !== q)].slice(0, HISTORY_MAX));
       if (r.citations && r.citations[0]) {
         setActive(r.citations[0]);
       }
@@ -230,7 +263,36 @@ export default function App() {
     }
   };
 
+  submitRef.current = submit;
+
   const cancel = () => abortRef.current?.abort();
+  const openHistory = (h) => {
+    abortRef.current?.abort();
+    setWorkspace('ask');
+    setLoading(false);
+    setError(null);
+    setQuery(h.question);
+    setResponse(h.response);
+    setActive(h.response.citations?.[0] || null);
+  };
+  const clearHistory = () => setHistory([]);
+
+  // the tour asks one sample question for the visitor, typing it first
+  const typeAndAsk = useCallback(() => {
+    const text = SAMPLES[0].text;
+    setWorkspace('ask');
+    clearInterval(typeTimer.current);
+    setQuery('');
+    let n = 0;
+    typeTimer.current = setInterval(() => {
+      n += 3;
+      setQuery(text.slice(0, n));
+      if (n >= text.length) {
+        clearInterval(typeTimer.current);
+        submitRef.current?.(text, true);
+      }
+    }, 22);
+  }, []);
   const focusQuestion = () => {
     setWorkspace('ask');
     setFocusAsk((n) => n + 1);
@@ -239,6 +301,24 @@ export default function App() {
   const landing = workspace === 'ask' && !loading && !response && !error;
   const chain = response?.lineage_chain || [];
   const firstId = response?.citations?.[0]?.gr_id;
+
+  // remember the session's questions (answers included) so an earlier one can be reopened without asking again
+  useEffect(() => {
+    try { sessionStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch { /* storage full or unavailable */ }
+  }, [history]);
+
+  // the lineage shown follows the selected citation: when an answer cites several resolutions, each has its own chain
+  useEffect(() => { setChains({}); }, [response]);
+  useEffect(() => {
+    const id = active?.gr_id;
+    if (!id || !response || id === firstId || chains[id] || chain.some((n) => n.gr_id === id)) return undefined;
+    let live = true;
+    lineageChain(id).then((c) => live && setChains((p) => ({ ...p, [id]: c }))).catch(() => {});
+    return () => { live = false; };
+  }, [active?.gr_id, response, firstId, chain, chains]);
+  const ownChain = active?.gr_id && active.gr_id !== firstId ? chains[active.gr_id] : null;
+  const shownChain = ownChain || chain;
+  const shownFor = ownChain ? active : response?.citations?.[0];
   const asOfStatus = useMemo(() => {
     if (!asOf || !chain.length || !firstId) return null;
     const st = statusAsOf(chain, asOf)[firstId];
@@ -260,7 +340,7 @@ export default function App() {
 
   useEffect(() => {
     const onKey = (e) => {
-      if (tour) return;
+      if (tour || stage === 'hero') return;
       if (e.key === 'Escape') {
         setKeys(false);
         return;
@@ -288,13 +368,21 @@ export default function App() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [tour, response, active]);
+  }, [tour, stage, response, active]);
 
   const split = workspace !== 'method' && !landing;
   const cols = { '--cols': `minmax(0, ${ratio}fr) 18px minmax(0, ${1 - ratio}fr)` };
 
   return (
-    <div className="flex h-full flex-col font-sans">
+    <>
+    <AnimatePresence>
+      {stage === 'hero' && (
+        <motion.div key="intro" className="fixed inset-0 z-40 bg-canvas" initial={false} exit={{ opacity: 0, scale: 1.025, filter: 'blur(8px)' }} transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}>
+          <LandingPage onGetStarted={startTour} onSkip={skipIntro} />
+        </motion.div>
+      )}
+    </AnimatePresence>
+    <div className="flex h-full flex-col font-sans" aria-hidden={stage === 'hero' ? true : undefined} inert={stage === 'hero' ? '' : undefined}>
       <TopBar
         stats={stats}
         online={online}
@@ -304,6 +392,7 @@ export default function App() {
         onAsOf={setAsOf}
         session={session}
         onCommand={focusQuestion}
+        onHome={() => setStage('hero')}
       />
 
       <div className="flex min-h-0 flex-1">
@@ -325,7 +414,7 @@ export default function App() {
                 <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)]">
                   <div className="space-y-7">
                     <HeroHeader />
-                    <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={false} hero focusSignal={focusAsk} />
+                    <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={false} hero focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} />
                   </div>
                   <Specimen className="hidden lg:block" />
                 </div>
@@ -336,7 +425,7 @@ export default function App() {
             {workspace === 'ask' && !landing && (
               <>
                 <section className="flex flex-col gap-3.5 lg:min-h-0 lg:overflow-y-auto lg:pr-1" aria-label="Investigation">
-                  <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact focusSignal={focusAsk} />
+                  <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} />
 
                   <div data-tour="answer" className="space-y-3.5">
                     <AnimatePresence mode="wait">
@@ -361,7 +450,7 @@ export default function App() {
                         <motion.div key="answer" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3.5">
                           <StatusBanner status={response.answer_status} reasonCode={response.reason_code} asOf={asOf} asOfStatus={asOfStatus} />
                           <AnswerCard response={response} active={active} onSelect={setActive} />
-                          <LineageGraph chain={chain} asOf={asOf} onAsOf={setAsOf} activeId={active?.gr_id} onSelectNode={openNode} />
+                          <LineageGraph chain={shownChain} forGr={shownFor?.gr_number} asOf={asOf} onAsOf={setAsOf} activeId={active?.gr_id} onSelectNode={openNode} />
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -378,7 +467,7 @@ export default function App() {
 
             {workspace === 'library' && (
               <>
-                <section className="flex flex-col lg:min-h-0 lg:overflow-y-auto lg:pr-1" aria-label="Library">
+                <section data-tour="library" className="flex flex-col lg:min-h-0 lg:overflow-y-auto lg:pr-1" aria-label="Library">
                   <Library selectedId={libActive?.gr_id} onOpen={setLibActive} asOf={asOf} onAsOf={setAsOf} />
                 </section>
                 <SplitHandle ratio={ratio} onChange={setRatio} containerRef={mainRef} />
@@ -395,8 +484,20 @@ export default function App() {
 
       <StatusBar onShortcuts={() => setKeys(true)} session={session} />
       <MobileTabs active={workspace} onChange={setWorkspace} />
-      <Tour open={tour} onClose={closeTour} />
+      <Tour
+        open={tour}
+        onClose={closeTour}
+        ctx={{
+          hasAnswer: !!response,
+          hasCitations: !!response?.citations?.length,
+          hasLineage: shownChain.length > 0,
+          loading,
+          typeAndAsk,
+          setWorkspace,
+        }}
+      />
       <ShortcutsDialog open={keys} onClose={() => setKeys(false)} />
     </div>
+    </>
   );
 }

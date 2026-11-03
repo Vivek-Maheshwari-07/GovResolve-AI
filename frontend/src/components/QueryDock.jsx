@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CornerDownLeft, X, Keyboard, Loader2 } from 'lucide-react';
 import GujaratiKeyboard from './GujaratiKeyboard';
+import HistoryMenu from './HistoryMenu';
 
 const TEMPLATES = [
   { label: 'GR No. search', text: 'GR No. ' },
@@ -9,7 +10,7 @@ const TEMPLATES = [
   { label: 'Pay & allowances', text: 'Pay fixation: ' },
 ];
 
-export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal, hero = false }) {
+export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal, hero = false, history = [], onOpenHistory, onClearHistory }) {
   const [kb, setKb] = useState(false);
   const ref = useRef(null);
 
@@ -78,6 +79,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
             </div>
 
             <div className="flex items-center gap-2">
+              <HistoryMenu history={history} onOpen={onOpenHistory} onClear={onClearHistory} />
               <span className="hidden text-[10.5px] text-faint sm:inline">Enter to send</span>
               <button
                 type="button"

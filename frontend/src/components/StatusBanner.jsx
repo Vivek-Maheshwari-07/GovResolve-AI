@@ -16,6 +16,7 @@ export default function StatusBanner({ status, reasonCode, asOf, asOfStatus }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+      data-tour="verdict"
       className="sheet overflow-hidden"
       role="status"
       aria-label={`Status: ${s.label}`}

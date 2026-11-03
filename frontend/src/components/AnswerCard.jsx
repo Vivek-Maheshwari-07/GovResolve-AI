@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FileText, TriangleAlert, ShieldCheck, MessageSquareWarning, ArrowRight } from 'lucide-react';
 import Seal from './Seal';
+import TrustShield from './TrustShield';
 
 export const citeKey = (c) => (c ? `${c.gr_id}|${c.page}|${c.passage || ''}` : '');
 
@@ -53,7 +54,7 @@ export default function AnswerCard({ response, active, onSelect }) {
       )}
 
       {/* The finding: first thing read, set large in serif */}
-      <section className="sheet px-5 pb-5 pt-4 sm:px-7 sm:pb-6">
+      <section data-tour="finding" className="sheet px-5 pb-5 pt-4 sm:px-7 sm:pb-6">
         <div className="mb-3 flex items-center justify-between gap-3">
           <h2 className={`eyebrow flex items-center gap-1.5 ${answered ? '!text-iris-700' : '!text-[#475569]'}`}>
             {answered ? <span className="h-1.5 w-1.5 rounded-full bg-iris-600" /> : <MessageSquareWarning className="h-3.5 w-3.5" />}
@@ -68,11 +69,7 @@ export default function AnswerCard({ response, active, onSelect }) {
         <p className={`${isGu ? 'gu-text' : 'display'} text-[20px] font-normal leading-[1.62] text-ink sm:text-[22px]`}>
           {answered ? response.summary : response.insufficient_reason}
         </p>
-        {answered && response.citations?.length > 0 && (
-          <p className="mono-label mt-4 border-t border-hair pt-3 text-[9.5px] text-faint">
-            Based on {response.citations.length} {response.citations.length === 1 ? 'passage' : 'passages'} · {docs} {docs === 1 ? 'resolution' : 'resolutions'}
-          </p>
-        )}
+        <TrustShield response={response} />
       </section>
 
       {/* Statements: footnote ledger */}
@@ -115,7 +112,7 @@ export default function AnswerCard({ response, active, onSelect }) {
 
       {/* Verbatim passages: block quotes */}
       {answered && response.citations.length > 0 && (
-        <section className="space-y-2.5">
+        <section data-tour="passages" className="space-y-2.5">
           <div className="flex items-center justify-between px-1">
             <h2 className="eyebrow">Verbatim passages</h2>
             <span className="text-[11.5px] text-faint">Select one to lock it on the page</span>
@@ -137,6 +134,11 @@ export default function AnswerCard({ response, active, onSelect }) {
                 <span aria-hidden className={`absolute inset-y-0 left-0 w-[3px] transition-colors ${on ? 'bg-[#D98A1F]' : 'bg-stone group-hover:bg-iris-500'}`} />
                 <span aria-hidden className="display pointer-events-none absolute -top-2 right-3 select-none text-[68px] leading-none text-ink/[.045]">”</span>
                 <p className="legal-text relative text-[14.5px] text-ink">“{c.passage}”</p>
+                {(c.subject || c.department) && (
+                  <p className="gu-text relative mt-2 text-[11.5px] leading-snug text-mist">
+                    {c.subject}{c.subject && c.department ? ' · ' : ''}{c.department}
+                  </p>
+                )}
 
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-hair pt-2.5">
                   <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] text-mist">

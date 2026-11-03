@@ -44,6 +44,7 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
   const [q, setQ] = useState('');
   const [lang, setLang] = useState('all');
   const [status, setStatus] = useState('all');
+  const [dept, setDept] = useState('all');
   const [chain, setChain] = useState([]);
   const [sortOrder, setSortOrder] = useState('newest');
 
@@ -68,6 +69,8 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
     return c;
   }, [rows]);
 
+  const depts = useMemo(() => [...new Set((rows || []).map((r) => r.department).filter(Boolean))].sort(), [rows]);
+
   const shown = useMemo(() => {
     if (!rows) return [];
     const nq = norm(q);
@@ -75,11 +78,12 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
       (r) =>
         (lang === 'all' || r.language === lang) &&
         (status === 'all' || r.status === status) &&
+        (dept === 'all' || r.department === dept) &&
         (!nq || norm(r.gr_number).includes(nq) || norm(r.subject).includes(nq) || String(r.issue_date || '').includes(q.trim())),
     );
     if (sortOrder === 'oldest') filtered = [...filtered].reverse();
     return filtered;
-  }, [rows, q, lang, status, sortOrder]);
+  }, [rows, q, lang, status, dept, sortOrder]);
 
   const open = (r) =>
     onOpen({ gr_id: r.gr_id, gr_number: r.gr_number, page: 1, issue_date: r.issue_date, department: r.department, subject: r.subject, language: r.language });
@@ -133,6 +137,16 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
               ))}
             </div>
           </div>
+          <div className="flex items-center gap-2">
+          {depts.length > 1 && (
+            <label className="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-mist">
+              <span className="sr-only">Department</span>
+              <select value={dept} onChange={(e) => setDept(e.target.value)} aria-label="Filter by department" className="max-w-[11rem] truncate rounded-lg bg-ivory px-2 py-1.5 text-[11.5px] font-semibold text-mist outline-none hover:text-ink" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.12), inset 0 1px 0 #fff' }}>
+                <option value="all">All departments</option>
+                {depts.map((d) => <option key={d} value={d}>{d}</option>)}
+              </select>
+            </label>
+          )}
           <button
             type="button"
             onClick={() => setSortOrder((o) => (o === 'newest' ? 'oldest' : 'newest'))}
@@ -141,6 +155,7 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
           >
             <ArrowUpDown className="h-3 w-3" /> {sortOrder === 'newest' ? 'Newest first' : 'Oldest first'}
           </button>
+          </div>
         </div>
       </div>
 

@@ -300,7 +300,7 @@ function Ledger({ chain, onSelectNode }) {
   );
 }
 
-export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNode }) {
+export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNode, forGr }) {
   const [view, setView] = useState('map');
   const status = useMemo(() => statusAsOf(chain, asOf), [chain, asOf]);
   const counts = useMemo(() => issuedCount(chain, asOf), [chain, asOf]);
@@ -308,7 +308,7 @@ export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNo
   if (!chain || !chain.length) return null;
 
   return (
-    <section className="sheet p-4 sm:p-5" aria-label="Amendment lineage">
+    <section data-tour="lineage" className="sheet p-4 sm:p-5" aria-label="Amendment lineage">
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-iris-50 text-iris-700 ring-1 ring-iris-200">
@@ -316,7 +316,7 @@ export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNo
           </span>
           <div>
             <h2 className="display text-[17px] font-bold leading-tight text-ink">Amendment lineage</h2>
-            <p className="mono-label mt-1 text-[9.5px] text-faint">{counts.total} {counts.total === 1 ? 'order' : 'orders'} · newer → older</p>
+            <p className="mono-label mt-1 text-[9.5px] text-faint">{counts.total} {counts.total === 1 ? 'order' : 'orders'} · newer → older{forGr ? ` · chain of ${forGr}` : ''}</p>
           </div>
         </div>
 

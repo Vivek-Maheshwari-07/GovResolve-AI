@@ -19,14 +19,14 @@ function Readout({ label, children, tone = 'text-legal', title }) {
   );
 }
 
-export default function TopBar({ stats, online, language, onLanguage, asOf, onAsOf, session, onCommand }) {
+export default function TopBar({ stats, online, language, onLanguage, asOf, onAsOf, session, onCommand, onHome }) {
     return (
     <header className="sticky top-0 z-30 border-b border-hair bg-canvas/80 backdrop-blur-xl">
       <div aria-hidden className="h-[2px] bg-gradient-to-r from-iris-600 via-iris-400 to-transparent" />
 
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-4 py-2.5 sm:px-6">
         {/* Brand */}
-        <div className="flex items-center gap-3">
+        <button type="button" onClick={onHome} title="Back to the introduction" aria-label="GovResolve-AI: back to the introduction" className="flex items-center gap-3 text-left">
           <div
             className="relative grid h-9 w-9 place-items-center rounded-[11px] bg-gradient-to-b from-[#5F58F2] to-[#4338CA]"
             style={{ boxShadow: '0 0 0 1px rgba(55,48,163,.9), inset 0 1px 0 rgba(255,255,255,.28), 0 8px 16px -8px rgba(79,70,229,.8)' }}
@@ -39,7 +39,7 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
             </p>
             <p className="mono-label mt-1 hidden text-[9.5px] text-faint sm:block">PS000230 · Gujarat Government Resolutions</p>
           </div>
-        </div>
+        </button>
 
         {/* Command bar */}
         <button

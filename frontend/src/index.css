@@ -133,3 +133,13 @@ body::before {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* Landing page: date slider whose track is drawn by the SVG above it */
+.time-range { -webkit-appearance: none; appearance: none; height: 30px; background: transparent; cursor: grab; margin-top: -6px; }
+.time-range:active { cursor: grabbing; }
+.time-range::-webkit-slider-runnable-track { height: 4px; border-radius: 4px; background: linear-gradient(90deg, #C7D2FE, #4F46E5); }
+.time-range::-moz-range-track { height: 4px; border-radius: 4px; background: linear-gradient(90deg, #C7D2FE, #4F46E5); }
+.time-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; margin-top: -9px; border-radius: 50%; background: linear-gradient(#fff, #EEF0F8); box-shadow: 0 0 0 2px #4F46E5, 0 6px 14px -4px rgba(79,70,229,.6); }
+.time-range::-moz-range-thumb { width: 20px; height: 20px; border: 0; border-radius: 50%; background: linear-gradient(#fff, #EEF0F8); box-shadow: 0 0 0 2px #4F46E5, 0 6px 14px -4px rgba(79,70,229,.6); }
+.time-range:focus-visible { outline: none; }
+.time-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px #4F46E5, 0 0 0 6px rgba(79,70,229,.25); }
