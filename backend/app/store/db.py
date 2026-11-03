@@ -48,9 +48,6 @@ class Database:
             )
             self._conn.commit()
 
-    def load_edges(self) -> list[LineageEdge]:
-        return [LineageEdge.model_validate_json(r["data"]) for r in self._exec("SELECT data FROM edges")]
-
     # manual overrides: add / remove, newest wins
     def add_override(self, edge: LineageEdge, author: str, note: str | None) -> None:
         self._exec(

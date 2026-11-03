@@ -38,7 +38,6 @@ export default function AnswerCard({ response, active, onSelect }) {
   const answered = response.verdict === 'answered';
   const warnings = response.warnings || [];
   const isGu = /[઀-૿]/.test(response.summary || response.insufficient_reason || '');
-  const docs = new Set((response.citations || []).map((c) => c.gr_id)).size;
 
   return (
     <div className="space-y-3.5">

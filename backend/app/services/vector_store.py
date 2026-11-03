@@ -59,10 +59,6 @@ class VectorStore:
         self.name = f"{name}_{re.sub(r'[^a-zA-Z0-9]', '_', embed_model)[:40]}"
         self.col = self.client.get_or_create_collection(self.name, metadata={"hnsw:space": "cosine"})
 
-    def reset(self) -> None:
-        self.client.delete_collection(self.name)
-        self.col = self.client.get_or_create_collection(self.name, metadata={"hnsw:space": "cosine"})
-
     def index_corpus(self, corpus: Corpus) -> int:
         ids, docs, metas = [], [], []
         for gr in corpus.grs.values():

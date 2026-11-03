@@ -4,12 +4,11 @@ from datetime import date
 
 from ..schemas import ChunkLineage, ClauseStatus, Confidence, LineageEdge, RelType, Scope
 from ..store.corpus import Corpus
-from .extract import Candidate, Refs, extract_gr, extract_refs
+from .extract import Candidate, extract_gr, extract_refs
 from .graph import LineageGraph, edge_date
 from .llm_fallback import Cache, LLMFallback
 from .normalize import normalize_text
 from .resolve import Resolver, Target
-from .scope import parse_scope
 from .status import StatusEngine, in_force_on
 
 

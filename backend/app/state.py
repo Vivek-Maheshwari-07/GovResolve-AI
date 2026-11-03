@@ -1,7 +1,6 @@
 import json
 import time
 from dataclasses import dataclass, field
-from pathlib import Path
 
 from .config import Settings
 from .schemas import LineageEdge

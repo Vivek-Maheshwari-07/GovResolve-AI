@@ -33,9 +33,6 @@ const SHORTCUTS = [
 
 const typing = (el) => el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
 
-function seenTour() {
-  try { return localStorage.getItem(TOUR_KEY) === '1'; } catch { return true; }
-}
 function rememberTour() {
   try { localStorage.setItem(TOUR_KEY, '1'); } catch { /* private mode fallback */ }
 }

@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { MessagesSquare, Library, FlaskConical, Lightbulb, Keyboard } from 'lucide-react';
 
 export const WORKSPACES = [
-  { id: 'ask', label: 'Inquiry', icon: MessagesSquare, key: '1', tint: 'text-iris-700' },
-  { id: 'library', label: 'Library', icon: Library, key: '2', tint: 'text-iris-700' },
-  { id: 'method', label: 'Method', icon: FlaskConical, key: '3', tint: 'text-iris-700' },
+  { id: 'ask', label: 'Inquiry', icon: MessagesSquare, key: '1' },
+  { id: 'library', label: 'Library', icon: Library, key: '2' },
+  { id: 'method', label: 'Method', icon: FlaskConical, key: '3' },
 ];
 
 function RailButton({ active, onClick, icon: Icon, label, hint, keyHint }) {
