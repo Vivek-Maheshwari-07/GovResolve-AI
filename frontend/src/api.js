@@ -79,11 +79,12 @@ export async function lineageChain(docId) {
   });
 }
 
-export async function ask(question, language = null) {
+export async function ask(question, language = null, signal = undefined) {
   const r = await getJson('/query', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(language ? { question, language } : { question }),
+    signal,
   });
   const ids = [...new Set((r.citations || []).map((c) => c.doc_id))];
   const metas = Object.fromEntries(await Promise.all(ids.map(async (id) => [id, await docMeta(id)])));

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Languages, DatabaseZap, GitBranch, ScanSearch, Check, Sparkles, Cpu } from 'lucide-react';
+import { X } from 'lucide-react';
 
+// The server does not report progress, so these stages are an estimate of the usual order, not a live status.
 const STAGES = [
-  { icon: Languages, label: 'Normalizing multi-script Gujarati/English query…', detail: 'Detecting language, expanding legal synonyms', after: 0, tint: 'bg-iris-50 text-iris-800 ring-iris-200 border-iris-200', icon_c: 'text-iris-600' },
-  { icon: DatabaseZap, label: 'Searching hybrid BM25 + dense vector index…', detail: 'Fusing keyword hits & bge-m3 embeddings', after: 2, tint: 'bg-indigo-50 text-indigo-800 ring-indigo-200 border-indigo-200', icon_c: 'text-indigo-600' },
-  { icon: GitBranch, label: 'Tracing amendment lineage graph…', detail: 'Extracting modification & supersession edges', after: 6, tint: 'bg-iris-50 text-iris-800 ring-iris-200 border-iris-200', icon_c: 'text-iris-600' },
-  { icon: ScanSearch, label: 'Verifying verbatim quote coordinates…', detail: 'Bounding-box validation against document OCR text', after: 12, tint: 'bg-amber-50 text-amber-800 ring-amber-200 border-amber-200', icon_c: 'text-amber-600' },
+  { label: 'Reading the question', detail: 'Detecting language, expanding legal synonyms', after: 0 },
+  { label: 'Searching the collection', detail: 'Fusing keyword hits with bge-m3 embeddings', after: 2 },
+  { label: 'Tracing amendment lineage', detail: 'Following explicit amend / supersede references', after: 6 },
+  { label: 'Checking quotes against the page', detail: 'Every quote must appear verbatim in the source text', after: 12 },
 ];
 
-const EXPECTED = 20; // seconds for smooth progress animation
-
-export default function PipelineLoader() {
+export default function PipelineLoader({ onCancel }) {
   const [sec, setSec] = useState(0);
 
   useEffect(() => {
@@ -20,89 +19,60 @@ export default function PipelineLoader() {
   }, []);
 
   const current = STAGES.reduce((acc, s, i) => (sec >= s.after ? i : acc), 0);
-  const pct = Math.min(95, Math.max(12, (sec / EXPECTED) * 100));
+  const mm = String(Math.floor(sec / 60)).padStart(2, '0');
+  const ss = String(sec % 60).padStart(2, '0');
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0 }}
-      className="glass-card space-y-4 rounded-2xl p-4 shadow-lift"
-      role="status"
-      aria-live="polite"
-    >
-      {/* Header with live timer */}
-      <div className="flex items-center justify-between pb-1 border-b border-hair">
-        <div className="flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-100">
-            <Cpu className="h-4 w-4 animate-pulse" />
-          </span>
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="sheet overflow-hidden" role="status" aria-live="polite">
+      {/* indeterminate carriage: no fake percentage */}
+      <div className="relative h-[3px] overflow-hidden bg-iris-100" aria-hidden>
+        <div className="absolute inset-y-0 w-1/4 animate-slide rounded-full bg-gradient-to-r from-transparent via-iris-600 to-transparent" />
+      </div>
+
+      <div className="p-5">
+        <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-bold text-legal tracking-tight">Investigating Gujarat Government Resolutions</p>
-            <p className="text-[10.5px] text-mist font-mono">Real-time verifiable pipeline running</p>
+            <p className="mono-label flex items-center gap-2 text-iris-700">
+              <span className="relative flex h-2 w-2"><span className="absolute inset-0 animate-pingSoft rounded-full bg-iris-500" /><span className="relative h-2 w-2 rounded-full bg-iris-600" /></span>
+              Working
+            </p>
+            <h3 className="display mt-1.5 text-[19px] font-bold text-ink">Investigating the resolutions</h3>
+            <p className="mt-1 text-[12.5px] text-mist">Local models can take up to a minute. Nothing is shown until every quote is verified.</p>
+          </div>
+          <div className="text-right">
+            <p className="font-mono text-[28px] font-bold leading-none tabular-nums text-ink">{mm}<span className="animate-pulse text-iris-500">:</span>{ss}</p>
+            <p className="mono-label mt-1.5 text-[9px] text-faint">elapsed</p>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 rounded-full border border-hair bg-sand px-2.5 py-0.5 font-mono text-[11px] font-semibold text-legal">
-          <span className="h-2 w-2 rounded-full bg-amber-500 animate-pingSoft" />
-          <span>{sec}s elapsed</span>
+
+        <ol className="mt-5 space-y-0.5">
+          {STAGES.map((s, i) => {
+            const past = i < current;
+            const now = i === current;
+            return (
+              <li key={s.label} className={`grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 rounded-lg px-2 py-1.5 transition-colors ${now ? 'bg-iris-50' : ''}`}>
+                <span className="relative mt-1 grid place-items-center">
+                  <span className={`h-2.5 w-2.5 rounded-full ring-2 transition-colors ${past ? 'bg-iris-300 ring-iris-100' : now ? 'bg-iris-600 ring-iris-200' : 'bg-stone ring-transparent'}`} />
+                  {i < STAGES.length - 1 && <span aria-hidden className="absolute left-1/2 top-3.5 h-5 w-px -translate-x-1/2 bg-stone" />}
+                </span>
+                <div className="min-w-0">
+                  <p className={`text-[13px] leading-snug ${now ? 'font-bold text-iris-800' : past ? 'font-medium text-mist' : 'text-faint'}`}>{s.label}</p>
+                  {now && <p className="mt-0.5 text-[11.5px] text-mist">{s.detail}</p>}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+
+        <div className="mt-4 flex items-center justify-between border-t border-hair pt-3">
+          <p className="text-[11px] text-faint">Stages show the usual order; the server does not report live progress.</p>
+          {onCancel && (
+            <button type="button" onClick={onCancel} className="inline-flex items-center gap-1.5 rounded-lg bg-ivory px-2.5 py-1 text-[12px] font-semibold text-mist transition hover:text-[#8E1F3A]" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.12), inset 0 1px 0 #fff' }}>
+              <X className="h-3.5 w-3.5" /> Cancel
+            </button>
+          )}
         </div>
       </div>
-
-      {/* Progress Bar */}
-      <div className="space-y-1">
-        <div className="h-1.5 overflow-hidden rounded-full bg-sand">
-          <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-iris-500 via-indigo-600 to-amber-500"
-            animate={{ width: `${pct}%` }}
-            transition={{ ease: 'easeOut', duration: 0.8 }}
-          />
-        </div>
-      </div>
-
-      {/* Pipeline Stages */}
-      <ol className="space-y-1.5">
-        {STAGES.map((s, i) => {
-          const done = i < current;
-          const active = i === current;
-          const Icon = done ? Check : s.icon;
-          return (
-            <li
-              key={s.label}
-              className={`flex items-start gap-3 rounded-xl p-2 text-[12.5px] transition-all border ${
-                active
-                  ? `${s.tint} font-semibold ring-1 shadow-sm`
-                  : done
-                  ? 'border-transparent text-emerald-800 bg-emerald-50/50'
-                  : 'border-transparent text-[#8A94A6]'
-              }`}
-            >
-              <div className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md ${
-                done ? 'bg-emerald-600 text-white' : active ? 'bg-white shadow-sm ring-1 ring-stone' : 'bg-sand'
-              }`}>
-                <Icon className={`h-3 w-3 ${active ? `animate-spin ${s.icon_c}` : ''}`} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="leading-snug">{s.label}</p>
-                {active && <p className="text-[10.5px] font-normal text-mist mt-0.5">{s.detail}</p>}
-              </div>
-              {done && <span className="font-mono text-[10px] text-emerald-600">done</span>}
-              {active && <span className="font-mono text-[10.5px] text-indigo-700 animate-pulse">active</span>}
-            </li>
-          );
-        })}
-      </ol>
-
-      {/* Skeleton Preview */}
-      <div className="space-y-2 pt-1 border-t border-hair" aria-hidden>
-        <div className="skeleton h-12 animate-shimmer rounded-xl" />
-        <div className="skeleton h-3 w-10/12 animate-shimmer rounded" />
-        <div className="skeleton h-3 w-7/12 animate-shimmer rounded" />
-      </div>
-
-      <p className="text-[11px] text-mist flex items-center justify-between">
-        <span>Every claim is cross-checked against OCR text before emission.</span>
-        <span className="font-mono text-[10px] text-indigo-600">Strict Verbatim Layer</span>
-      </p>
     </motion.div>
   );
 }

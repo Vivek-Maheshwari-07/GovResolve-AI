@@ -1,224 +1,129 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Languages, DatabaseZap, Filter, PenLine, ShieldCheck, Ban, GitBranch, Quote, ArrowDownLeft, CircleSlash, Cpu, CheckCircle2 } from 'lucide-react';
+import { Languages, DatabaseZap, Filter, PenLine, ShieldCheck } from 'lucide-react';
+import CountUp from './CountUp';
 
 const STEPS = [
-  {
-    icon: Languages,
-    title: '1. Understand',
-    text: 'Detects ગુજરાતી, English or Gujlish. Gujlish and Gujarati queries are normalized with legal synonyms to match both Gujarati and English GRs.',
-    tint: 'from-iris-500 to-emerald-600',
-  },
-  {
-    icon: DatabaseZap,
-    title: '2. Retrieve',
-    text: 'Hybrid BM25 keyword matching fused with dense bge-m3 neural embeddings across 7,500+ text chunks. GR numbers trigger exact citation routing.',
-    tint: 'from-indigo-600 to-blue-600',
-  },
-  {
-    icon: Filter,
-    title: '3. Select Evidence',
-    text: 'Top candidate passages compete for a budgeted token context window. Non-authoritative OCR noise and internal form instructions are filtered.',
-    tint: 'from-amber-500 to-orange-600',
-  },
-  {
-    icon: PenLine,
-    title: '4. Formulate Finding',
-    text: 'LLM generates concise findings strictly grounded in numbered evidence chunks. Each claim is explicitly labeled Established or Inferred.',
-    tint: 'from-iris-600 to-iris-600',
-  },
-  {
-    icon: ShieldCheck,
-    title: '5. Verify & Trace',
-    text: 'Every quote is checked verbatim on its page. Lineage status is appended via explicit amendment graphs. Missing evidence triggers formal refusal.',
-    tint: 'from-emerald-600 to-iris-700',
-  },
+  { icon: Languages, title: 'Understand', text: 'Detects ગુજરાતી, English or Gujlish and normalises legal synonyms so a question matches both Gujarati and English GRs.' },
+  { icon: DatabaseZap, title: 'Retrieve', text: 'BM25 keyword search fused with bge-m3 embeddings across the indexed passages. A GR number routes straight to that document.' },
+  { icon: Filter, title: 'Select evidence', text: 'Candidate passages compete for a fixed token budget. OCR noise and form boilerplate are filtered out.' },
+  { icon: PenLine, title: 'Formulate', text: 'The model writes findings grounded in numbered evidence. Each statement is labelled Established or Inferred.' },
+  { icon: ShieldCheck, title: 'Verify & trace', text: 'Every quote is checked verbatim on its page, lineage is attached from explicit references, and missing proof becomes a refusal.' },
 ];
 
-const RESULTS = [
-  {
-    value: '100%',
-    label: 'Held-Out Top-3 Retrieval',
-    note: '11/11 unseen held-out questions find correct target GR in Top-3',
-    color: 'text-emerald-700',
-    bar: 100,
-  },
-  {
-    value: '0.972',
-    label: 'Lineage Graph Precision & Recall',
-    note: '71 verified amendment/supersession pairs across English & Gujarati rule families',
-    color: 'text-iris-700',
-    bar: 97,
-  },
-  {
-    value: '100%',
-    label: 'Verbatim Quote Accuracy',
-    note: 'Zero hallucinated quotes: every passage verified against OCR bounding boxes',
-    color: 'text-amber-700',
-    bar: 100,
-  },
-  {
-    value: '20 / 20',
-    label: 'Refusal Fidelity with Reason Codes',
-    note: 'Vague, unanswerable, and legal-advice questions correctly refused with code',
-    color: 'text-rose-700',
-    bar: 100,
-  },
-  {
-    value: '81.8%',
-    label: 'Held-Out Direct Top-1 Answer Accuracy',
-    note: '9/11 answerable held-out questions correctly answered on first attempt',
-    color: 'text-indigo-700',
-    bar: 82,
-  },
-  {
-    value: '< 10 s',
-    label: 'Executive Response Latency',
-    note: 'Using Groq Llama 3.3 70B acceleration (vs ~45s local CPU)',
-    color: 'text-legal',
-    bar: null,
-  },
+// Figures copied from eval/SCORECARD_SUMMARY.md (2 Nov 2026). Dev set: 50 questions the code was tuned on.
+// Held-out: 16 questions written after the code was frozen. Both use the local qwen3.5:4b model.
+const ROWS = [
+  { metric: 'Correct document first', dev: '82.9%', held: '72.7%' },
+  { metric: 'Correct document in first three', dev: '94.3%', held: '72.7%' },
+  { metric: 'Answerable questions answered correctly', dev: '24 / 35', held: '6 / 11', strong: true },
+  { metric: 'Citation on the gold page', dev: '83.0%', held: '71.4%' },
+  { metric: 'Quote verbatim on its page', dev: '100%', held: '100%', strong: true },
+  { metric: 'Unanswerable questions refused, right reason code', dev: '15 / 15', held: '5 / 5', strong: true },
+  { metric: 'Median / p95 seconds per answer', dev: '45 / 66', held: '48 / 76' },
 ];
 
-const RULES = [
-  {
-    icon: CircleSlash,
-    text: 'Never outputs an "active" or "safe" status. "No later change" strictly means none was discovered in the indexed corpus.',
-  },
-  {
-    icon: GitBranch,
-    text: 'Only explicit textual references create lineage links. A GR is amended or superseded only if a later order states so.',
-  },
-  {
-    icon: ArrowDownLeft,
-    text: 'Edge direction is strictly newer → older: every link points from the modifying order to the prior order it acts upon.',
-  },
-  {
-    icon: Quote,
-    text: 'Quotes are verbatim: every cited passage is verified directly against the underlying PDF page text.',
-  },
-  {
-    icon: Ban,
-    text: 'No speculative legal advice or policy predictions. Missing evidence yields a deterministic refusal with a standard reason code.',
-  },
+const ARTICLES = [
+  ['Never says a rule is in force', '“No later change” only means none was found in the indexed collection. Absence of an amendment is not proof of validity.'],
+  ['Explicit references only', 'A GR is amended or superseded only when a later order says so in words. Similarity never creates a link.'],
+  ['Newer acts on older', 'Every link points from the modifying order to the prior order it changes.'],
+  ['Quotes are verbatim', 'A cited passage must appear exactly in the page text of the source document, or it is dropped.'],
+  ['Refuse rather than guess', 'Without sufficient evidence the answer is a refusal with a standard reason code. No legal advice, no predictions.'],
 ];
 
-const fadeVariants = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 260, damping: 26 } },
-};
+const roman = ['I', 'II', 'III', 'IV', 'V'];
+const rise = { hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 260, damping: 26 } } };
 
 export default function Method({ stats }) {
   return (
-    <motion.div
-      initial="hidden"
-      animate="show"
-      variants={{ show: { transition: { staggerChildren: 0.05 } } }}
-      className="mx-auto max-w-5xl space-y-6 pb-8"
-    >
-      {/* Title */}
-      <motion.header variants={fadeVariants} className="space-y-1">
-        <p className="eyebrow text-iris-700">
-          ● Method & Architecture · Deterministic Truth Pipeline
-        </p>
-        <h2 className="display text-[27px] font-bold text-legal">
-          From Natural Inquiry to Verifiable Proof
-        </h2>
-        <p className="max-w-2xl text-[13.5px] leading-relaxed text-mist">
-          A five-stage architecture engineered to prevent hallucinations in government legal reasoning. Every metric below is evaluated and verified on test benchmarks.
+    <motion.div initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.07 } } }} className="mx-auto max-w-5xl space-y-12 pb-12 pt-2">
+      <motion.header variants={rise} className="max-w-3xl">
+        <p className="mono-label flex items-center gap-2 text-iris-700"><span className="h-px w-6 bg-iris-600" />Method &amp; architecture</p>
+        <h2 className="display mt-3 text-[34px] font-bold leading-[1.15] text-ink sm:text-[40px]">From a question to verifiable proof</h2>
+        <p className="mt-3 text-[14.5px] leading-relaxed text-mist">
+          Five stages, built so that a wrong answer is far more likely to be a refusal than an invention. Below: what each stage does, how it scored, and the rules it can never break.
         </p>
       </motion.header>
 
-      {/* 5 Architecture Steps */}
-      <motion.ol variants={fadeVariants} className="grid grid-cols-1 gap-3 md:grid-cols-5">
-        {STEPS.map((s, i) => (
-          <li key={s.title} className="glass-card relative rounded-2xl p-4 shadow-sm flex flex-col justify-between">
-            <div>
-              <div className={`mb-3 grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br text-white shadow-sm ${s.tint}`}>
-                <s.icon className="h-5 w-5" />
-              </div>
-              <p className="font-mono text-[10px] font-semibold text-mist uppercase tracking-wider">Step {i + 1}</p>
-              <h3 className="text-[14px] font-bold text-legal mt-0.5">{s.title.replace(/^\d+\.\s*/, '')}</h3>
-              <p className="mt-1 text-[12px] leading-relaxed text-mist">{s.text}</p>
-            </div>
-          </li>
-        ))}
-      </motion.ol>
-
-      {/* Measured Benchmark Results */}
-      <motion.section variants={fadeVariants} className="space-y-3">
-        <div className="flex flex-wrap items-end justify-between gap-2">
-          <div>
-            <h3 className="text-[17px] font-bold text-legal">Evaluated Scorecard Benchmarks</h3>
-            <p className="text-[11.5px] text-mist">
-              Measured on held-out and development test sets (16 held-out + 35 dev queries + 71 gold lineage pairs)
-            </p>
-          </div>
-          <span className="font-mono text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
-            <CheckCircle2 className="h-3.5 w-3.5" /> All 413 Backend Tests Passing
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {RESULTS.map((r) => (
-            <div key={r.label} className="glass-card rounded-2xl p-4 shadow-sm">
-              <p className={`font-mono text-[26px] font-bold tracking-tight ${r.color}`}>{r.value}</p>
-              <h4 className="mt-1 text-[13px] font-bold text-legal">{r.label}</h4>
-              <p className="text-[11.5px] text-mist mt-0.5">{r.note}</p>
-              {r.bar != null && (
-                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-sand">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${r.bar}%` }}
-                    transition={{ duration: 0.9, ease: 'easeOut' }}
-                    className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-iris-500 to-iris-500"
-                  />
-                </div>
-              )}
-            </div>
+      {/* pipeline */}
+      <motion.section variants={rise} aria-label="Pipeline">
+        <ol className="relative grid grid-cols-1 gap-y-6 md:grid-cols-5 md:gap-x-5">
+          <span aria-hidden className="absolute left-[19px] top-5 hidden h-px w-[calc(100%-38px)] bg-rule md:block" />
+          {STEPS.map((s, i) => (
+            <li key={s.title} className="relative">
+              <span className="relative z-10 grid h-10 w-10 place-items-center rounded-full bg-ink text-white" style={{ boxShadow: '0 0 0 4px #F8F7F4, 0 6px 14px -6px rgba(15,23,42,.6)' }}>
+                <s.icon className="h-[17px] w-[17px]" strokeWidth={1.9} />
+              </span>
+              <p className="mono-label mt-4 text-[9px] text-faint">Stage {i + 1}</p>
+              <h3 className="display mt-0.5 text-[16px] font-bold text-ink">{s.title}</h3>
+              <p className="mt-1.5 text-[12.5px] leading-relaxed text-mist">{s.text}</p>
+            </li>
           ))}
-        </div>
+        </ol>
       </motion.section>
 
-      {/* Hard Architectural Invariants & Live Corpus */}
-      <motion.section variants={fadeVariants} className="grid grid-cols-1 gap-3 lg:grid-cols-3">
-        <div className="glass-card rounded-2xl p-4 lg:col-span-2 shadow-sm">
-          <h3 className="mb-2 text-[15px] font-bold text-legal">Hard Invariants & Safety Guarantees</h3>
-          <ul className="space-y-2.5">
-            {RULES.map((r) => (
-              <li key={r.text} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-legal">
-                <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-iris-50 text-iris-700 ring-1 ring-iris-200">
-                  <r.icon className="h-3.5 w-3.5" />
-                </span>
-                <span>{r.text}</span>
-              </li>
-            ))}
-          </ul>
+      {/* scorecard */}
+      <motion.section variants={rise} aria-label="Scorecard" className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+        <div>
+          <div className="mb-3">
+            <h3 className="display text-[20px] font-bold text-ink">Scorecard</h3>
+            <p className="mt-1 text-[12.5px] text-mist">
+              Local model qwen3.5:4b. The dev set (50 questions) was used to tune the code, so read the held-out column as the better guide. 16 questions is a small sample.
+            </p>
+          </div>
+          <div className="sheet overflow-hidden">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="mono-label border-b border-hair bg-sand/60 text-[9px] text-faint">
+                  <th className="px-4 py-2 font-medium">Metric</th>
+                  <th className="px-3 py-2 text-right font-medium">Dev · 50 q</th>
+                  <th className="px-4 py-2 text-right font-medium">Held-out · 16 q</th>
+                </tr>
+              </thead>
+              <tbody className="ledger">
+                {ROWS.map((r) => (
+                  <tr key={r.metric} className="border-t border-hair first:border-0">
+                    <td className="px-4 py-2.5 text-[13px] text-legal">{r.metric}</td>
+                    <td className={`px-3 py-2.5 text-right font-mono text-[13px] tabular-nums ${r.strong ? 'font-bold text-ink' : 'text-mist'}`}>{r.dev}</td>
+                    <td className={`px-4 py-2.5 text-right font-mono text-[13px] tabular-nums ${r.strong ? 'font-bold text-ink' : 'text-mist'}`}>{r.held}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2.5 text-[11.5px] leading-relaxed text-faint">
+            Lineage: precision 0.972 and recall 0.972 on 71 English amendment pairs (not yet officer-verified; Gujarati lineage is a known gap). Gold questions were drafted by Claude and are not officer-validated. Hosted-model latency of 9–11 s is measured on one partial run.
+          </p>
         </div>
 
-        <div className="glass-card rounded-2xl border border-iris-200 bg-gradient-to-br from-iris-50/70 to-white p-4 shadow-lift">
-          <div className="flex items-center gap-2 mb-3">
-            <Cpu className="h-4 w-4 text-iris-700" />
-            <h3 className="text-[15px] font-bold text-legal">Indexed Knowledge Base</h3>
-          </div>
-          <dl className="space-y-3">
-            {[
-              ['Government Resolutions', stats?.total_grs],
-              ['Text Passages Indexed', stats?.chunks],
-              ['Lineage Relations Discovered', stats?.edges],
-            ].map(([k, v]) => (
-              <div key={k} className="flex items-baseline justify-between border-b border-iris-100/90 pb-2 last:border-0">
+        <div className="sheet h-fit p-5">
+          <h3 className="eyebrow">Indexed knowledge base</h3>
+          <dl className="mt-3 space-y-3.5">
+            {[['Government resolutions', stats?.total_grs], ['Text passages indexed', stats?.chunks], ['Lineage links found', stats?.edges]].map(([k, v]) => (
+              <div key={k} className="flex items-baseline justify-between border-b border-hair pb-3 last:border-0 last:pb-0">
                 <dt className="text-[12.5px] text-mist">{k}</dt>
-                <dd className="font-mono text-[18px] font-bold text-iris-800">
-                  {v != null ? Number(v).toLocaleString() : '—'}
-                </dd>
+                <dd className="font-mono text-[24px] font-bold tabular-nums text-iris-700"><CountUp value={v} /></dd>
               </div>
             ))}
           </dl>
-          <p className="mt-3 text-[11px] text-mist leading-relaxed">
-            Corpus contains bilingual General Administration & Finance resolutions processed with Gujarati + English OCR.
-          </p>
+          <p className="mt-4 text-[11.5px] leading-relaxed text-faint">Bilingual General Administration and Finance resolutions, read with Gujarati + English OCR.</p>
         </div>
+      </motion.section>
+
+      {/* invariants */}
+      <motion.section variants={rise} aria-label="Invariants">
+        <h3 className="display text-[20px] font-bold text-ink">Five articles the system cannot break</h3>
+        <ol className="sheet ledger mt-3 overflow-hidden">
+          {ARTICLES.map(([t, body], i) => (
+            <li key={t} className="grid grid-cols-[3.2rem_minmax(0,1fr)] items-baseline gap-2 px-5 py-4">
+              <span className="display text-[17px] font-bold italic text-iris-600">{roman[i]}.</span>
+              <div>
+                <p className="text-[14px] font-bold text-ink">{t}</p>
+                <p className="mt-0.5 text-[13px] leading-relaxed text-mist">{body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </motion.section>
     </motion.div>
   );

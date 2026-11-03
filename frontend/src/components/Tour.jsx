@@ -106,13 +106,13 @@ export default function Tour({ open, onClose }) {
         >
           {rect ? (
             <motion.div
-              className="pointer-events-none absolute rounded-2xl ring-2 ring-indigo-400"
-              style={{ boxShadow: '0 0 0 9999px rgba(15, 23, 42, 0.45)' }}
+              className="pointer-events-none absolute rounded-2xl"
+              style={{ boxShadow: '0 0 0 2px #818CF8, 0 0 0 6px rgba(129,140,248,.25), 0 0 0 9999px rgba(30, 41, 59, 0.42)' }}
               animate={{ left: rect.x, top: rect.y, width: rect.w, height: rect.h }}
               transition={{ type: 'spring', stiffness: 260, damping: 30 }}
             />
           ) : (
-            <div className="absolute inset-0 bg-[rgba(15,23,42,0.45)]" />
+            <div className="absolute inset-0 bg-[rgba(30,41,59,0.42)]" />
           )}
 
           <motion.div
@@ -120,12 +120,12 @@ export default function Tour({ open, onClose }) {
             initial={{ opacity: 0, y: 8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-            className="absolute w-[350px] rounded-2xl border border-indigo-100 bg-white p-5 shadow-float"
+            className="sheet absolute w-[350px] p-5 shadow-float"
             style={pos}
           >
             <div className="mb-2 flex items-center justify-between pb-1.5 border-b border-hair">
-              <span className="flex items-center gap-1 eyebrow text-indigo-600">
-                <Sparkles className="h-3 w-3" /> System Tour · {i + 1} / {TOUR_STEPS.length}
+              <span className="mono-label flex items-center gap-1.5 text-iris-700">
+                <Sparkles className="h-3 w-3" /> Tour · {i + 1} / {TOUR_STEPS.length}
               </span>
               <button
                 onClick={onClose}
@@ -136,7 +136,7 @@ export default function Tour({ open, onClose }) {
               </button>
             </div>
 
-            <h3 className="text-[17px] font-extrabold tracking-tight text-legal">{step.title}</h3>
+            <h3 className="display text-[18px] font-bold text-ink">{step.title}</h3>
             <p className="mt-1 text-[13px] leading-relaxed text-mist">{step.text}</p>
 
             <div className="mt-4 flex items-center justify-between pt-2 border-t border-hair/70">
@@ -145,7 +145,7 @@ export default function Tour({ open, onClose }) {
                   <span
                     key={n}
                     className={`h-1.5 rounded-full transition-all ${
-                      n === i ? 'w-5 bg-indigo-600' : 'w-1.5 bg-stone'
+                      n === i ? 'w-5 bg-iris-600' : 'w-1.5 bg-stone'
                     }`}
                   />
                 ))}
@@ -162,7 +162,7 @@ export default function Tour({ open, onClose }) {
                 )}
                 <button
                   onClick={() => (last ? onClose() : setI(i + 1))}
-                  className="inline-flex items-center gap-1.5 rounded-xl btn-primary px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition hover:brightness-110 active:scale-98"
+                  className="inline-flex items-center gap-1.5 btn-primary rounded-xl px-3.5 py-1.5 text-xs font-bold text-white transition hover:brightness-110 active:scale-[0.98]"
                 >
                   <span>{last ? 'Get Started' : 'Next'}</span>
                   <ArrowRight className="h-3.5 w-3.5" />

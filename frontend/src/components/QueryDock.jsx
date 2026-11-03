@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Sparkles, Keyboard, CornerDownLeft, X, ArrowUpRight } from 'lucide-react';
+import { CornerDownLeft, X, Keyboard, Loader2 } from 'lucide-react';
 import GujaratiKeyboard from './GujaratiKeyboard';
 
 const TEMPLATES = [
@@ -20,20 +20,26 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
   const submit = () => {
     if (value.trim() && !loading) onSubmit(value.trim());
   };
-
   const clear = () => {
     onChange('');
     ref.current?.focus();
   };
 
   return (
-    <div className="space-y-2.5" data-tour="ask">
-      <div className={`relative border bg-white transition-all focus-within:border-iris-400 focus-within:shadow-[0_0_0_4px_rgba(62,98,230,0.12),0_16px_40px_-16px_rgba(33,57,168,0.35)] ${hero ? 'rounded-[22px] border-stone p-3 shadow-float' : 'rounded-2xl border-hair p-2.5 shadow-lift'}`}>
-        <div className="flex items-start gap-2.5">
-          <div className="mt-2 grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-iris-100 bg-iris-50 text-iris-600">
-            <Search className="h-4 w-4" />
+    <div className="space-y-3" data-tour="ask">
+      <div
+        className={`sheet group/dock transition-shadow focus-within:[box-shadow:0_0_0_1.5px_#4F46E5,0_0_0_6px_rgba(79,70,229,0.12),0_24px_48px_-20px_rgba(79,70,229,0.45)] ${hero ? 'rounded-[22px] p-3.5' : 'rounded-2xl p-3'}`}
+      >
+        {hero && (
+          <div className="mb-1.5 flex items-center justify-between px-1">
+            <span className="mono-label text-faint">Inquiry · ગુજરાતી / English / Gujlish</span>
+            <span className="hidden items-center gap-1.5 text-[11px] text-faint sm:flex">
+              <kbd className="kbd">/</kbd> to focus
+            </span>
           </div>
+        )}
 
+        <div className="flex items-start gap-3">
           <textarea
             ref={ref}
             id="question-input"
@@ -49,44 +55,34 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
             placeholder={hero ? 'Ask about any resolution, in any language…' : 'Ask a follow-up or a new question…'}
             aria-label="Your question"
             maxLength={2000}
-            className={`gu-text max-h-44 flex-1 resize-none bg-transparent py-2 font-normal text-legal outline-none placeholder:text-[#8B94A5] ${hero ? 'min-h-[3.4rem] text-[16px]' : 'min-h-[2.8rem] text-[14.5px]'}`}
+            className={`gu-text max-h-44 flex-1 resize-none bg-transparent px-1 py-1.5 font-normal text-ink outline-none placeholder:text-faint ${hero ? 'min-h-[4rem] text-[17px]' : 'min-h-[2.9rem] text-[14.5px]'}`}
           />
 
-          <div className="flex shrink-0 flex-col items-end gap-1.5 pt-0.5">
+          <div className="flex shrink-0 flex-col items-end gap-2 pt-0.5">
             <div className="flex items-center gap-1.5">
               {value.trim() && !loading && (
-                <button
-                  type="button"
-                  onClick={clear}
-                  aria-label="Clear question"
-                  title="Clear input"
-                  className="rounded-lg p-1.5 text-mist transition hover:bg-sand hover:text-legal"
-                >
+                <button type="button" onClick={clear} aria-label="Clear question" title="Clear input" className="rounded-lg p-1.5 text-mist transition hover:bg-sand hover:text-ink">
                   <X className="h-4 w-4" />
                 </button>
               )}
-
-              <button
+              <motion.button
                 type="button"
                 onClick={submit}
                 disabled={!value.trim() || loading}
-                className="btn-primary inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[13px] font-semibold text-white transition hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+                whileTap={{ scale: 0.97 }}
+                className="btn-primary inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
               >
-                {loading ? <Sparkles className="h-3.5 w-3.5 animate-spin" /> : <CornerDownLeft className="h-3.5 w-3.5" />}
+                {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CornerDownLeft className="h-3.5 w-3.5" />}
                 <span>{loading ? 'Searching…' : 'Ask'}</span>
-              </button>
+              </motion.button>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="hidden text-[10.5px] text-mist/80 sm:inline">Enter to send</span>
+              <span className="hidden text-[10.5px] text-faint sm:inline">Enter to send</span>
               <button
                 type="button"
                 onClick={() => setKb((v) => !v)}
-                className={`gu-text inline-flex items-center gap-1 rounded-lg border px-2 py-0.5 text-[11px] font-semibold transition-colors ${
-                  kb
-                    ? 'border-iris-300 bg-iris-50 text-iris-800'
-                    : 'border-hair bg-sand/60 text-mist hover:text-legal hover:bg-sand'
-                }`}
+                className={`gu-text inline-flex items-center gap-1 rounded-lg px-2 py-0.5 text-[11px] font-semibold transition-colors ${kb ? 'bg-iris-50 text-iris-800 ring-1 ring-iris-200' : 'bg-sand text-mist ring-1 ring-stone hover:text-ink'}`}
                 aria-pressed={kb}
               >
                 <Keyboard className="h-3 w-3 text-iris-500" />
@@ -119,25 +115,24 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
         </AnimatePresence>
       </div>
 
-      {/* Suggested Quick Starters */}
       {hero && (
-      <div className="flex flex-wrap items-center justify-center gap-1.5 px-0.5">
-        <span className="mr-1 text-[11.5px] font-medium text-mist">Start with</span>
-        {TEMPLATES.map((t) => (
-          <button
-            key={t.label}
-            type="button"
-            onClick={() => {
-              onChange(t.text);
-              ref.current?.focus();
-            }}
-            className="rounded-full border border-hair bg-white px-3 py-1 text-[12px] font-medium text-mist transition hover:border-iris-300 hover:bg-iris-50 hover:text-iris-700"
-          >
-            {t.label}
-          </button>
-        ))}
-
-      </div>
+        <div className="flex flex-wrap items-center gap-1.5 px-0.5">
+          <span className="mr-1 text-[11.5px] font-medium text-mist">Start with</span>
+          {TEMPLATES.map((t) => (
+            <button
+              key={t.label}
+              type="button"
+              onClick={() => {
+                onChange(t.text);
+                ref.current?.focus();
+              }}
+              className="rounded-full bg-ivory px-3 py-1 text-[12px] font-medium text-mist transition hover:text-iris-700 hover:[box-shadow:0_0_0_1px_#A5B4FC]"
+              style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.09), inset 0 1px 0 #fff' }}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );

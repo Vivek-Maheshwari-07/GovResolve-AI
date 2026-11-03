@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.js?url';
 import {
-  ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, ExternalLink,
-  ClipboardCheck, Flag, FileText, ScanText, FileSearch, AlertCircle, Check, Sparkles,
+  ChevronLeft, ChevronRight, ZoomIn, ZoomOut, ExternalLink,
+  ClipboardCheck, Flag, ScanLine, AlignLeft, Check, FileX2,
 } from 'lucide-react';
 import { pdfUrl, pageBlocks } from '../api';
 import { courtCitation, reportText } from '../lib/lineage';
@@ -17,29 +17,45 @@ const norm = (s) => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
 function MetaField({ label, children, mono }) {
   return (
     <div className="min-w-0">
-      <dt className="eyebrow text-mist">{label}</dt>
-      <dd className={`truncate text-[12.5px] font-semibold text-legal ${mono ? 'font-mono' : 'gu-text'}`}>
-        {children || '—'}
-      </dd>
+      <dt className="mono-label text-[9px] text-faint">{label}</dt>
+      <dd className={`mt-0.5 truncate text-[12.5px] font-semibold text-ink ${mono ? 'font-mono' : 'gu-text'}`}>{children || '—'}</dd>
     </div>
   );
 }
 
-function ToolbarBtn({ onClick, title, active, disabled, children, href }) {
-  const cls = `grid h-8 w-8 place-items-center rounded-xl border text-mist transition shadow-sm ${
-    active
-      ? 'border-iris-400 bg-iris-50 text-iris-800 ring-1 ring-iris-200'
-      : 'border-hair bg-white hover:text-legal hover:border-iris-300 active:scale-95'
-  } disabled:opacity-35 disabled:cursor-not-allowed`;
+const KEYCAP = { boxShadow: '0 0 0 1px rgba(30,41,59,.12), 0 1.5px 0 0 rgba(30,41,59,.1), inset 0 1px 0 #fff' };
 
+function ToolbarBtn({ onClick, title, active, disabled, children, href }) {
+  const cls = `grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-b from-white to-[#F3F1EB] text-mist transition active:translate-y-px hover:text-iris-700 disabled:cursor-not-allowed disabled:opacity-35 ${active ? '!from-iris-50 !to-iris-100 !text-iris-800' : ''}`;
   return href ? (
-    <a href={href} target="_blank" rel="noreferrer" title={title} aria-label={title} className={cls}>
+    <a href={href} target="_blank" rel="noreferrer" title={title} aria-label={title} className={cls} style={KEYCAP}>
       {children}
     </a>
   ) : (
-    <button type="button" onClick={onClick} title={title} aria-label={title} aria-pressed={active} disabled={disabled} className={cls}>
+    <button type="button" onClick={onClick} title={title} aria-label={title} aria-pressed={active} disabled={disabled} className={cls} style={KEYCAP}>
       {children}
     </button>
+  );
+}
+
+function Bracket({ pos, delay }) {
+  // four corner brackets that converge onto the locked paragraph
+  const base = { top: pos.includes('t'), left: pos.includes('l') };
+  const from = { x: base.left ? -10 : 10, y: base.top ? -10 : 10 };
+  return (
+    <motion.span
+      aria-hidden
+      className="absolute h-3 w-3"
+      style={{
+        [base.top ? 'top' : 'bottom']: -4,
+        [base.left ? 'left' : 'right']: -4,
+        [base.top ? 'borderTop' : 'borderBottom']: '2.5px solid #B45309',
+        [base.left ? 'borderLeft' : 'borderRight']: '2.5px solid #B45309',
+      }}
+      initial={{ opacity: 0, ...from }}
+      animate={{ opacity: 1, x: 0, y: 0 }}
+      transition={{ type: 'spring', stiffness: 320, damping: 22, delay }}
+    />
   );
 }
 
@@ -181,214 +197,183 @@ export default function PdfInspector({ citation, question }) {
 
   if (!citation) {
     return (
-      <div className="relative grid h-full place-items-center overflow-hidden rounded-2xl border border-hair bg-white p-8 text-center shadow-card">
-                <div className="relative max-w-sm space-y-4">
-          <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-saffron-400 to-saffron-600 text-white shadow-[0_8px_20px_-6px_rgba(217,119,6,0.5)]">
-            <FileSearch className="h-7 w-7" />
+      <div className="sheet relative grid h-full place-items-center overflow-hidden p-8 text-center">
+        <div aria-hidden className="dotgrid absolute inset-0 opacity-60" />
+        <div className="relative max-w-sm">
+          {/* scanner reticle over a stack of pages */}
+          <div className="relative mx-auto h-36 w-28 animate-floatY">
+            <span aria-hidden className="absolute inset-0 translate-x-2 -rotate-6 rounded-md bg-ivory" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.1)' }} />
+            <span aria-hidden className="absolute inset-0 rotate-3 rounded-md bg-ivory" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.1), 0 10px 20px -10px rgba(30,41,59,.25)' }} />
+            <div className="absolute inset-0 space-y-2 rounded-md bg-ivory p-3.5" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.12), 0 18px 30px -14px rgba(30,41,59,.3)' }}>
+              {[70, 100, 88, 100, 54].map((w, i) => (
+                <span key={i} className="block h-1.5 rounded-full bg-stone" style={{ width: `${w}%` }} />
+              ))}
+              <span className="block h-5 rounded-sm bg-[#FFF1CC]" style={{ boxShadow: '0 0 0 1.5px #D98A1F' }} />
+              <span className="block h-1.5 w-3/5 rounded-full bg-stone" />
+            </div>
+            <span aria-hidden className="pointer-events-none absolute -inset-2 overflow-hidden rounded-lg">
+              <span className="absolute inset-x-0 h-8 animate-sweep bg-gradient-to-b from-transparent via-iris-500/25 to-transparent [animation-iteration-count:infinite] [animation-duration:2.6s]" />
+            </span>
           </div>
-          <div>
-            <h3 className="text-base font-bold text-legal">Evidence & Document Inspector</h3>
-            <p className="mt-1 text-xs leading-relaxed text-mist">
-              The official Government Resolution will display here, automatically navigating to the cited page with the exact bounding box illuminated.
-            </p>
-          </div>
-          <ol className="space-y-2 text-left pt-2">
-            {[
-              ['1', 'Submit an administrative inquiry in English, Gujarati or Gujlish', 'bg-indigo-100 text-indigo-700'],
-              ['2', 'Click any verified statement or verbatim legal quote chip', 'bg-amber-100 text-amber-800'],
-              ['3', 'Inspect the highlighted clause on the scanned official gazette', 'bg-iris-100 text-iris-700'],
-              ['4', 'Explore prior & succeeding orders in the Amendment Lineage', 'bg-iris-100 text-iris-700'],
-            ].map(([n, t, c]) => (
-              <li key={n} className="flex items-center gap-2.5 rounded-xl border border-hair bg-white/80 px-3 py-2 text-xs text-legal shadow-sm">
-                <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-md font-mono text-[10px] font-bold ${c}`}>{n}</span>
-                <span>{t}</span>
-              </li>
-            ))}
-          </ol>
+          <h3 className="display mt-7 text-[18px] font-bold text-ink">Evidence inspector</h3>
+          <p className="mt-2 text-[13px] leading-relaxed text-mist">
+            Choose a citation and the source page opens here with the exact paragraph locked in an amber frame.
+          </p>
+          <p className="mt-4 flex items-center justify-center gap-2 text-[11.5px] text-faint">
+            <kbd className="kbd">[</kbd><kbd className="kbd">]</kbd> step through citations
+          </p>
         </div>
       </div>
     );
   }
 
+  const labelInside = showBox && (citation.bbox[1] / dims.h) * dims.cssH < 26;
+
   return (
-    <div className="glass-card flex h-full min-h-0 flex-col overflow-hidden rounded-2xl shadow-lift">
-      {/* Document Header Metadata */}
+    <div className="sheet flex h-full min-h-0 flex-col overflow-hidden">
+      {/* Specimen header */}
       <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={grId}
-          initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ type: 'spring', stiffness: 360, damping: 30 }}
-          className="border-b border-hair p-3.5 bg-white/60"
-        >
-          <div className="mb-2 flex items-start justify-between gap-3">
-            <h3 className="gu-text line-clamp-2 text-[13.5px] font-semibold leading-snug text-legal">
-              {citation.subject || citation.gr_number}
-            </h3>
-            <span className="shrink-0 rounded-md border border-hair bg-sand px-2 py-0.5 font-mono text-[10.5px] font-medium text-mist">
+        <motion.div key={grId} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ type: 'spring', stiffness: 360, damping: 30 }} className="border-b border-hair px-4 pb-3 pt-3.5">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="gu-text line-clamp-2 text-[14px] font-semibold leading-snug text-ink">{citation.subject || citation.gr_number}</h3>
+            <span className="mono-label shrink-0 rounded bg-sand px-1.5 py-0.5 text-[9px] text-mist">
               {citation.language === 'gu' ? 'ગુજરાતી' : citation.language === 'en' ? 'English' : citation.language || 'Official GR'}
             </span>
           </div>
-
-          <dl className="grid grid-cols-3 gap-3 pt-1 border-t border-hair/60">
-            <MetaField label="GR Number" mono>{citation.gr_number}</MetaField>
-            <MetaField label="Issue Date" mono>{citation.issue_date}</MetaField>
+          <dl className="mt-3 grid grid-cols-3 gap-3">
+            <MetaField label="GR No." mono>{citation.gr_number}</MetaField>
+            <MetaField label="Issued" mono>{citation.issue_date}</MetaField>
             <MetaField label="Department">{citation.department}</MetaField>
           </dl>
         </motion.div>
       </AnimatePresence>
 
-      {/* Cited Passage Banner */}
+      {/* Verbatim lock strip */}
       {citation.passage && (
-        <div className="border-b border-hair border-l-4 !border-l-amber-500 bg-amber-50/80 px-3.5 py-2.5">
-          <div className="flex items-center justify-between mb-1">
-            <p className="eyebrow text-amber-900">
-              Verified Quoted Passage · Page {citation.page}
+        <div className="relative border-b border-[#F1D6A0] bg-gradient-to-r from-[#FFF3D6] to-[#FFF9EA] py-2.5 pl-4 pr-3.5">
+          <span aria-hidden className="absolute inset-y-0 left-0 w-[3px] bg-[#D98A1F]" />
+          <div className="mb-1 flex items-center justify-between">
+            <p className="mono-label flex items-center gap-1.5 text-[9.5px] text-[#8A4B0B]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#D98A1F]" /> Verbatim lock · page {citation.page}
             </p>
-            <span className="font-mono text-[10px] text-amber-800">Verbatim Match</span>
+            <span className="mono-label text-[9px] text-[#B45309]">exact text match</span>
           </div>
-          <p className="legal-text line-clamp-4 text-[12.5px] text-legal">“{citation.passage}”</p>
+          <p className="legal-text line-clamp-3 text-[12.5px] text-ink">“{citation.passage}”</p>
         </div>
       )}
 
-      {/* Document Controls Toolbar */}
-      <div className="flex flex-wrap items-center gap-1.5 border-b border-hair bg-sand/40 px-3 py-2">
-        <ToolbarBtn title="Previous page" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
-          <ChevronLeft className="h-4 w-4" />
-        </ToolbarBtn>
-        <span className="min-w-[3.8rem] text-center font-mono text-[11px] font-semibold text-legal">
-          {page} / {numPages || '–'}
-        </span>
-        <ToolbarBtn title="Next page" disabled={!numPages || page >= numPages} onClick={() => setPage((p) => Math.min(numPages, p + 1))}>
-          <ChevronRight className="h-4 w-4" />
-        </ToolbarBtn>
+      {/* Instrument toolbar */}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-hair bg-canvas/70 px-3 py-2">
+        <div className="flex items-center gap-1.5">
+          <ToolbarBtn title="Previous page" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}><ChevronLeft className="h-4 w-4" /></ToolbarBtn>
+          <span className="min-w-[3.6rem] text-center font-mono text-[11.5px] font-bold tabular-nums text-ink">{page} / {numPages || '–'}</span>
+          <ToolbarBtn title="Next page" disabled={!numPages || page >= numPages} onClick={() => setPage((p) => Math.min(numPages, p + 1))}><ChevronRight className="h-4 w-4" /></ToolbarBtn>
+        </div>
 
-        <span className="mx-1 h-4 w-px bg-hair" />
+        <div className="flex items-center gap-1.5">
+          <ToolbarBtn title="Zoom out" onClick={() => setZoom((z) => Math.max(0.6, +(z - 0.15).toFixed(2)))}><ZoomOut className="h-4 w-4" /></ToolbarBtn>
+          <button type="button" onClick={() => setZoom(1)} title="Reset zoom to 100%" className="min-w-[3.1rem] rounded-lg bg-ivory px-2 py-1.5 font-mono text-[10.5px] font-bold tabular-nums text-mist hover:text-ink" style={KEYCAP}>
+            {Math.round(zoom * 100)}%
+          </button>
+          <ToolbarBtn title="Zoom in" onClick={() => setZoom((z) => Math.min(2.4, +(z + 0.15).toFixed(2)))}><ZoomIn className="h-4 w-4" /></ToolbarBtn>
+        </div>
 
-        <ToolbarBtn title="Zoom out" onClick={() => setZoom((z) => Math.max(0.6, +(z - 0.15).toFixed(2)))}>
-          <ZoomOut className="h-4 w-4" />
-        </ToolbarBtn>
-        <button
-          type="button"
-          onClick={() => setZoom(1)}
-          title="Reset zoom to 100%"
-          className="rounded-lg border border-hair bg-white px-2 py-1 font-mono text-[10.5px] font-semibold text-mist hover:text-legal shadow-sm"
-        >
-          {Math.round(zoom * 100)}%
-        </button>
-        <ToolbarBtn title="Zoom in" onClick={() => setZoom((z) => Math.min(2.4, +(z + 0.15).toFixed(2)))}>
-          <ZoomIn className="h-4 w-4" />
-        </ToolbarBtn>
-
-        <span className="mx-1 h-4 w-px bg-hair" />
-
-        <ToolbarBtn
-          title={mode === 'pdf' ? 'Switch to raw OCR text view' : 'Switch to scanned PDF view'}
-          active={mode === 'text'}
-          onClick={() => setMode((m) => (m === 'pdf' ? 'text' : 'pdf'))}
-        >
-          {mode === 'pdf' ? <ScanText className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
-        </ToolbarBtn>
+        <div className="well flex p-0.5" role="group" aria-label="View">
+          {[['pdf', 'Scan', ScanLine, 'Scanned PDF view'], ['text', 'Text', AlignLeft, 'Raw OCR text view']].map(([k, label, Icon, title]) => (
+            <button key={k} type="button" title={title} aria-pressed={mode === k} onClick={() => setMode(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[11.5px] font-semibold transition ${mode === k ? 'bg-ivory text-iris-800 shadow-card' : 'text-mist hover:text-ink'}`}>
+              <Icon className="h-3.5 w-3.5" /> {label}
+            </button>
+          ))}
+        </div>
 
         <div className="ml-auto flex items-center gap-1.5">
           <AnimatePresence>
             {note && (
-              <motion.span
-                initial={{ opacity: 0, x: 6 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0 }}
-                className="mr-1 inline-flex items-center gap-1 font-mono text-[11px] font-semibold text-emerald-800"
-              >
-                <Check className="h-3.5 w-3.5 text-emerald-600" />
-                <span>{note}</span>
+              <motion.span initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="mr-1 inline-flex items-center gap-1 text-[11.5px] font-semibold text-[#2F5D4E]">
+                <Check className="h-3.5 w-3.5" /> {note}
               </motion.span>
             )}
           </AnimatePresence>
-
-          <ToolbarBtn title="Copy court-ready citation" onClick={() => copy(courtCitation(citation), 'Court citation copied')}>
-            <ClipboardCheck className="h-4 w-4" />
-          </ToolbarBtn>
-          <ToolbarBtn title="Report wrong citation to engineers" onClick={() => copy(reportText(citation, question), 'Audit report copied')}>
-            <Flag className="h-4 w-4" />
-          </ToolbarBtn>
-          <ToolbarBtn title="Open raw PDF in new browser tab" href={pdfUrl(grId)}>
-            <ExternalLink className="h-4 w-4" />
-          </ToolbarBtn>
+          <ToolbarBtn title="Copy court-ready citation" onClick={() => copy(courtCitation(citation), 'Court citation copied')}><ClipboardCheck className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title="Report wrong citation to engineers" onClick={() => copy(reportText(citation, question), 'Audit report copied')}><Flag className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title="Open raw PDF in new browser tab" href={pdfUrl(grId)}><ExternalLink className="h-4 w-4" /></ToolbarBtn>
         </div>
       </div>
 
-      {/* Viewer Canvas / OCR Area */}
-      <div ref={wrapRef} className="relative min-h-0 flex-1 overflow-auto bg-[#E8E6DF] p-3">
-        {loading && mode === 'pdf' && (
-          <div className="skeleton h-80 animate-shimmer rounded-xl shadow-sm" aria-label="Loading document gazette" />
-        )}
+      {/* Scanner tray */}
+      <div ref={wrapRef} className="dotgrid relative min-h-0 flex-1 overflow-auto p-5" style={{ boxShadow: 'inset 0 6px 12px -8px rgba(30,41,59,.25)' }}>
+        {loading && mode === 'pdf' && <div className="skeleton mx-auto h-80 max-w-md animate-shimmer rounded-lg" aria-label="Loading document" />}
 
         {error && mode === 'pdf' && (
-          <div className="mx-auto mt-8 max-w-sm space-y-2.5 rounded-2xl border border-amber-200 bg-white p-5 text-center shadow-card">
-            <AlertCircle className="mx-auto h-7 w-7 text-amber-600" />
-            <p className="text-xs leading-relaxed text-mist">{error}</p>
+          <div className="sheet mx-auto mt-6 max-w-sm space-y-3 p-6 text-center">
+            <FileX2 className="mx-auto h-7 w-7 text-[#B45309]" />
+            <p className="display text-[15px] font-bold text-ink">Source scan unavailable</p>
+            <p className="text-[12.5px] leading-relaxed text-mist">{error}</p>
+            <button type="button" onClick={() => setMode('text')} className="btn-primary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white">
+              <AlignLeft className="h-3.5 w-3.5" /> Read the OCR text
+            </button>
           </div>
         )}
 
         {mode === 'pdf' && !error && (
-          <div
-            className="relative mx-auto w-max rounded-lg shadow-[0_12px_36px_-10px_rgba(15,23,42,0.25)]"
-            style={{ display: doc ? 'block' : 'none' }}
-          >
-            <canvas ref={canvasRef} className="block rounded-lg bg-white" />
+          <div className="relative mx-auto w-max" style={{ display: doc ? 'block' : 'none' }}>
+            {/* crop marks */}
+            {['-left-3 -top-3 border-l border-t', '-right-3 -top-3 border-r border-t', '-bottom-3 -left-3 border-b border-l', '-bottom-3 -right-3 border-b border-r'].map((c) => (
+              <span key={c} aria-hidden className={`absolute h-3 w-3 border-rule ${c}`} style={{ borderColor: '#9A9484' }} />
+            ))}
+            <div className="relative overflow-hidden rounded-[3px]" style={{ boxShadow: '0 1px 2px rgba(30,41,59,.15), 0 22px 44px -14px rgba(30,41,59,.38)' }}>
+              <canvas ref={canvasRef} className="block bg-white" />
 
-            <AnimatePresence>
-              {showBox && (
-                <motion.div
-                  key={`${grId}|${page}|${citation.passage}`}
-                  ref={boxRef}
-                  data-testid="citation-box"
-                  title="Verified paragraph containing quoted sentence"
-                  initial={{ opacity: 0, scaleY: 0.6 }}
-                  animate={{ opacity: 1, scaleY: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 22, delay: 0.15 }}
-                  className="pointer-events-none absolute origin-top rounded-[3px]"
-                  style={{
-                    left: `${(citation.bbox[0] / dims.w) * 100}%`,
-                    top: `${(citation.bbox[1] / dims.h) * 100}%`,
-                    width: `${((citation.bbox[2] - citation.bbox[0]) / dims.w) * 100}%`,
-                    height: `${((citation.bbox[3] - citation.bbox[1]) / dims.h) * 100}%`,
-                    background: 'rgba(245, 158, 11, 0.24)',
-                    borderLeft: '3px solid #D97706',
-                    boxShadow: '0 0 0 1px rgba(217,119,6,0.3), 0 4px 18px -4px rgba(217,119,6,0.4)',
-                  }}
-                />
-              )}
-            </AnimatePresence>
+              {/* scan sweep once per page render */}
+              {dims && <div key={`sweep-${grId}-${page}-${mode}`} aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-full"><div className="h-14 animate-sweep bg-gradient-to-b from-transparent via-iris-500/20 to-transparent" style={{ height: '18%' }} /></div>}
+
+              <AnimatePresence>
+                {showBox && (
+                  <motion.div
+                    key={`${grId}|${page}|${citation.passage}`}
+                    ref={boxRef}
+                    data-testid="citation-box"
+                    title="Verified paragraph containing quoted sentence"
+                    initial={{ opacity: 0, scale: 1.06 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 260, damping: 24, delay: 0.5 }}
+                    className="pointer-events-none absolute rounded-[3px]"
+                    style={{
+                      left: `${(citation.bbox[0] / dims.w) * 100}%`,
+                      top: `${(citation.bbox[1] / dims.h) * 100}%`,
+                      width: `${((citation.bbox[2] - citation.bbox[0]) / dims.w) * 100}%`,
+                      height: `${((citation.bbox[3] - citation.bbox[1]) / dims.h) * 100}%`,
+                      background: 'rgba(245, 184, 61, 0.22)',
+                      boxShadow: '0 0 0 1.5px #D97706, 0 0 0 9999px rgba(30,41,59,0.10), 0 0 24px 2px rgba(217,119,6,0.35)',
+                      mixBlendMode: 'multiply',
+                    }}
+                  >
+                    <Bracket pos="tl" delay={0.55} />
+                    <Bracket pos="tr" delay={0.6} />
+                    <Bracket pos="bl" delay={0.65} />
+                    <Bracket pos="br" delay={0.7} />
+                    <span className={`mono-label absolute right-0 whitespace-nowrap rounded-sm bg-[#B45309] px-1.5 py-0.5 text-[8.5px] text-white ${labelInside ? 'top-0' : '-top-[18px]'}`} style={{ mixBlendMode: 'normal' }}>
+                      Verbatim lock · p.{citation.page}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         )}
 
         {mode === 'text' && (
-          <div className="mx-auto max-w-prose space-y-2.5 py-2">
-            <div className="flex items-center justify-between pb-1 border-b border-hair">
-              <p className="eyebrow text-mist">
-                Raw OCR Text · Page {page}
-              </p>
-              <span className="font-mono text-[10px] text-mist">{blocks.length} text blocks</span>
+          <div className="mx-auto max-w-prose space-y-2.5 py-1">
+            <div className="flex items-center justify-between border-b border-rule pb-1.5">
+              <p className="mono-label text-[9.5px] text-mist">Raw OCR text · page {page}</p>
+              <span className="mono-label text-[9px] text-faint">{blocks.length} blocks</span>
             </div>
-
-            {blocks.length === 0 && (
-              <p className="text-xs text-mist py-4 text-center">No OCR blocks found for this page.</p>
-            )}
-
+            {blocks.length === 0 && <p className="py-4 text-center text-xs text-mist">No OCR blocks found for this page.</p>}
             {blocks.map((b) => {
               const hit = quote && norm(b.text).includes(quote);
               return (
-                <p
-                  key={b.id}
-                  className={`legal-text rounded-xl p-3 text-[12.5px] leading-relaxed transition-colors ${
-                    hit
-                      ? 'border-l-4 border-amber-500 bg-amber-50/90 text-legal font-medium shadow-sm'
-                      : 'border border-hair bg-white text-mist'
-                  }`}
-                >
+                <p key={b.id} className={`legal-text rounded-xl p-3 text-[12.5px] leading-relaxed transition-colors ${hit ? 'bg-[#FFF3D6] font-medium text-ink' : 'bg-ivory text-mist'}`} style={{ boxShadow: hit ? '0 0 0 1.5px #D97706' : '0 0 0 1px rgba(30,41,59,.07)' }}>
                   {b.text}
                 </p>
               );

@@ -38,12 +38,11 @@ export const SAMPLES = [
   },
 ];
 
-// Quiet by design: neutral cards, one small coloured dot per kind (the dot is the only colour signal)
-const NEUTRAL = 'from-white to-white border-hair hover:border-iris-300';
+// Quiet by design: one small coloured dot per kind is the only colour signal
 export const KIND_STYLE = {
-  en: { chip: 'border-hair bg-sand text-mist', dot: 'bg-iris-500', card: NEUTRAL },
-  amended: { chip: 'border-hair bg-sand text-mist', dot: 'bg-amber-500', card: NEUTRAL },
-  gu: { chip: 'border-hair bg-sand text-mist', dot: 'bg-saffron-500', card: NEUTRAL },
-  mixed: { chip: 'border-hair bg-sand text-mist', dot: 'bg-iris-300', card: NEUTRAL },
-  refusal: { chip: 'border-hair bg-sand text-mist', dot: 'bg-rose-500', card: NEUTRAL },
+  en: { dot: 'bg-iris-500' },
+  amended: { dot: 'bg-[#D98A1F]' },
+  gu: { dot: 'bg-[#4F8A74]' },
+  mixed: { dot: 'bg-iris-300' },
+  refusal: { dot: 'bg-[#C2395A]' },
 };

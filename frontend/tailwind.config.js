@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-// "Paper & Ink": warm paper canvas, deep navy ink, civic-blue actions, one saffron accent. Status colours are semantic only.
+// "The Gazette Dossier": warm alabaster canvas, ivory sheets, deep legal-slate ink, civic indigo.
+// Daylight only. No pure white canvas, no pure black text. Status colours are jewel pastels and semantic only.
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -11,31 +12,40 @@ export default {
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       colors: {
-        canvas: '#FBFAF6',   // warm paper
-        sand: '#F4F2EB',     // muted surface
-        stone: '#E8E4D9',    // hairline borders
-        legal: '#0F1B33',    // primary text (deep navy ink)
-        mist: '#5B6678',     // secondary text
-        saffron: { 400: '#F2A33A', 500: '#E8890C', 600: '#C96F05' },
-        iris: { 50: '#F0F4FF', 100: '#E0E9FF', 200: '#C4D3FF', 300: '#9BB2FF', 400: '#6486F4', 500: '#3E62E6', 600: '#2A4BD0', 700: '#2139A8', 800: '#1B2F86' },
+        canvas: '#F8F7F4',   // warm alabaster
+        sand: '#F1EFEA',     // recessed wells, muted fills
+        ivory: '#FDFCF9',    // sheets (never pure white)
+        stone: '#E4E1D8',    // hairlines
+        rule: '#D6D2C5',     // stronger rules, crop marks
+        ink: '#0F172A',      // deepest ink
+        legal: '#1E293B',    // primary text
+        mist: '#556075',     // secondary text (AA on canvas)
+        faint: '#8A93A4',    // placeholders, tertiary
+        iris: { 50: '#EEF2FF', 100: '#E0E7FF', 200: '#C7D2FE', 300: '#A5B4FC', 400: '#818CF8', 500: '#6366F1', 600: '#4F46E5', 700: '#4338CA', 800: '#3730A3' },
+        gold: { 300: '#FCD34D', 400: '#F5B83D', 500: '#D97706', 600: '#B45309' },
       },
-      borderColor: { hair: '#E8E4D9' },
+      borderColor: { hair: '#E4E1D8' },
       boxShadow: {
-        lift: '0 1px 2px rgba(15, 27, 51, 0.04), 0 8px 24px -8px rgba(15, 27, 51, 0.08)',
-        card: '0 1px 2px rgba(15, 27, 51, 0.04), 0 2px 10px rgba(15, 27, 51, 0.04)',
-        float: '0 18px 48px -12px rgba(15, 27, 51, 0.16), 0 4px 12px -2px rgba(15, 27, 51, 0.06)',
-        glowIris: '0 8px 24px -6px rgba(42, 75, 208, 0.45)',
-        glowAmber: '0 0 20px -3px rgba(245, 158, 11, 0.35)',
+        card: '0 1px 2px rgba(30, 41, 59, 0.05), 0 2px 8px -2px rgba(30, 41, 59, 0.06)',
+        lift: '0 1px 1px rgba(30, 41, 59, 0.04), 0 8px 24px -8px rgba(30, 41, 59, 0.12)',
+        float: '0 2px 4px rgba(30, 41, 59, 0.05), 0 24px 56px -16px rgba(30, 41, 59, 0.22)',
+        glowIris: '0 8px 24px -6px rgba(79, 70, 229, 0.45)',
       },
       keyframes: {
         pulseDot: { '0%, 100%': { opacity: 1, transform: 'scale(1)' }, '50%': { opacity: 0.45, transform: 'scale(1.5)' } },
         shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
         pingSoft: { '75%, 100%': { transform: 'scale(1.8)', opacity: 0 } },
+        slide: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(320%)' } },
+        sweep: { '0%': { transform: 'translateY(-4%)', opacity: 0 }, '12%': { opacity: 1 }, '88%': { opacity: 1 }, '100%': { transform: 'translateY(104%)', opacity: 0 } },
+        floatY: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
       },
       animation: {
         pulseDot: 'pulseDot 2.4s ease-in-out infinite',
         shimmer: 'shimmer 2.2s linear infinite',
         pingSoft: 'pingSoft 2s cubic-bezier(0, 0, 0.2, 1) infinite',
+        slide: 'slide 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+        sweep: 'sweep 1.3s cubic-bezier(0.4, 0, 0.2, 1) 1',
+        floatY: 'floatY 6s ease-in-out infinite',
       },
     },
   },

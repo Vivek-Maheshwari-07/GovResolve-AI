@@ -10,72 +10,125 @@
 @import '@fontsource/merriweather/700.css';
 @import '@fontsource/jetbrains-mono/400.css';
 @import '@fontsource/jetbrains-mono/500.css';
+@import '@fontsource/jetbrains-mono/700.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --canvas: #F8F7F4;
+  --sand: #F1EFEA;
+  --ivory: #FDFCF9;
+  --stone: #E4E1D8;
+  --ink: #0F172A;
+  --legal: #1E293B;
+  --mist: #556075;
+  --indigo: #4F46E5;
+}
+
 html, body, #root { height: 100%; }
 
 body {
-  background: #FBFAF6;
-  color: #0F1B33;
+  background: var(--canvas);
+  color: var(--legal);
   font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  /* one calm wash of civic blue at the top, a trace of saffron at the corner: nothing else competes */
+  font-feature-settings: 'cv11', 'ss01';
+  /* daylight wash: a breath of indigo at the top, warm stone at the foot */
   background-image:
-    radial-gradient(900px 420px at 50% -8%, rgba(62, 98, 230, 0.075), transparent 70%),
-    radial-gradient(520px 320px at 100% 0%, rgba(232, 137, 12, 0.06), transparent 70%);
+    radial-gradient(1000px 460px at 50% -10%, rgba(79, 70, 229, 0.07), transparent 70%),
+    radial-gradient(700px 420px at 100% 100%, rgba(120, 100, 60, 0.06), transparent 70%);
   background-attachment: fixed;
 }
 
+/* paper grain: sits behind every sheet, only the canvas shows it */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .20 0 0 0 0 .17 0 0 0 0 .10 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 @layer components {
-  /* Gujarati text and verbatim legal quotes: roomy line height for long reading */
+  /* Type roles ---------------------------------------------------------- */
   .legal-text { font-family: Merriweather, 'Noto Sans Gujarati', Georgia, serif; line-height: 1.8; }
   .gu-text { font-family: 'Noto Sans Gujarati', 'Plus Jakarta Sans', sans-serif; line-height: 1.75; }
-  .display { font-family: Merriweather, 'Noto Sans Gujarati', Georgia, serif; letter-spacing: -0.015em; }
+  .display { font-family: Merriweather, 'Noto Sans Gujarati', Georgia, serif; letter-spacing: -0.018em; }
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--mist); }
+  .mono-label { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; }
+  .tabular { font-variant-numeric: tabular-nums; }
 
-  /* Section label: small, quiet, sans (replaces the loud mono-uppercase labels) */
-  .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5B6678; }
-
-  .glass {
-    background: rgba(255, 255, 255, 0.86);
-    -webkit-backdrop-filter: blur(16px) saturate(1.4);
-    backdrop-filter: blur(16px) saturate(1.4);
-    border: 1px solid #E8E4D9;
+  /* Surfaces: canvas < sheet < well ------------------------------------- */
+  .sheet {
+    position: relative;
+    background: linear-gradient(180deg, #FEFDFB 0%, #FCFBF7 100%);
+    border-radius: 18px;
+    box-shadow:
+      0 0 0 1px rgba(30, 41, 59, 0.07),
+      0 1px 1px rgba(30, 41, 59, 0.04),
+      0 4px 10px -4px rgba(30, 41, 59, 0.06),
+      0 18px 32px -18px rgba(30, 41, 59, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
   }
-
-  .glass-card {
-    background: #FFFFFF;
-    border: 1px solid #E8E4D9;
-    box-shadow: 0 1px 2px rgba(15, 27, 51, 0.03);
-    transition: border-color .2s ease, box-shadow .25s cubic-bezier(0.16, 1, 0.3, 1), transform .25s cubic-bezier(0.16, 1, 0.3, 1);
+  .sheet-hover { transition: transform .28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .28s cubic-bezier(0.16, 1, 0.3, 1); }
+  .sheet-hover:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(79, 70, 229, 0.28),
+      0 2px 4px rgba(30, 41, 59, 0.05),
+      0 14px 28px -10px rgba(30, 41, 59, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
   }
-  .glass-card:hover {
-    border-color: rgba(62, 98, 230, 0.35);
-    box-shadow: 0 10px 28px -10px rgba(15, 27, 51, 0.14);
+  .well {
+    background: var(--sand);
+    border-radius: 12px;
+    box-shadow: inset 0 1px 2px rgba(30, 41, 59, 0.07), inset 0 0 0 1px rgba(30, 41, 59, 0.045);
+  }
+  /* kept for older call sites */
+  .glass { background: rgba(253, 252, 249, 0.8); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4); border: 1px solid var(--stone); }
+  .glass-card { @apply sheet; }
+
+  .kbd {
+    display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px;
+    font: 600 10.5px 'JetBrains Mono', ui-monospace, monospace; color: #334155;
+    background: linear-gradient(#FFFFFF, #F3F1EB); border-radius: 6px;
+    box-shadow: 0 0 0 1px rgba(30, 41, 59, 0.13), 0 1.5px 0 1px rgba(30, 41, 59, 0.10), inset 0 1px 0 #fff;
   }
 
   .btn-primary {
-    background: linear-gradient(180deg, #2F54DA 0%, #2139A8 100%);
-    box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 8px 20px -8px rgba(33, 57, 168, 0.65);
+    background: linear-gradient(180deg, #5A52F0 0%, #4F46E5 55%, #4338CA 100%);
+    box-shadow: 0 0 0 1px rgba(55, 48, 163, 0.9), 0 1px 0 rgba(255, 255, 255, 0.22) inset, 0 8px 18px -8px rgba(79, 70, 229, 0.7);
+  }
+
+  .dotgrid {
+    background-color: #ECE9E1;
+    background-image: radial-gradient(circle, rgba(30, 41, 59, 0.13) 1px, transparent 1.3px);
+    background-size: 16px 16px;
   }
 
   .skeleton {
-    background: linear-gradient(90deg, #F4F2EB 25%, #E8E4D9 50%, #F4F2EB 75%);
+    background: linear-gradient(90deg, #F1EFEA 25%, #E4E1D8 50%, #F1EFEA 75%);
     background-size: 200% 100%;
   }
+
+  /* hairline ledger rows */
+  .ledger > li + li { border-top: 1px solid var(--stone); }
 }
 
-::selection { background: rgba(62, 98, 230, 0.18); color: #0F1B33; }
-:focus-visible { outline: 2px solid #3E62E6; outline-offset: 2px; border-radius: 6px; }
+::selection { background: rgba(79, 70, 229, 0.18); color: var(--ink); }
+:focus-visible { outline: 2px solid #4F46E5; outline-offset: 2px; border-radius: 8px; }
 
-* { scrollbar-width: thin; scrollbar-color: rgba(91, 102, 120, 0.3) transparent; }
+* { scrollbar-width: thin; scrollbar-color: rgba(85, 96, 117, 0.3) transparent; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(91, 102, 120, 0.25); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(91, 102, 120, 0.45); }
+::-webkit-scrollbar-thumb { background: rgba(85, 96, 117, 0.25); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(85, 96, 117, 0.45); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
