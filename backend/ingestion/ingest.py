@@ -15,7 +15,6 @@ Pipeline stages:
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 import re
 import shutil
@@ -24,7 +23,6 @@ from pathlib import Path
 from typing import Optional
 
 import pymupdf as fitz       # PyMuPDF (modern import)
-import pdfplumber
 from PIL import Image, ImageFilter, ImageOps
 from loguru import logger
 
@@ -303,9 +301,6 @@ def chunk_text(gr_id: str, full_text: str, pages: list[PageRecord]) -> list[Chun
     Keeps page attribution and bboxes via block tracking.
     """
     chunks: list[Chunk] = []
-
-    # Build a page→text mapping for bbox lookup
-    page_map: dict[int, list[TextBlock]] = {p.page_number: p.blocks for p in pages}
 
     # Split by blank lines (paragraph level first)
     paragraphs = re.split(r"\n{2,}", full_text)

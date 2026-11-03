@@ -29,12 +29,12 @@ load_dotenv()
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from backend.models import (
-    AnswerStatement, AnswerStatus, BoundingBox, Citation, ClauseStatus,
-    GRRecord, InsufficientReason, Language, LineageNode, QueryResponse,
+    AnswerStatement, AnswerStatus, Citation, ClauseStatus,
+    GRRecord, InsufficientReason, Language, QueryResponse,
     StatementLabel,
 )
 from backend.rag.gujlish_normalizer import GujlishNormalizer, SearchBundle
-from backend.rag.gujarati_stemmer import tokenize_for_bm25, normalize_gujarati_digits
+from backend.rag.gujarati_stemmer import tokenize_for_bm25
 from backend.rag.llm_gateway import execute_llm_generation, translate_to_english
 from backend.lineage.lineage_graph import LineageGraph
 
@@ -716,15 +716,6 @@ class RAGPipeline:
     def _get_latest_date(self, records: list[GRRecord]) -> str:
         dates = [r.issue_date for r in records if r.issue_date]
         return max(dates) if dates else "unknown"
-
-    def _get_page_text(self, gr_id: str, page: int) -> str:
-        rec = self.records_map.get(gr_id)
-        if not rec:
-            return ""
-        for pg in rec.pages:
-            if pg.page_number == page:
-                return " ".join(b.text for b in pg.blocks)
-        return ""
 
     def prepare(self, raw_query: str) -> SearchBundle:
         """The search bundle for a question. For Gujarati, Gujarati-in-Latin-letters and mixed questions it also holds an English rendering

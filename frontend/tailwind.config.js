@@ -7,7 +7,6 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', '"Noto Sans Gujarati"', 'system-ui', 'sans-serif'],
-        gujarati: ['"Noto Sans Gujarati"', '"Plus Jakarta Sans"', 'sans-serif'],
         serif: ['Merriweather', '"Noto Sans Gujarati"', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
@@ -27,9 +26,7 @@ export default {
       borderColor: { hair: '#E4E1D8' },
       boxShadow: {
         card: '0 1px 2px rgba(30, 41, 59, 0.05), 0 2px 8px -2px rgba(30, 41, 59, 0.06)',
-        lift: '0 1px 1px rgba(30, 41, 59, 0.04), 0 8px 24px -8px rgba(30, 41, 59, 0.12)',
         float: '0 2px 4px rgba(30, 41, 59, 0.05), 0 24px 56px -16px rgba(30, 41, 59, 0.22)',
-        glowIris: '0 8px 24px -6px rgba(79, 70, 229, 0.45)',
       },
       keyframes: {
         pulseDot: { '0%, 100%': { opacity: 1, transform: 'scale(1)' }, '50%': { opacity: 0.45, transform: 'scale(1.5)' } },

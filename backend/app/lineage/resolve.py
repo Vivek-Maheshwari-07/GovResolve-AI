@@ -72,12 +72,6 @@ def _ordered_coverage_and_pos(title: tuple[str, ...], text: list[str]) -> tuple[
     return best / len(title), best_pos
 
 
-def _ordered_coverage(title: tuple[str, ...], text: list[str]) -> float:
-    """Best share of the title's words found in order inside any stretch of the text no longer than the title plus 4."""
-    cov, _ = _ordered_coverage_and_pos(title, text)
-    return cov
-
-
 def _years_after_rules(sentence: str) -> list[str]:
     """The four characters printed right after each 'Rules' that look like a year (three or more digits), e.g. '1967' or the
     OCR-damaged '4967' / '1957'."""

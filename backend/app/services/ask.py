@@ -3,7 +3,7 @@ import importlib
 import time
 import uuid
 
-from ..schemas import AnswerStatus, AskRequest, AskResponse, Citation, CLAUSE_TO_ANSWER, worst_status
+from ..schemas import AnswerStatus, AskRequest, AskResponse, Citation, worst_status
 from .vector_store import VectorStore
 
 MIN_SCORE = 0.15  # below this a hit is treated as no evidence

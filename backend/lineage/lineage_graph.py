@@ -347,8 +347,6 @@ def apply_lineage_to_records(
 
 
 if __name__ == "__main__":
-    import glob
-
     processed_dir = Path("./data/processed")
     records = []
     for jf in processed_dir.glob("*.json"):
