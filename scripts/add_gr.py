@@ -18,7 +18,6 @@ from backend.lineage.lineage_graph import LineageGraph, apply_lineage_to_records
 from backend.rag.search_engine import GRIndex, RAGPipeline
 from backend.models import GRRecord
 
-import json
 from loguru import logger
 
 PROCESSED_DIR = "./data/processed"

@@ -13,7 +13,6 @@ Endpoints:
 """
 from __future__ import annotations
 
-import json
 import os
 import sys
 from pathlib import Path
@@ -21,7 +20,7 @@ from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from loguru import logger
@@ -31,8 +30,7 @@ load_dotenv()
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from backend.models import (
-    AnswerStatus, ClauseStatus, GRRecord, InsufficientReason,
-    Language, LineageEdge, LineageNode, QueryResponse,
+    GRRecord, LineageEdge, LineageNode, QueryResponse,
 )
 from backend.ingestion.ingest import ingest_directory
 from backend.lineage.lineage_graph import LineageGraph, apply_lineage_to_records
@@ -285,7 +283,7 @@ def trigger_ingest(req: Optional[IngestRequest] = None, background_tasks: Backgr
         global _records, _index, _pipeline, _lineage
         try:
             logger.info(f"Starting background ingestion from {target_path}")
-            new_records = ingest_directory(str(target_path), PROCESSED_DIR)
+            ingest_directory(str(target_path), PROCESSED_DIR)
             _records = _load_records()
             _lineage = LineageGraph()
             _lineage.build(_records)

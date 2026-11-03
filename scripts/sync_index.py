@@ -18,7 +18,6 @@ os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
-import json
 import time
 from pathlib import Path
 from loguru import logger
