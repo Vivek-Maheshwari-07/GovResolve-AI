@@ -22,6 +22,6 @@ httpx>=0.27
 ollama>=0.4
 
 # Documents: PDF text layers and OCR (also install the Tesseract binary; Gujarati data is in data/tessdata)
-pymupdf>=1.24
+pymupdf>=1.28.2
 Pillow>=10.0
 pytesseract>=0.3.10
