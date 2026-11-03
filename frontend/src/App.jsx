@@ -12,7 +12,7 @@ import StatusBanner from './components/StatusBanner';
 import AnswerCard from './components/AnswerCard';
 import LineageGraph from './components/LineageGraph';
 import PdfInspector from './components/PdfInspector';
-import Hero from './components/Hero';
+import Hero, { HeroHeader } from './components/Hero';
 import Library from './components/Library';
 import Method from './components/Method';
 import Tour from './components/Tour';
@@ -82,7 +82,7 @@ function ShortcutsDialog({ open, onClose }) {
 
 function StatusBar({ onShortcuts }) {
   return (
-    <footer className="hidden items-center justify-between gap-4 border-t border-hair bg-white/80 px-4 py-1.5 text-[11px] text-mist backdrop-blur-md md:flex">
+    <footer className="hidden items-center justify-between gap-4 border-t border-hair bg-white/70 px-4 py-1.5 text-[11px] text-mist backdrop-blur-md md:flex">
       <button onClick={onShortcuts} className="flex items-center gap-3 hover:text-legal transition-colors">
         {[['/', 'inquire'], ['1 2 3', 'workspaces'], ['[ ]', 'citations'], ['?', 'tour']].map(([k, v]) => (
           <span key={k} className="flex items-center gap-1">
@@ -96,7 +96,7 @@ function StatusBar({ onShortcuts }) {
 
       <span className="flex items-center gap-2 font-medium">
         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulseDot" />
-        <span>Strict Grounding: Answers exclusively from indexed official resolutions · 100% Verbatim Verified</span>
+        <span>Answers come only from the indexed official resolutions, quoted verbatim</span>
       </span>
     </footer>
   );
@@ -170,6 +170,7 @@ export default function App() {
     }
   };
 
+  const landing = workspace === 'ask' && !loading && !response && !error;
   const chain = response?.lineage_chain || [];
   const firstId = response?.citations?.[0]?.gr_id;
   const asOfStatus = useMemo(() => {
@@ -250,13 +251,21 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -6 }}
             transition={{ duration: 0.16 }}
-            className={`min-h-0 flex-1 overflow-y-auto p-4 ${
-              workspace === 'method' ? '' : 'grid grid-cols-1 gap-4 lg:grid-cols-2 lg:overflow-hidden'
+            className={`min-h-0 flex-1 overflow-y-auto p-3 sm:p-4 ${
+              workspace === 'method' || landing ? '' : 'grid grid-cols-1 content-start gap-4 lg:grid-cols-2 lg:overflow-hidden'
             }`}
           >
-            {workspace === 'ask' && (
+            {landing && (
+              <section className="mx-auto w-full max-w-[760px] space-y-8 px-1 pt-6 sm:pt-12" aria-label="Ask a question">
+                <HeroHeader />
+                <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={false} hero focusSignal={focusAsk} />
+                <Hero onAsk={(t) => submit(t, true)} disabled={loading} />
+              </section>
+            )}
+
+            {workspace === 'ask' && !landing && (
               <>
-                <section className="flex min-h-0 flex-col gap-3 lg:overflow-y-auto lg:pr-1" aria-label="Investigation">
+                <section className="flex flex-col gap-3 lg:min-h-0 lg:overflow-y-auto lg:pr-1" aria-label="Investigation">
                   <QueryDock
                     value={query}
                     onChange={setQuery}
@@ -304,16 +313,11 @@ export default function App() {
                         </motion.div>
                       )}
 
-                      {!loading && !response && !error && (
-                        <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                          <Hero onAsk={(t) => submit(t, true)} disabled={loading} />
-                        </motion.div>
-                      )}
                     </AnimatePresence>
                   </div>
                 </section>
 
-                <section data-tour="evidence" className="min-h-[34rem] lg:min-h-0" aria-label="Evidence">
+                <section data-tour="evidence" className="min-h-[30rem] lg:min-h-0" aria-label="Evidence">
                   <PdfInspector citation={active} question={query} />
                 </section>
               </>
@@ -321,10 +325,10 @@ export default function App() {
 
             {workspace === 'library' && (
               <>
-                <section className="flex min-h-0 flex-col lg:overflow-y-auto lg:pr-1" aria-label="Library">
+                <section className="flex flex-col lg:min-h-0 lg:overflow-y-auto lg:pr-1" aria-label="Library">
                   <Library selectedId={libActive?.gr_id} onOpen={setLibActive} asOf={asOf} />
                 </section>
-                <section className="min-h-[34rem] lg:min-h-0" aria-label="Document">
+                <section className="min-h-[30rem] lg:min-h-0" aria-label="Document">
                   <PdfInspector citation={libActive} question="" />
                 </section>
               </>

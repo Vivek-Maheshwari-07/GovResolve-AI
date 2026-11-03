@@ -32,7 +32,7 @@ function FilterPill({ on, onClick, children, gu }) {
       aria-pressed={on}
       className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-all shadow-sm ${
         on
-          ? 'border-teal-300 bg-teal-50 text-teal-800 ring-1 ring-teal-200'
+          ? 'border-iris-300 bg-iris-50 text-iris-800 ring-1 ring-iris-200'
           : 'border-hair bg-white text-mist hover:text-legal hover:border-stone'
       } ${gu ? 'gu-text' : ''}`}
     >
@@ -117,11 +117,11 @@ export default function Library({ selectedId, onOpen, asOf }) {
       {/* Header */}
       <header className="space-y-1 px-1">
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-teal-800">
+          <span className="eyebrow text-iris-800">
             ● Executive Corpus Library · {counts.all} Indexed Resolutions
           </span>
         </div>
-        <h2 className="text-[22px] font-bold tracking-tight text-legal">Official Resolution Repository</h2>
+        <h2 className="display text-[24px] font-bold text-legal">Official Resolution Repository</h2>
         <p className="text-[12.5px] text-mist">
           Search the indexed collection by GR number, subject, or year. Inspect any document to view its verified contents and amendment ancestry.
         </p>
@@ -129,8 +129,8 @@ export default function Library({ selectedId, onOpen, asOf }) {
 
       {/* Search & Filter Toolbar */}
       <div className="glass-card space-y-2.5 rounded-2xl p-3 shadow-lift">
-        <label className="flex items-center gap-2.5 rounded-xl border border-hair bg-white px-3 py-2 focus-within:border-teal-400 focus-within:ring-2 focus-within:ring-teal-100 transition-all shadow-sm">
-          <Search className="h-4 w-4 text-teal-600 shrink-0" />
+        <label className="flex items-center gap-2.5 rounded-xl border border-hair bg-white px-3 py-2 focus-within:border-iris-400 focus-within:ring-2 focus-within:ring-iris-100 transition-all shadow-sm">
+          <Search className="h-4 w-4 text-iris-600 shrink-0" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -184,7 +184,7 @@ export default function Library({ selectedId, onOpen, asOf }) {
       <div className="glass-card min-h-[16rem] flex-1 overflow-hidden rounded-2xl shadow-lift flex flex-col">
         {!rows && !error && (
           <div className="flex items-center justify-center gap-2 p-8 text-sm text-mist">
-            <Loader2 className="h-4 w-4 animate-spin text-teal-600" />
+            <Loader2 className="h-4 w-4 animate-spin text-iris-600" />
             <span>Loading indexed resolutions…</span>
           </div>
         )}
@@ -214,7 +214,7 @@ export default function Library({ selectedId, onOpen, asOf }) {
                       type="button"
                       onClick={() => open(r)}
                       className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors ${
-                        on ? 'bg-teal-50/90 ring-1 ring-teal-200' : 'hover:bg-sand/60'
+                        on ? 'bg-iris-50/90 ring-1 ring-iris-200' : 'hover:bg-sand/60'
                       }`}
                       aria-pressed={on}
                     >
@@ -257,7 +257,7 @@ export default function Library({ selectedId, onOpen, asOf }) {
       </div>
 
       <p className="flex items-center gap-1.5 px-1 text-[11px] text-mist">
-        <LibraryIcon className="h-3 w-3 text-teal-700" />
+        <LibraryIcon className="h-3 w-3 text-iris-700" />
         <span>Lineage status is strictly derived from explicit amendment, supersession, or cancellation references.</span>
       </p>
     </div>

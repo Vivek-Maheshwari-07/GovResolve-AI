@@ -7,7 +7,7 @@ const STEPS = [
     icon: Languages,
     title: '1. Understand',
     text: 'Detects ગુજરાતી, English or Gujlish. Gujlish and Gujarati queries are normalized with legal synonyms to match both Gujarati and English GRs.',
-    tint: 'from-teal-500 to-emerald-600',
+    tint: 'from-iris-500 to-emerald-600',
   },
   {
     icon: DatabaseZap,
@@ -25,13 +25,13 @@ const STEPS = [
     icon: PenLine,
     title: '4. Formulate Finding',
     text: 'LLM generates concise findings strictly grounded in numbered evidence chunks. Each claim is explicitly labeled Established or Inferred.',
-    tint: 'from-violet-600 to-fuchsia-600',
+    tint: 'from-iris-600 to-iris-600',
   },
   {
     icon: ShieldCheck,
     title: '5. Verify & Trace',
     text: 'Every quote is checked verbatim on its page. Lineage status is appended via explicit amendment graphs. Missing evidence triggers formal refusal.',
-    tint: 'from-emerald-600 to-teal-700',
+    tint: 'from-emerald-600 to-iris-700',
   },
 ];
 
@@ -47,7 +47,7 @@ const RESULTS = [
     value: '0.972',
     label: 'Lineage Graph Precision & Recall',
     note: '71 verified amendment/supersession pairs across English & Gujarati rule families',
-    color: 'text-violet-700',
+    color: 'text-iris-700',
     bar: 97,
   },
   {
@@ -118,10 +118,10 @@ export default function Method({ stats }) {
     >
       {/* Title */}
       <motion.header variants={fadeVariants} className="space-y-1">
-        <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-violet-700">
+        <p className="eyebrow text-iris-700">
           ● Method & Architecture · Deterministic Truth Pipeline
         </p>
-        <h2 className="text-[26px] font-extrabold tracking-tight text-legal">
+        <h2 className="display text-[27px] font-bold text-legal">
           From Natural Inquiry to Verifiable Proof
         </h2>
         <p className="max-w-2xl text-[13.5px] leading-relaxed text-mist">
@@ -171,7 +171,7 @@ export default function Method({ stats }) {
                     initial={{ width: 0 }}
                     animate={{ width: `${r.bar}%` }}
                     transition={{ duration: 0.9, ease: 'easeOut' }}
-                    className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-teal-500"
+                    className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-iris-500 to-iris-500"
                   />
                 </div>
               )}
@@ -187,7 +187,7 @@ export default function Method({ stats }) {
           <ul className="space-y-2.5">
             {RULES.map((r) => (
               <li key={r.text} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-legal">
-                <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-violet-50 text-violet-700 ring-1 ring-violet-200">
+                <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-iris-50 text-iris-700 ring-1 ring-iris-200">
                   <r.icon className="h-3.5 w-3.5" />
                 </span>
                 <span>{r.text}</span>
@@ -196,9 +196,9 @@ export default function Method({ stats }) {
           </ul>
         </div>
 
-        <div className="glass-card rounded-2xl border border-teal-200 bg-gradient-to-br from-teal-50/70 to-white p-4 shadow-lift">
+        <div className="glass-card rounded-2xl border border-iris-200 bg-gradient-to-br from-iris-50/70 to-white p-4 shadow-lift">
           <div className="flex items-center gap-2 mb-3">
-            <Cpu className="h-4 w-4 text-teal-700" />
+            <Cpu className="h-4 w-4 text-iris-700" />
             <h3 className="text-[15px] font-bold text-legal">Indexed Knowledge Base</h3>
           </div>
           <dl className="space-y-3">
@@ -207,9 +207,9 @@ export default function Method({ stats }) {
               ['Text Passages Indexed', stats?.chunks],
               ['Lineage Relations Discovered', stats?.edges],
             ].map(([k, v]) => (
-              <div key={k} className="flex items-baseline justify-between border-b border-teal-100/90 pb-2 last:border-0">
+              <div key={k} className="flex items-baseline justify-between border-b border-iris-100/90 pb-2 last:border-0">
                 <dt className="text-[12.5px] text-mist">{k}</dt>
-                <dd className="font-mono text-[18px] font-bold text-teal-900">
+                <dd className="font-mono text-[18px] font-bold text-iris-800">
                   {v != null ? Number(v).toLocaleString() : '—'}
                 </dd>
               </div>

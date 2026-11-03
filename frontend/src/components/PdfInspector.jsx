@@ -17,7 +17,7 @@ const norm = (s) => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
 function MetaField({ label, children, mono }) {
   return (
     <div className="min-w-0">
-      <dt className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-mist">{label}</dt>
+      <dt className="eyebrow text-mist">{label}</dt>
       <dd className={`truncate text-[12.5px] font-semibold text-legal ${mono ? 'font-mono' : 'gu-text'}`}>
         {children || '—'}
       </dd>
@@ -181,10 +181,9 @@ export default function PdfInspector({ citation, question }) {
 
   if (!citation) {
     return (
-      <div className="relative grid h-full place-items-center overflow-hidden rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50/50 via-white to-indigo-50/40 p-8 text-center shadow-lift">
-        <div aria-hidden className="pointer-events-none absolute -right-12 top-10 h-48 w-48 rounded-full bg-amber-200/25 blur-3xl" />
-        <div className="relative max-w-sm space-y-4">
-          <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-[0_8px_20px_-6px_rgba(217,119,6,0.5)]">
+      <div className="relative grid h-full place-items-center overflow-hidden rounded-2xl border border-hair bg-white p-8 text-center shadow-card">
+                <div className="relative max-w-sm space-y-4">
+          <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-saffron-400 to-saffron-600 text-white shadow-[0_8px_20px_-6px_rgba(217,119,6,0.5)]">
             <FileSearch className="h-7 w-7" />
           </div>
           <div>
@@ -197,8 +196,8 @@ export default function PdfInspector({ citation, question }) {
             {[
               ['1', 'Submit an administrative inquiry in English, Gujarati or Gujlish', 'bg-indigo-100 text-indigo-700'],
               ['2', 'Click any verified statement or verbatim legal quote chip', 'bg-amber-100 text-amber-800'],
-              ['3', 'Inspect the highlighted clause on the scanned official gazette', 'bg-teal-100 text-teal-700'],
-              ['4', 'Explore prior & succeeding orders in the Amendment Lineage', 'bg-violet-100 text-violet-700'],
+              ['3', 'Inspect the highlighted clause on the scanned official gazette', 'bg-iris-100 text-iris-700'],
+              ['4', 'Explore prior & succeeding orders in the Amendment Lineage', 'bg-iris-100 text-iris-700'],
             ].map(([n, t, c]) => (
               <li key={n} className="flex items-center gap-2.5 rounded-xl border border-hair bg-white/80 px-3 py-2 text-xs text-legal shadow-sm">
                 <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-md font-mono text-[10px] font-bold ${c}`}>{n}</span>
@@ -244,7 +243,7 @@ export default function PdfInspector({ citation, question }) {
       {citation.passage && (
         <div className="border-b border-hair border-l-4 !border-l-amber-500 bg-amber-50/80 px-3.5 py-2.5">
           <div className="flex items-center justify-between mb-1">
-            <p className="font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] text-amber-900">
+            <p className="eyebrow text-amber-900">
               Verified Quoted Passage · Page {citation.page}
             </p>
             <span className="font-mono text-[10px] text-amber-800">Verbatim Match</span>
@@ -369,7 +368,7 @@ export default function PdfInspector({ citation, question }) {
         {mode === 'text' && (
           <div className="mx-auto max-w-prose space-y-2.5 py-2">
             <div className="flex items-center justify-between pb-1 border-b border-hair">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-mist">
+              <p className="eyebrow text-mist">
                 Raw OCR Text · Page {page}
               </p>
               <span className="font-mono text-[10px] text-mist">{blocks.length} text blocks</span>

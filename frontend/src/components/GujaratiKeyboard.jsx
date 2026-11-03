@@ -45,7 +45,7 @@ export default function GujaratiKeyboard({ onInsert, onClose }) {
       <div className="space-y-2">
         {SECTIONS.map((sec) => (
           <div key={sec.title} className="space-y-1">
-            <p className="font-mono text-[9px] uppercase tracking-wider text-mist px-0.5">{sec.title}</p>
+            <p className="eyebrow text-mist px-0.5">{sec.title}</p>
             <div className="flex flex-wrap gap-1">
               {sec.keys.map((ch) => (
                 <button

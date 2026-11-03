@@ -85,16 +85,16 @@ export default function LineageGraph({ chain, asOf, activeId, onSelectNode }) {
 
   return (
     <section
-      className="glass-card rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50/40 via-white to-white p-4 shadow-lift"
+      className="glass-card rounded-2xl border border-iris-100 bg-gradient-to-br from-iris-50/40 via-white to-white p-4 shadow-lift"
       aria-label="Amendment lineage"
     >
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-hair/70 pb-2.5">
         <div className="flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-xl bg-violet-100 text-violet-700 border border-violet-200">
+          <span className="grid h-7 w-7 place-items-center rounded-xl bg-iris-100 text-iris-700 border border-iris-200">
             <GitBranch className="h-4 w-4" />
           </span>
           <div>
-            <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-violet-800">
+            <h2 className="eyebrow text-iris-800">
               Amendment Lineage · {counts.total} Orders in Chain
             </h2>
             <p className="text-[11px] text-mist">
@@ -147,7 +147,7 @@ export default function LineageGraph({ chain, asOf, activeId, onSelectNode }) {
               {/* Timeline Axis Line with Arrow indicator */}
               <div
                 aria-hidden
-                className="absolute left-4 right-4 top-[29px] z-0 h-1 rounded-full bg-gradient-to-r from-teal-300 via-indigo-300 to-violet-400 opacity-80"
+                className="absolute left-4 right-4 top-[29px] z-0 h-1 rounded-full bg-gradient-to-r from-iris-300 via-indigo-300 to-iris-400 opacity-80"
               />
               <div className="relative flex w-max gap-3 pr-4">
                 {chain.map((n, i) => (

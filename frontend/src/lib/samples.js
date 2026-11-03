@@ -38,11 +38,12 @@ export const SAMPLES = [
   },
 ];
 
-// one colour family per kind (light washes, deep text)
+// Quiet by design: neutral cards, one small coloured dot per kind (the dot is the only colour signal)
+const NEUTRAL = 'from-white to-white border-hair hover:border-iris-300';
 export const KIND_STYLE = {
-  en: { chip: 'border-indigo-200 bg-indigo-50 text-indigo-700', dot: 'bg-indigo-500', card: 'from-indigo-50 to-white border-indigo-100 hover:border-indigo-300' },
-  amended: { chip: 'border-amber-200 bg-amber-50 text-amber-800', dot: 'bg-amber-500', card: 'from-amber-50 to-white border-amber-100 hover:border-amber-300' },
-  gu: { chip: 'border-teal-200 bg-teal-50 text-teal-700', dot: 'bg-teal-500', card: 'from-teal-50 to-white border-teal-100 hover:border-teal-300' },
-  mixed: { chip: 'border-violet-200 bg-violet-50 text-violet-700', dot: 'bg-violet-500', card: 'from-violet-50 to-white border-violet-100 hover:border-violet-300' },
-  refusal: { chip: 'border-rose-200 bg-rose-50 text-rose-700', dot: 'bg-rose-500', card: 'from-rose-50 to-white border-rose-100 hover:border-rose-300' },
+  en: { chip: 'border-hair bg-sand text-mist', dot: 'bg-iris-500', card: NEUTRAL },
+  amended: { chip: 'border-hair bg-sand text-mist', dot: 'bg-amber-500', card: NEUTRAL },
+  gu: { chip: 'border-hair bg-sand text-mist', dot: 'bg-saffron-500', card: NEUTRAL },
+  mixed: { chip: 'border-hair bg-sand text-mist', dot: 'bg-iris-300', card: NEUTRAL },
+  refusal: { chip: 'border-hair bg-sand text-mist', dot: 'bg-rose-500', card: NEUTRAL },
 };
