@@ -29,7 +29,7 @@ jobs:
           cache-dependency-path: requirements*.txt
       - run: pip install -r requirements-dev.txt
       - name: Lint
-        run: ruff check backend run.py scripts tests
+        run: ruff check backend run.py tests
       - name: Tests
         working-directory: backend
         run: python -m pytest -q

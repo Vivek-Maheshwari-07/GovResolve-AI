@@ -1,7 +1,7 @@
 # Squad 2 <-> Squad 3 integration (Phase 3)
 
 State on 2026-11-01: `origin/squad2` is at `33c3224` (unchanged since Oct 31), `origin/squad3` at `296286a`. A trial merge conflicts only
-in `.gitignore`; the code does not overlap (theirs: `backend/api`, `rag`, `ingestion`, `lineage`; ours: `backend/app`).
+in `.gitignore`; the code does not overlap (theirs: `rag`, `ingestion`, `lineage` and the since-removed `backend/api`; ours: `backend/app`).
 
 ## Decision: our contract is the public API
 Squad 2's pipeline plugs in behind `/query` through the `AnswerEngine` seam the contract already defines. Their `/api/*` routes

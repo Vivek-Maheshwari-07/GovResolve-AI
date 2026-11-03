@@ -9,7 +9,7 @@ import { ArrowRight, ArrowLeft, X, Loader2, Check } from 'lucide-react';
  *
  * ctx: { hasAnswer, hasCitations, hasLineage, loading, typeAndAsk(), setWorkspace(ws) }
  */
-export const TOUR_STEPS = [
+const TOUR_STEPS = [
   {
     id: 'welcome',
     title: 'A two-minute walk',

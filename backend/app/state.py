@@ -32,7 +32,6 @@ class AppState:
     lineage: object = None
     lineage_kind: str = "stub"
     vectors: VectorStore = None
-    built_at: float = 0.0
     build_ms: int = 0
     _extra: dict = field(default_factory=dict)
 
@@ -53,7 +52,6 @@ class AppState:
         self.db.save_edges(self.lineage.edges())
         self.vectors.index_corpus(self.corpus)
         self.build_ms = int((time.perf_counter() - t0) * 1000)
-        self.built_at = time.time()
 
     def reapply_overrides(self) -> None:
         added, removed = self.db.overrides()

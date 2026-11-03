@@ -40,7 +40,7 @@ test-frontend:  ## Frontend tests
 	cd frontend && npm test
 
 lint:  ## Lint the Python code (pyflakes rules via ruff)
-	$(PY) -m ruff check backend run.py scripts tests
+	$(PY) -m ruff check backend run.py tests
 
 docker-build:  ## Build the application image
 	docker compose build

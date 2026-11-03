@@ -469,7 +469,7 @@ GovResolve-AI/
     ├── tests/                     407 tests
     ├── notes/                     part1_ui.md, part2_answers.md: what was built, measured and why
     ├── API_CONTRACT.md, DEMO.md, IMPLEMENTATION_PLAN.md, README.md
-    └── api/, ingestion/, lineage/ earlier pipeline modules (kept for reference)
+    └── ingestion/, lineage/ pipeline modules (corpus building, Squad 2 lineage graph)
 ```
 
 ---

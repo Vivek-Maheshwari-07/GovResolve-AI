@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MessagesSquare, Library, FlaskConical, Lightbulb, Keyboard } from 'lucide-react';
 
-export const WORKSPACES = [
+const WORKSPACES = [
   { id: 'ask', label: 'Inquiry', icon: MessagesSquare, key: '1' },
   { id: 'library', label: 'Library', icon: Library, key: '2' },
   { id: 'method', label: 'Method', icon: FlaskConical, key: '3' },

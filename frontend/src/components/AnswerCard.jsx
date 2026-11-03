@@ -14,7 +14,7 @@ const LABELS = {
 const labelOf = (l) => (l === 'Not found' ? 'Unverified' : l);
 const sealOf = (c) => (c?.lineage?.status === 'superseded' ? 'superseded' : c?.lineage?.status === 'amended' ? 'amended' : 'no_change');
 
-export function CitationChip({ cit, active, onSelect }) {
+function CitationChip({ cit, active, onSelect }) {
   return (
     <motion.button
       type="button"

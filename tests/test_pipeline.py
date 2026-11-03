@@ -143,11 +143,9 @@ def run_tests():
     print("ALL SMOKE TESTS PASSED ✓")
     print("="*60)
     print("\nNext steps:")
-    print("  1. Add your GR PDFs to ./data/grs/")
-    print("  2. Set GOOGLE_API_KEY in .env")
-    print("  3. Run: python scripts/add_gr.py --dir ./data/grs/")
-    print("  4. Start API: python -m uvicorn backend.api.main:app --reload")
-    print("  5. Query: python scripts/add_gr.py --query 'maternity leave documents'")
+    print("  1. Add your GR PDFs and build the corpus (see backend/README.md)")
+    print("  2. Configure a language model, Ollama or Groq (see docs/LLM_PROVIDERS.md)")
+    print("  3. Build the search index and start the app: make index && make run")
 
 
 if __name__ == "__main__":

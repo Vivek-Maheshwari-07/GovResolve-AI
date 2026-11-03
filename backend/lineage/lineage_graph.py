@@ -277,21 +277,6 @@ class LineageGraph:
             return ClauseStatus.AMENDED
         return ClauseStatus.ACTIVE
 
-    def get_chain(self, gr_id: str, max_depth: int = 10) -> list[str]:
-        """Return the full chain of GRs from oldest to latest."""
-        if gr_id not in self.G:
-            return [gr_id]
-        try:
-            # Successors = GRs that THIS gr_id supersedes/amends
-            # Predecessors = GRs that supersede/amend THIS gr_id
-            ancestors = list(nx.ancestors(self.G, gr_id))
-            return sorted(
-                ancestors + [gr_id],
-                key=lambda g: self.G.nodes[g].get("issue_date") or "",
-            )
-        except Exception:
-            return [gr_id]
-
     def get_latest_version(self, gr_id: str) -> str:
         """Follow SUPERSEDES/AMENDS chain to the most recent GR."""
         visited = set()

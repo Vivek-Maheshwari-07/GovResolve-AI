@@ -61,7 +61,6 @@ except ImportError:
 
 # ── Config ────────────────────────────────────
 TESSERACT_LANG = "guj+eng"         # Gujarati + English
-OCR_CONF_THRESHOLD = 0.60          # below → flag as POOR_SCAN
 DIGITAL_TEXT_THRESHOLD = 50        # chars per page → digital if above
 
 # Gujarati digit map
@@ -73,14 +72,6 @@ GR_NUMBER_PATTERNS = [
     r"No\.?\s*([A-Z]{2,5}/\d{4}/\d+/[^\s]+)",
     r"GR\s*No\.?\s*([^\s\n]{5,30})",
     r"(\w+/\d{4}/\w+/\w+)",
-]
-
-DATE_PATTERNS = [
-    r"(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})",    # DD/MM/YYYY
-    r"(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})",    # YYYY-MM-DD
-    r"(\d{1,2})\s+(January|February|March|April|May|June|July|August|"
-    r"September|October|November|December)\s+(\d{4})",
-    # Gujarati months mapped later
 ]
 
 DEPT_KEYWORDS = {

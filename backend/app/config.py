@@ -9,7 +9,6 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="GOV_", env_file=".env", extra="ignore")
 
     version: str = "0.1.0"
-    data_dir: Path = ROOT / "data"
     corpus_dir: Path = ROOT / "data" / "fixtures"
     pdf_dir: Path = ROOT / "data" / "raw"
     db_path: Path = ROOT / "data" / "govresolve.sqlite"
