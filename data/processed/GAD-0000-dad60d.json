@@ -1,0 +1,106 @@
+{
+  "gr_id": "GAD-0000-dad60d",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\government-resolutions\\kh-branch-notification-2.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 595.2000122070312,
+      "height": 841.6799926757812,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "NOTIFICATION\nPanchayats, Rura1 Housing and Rural Development Department\nSachivalaya, Gandhinagar.\nDated thel7th June ,2OL5.\nGujarat\nNo\nKP /29 \nof\n2015 / PSR/7294 /1 64 /KH: -\nI r-r\nPanchayats exercise of the powers conferr:ed by section\nAct, 1993 \n21 4 read . with sub-sect j-ons (5 ) and (7 ) of secti-cn\n221 of the Gujarat Panchayats Act,1993 (Gu;.18\nof 199-?), the Government of Gujarat hereby\nmakes the following rules furcher to amend\nGujarat \nPanchayat Service \n(Transfer\nServants) Rules, l-995, namely:-\nThese rules \nntay be \ncalled \nthe \nCujarat\nPanchayat \nService (Transf er \nof \nSe::vant-s I\n(Amendment) Rules, 201-5.\nthe\noi\nr''\n2. In the Guj arat\nOf Servants ) Ru\nr^-^t^-r'-+ \nQarrr': na \nlT-anSlef\nrdlll-].1 \ndyclL \nJvrvrLL \n\\i-eal!\nIes,1995, in rul.e 3, in sul:'\nfirst \nProviso, for the worcs\nthe\nC\nrule (b) , in\n\"three years service\", the words \"four Years\nservice\" shall be substit-Lrted\nByorderandinthenameoftheGoverrjorofGujaj:ri-,\n(I.M.SHATF'i-ir\nJoint Secretari' to Gcvernmer\nD:\\S-A-R-2015\\Devada Saheb(Dy So)\\NOTIFIcATION/Transfer of Servants",
+          "text_clean": "NOTIFICATION\nPanchayats, Rura1 Housing and Rural Development Department\nSachivalaya, Gandhinagar.\nDated thel7th June ,2OL5.\nGujarat\nNo\nKP /29 \nof\n2015 / PSR/7294 /1 64 /KH: -\nI r-r\nPanchayats exercise of the powers conferr:ed by section\nAct, 1993 \n21 4 read . with sub-sect j-ons (5 ) and (7 ) of secti-cn\n221 of the Gujarat Panchayats Act,1993 (Gu;.18\nof 199-?), the Government of Gujarat hereby\nmakes the following rules furcher to amend\nGujarat \nPanchayat Service \n(Transfer\nServants) Rules, l-995, namely:-\nThese rules \nntay be \ncalled \nthe \nCujarat\nPanchayat \nService (Transf er \nof \nSe::vant-s I\n(Amendment) Rules, 201-5.\nthe\noi\nr''\n2. In the Guj arat\nOf Servants ) Ru\nr^-^t^-r'-+ \nQarrr': na \nlT-anSlef\nrdlll-].1 \ndyclL \nJvrvrLL \n\\i-eal!\nIes,1995, in rul.e 3, in sul:'\nfirst \nProviso, for the worcs\nthe\nC\nrule (b) , in\n\"three years service\", the words \"four Years\nservice\" shall be substit-Lrted\nByorderandinthenameoftheGoverrjorofGujaj:ri-,\n(I.M.SHATF'i-ir\nJoint Secretari' to Gcvernmer\nD:\\S-A-R-2015\\Devada Saheb(Dy So)\\NOTIFIcATION/Transfer of Servants",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.2000122070312,
+            "y1": 841.6799926757812,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-dad60d_p1_c000",
+      "gr_id": "GAD-0000-dad60d",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-dad60d_p1_c001",
+      "gr_id": "GAD-0000-dad60d",
+      "text": "NOTIFICATION Panchayats, Rura1 Housing and Rural Development Department Sachivalaya, Gandhinagar. Dated thel7th June ,2OL5. Gujarat No KP /29 of 2015 / PSR/7294 /1 64 /KH: - I r-r Panchayats exercise of the powers conferr:ed by section Act, 1993 21 4 read . with sub-sect j-ons (5 ) and (7 ) of secti-cn 221 of the Gujarat Panchayats Act,1993 (Gu;.18 of 199-?), the Government of Gujarat hereby makes the following rules furcher to amend Gujarat Panchayat Service (Transfer Servants) Rules, l-995, namely:- These rules ntay be called the Cujarat Panchayat Service (Transf er of Se::vant-s I (Amendment) Rules, 201-5. the oi r''",
+      "text_clean": "NOTIFICATION Panchayats, Rura1 Housing and Rural Development Department Sachivalaya, Gandhinagar. Dated thel7th June ,2OL5. Gujarat No KP /29 of 2015 / PSR/7294 /1 64 /KH: - I r-r Panchayats exercise of the powers conferr:ed by section Act, 1993 21 4 read . with sub-sect j-ons (5 ) and (7 ) of secti-cn 221 of the Gujarat Panchayats Act,1993 (Gu;.18 of 199-?), the Government of Gujarat hereby makes the following rules furcher to amend Gujarat Panchayat Service (Transfer Servants) Rules, l-995, namely:- These rules ntay be called the Cujarat Panchayat Service (Transf er of Se::vant-s I (Amendment) Rules, 201-5. the oi r''",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-dad60d_p1_c002",
+      "gr_id": "GAD-0000-dad60d",
+      "text": "2. In the Guj arat Of Servants ) Ru r^-^t^-r'-+ Qarrr': na lT-anSlef rdlll-].1 dyclL JvrvrLL \\i-eal! Ies,1995, in rul.e 3, in sul:' first Proviso, for the worcs the C rule (b) , in \"three years service\", the words \"four Years service\" shall be substit-Lrted ByorderandinthenameoftheGoverrjorofGujaj:ri-, (I.M.SHATF'i-ir Joint Secretari' to Gcvernmer D:\\S-A-R-2015\\Devada Saheb(Dy So)\\NOTIFIcATION/Transfer of Servants",
+      "text_clean": "2. In the Guj arat Of Servants ) Ru r^-^t^-r'-+ Qarrr': na lT-anSlef rdlll-].1 dyclL JvrvrLL \\i-eal! Ies,1995, in rul.e 3, in sul:' first Proviso, for the worcs the C rule (b) , in \"three years service\", the words \"four Years service\" shall be substit-Lrted ByorderandinthenameoftheGoverrjorofGujaj:ri-, (I.M.SHATF'i-ir Joint Secretari' to Gcvernmer D:\\S-A-R-2015\\Devada Saheb(Dy So)\\NOTIFIcATION/Transfer of Servants",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "NOTIFICATION\nPanchayats, Rura1 Housing and Rural Development Department\nSachivalaya, Gandhinagar.\nDated thel7th June ,2OL5.\nGujarat\nNo\nKP /29 \nof\n2015 / PSR/7294 /1 64 /KH: -\nI r-r\nPanchayats exercise of the powers conferr:ed by section\nAct, 1993 \n21 4 read . with sub-sect j-ons (5 ) and (7 ) of secti-cn\n221 of the Gujarat Panchayats Act,1993 (Gu;.18\nof 199-?), the Government of Gujarat hereby\nmakes the following rules furcher to amend\nGujarat \nPanchayat Service \n(Transfer\nServants) Rules, l-995, namely:-\nThese rules \nntay be \ncalled \nthe \nCujarat\nPanchayat \nService (Transf er \nof \nSe::vant-s I\n(Amendment) Rules, 201-5.\nthe\noi\nr''\n2. In the Guj arat\nOf Servants ) Ru\nr^-^t^-r'-+ \nQarrr': na \nlT-anSlef\nrdlll-].1 \ndyclL \nJvrvrLL \n\\i-eal!\nIes,1995, in rul.e 3, in sul:'\nfirst \nProviso, for the worcs\nthe\nC\nrule (b) , in\n\"three years service\", the words \"four Years\nservice\" shall be substit-Lrted\nByorderandinthenameoftheGoverrjorofGujaj:ri-,\n(I.M.SHATF'i-ir\nJoint Secretari' to Gcvernmer\nD:\\S-A-R-2015\\Devada Saheb(Dy So)\\NOTIFIcATION/Transfer of Servants"
+}

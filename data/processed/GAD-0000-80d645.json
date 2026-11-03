@@ -1,0 +1,128 @@
+{
+  "gr_id": "GAD-0000-80d645",
+  "gr_number": "MIS/1 0120161235512",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\government-resolutions\\DDO-Headquarter-Instruction-21032018.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 597.1199951171875,
+      "height": 839.0399780273438,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "lnstructions to DDOs for remaining\npresent at Headquarter,\nGovernment of Gujarat\nPanchayats, Rural Housing and Rural tievelopment Department\nCircular No. MIS/1 0120161235512\nSachivalaya, Gand hinagar\nDated the 21st March 2018\nG..BS,$.E E:\nThis circular is issued in partial modification of the Circular No.\nM lS/1 02016235512 daled 1 0-1 1 -201 6.\nDistrict Development Officer has a vital role in development administration of the\ndistrict wherein he/she has to supervise the work of several departments in the district.\nThe DDOs should spend maximum time in the districts and also carry out field\ninspections in order to ensure that all important government schemes, programmes and\nprojects are executed efficiently and effectively.\nln this context the following instructions are hereby issued:\n(1)The DDOs should invariably attend their offices every Monday and Thursday and\nspend time for redressal of citizens' grievances and disposal of pending office\nworks.\n(2) The DDO must not leave the district without the prior approval of Principal\nSecretary, Panchayats, Rural Housing and Rural Development Department.\n(3) The request for leaving the headquarter should be routed through Development\nCom m issioner to Pri nci pal Secretary (Panch ayats).\n(4) lf the DDOs have to attend any meeting called by Hon'ble Chief Minister, Hon'ble\nDeputy Chief Minister, Hon'ble Minister Panchayats, or any Legislative Assembly\nCommittee or attend the Hon'ble High Court or Hon'ble Supreme Court, etc. the\nDevelopment Commissioner should be invariably informed through SMS.\n(5) The Development Commissioner is advised not to call DDOs for meetings in\nGandhinagar frequently and monitor progress and review through Video\nconferences.\n(6) Other departments are also requested to refrain from calling meetings of the\nDDOs outside their districts. lf necessary, they may hold video conferences with\nthe prior approval of the Development Commissioner.\nPage 1 of2",
+          "text_clean": "lnstructions to DDOs for remaining\npresent at Headquarter,\nGovernment of Gujarat\nPanchayats, Rural Housing and Rural tievelopment Department\nCircular No. MIS/1 0120161235512\nSachivalaya, Gand hinagar\nDated the 21st March 2018\nG..BS,$.E E:\nThis circular is issued in partial modification of the Circular No.\nM lS/1 02016235512 daled 1 0-1 1 -201 6.\nDistrict Development Officer has a vital role in development administration of the\ndistrict wherein he/she has to supervise the work of several departments in the district.\nThe DDOs should spend maximum time in the districts and also carry out field\ninspections in order to ensure that all important government schemes, programmes and\nprojects are executed efficiently and effectively.\nln this context the following instructions are hereby issued:\n(1)The DDOs should invariably attend their offices every Monday and Thursday and\nspend time for redressal of citizens' grievances and disposal of pending office\nworks.\n(2) The DDO must not leave the district without the prior approval of Principal\nSecretary, Panchayats, Rural Housing and Rural Development Department.\n(3) The request for leaving the headquarter should be routed through Development\nCom m issioner to Pri nci pal Secretary (Panch ayats).\n(4) lf the DDOs have to attend any meeting called by Hon'ble Chief Minister, Hon'ble\nDeputy Chief Minister, Hon'ble Minister Panchayats, or any Legislative Assembly\nCommittee or attend the Hon'ble High Court or Hon'ble Supreme Court, etc. the\nDevelopment Commissioner should be invariably informed through SMS.\n(5) The Development Commissioner is advised not to call DDOs for meetings in\nGandhinagar frequently and monitor progress and review through Video\nconferences.\n(6) Other departments are also requested to refrain from calling meetings of the\nDDOs outside their districts. lf necessary, they may hold video conferences with\nthe prior approval of the Development Commissioner.\nPage 1 of2",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 597.1199951171875,
+            "y1": 839.0399780273438,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    },
+    {
+      "page_number": 2,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 602.8800048828125,
+      "height": 839.0399780273438,
+      "blocks": [
+        {
+          "block_id": "p2_b0",
+          "text": "(7) The DDOs' conference/meeting at Gandhinagar should be called once in a\nquarter in consultation with Hon'ble Minister (Panchayats) in which other line\ndepartments may also be given time slotfor their review/monitoring.\nBy order and in the name in the name of the Governor,\n@^--\n( Vanrajsinh Phdhariya )\nDeputy Secretary to Government\nPanchayats, Rural Housing & Rural\nDevelopment Department\nCopy to :-\nSachivalaya, Gand hinagar.\nGandhinagar.\nPage 2 of 2",
+          "text_clean": "(7) The DDOs' conference/meeting at Gandhinagar should be called once in a\nquarter in consultation with Hon'ble Minister (Panchayats) in which other line\ndepartments may also be given time slotfor their review/monitoring.\nBy order and in the name in the name of the Governor,\n@^--\n( Vanrajsinh Phdhariya )\nDeputy Secretary to Government\nPanchayats, Rural Housing & Rural\nDevelopment Department\nCopy to :-\nSachivalaya, Gand hinagar.\nGandhinagar.\nPage 2 of 2",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 602.8800048828125,
+            "y1": 839.0399780273438,
+            "page": 2
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-80d645_p1_c000",
+      "gr_id": "GAD-0000-80d645",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: MIS/1 0120161235512\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: MIS/1 0120161235512\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-80d645_p1_c001",
+      "gr_id": "GAD-0000-80d645",
+      "text": "lnstructions to DDOs for remaining present at Headquarter, Government of Gujarat Panchayats, Rural Housing and Rural tievelopment Department Circular No. MIS/1 0120161235512 Sachivalaya, Gand hinagar Dated the 21st March 2018 G..BS,$.E E: This circular is issued in partial modification of the Circular No. M lS/1 02016235512 daled 1 0-1 1 -201 6. District Development Officer has a vital role in development administration of the district wherein he/she has to supervise the work of several departments in the district. The DDOs should spend maximum time in the districts and also carry out field inspections in order to ensure that all important government schemes, programmes and projects are executed efficiently and effectively. ln this context the following instructions are hereby issued: (1)The DDOs should invariably attend their offices every Monday and Thursday and spend time for redressal of citizens' grievances and disposal of pending office works. (2) The DDO must not leave the district without the prior approval of Principal Secretary, Panchayats, Rural Housing and Rural Development Department. (3) The request for leaving the headquarter should be routed through Development Com m issioner to Pri nci pal Secretary (Panch ayats). (4) lf the DDOs have to attend any meeting called by Hon'ble Chief Minister, Hon'ble Deputy Chief Minister, Hon'ble Minister Panchayats, or any Legislative Assembly Committee or attend the Hon'ble High Court or Hon'ble Supreme Court, etc. the Development Commissioner should be invariably informed through SMS. (5) The Development Commissioner is advised not to call DDOs for meetings in Gandhinagar frequently and monitor progress and review through Video conferences. (6) Other departments are also requested to refrain from calling meetings of the DDOs outside their districts. lf necessary, they may hold video conferences with the prior approval of the Development Commissioner. Page 1 of2",
+      "text_clean": "lnstructions to DDOs for remaining present at Headquarter, Government of Gujarat Panchayats, Rural Housing and Rural tievelopment Department Circular No. MIS/1 0120161235512 Sachivalaya, Gand hinagar Dated the 21st March 2018 G..BS,$.E E: This circular is issued in partial modification of the Circular No. M lS/1 02016235512 daled 1 0-1 1 -201 6. District Development Officer has a vital role in development administration of the district wherein he/she has to supervise the work of several departments in the district. The DDOs should spend maximum time in the districts and also carry out field inspections in order to ensure that all important government schemes, programmes and projects are executed efficiently and effectively. ln this context the following instructions are hereby issued: (1)The DDOs should invariably attend their offices every Monday and Thursday and spend time for redressal of citizens' grievances and disposal of pending office works. (2) The DDO must not leave the district without the prior approval of Principal Secretary, Panchayats, Rural Housing and Rural Development Department. (3) The request for leaving the headquarter should be routed through Development Com m issioner to Pri nci pal Secretary (Panch ayats). (4) lf the DDOs have to attend any meeting called by Hon'ble Chief Minister, Hon'ble Deputy Chief Minister, Hon'ble Minister Panchayats, or any Legislative Assembly Committee or attend the Hon'ble High Court or Hon'ble Supreme Court, etc. the Development Commissioner should be invariably informed through SMS. (5) The Development Commissioner is advised not to call DDOs for meetings in Gandhinagar frequently and monitor progress and review through Video conferences. (6) Other departments are also requested to refrain from calling meetings of the DDOs outside their districts. lf necessary, they may hold video conferences with the prior approval of the Development Commissioner. Page 1 of2",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-80d645_p2_c002",
+      "gr_id": "GAD-0000-80d645",
+      "text": "(7) The DDOs' conference/meeting at Gandhinagar should be called once in a\nquarter in consultation with Hon'ble Minister (Panchayats) in which other line\ndepartments may also be given time slotfor their review/monitoring.\nBy order and in the name in the name of the Governor,\n@^--\n( Vanrajsinh Phdhariya )\nDeputy Secretary to Government\nPanchayats, Rural Housing & Rural\nDevelopment Department\nCopy to :-\nSachivalaya, Gand hinagar.\nGandhinagar.\nPage 2 of 2",
+      "text_clean": "(7) The DDOs' conference/meeting at Gandhinagar should be called once in a\nquarter in consultation with Hon'ble Minister (Panchayats) in which other line\ndepartments may also be given time slotfor their review/monitoring.\nBy order and in the name in the name of the Governor,\n@^--\n( Vanrajsinh Phdhariya )\nDeputy Secretary to Government\nPanchayats, Rural Housing & Rural\nDevelopment Department\nCopy to :-\nSachivalaya, Gand hinagar.\nGandhinagar.\nPage 2 of 2",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 700.0,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "lnstructions to DDOs for remaining\npresent at Headquarter,\nGovernment of Gujarat\nPanchayats, Rural Housing and Rural tievelopment Department\nCircular No. MIS/1 0120161235512\nSachivalaya, Gand hinagar\nDated the 21st March 2018\nG..BS,$.E E:\nThis circular is issued in partial modification of the Circular No.\nM lS/1 02016235512 daled 1 0-1 1 -201 6.\nDistrict Development Officer has a vital role in development administration of the\ndistrict wherein he/she has to supervise the work of several departments in the district.\nThe DDOs should spend maximum time in the districts and also carry out field\ninspections in order to ensure that all important government schemes, programmes and\nprojects are executed efficiently and effectively.\nln this context the following instructions are hereby issued:\n(1)The DDOs should invariably attend their offices every Monday and Thursday and\nspend time for redressal of citizens' grievances and disposal of pending office\nworks.\n(2) The DDO must not leave the district without the prior approval of Principal\nSecretary, Panchayats, Rural Housing and Rural Development Department.\n(3) The request for leaving the headquarter should be routed through Development\nCom m issioner to Pri nci pal Secretary (Panch ayats).\n(4) lf the DDOs have to attend any meeting called by Hon'ble Chief Minister, Hon'ble\nDeputy Chief Minister, Hon'ble Minister Panchayats, or any Legislative Assembly\nCommittee or attend the Hon'ble High Court or Hon'ble Supreme Court, etc. the\nDevelopment Commissioner should be invariably informed through SMS.\n(5) The Development Commissioner is advised not to call DDOs for meetings in\nGandhinagar frequently and monitor progress and review through Video\nconferences.\n(6) Other departments are also requested to refrain from calling meetings of the\nDDOs outside their districts. lf necessary, they may hold video conferences with\nthe prior approval of the Development Commissioner.\nPage 1 of2\n\n(7) The DDOs' conference/meeting at Gandhinagar should be called once in a\nquarter in consultation with Hon'ble Minister (Panchayats) in which other line\ndepartments may also be given time slotfor their review/monitoring.\nBy order and in the name in the name of the Governor,\n@^--\n( Vanrajsinh Phdhariya )\nDeputy Secretary to Government\nPanchayats, Rural Housing & Rural\nDevelopment Department\nCopy to :-\nSachivalaya, Gand hinagar.\nGandhinagar.\nPage 2 of 2"
+}

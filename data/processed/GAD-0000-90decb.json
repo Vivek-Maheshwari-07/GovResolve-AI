@@ -1,0 +1,128 @@
+{
+  "gr_id": "GAD-0000-90decb",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\government-resolutions\\mphw.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 612.47998046875,
+      "height": 839.0399780273438,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "?!. .r--\nir }ltr-i :\ng1ti.\ndttbt..............r'-\" \" \" \" \" \" \"\nNOTIFICATION\nanchayayts, Rural Housing and Rural Development Department\nSach ivalaya, Gandhinagar.\nDated the 21th January, 201,4.\nGujarat \nNo. KP/ 10 of 2014 /PRR/Lo2ota/77IKH:- tn exercise of the powers conferred by\nPanchayats\nAct' 1993' section 227 read with sub-section (5) of section 274 of the Gujarat panchayats\nAct, L993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the\nfollowing rules further to amend the MultiPurpose Health Worker (Male), Class\nlll, (Panchayat Service) Recruitment Rules, ZO1,L, namely:_\n1. \nThese rules may be called the MultiPurpose Health Worker (Male), Class lll,\n{Panchayat Service) Recruitment (Amendment) Rules, ZOL4.\n2. \nln the MultiPurpose Health Worker (Male), Class lll, Recruitment Rules, 201.L, in\nrule 3, for the clauses (a) and proviso thereunder, the following shall be substituted,\nnamely :-\n\"(a) not be less than j.8 years of age and not be more than 29 years of age:\nProvided that the upper age limit shall not be applicable in case of a candidate who\nis working as a Multi Purpose Health Worker (Male), Class lll, in the panchayat Service\neither on contract basis on fixed pay or on adhoc basis in regular pay scale on the date of\npublication of this notification and who possesses the qualiflcations as prescribed in\nclauses (b), (c) and (d) of this rule and who offers his candidature in respect of\nadvertisement which may be published in the year 201,4;,,.\nBy order and in the name of the Governor of Gujarat,\nB**6f,\nfuy\n-v\n(8,R. rb h.e3-* )\nUnder Secretary to Government.\nk.t-\nClUsets\\Admirilstiator\\Desktop\\NOTIFICATION \n2\\MultiPurpose Heulth lt'orker (Male), Ctass III.loc\n-t-",
+          "text_clean": "?!. .r--\nir }ltr-i :\ng1ti.\ndttbt..............r'-\" \" \" \" \" \" \"\nNOTIFICATION\nanchayayts, Rural Housing and Rural Development Department\nSach ivalaya, Gandhinagar.\nDated the 21th January, 201,4.\nGujarat \nNo. KP/ 10 of 2014 /PRR/Lo2ota/77IKH:- tn exercise of the powers conferred by\nPanchayats\nAct' 1993' section 227 read with sub-section (5) of section 274 of the Gujarat panchayats\nAct, L993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the\nfollowing rules further to amend the MultiPurpose Health Worker (Male), Class\nlll, (Panchayat Service) Recruitment Rules, ZO1,L, namely:_\n1. \nThese rules may be called the MultiPurpose Health Worker (Male), Class lll,\n{Panchayat Service) Recruitment (Amendment) Rules, ZOL4.\n2. \nln the MultiPurpose Health Worker (Male), Class lll, Recruitment Rules, 201.L, in\nrule 3, for the clauses (a) and proviso thereunder, the following shall be substituted,\nnamely :-\n\"(a) not be less than j.8 years of age and not be more than 29 years of age:\nProvided that the upper age limit shall not be applicable in case of a candidate who\nis working as a Multi Purpose Health Worker (Male), Class lll, in the panchayat Service\neither on contract basis on fixed pay or on adhoc basis in regular pay scale on the date of\npublication of this notification and who possesses the qualiflcations as prescribed in\nclauses (b), (c) and (d) of this rule and who offers his candidature in respect of\nadvertisement which may be published in the year 201,4;,,.\nBy order and in the name of the Governor of Gujarat,\nB**6f,\nfuy\n-v\n(8,R. rb h.e3-* )\nUnder Secretary to Government.\nk.t-\nClUsets\\Admirilstiator\\Desktop\\NOTIFICATION \n2\\MultiPurpose Heulth lt'orker (Male), Ctass III.loc\n-t-",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 612.47998046875,
+            "y1": 839.0399780273438,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-90decb_p1_c000",
+      "gr_id": "GAD-0000-90decb",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-90decb_p1_c001",
+      "gr_id": "GAD-0000-90decb",
+      "text": "?!. .r-- ir }ltr-i : g1ti. dttbt..............r'-\" \" \" \" \" \" \" NOTIFICATION anchayayts, Rural Housing and Rural Development Department Sach ivalaya, Gandhinagar. Dated the 21th January, 201,4. Gujarat No. KP/ 10 of 2014 /PRR/Lo2ota/77IKH:- tn exercise of the powers conferred by Panchayats Act' 1993' section 227 read with sub-section (5) of section 274 of the Gujarat panchayats Act, L993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the MultiPurpose Health Worker (Male), Class lll, (Panchayat Service) Recruitment Rules, ZO1,L, namely:_",
+      "text_clean": "?!. .r-- ir }ltr-i : g1ti. dttbt..............r'-\" \" \" \" \" \" \" NOTIFICATION anchayayts, Rural Housing and Rural Development Department Sach ivalaya, Gandhinagar. Dated the 21th January, 201,4. Gujarat No. KP/ 10 of 2014 /PRR/Lo2ota/77IKH:- tn exercise of the powers conferred by Panchayats Act' 1993' section 227 read with sub-section (5) of section 274 of the Gujarat panchayats Act, L993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the MultiPurpose Health Worker (Male), Class lll, (Panchayat Service) Recruitment Rules, ZO1,L, namely:_",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-90decb_p1_c002",
+      "gr_id": "GAD-0000-90decb",
+      "text": "1. These rules may be called the MultiPurpose Health Worker (Male), Class lll, {Panchayat Service) Recruitment (Amendment) Rules, ZOL4.",
+      "text_clean": "1. These rules may be called the MultiPurpose Health Worker (Male), Class lll, {Panchayat Service) Recruitment (Amendment) Rules, ZOL4.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-90decb_p1_c003",
+      "gr_id": "GAD-0000-90decb",
+      "text": "2. ln the MultiPurpose Health Worker (Male), Class lll, Recruitment Rules, 201.L, in rule 3, for the clauses (a) and proviso thereunder, the following shall be substituted, namely :- \"(a) not be less than j.8 years of age and not be more than 29 years of age: Provided that the upper age limit shall not be applicable in case of a candidate who is working as a Multi Purpose Health Worker (Male), Class lll, in the panchayat Service either on contract basis on fixed pay or on adhoc basis in regular pay scale on the date of publication of this notification and who possesses the qualiflcations as prescribed in clauses (b), (c) and (d) of this rule and who offers his candidature in respect of advertisement which may be published in the year 201,4;,,. By order and in the name of the Governor of Gujarat, B**6f, fuy -v (8,R. rb h.e3-* ) Under Secretary to Government. k.t- ClUsets\\Admirilstiator\\Desktop\\NOTIFICATION 2\\MultiPurpose Heulth lt'orker (Male), Ctass III.loc -t-",
+      "text_clean": "2. ln the MultiPurpose Health Worker (Male), Class lll, Recruitment Rules, 201.L, in rule 3, for the clauses (a) and proviso thereunder, the following shall be substituted, namely :- \"(a) not be less than j.8 years of age and not be more than 29 years of age: Provided that the upper age limit shall not be applicable in case of a candidate who is working as a Multi Purpose Health Worker (Male), Class lll, in the panchayat Service either on contract basis on fixed pay or on adhoc basis in regular pay scale on the date of publication of this notification and who possesses the qualiflcations as prescribed in clauses (b), (c) and (d) of this rule and who offers his candidature in respect of advertisement which may be published in the year 201,4;,,. By order and in the name of the Governor of Gujarat, B**6f, fuy -v (8,R. rb h.e3-* ) Under Secretary to Government. k.t- ClUsets\\Admirilstiator\\Desktop\\NOTIFICATION 2\\MultiPurpose Heulth lt'orker (Male), Ctass III.loc -t-",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "?!. .r--\nir }ltr-i :\ng1ti.\ndttbt..............r'-\" \" \" \" \" \" \"\nNOTIFICATION\nanchayayts, Rural Housing and Rural Development Department\nSach ivalaya, Gandhinagar.\nDated the 21th January, 201,4.\nGujarat \nNo. KP/ 10 of 2014 /PRR/Lo2ota/77IKH:- tn exercise of the powers conferred by\nPanchayats\nAct' 1993' section 227 read with sub-section (5) of section 274 of the Gujarat panchayats\nAct, L993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the\nfollowing rules further to amend the MultiPurpose Health Worker (Male), Class\nlll, (Panchayat Service) Recruitment Rules, ZO1,L, namely:_\n1. \nThese rules may be called the MultiPurpose Health Worker (Male), Class lll,\n{Panchayat Service) Recruitment (Amendment) Rules, ZOL4.\n2. \nln the MultiPurpose Health Worker (Male), Class lll, Recruitment Rules, 201.L, in\nrule 3, for the clauses (a) and proviso thereunder, the following shall be substituted,\nnamely :-\n\"(a) not be less than j.8 years of age and not be more than 29 years of age:\nProvided that the upper age limit shall not be applicable in case of a candidate who\nis working as a Multi Purpose Health Worker (Male), Class lll, in the panchayat Service\neither on contract basis on fixed pay or on adhoc basis in regular pay scale on the date of\npublication of this notification and who possesses the qualiflcations as prescribed in\nclauses (b), (c) and (d) of this rule and who offers his candidature in respect of\nadvertisement which may be published in the year 201,4;,,.\nBy order and in the name of the Governor of Gujarat,\nB**6f,\nfuy\n-v\n(8,R. rb h.e3-* )\nUnder Secretary to Government.\nk.t-\nClUsets\\Admirilstiator\\Desktop\\NOTIFICATION \n2\\MultiPurpose Heulth lt'orker (Male), Ctass III.loc\n-t-"
+}

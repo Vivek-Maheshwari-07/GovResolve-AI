@@ -1,0 +1,568 @@
+{
+  "gr_id": "HD-2018-032f5e",
+  "gr_number": "UNKNOWN",
+  "department": "Home Department",
+  "issue_date": "2018-10-10",
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "mixed",
+  "source_type": "scanned",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\government-resolutions\\G-Branch-Notification-10102018.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "scanned",
+      "ocr_confidence": 0.85,
+      "width": 595.2000122070312,
+      "height": 841.6799926757812,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગના સરકારી આખરી જાહેરનામું.\n\nક્રમાંક: KP/23 of 2018/ELC/102017/3785/G તા.૧૦/૧૦/૨૦૧૮ ની નકલ સાથે.\n\nક્રમાંક: ચટણ/૧૦૨૦૧૭/૩૭૮૫/ગ\n\nપંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ,\nસચિવાલય, ગાંધીનગર.\n\nતા:૨૭/૧૨/૨૦૧૮.\n\nજાણ તથા જરૂરી કાર્યવાહી અર્થે રવાના પ્રતિ,\n\nઅધિક મુખ્ય સચિવશ્રી, માન. મુખ્ય મંત્રીશ્રીનુ કાર્યાલય, સચિવાલય, ગાંધીનગર.\n\nસર્વે માન. મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.\n\nસર્વે માન. રાજ્યકક્ષા મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.\n\nસચિવશ્રી, રાજ્ય ચૂંટણી આયોગ, બ્લોક નં. ૯/૬, સચિવાલય, ગાંધીનગર.\n\nવિકાસ કમિશ્નરશ્રી, વિકાસ કમિશ્નર ની કચેરી, બ્લોક નં; ૧૬/૨, ડૉ. જીવરાજ મહેતા ભવન,\n\nગાંધીનગર.\n\n> સર્વે જિલ્લા કલેક્ટરશ્રીઓ.\nઆ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા મામલતદારશ્રીઓને પરિપત્ર કરવાની\nવિનંતી છે.\n\n, કે સર્વે જિલ્લા વિકાસ અધિકારીશ્રીઓ.\n\nઆ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા વિકાસ અધિકારીશ્રીઓને પરિપત્ર કરવાની\n\nVV VV WV\n\nનંતી છે.\nમ સચિવશ્રી (આઇ.ટી.શાખા), પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ.\nઆ જાહેરનામા વિભાગના વેબસાઇટ ઉપર અપલોડ કરવાના વ્યવસ્થા કરવા સારૂ.\n> સિલેક્ટ ફાઇલ - શાખા / ના.સે.અ.શ્રી.\n\n( આર.સી. સથવ્‌રા )\nઉપ સચિવ (સેવા),\nપંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ.\n",
+          "text_clean": "પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગના સરકારી આખરી જાહેરનામું.\n\nક્રમાંક: KP/23 of 2018/ELC/102017/3785/G તા.10/10/2018 ની નકલ સાથે.\n\nક્રમાંક: ચટણ/102017/3785/ગ\n\nપંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ,\nસચિવાલય, ગાંધીનગર.\n\nતા:27/12/2018.\n\nજાણ તથા જરૂરી કાર્યવાહી અર્થે રવાના પ્રતિ,\n\nઅધિક મુખ્ય સચિવશ્રી, માન. મુખ્ય મંત્રીશ્રીનુ કાર્યાલય, સચિવાલય, ગાંધીનગર.\n\nસર્વે માન. મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.\n\nસર્વે માન. રાજ્યકક્ષા મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.\n\nસચિવશ્રી, રાજ્ય ચૂંટણી આયોગ, બ્લોક નં. 9/6, સચિવાલય, ગાંધીનગર.\n\nવિકાસ કમિશ્નરશ્રી, વિકાસ કમિશ્નર ની કચેરી, બ્લોક નં; 16/2, ડૉ. જીવરાજ મહેતા ભવન,\n\nગાંધીનગર.\n\n> સર્વે જિલ્લા કલેક્ટરશ્રીઓ.\nઆ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા મામલતદારશ્રીઓને પરિપત્ર કરવાની\nવિનંતી છે.\n\n, કે સર્વે જિલ્લા વિકાસ અધિકારીશ્રીઓ.\n\nઆ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા વિકાસ અધિકારીશ્રીઓને પરિપત્ર કરવાની\n\nVV VV WV\n\nનંતી છે.\nમ સચિવશ્રી (આઇ.ટી.શાખા), પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ.\nઆ જાહેરનામા વિભાગના વેબસાઇટ ઉપર અપલોડ કરવાના વ્યવસ્થા કરવા સારૂ.\n> સિલેક્ટ ફાઇલ - શાખા / ના.સે.અ.શ્રી.\n\n( આર.સી. સથવ્‌રા )\nઉપ સચિવ (સેવા),\nપંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ.\n",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.2000122070312,
+            "y1": 841.6799926757812,
+            "page": 1
+          },
+          "ocr_confidence": 0.85
+        }
+      ]
+    },
+    {
+      "page_number": 2,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 595.2000122070312,
+      "height": 841.6799926757812,
+      "blocks": [
+        {
+          "block_id": "p2_b0",
+          "text": "I\nF'l,xtra No. 90\nqrN3 qc{t\"dlt't\\ €?'lt. Yoool-\nW,tlt Gulnult Gobernment @slettr\nEXTRAORDII\\ARY\nPUBLISHE,D BY AUTHORITY\nTrqts \"{dd\nVol. LIXI\nWEDNESDAY, OCTOBER 10, 2018/ ASVINA 18, 1940\nSeparate paging is given to this part in order that it may be filed as a Separate Compilation.\nPART I-A\nCENTRAL SECTION\nOrders and Notilications (Other than those published in Part IV-B)\nunder the Gujarat Local Boards, Village Panchayats, Municipal\nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts.\nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT\nORDER\nSachivalaya, Gandhin agar, 10ft October, 20i 8.\nGUJARAT PANCHAYAT ACT, 1993.\nNo. KP/23 of 2018/ELCll020l7l3785lG:- WHEREAS, certain draft of rules amending the Gujarat\nPanchayats Election Rules, 1994 were published as required by sub-section (5) of section 274 read\nwith sub-section (2) of section 15 of the Gujarat Panchayats Act, 1993 (Guj. i8 of 1993) at the\npages 53-1 to 53-2 of the Gujarat Government Gazette, Extraordinary, Part I-A, Central Section\ndated the 18th June, 2018, under the Govemment Notification, Panchayats, Rural Housing and Rural\nDevelopment Department No.KPll2 of 201818LC11020I713785/G, dated the 18e June, 2018,\ninviting objections and suggestions from all persons likely to be affected thereby, within a period of\nthirty days from the date of publication of the said draft notification in the Official Gazette;;\nAND WHEREAS, no objection or suggestion has been received by the Government in\nrespect to the said draft notification;\nNOW, THEREFORE, in exercise of the powers conferred by sub-section (1) of section 274\nread with sub-section (2) of section 15 of the Gujarat Panchayats Act,1993 (Guj. 18 of 1993), the\nGovemment of Gujarat hereby makes the following rules further to amend the Gujarat Panchayats\nElections Rules, 1994, namely:-\nI-A-Ex.-90\n90-1",
+          "text_clean": "I\nF'l,xtra No. 90\nqrN3 qc{t\"dlt't\\ €?'lt. Yoool-\nW,tlt Gulnult Gobernment @slettr\nEXTRAORDII\\ARY\nPUBLISHE,D BY AUTHORITY\nTrqts \"{dd\nVol. LIXI\nWEDNESDAY, OCTOBER 10, 2018/ ASVINA 18, 1940\nSeparate paging is given to this part in order that it may be filed as a Separate Compilation.\nPART I-A\nCENTRAL SECTION\nOrders and Notilications (Other than those published in Part IV-B)\nunder the Gujarat Local Boards, Village Panchayats, Municipal\nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts.\nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT\nORDER\nSachivalaya, Gandhin agar, 10ft October, 20i 8.\nGUJARAT PANCHAYAT ACT, 1993.\nNo. KP/23 of 2018/ELCll020l7l3785lG:- WHEREAS, certain draft of rules amending the Gujarat\nPanchayats Election Rules, 1994 were published as required by sub-section (5) of section 274 read\nwith sub-section (2) of section 15 of the Gujarat Panchayats Act, 1993 (Guj. i8 of 1993) at the\npages 53-1 to 53-2 of the Gujarat Government Gazette, Extraordinary, Part I-A, Central Section\ndated the 18th June, 2018, under the Govemment Notification, Panchayats, Rural Housing and Rural\nDevelopment Department No.KPll2 of 201818LC11020I713785/G, dated the 18e June, 2018,\ninviting objections and suggestions from all persons likely to be affected thereby, within a period of\nthirty days from the date of publication of the said draft notification in the Official Gazette;;\nAND WHEREAS, no objection or suggestion has been received by the Government in\nrespect to the said draft notification;\nNOW, THEREFORE, in exercise of the powers conferred by sub-section (1) of section 274\nread with sub-section (2) of section 15 of the Gujarat Panchayats Act,1993 (Guj. 18 of 1993), the\nGovemment of Gujarat hereby makes the following rules further to amend the Gujarat Panchayats\nElections Rules, 1994, namely:-\nI-A-Ex.-90\n90-1",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.2000122070312,
+            "y1": 841.6799926757812,
+            "page": 2
+          },
+          "ocr_confidence": null
+        }
+      ]
+    },
+    {
+      "page_number": 3,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 595.2000122070312,
+      "height": 841.6799926757812,
+      "blocks": [
+        {
+          "block_id": "p3_b0",
+          "text": "1. \nThesc rules may be called the Gujarat Panchayats Elcctions (Amendment) Rules,2018.\n2. \ntn the Gujarat Panchavats Elections Rules. 1994. in l'omr-4. in Part-i. fbr paragiaph.\n90-2\ncandidate's first name\nname\n-\n\\ \\ t--.\nGUJARATGoVERNMENTGAZETTE,E,x,,10-i0.20l8[PARTI-A\ni-alher's * iiit-riitei' r\n*husband's name _ \nser (irlalu i-1r felnaiei --- \n'/\nthe tcliorvrllq ll?tragraph: shaii bil 1l'1:jL'rtcti i'liii'nci',\n-'Candidate's Name\n''ln case of urale candidate. candidate s ilrst uame\n*fathers *mother's name\n\"ln case of female candidate, if married\ncandidate's lirst uame\nsLlrname\nsurnalne\nhusband's name\n+fathers *mother's\n+fathers *mother's\nsurname\nBy order and in the name of the Govemor of Gujarat,\nVANRAJSINH PADHARIYA,\nDeputy Secretary to Government.\ncandidate's maidcn first name\nname\nsurname\nln case of fernale candidate, if unmarried -\nGovernment Central Press, Gandhinagar.",
+          "text_clean": "1. \nThesc rules may be called the Gujarat Panchayats Elcctions (Amendment) Rules,2018.\n2. \ntn the Gujarat Panchavats Elections Rules. 1994. in l'omr-4. in Part-i. fbr paragiaph.\n90-2\ncandidate's first name\nname\n-\n\\ \\ t--.\nGUJARATGoVERNMENTGAZETTE,E,x,,10-i0.20l8[PARTI-A\ni-alher's * iiit-riitei' r\n*husband's name _ \nser (irlalu i-1r felnaiei --- \n'/\nthe tcliorvrllq ll?tragraph: shaii bil 1l'1:jL'rtcti i'liii'nci',\n-'Candidate's Name\n''ln case of urale candidate. candidate s ilrst uame\n*fathers *mother's name\n\"ln case of female candidate, if married\ncandidate's lirst uame\nsLlrname\nsurnalne\nhusband's name\n+fathers *mother's\n+fathers *mother's\nsurname\nBy order and in the name of the Govemor of Gujarat,\nVANRAJSINH PADHARIYA,\nDeputy Secretary to Government.\ncandidate's maidcn first name\nname\nsurname\nln case of fernale candidate, if unmarried -\nGovernment Central Press, Gandhinagar.",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.2000122070312,
+            "y1": 841.6799926757812,
+            "page": 3
+          },
+          "ocr_confidence": null
+        }
+      ]
+    },
+    {
+      "page_number": 4,
+      "source_type": "scanned",
+      "ocr_confidence": 0.85,
+      "width": 595.2000122070312,
+      "height": 841.6799926757812,
+      "blocks": [
+        {
+          "block_id": "p4_b0",
+          "text": "વાર્ષિક લવાજમનો દર 31.¥000/-\n\nPUBLISHED BY Y AUTHORUFY\nTHURSDAY, OCTOBER 25, 2018/KARTIKA 3, 1940\n\nSeparate paging is given to this Part in order that it may be filed as a Separate Compilation.\n\nPART IX\n\nGujarati translation of Bills, Acts and Notifications other than\nthose published in other parts.\n\nવૈધાનિક અને સંસદીય બાબતોનો વિભાગ\n\nસરદાર ભવન, સચિવાલય, ગાંધીનગર, રપમી ઓક્ટોબર, ૨૦૧૮\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં પ્રસિદ્ધ થયેલા ગુજરાત સરકારના પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ\nવિભાગના તારીખઃ ૧૦મી ઓક્ટોબર, ૨૦૧૮ના જાહેરનામા ક્રમાંકઃ કેપી/ર૦૧૮/નો ર૩/ઈએલસી/\n\n૧૦૨૦૧૭/૩૭૮૫/જી.- નો ગુજરાતી અનુવાદ આથી સર્વ લોકોની જાણ સારુ પ્રસિધ્ધ કર્યો છે.\n\nવી. એન. શેખ,\nસરકારના નાયબ સચિવ.\n\n_ TX Ex.-282 282-1\n",
+          "text_clean": "વાર્ષિક લવાજમનો દર 31.¥000/-\n\nPUBLISHED BY Y AUTHORUFY\nTHURSDAY, OCTOBER 25, 2018/KARTIKA 3, 1940\n\nSeparate paging is given to this Part in order that it may be filed as a Separate Compilation.\n\nPART IX\n\nGujarati translation of Bills, Acts and Notifications other than\nthose published in other parts.\n\nવૈધાનિક અને સંસદીય બાબતોનો વિભાગ\n\nસરદાર ભવન, સચિવાલય, ગાંધીનગર, રપમી ઓક્ટોબર, 2018\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં પ્રસિદ્ધ થયેલા ગુજરાત સરકારના પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ\nવિભાગના તારીખઃ 10મી ઓક્ટોબર, 2018ના જાહેરનામા ક્રમાંકઃ કેપી/ર018/નો ર3/ઈએલસી/\n\n102017/3785/જી.- નો ગુજરાતી અનુવાદ આથી સર્વ લોકોની જાણ સારુ પ્રસિધ્ધ કર્યો છે.\n\nવી. એન. શેખ,\nસરકારના નાયબ સચિવ.\n\n_ TX Ex.-282 282-1\n",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.2000122070312,
+            "y1": 841.6799926757812,
+            "page": 4
+          },
+          "ocr_confidence": 0.85
+        }
+      ]
+    },
+    {
+      "page_number": 5,
+      "source_type": "scanned",
+      "ocr_confidence": 0.85,
+      "width": 595.2000122070312,
+      "height": 841.6799926757812,
+      "blocks": [
+        {
+          "block_id": "p5_b0",
+          "text": "282-2 GUJARAT GOVERNMENT GAZETTE, EX., 25-10-2018 [ PART IX’\n\nNotification\nRegarding\nAmendment to the Gujarat Panchayats Elections Rules, 1994.\nગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪ સુધારવા સંબધી\nજાફેરનામું.\nપંચાયત, ગ્રામ ગૃહબિ્માણ અને ગ્રામ Masia વિભાગ,\nસચિવાલય, ગાંધીનગર.\nતારીખ:૧૦મી ઓક્ટોબર, ૨૦૧૮.\n\nગુજરાત પંચાયત અધિનિયમ, ૧૯૯૩.\nક્રમાંક: કેપી/૨૦૧૮નો૨૩/ઇએલસી/૧૦૨૦૧૭/૩૭૮૫/જી:- ગુજરાત પંચાયત અધિનિયમ, ૧૯૯૩ (સન\n૧૯૯૩ના ગુજરાતના ૧૮મા)ની કલમ ૧૫ની પેટા-કલમ (૨) સાથે વાંચતા, કલમ ૨૭૪ની પેટા-કલમ (૫)થી\nફરમાવ્યા પ્રમાણે, પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ વિભાગના તારીખ: ૧૮મી જૂન, ૨૦૧૮ના\nસરકારી જાહેરનામા ક્રમાંક: કેપી/૨૦૧૮નો૧૨/ઇએલસી/૧૦૨૦૧૭/૩૭૮૫/જી. હેઠળ, તેનાથી અસર\nથવાનો સંભવ હોય તેવી તમામ વ્યક્તિઓ પાસેથી, સદરહુ જાહેરનામાના મુસદ્દાની રાજપત્રમાં પ્રસિદ્ધિની તારીખથી\nત્રીસ દિવસની મુદતની અંદર, વાંધા અને સૂચનો મંગાવતો ગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪ સુધારતા\nનિયમોનો અમુક મુસદ્દો તારીખ: ૧૮મી જૂન, ૨૦૧૮ના ગુજરાત સરકારી રાજપત્ર, અસાધારણ, ભાગ-૧-એ,\nસેન્ટ્રલ સેક્શનમાં પાના ૫૩-૧ થી ૫૩-૨ ઉપર પ્રસિદ્ધ કર્યો હતો;\n\nઅને, સદરહુ જાહેરનામાના મુસદ્દાના સંબંધમાં સરકારને કોઇપણ વાંધો અથવા સૂચન મળેલ નથી;\n\nતેથી, હવે, ગુજરાત પંચાયત અધિનિયમ, ૧૯૯૩ (સન ૧૯૯૩ના ગુજરાતના ૧૮મા)ની કલમ ૧૫ની\nપેટા-કલમ (૨) સાથે વાંચતા, કલમ ૨૭૪ની પેટા-કલમ (૧)થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી,\nગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪ વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n૧. આ નિયમો ગુજરાત પંચાયત ચૂંટણી (સુધારા) નિયમો, ૨૦૧૮ કહેવાશે.\n૨. ગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪માં, નમૂના-૪માં, ભાગ-૧માં, “ઉમેદવારનું નામ\n*પિતા/માતા/પતિનું નામ જાતિ\n(પુરુષ અથવા સ્ત્રી) “એ પરિચ્છેદને બદલે, નીચેના પરિચ્છેદો દાખલ કરવા:-\n“પુરુષ ઉમેદવારના કિસ્સામાં, ઉમેદવારનું પ્રથમ નામ *પિતાનું/\n“માતાનું નામ અટક ”.\n\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, પરિણીત હોય તો-\n\nઉમેદવારનું પ્રથમ નામ પતિનું નામ\nઅટક\nસ્ત્રી ઉમેદવારનું લગ્ન પહેલાંનું પ્રથમ નામ *પિતાનું/ “માતાનું નામ\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, અપરિણીત હોય તો-\nઉમેદવારનું પ્રથધમનામ *પિતાનું/ *માતાનું નામ\nઅટક “\n\nગુજરાતના રાજ્યપાલના હુકમથી અને તેમના નામે,\n\nવનરાજસિંહ પઢારિયા,\nસરકારના નાયબ સચિવ.\n\nસરકારી મધ્યસ્થ મુદ્રણાલય, ગાંધીનગ૨.\n",
+          "text_clean": "282-2 GUJARAT GOVERNMENT GAZETTE, EX., 25-10-2018 [ PART IX’\n\nNotification\nRegarding\nAmendment to the Gujarat Panchayats Elections Rules, 1994.\nગુજરાત પંચાયત ચૂંટણી નિયમો, 1994 સુધારવા સંબધી\nજાફેરનામું.\nપંચાયત, ગ્રામ ગૃહબિ્માણ અને ગ્રામ Masia વિભાગ,\nસચિવાલય, ગાંધીનગર.\nતારીખ:10મી ઓક્ટોબર, 2018.\n\nગુજરાત પંચાયત અધિનિયમ, 1993.\nક્રમાંક: કેપી/2018નો23/ઇએલસી/102017/3785/જી:- ગુજરાત પંચાયત અધિનિયમ, 1993 (સન\n1993ના ગુજરાતના 18મા)ની કલમ 15ની પેટા-કલમ (2) સાથે વાંચતા, કલમ 274ની પેટા-કલમ (5)થી\nફરમાવ્યા પ્રમાણે, પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ વિભાગના તારીખ: 18મી જૂન, 2018ના\nસરકારી જાહેરનામા ક્રમાંક: કેપી/2018નો12/ઇએલસી/102017/3785/જી. હેઠળ, તેનાથી અસર\nથવાનો સંભવ હોય તેવી તમામ વ્યક્તિઓ પાસેથી, સદરહુ જાહેરનામાના મુસદ્દાની રાજપત્રમાં પ્રસિદ્ધિની તારીખથી\nત્રીસ દિવસની મુદતની અંદર, વાંધા અને સૂચનો મંગાવતો ગુજરાત પંચાયત ચૂંટણી નિયમો, 1994 સુધારતા\nનિયમોનો અમુક મુસદ્દો તારીખ: 18મી જૂન, 2018ના ગુજરાત સરકારી રાજપત્ર, અસાધારણ, ભાગ-1-એ,\nસેન્ટ્રલ સેક્શનમાં પાના 53-1 થી 53-2 ઉપર પ્રસિદ્ધ કર્યો હતો;\n\nઅને, સદરહુ જાહેરનામાના મુસદ્દાના સંબંધમાં સરકારને કોઇપણ વાંધો અથવા સૂચન મળેલ નથી;\n\nતેથી, હવે, ગુજરાત પંચાયત અધિનિયમ, 1993 (સન 1993ના ગુજરાતના 18મા)ની કલમ 15ની\nપેટા-કલમ (2) સાથે વાંચતા, કલમ 274ની પેટા-કલમ (1)થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી,\nગુજરાત પંચાયત ચૂંટણી નિયમો, 1994 વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n1. આ નિયમો ગુજરાત પંચાયત ચૂંટણી (સુધારા) નિયમો, 2018 કહેવાશે.\n2. ગુજરાત પંચાયત ચૂંટણી નિયમો, 1994માં, નમૂના-4માં, ભાગ-1માં, “ઉમેદવારનું નામ\n*પિતા/માતા/પતિનું નામ જાતિ\n(પુરુષ અથવા સ્ત્રી) “એ પરિચ્છેદને બદલે, નીચેના પરિચ્છેદો દાખલ કરવા:-\n“પુરુષ ઉમેદવારના કિસ્સામાં, ઉમેદવારનું પ્રથમ નામ *પિતાનું/\n“માતાનું નામ અટક ”.\n\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, પરિણીત હોય તો-\n\nઉમેદવારનું પ્રથમ નામ પતિનું નામ\nઅટક\nસ્ત્રી ઉમેદવારનું લગ્ન પહેલાંનું પ્રથમ નામ *પિતાનું/ “માતાનું નામ\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, અપરિણીત હોય તો-\nઉમેદવારનું પ્રથધમનામ *પિતાનું/ *માતાનું નામ\nઅટક “\n\nગુજરાતના રાજ્યપાલના હુકમથી અને તેમના નામે,\n\nવનરાજસિંહ પઢારિયા,\nસરકારના નાયબ સચિવ.\n\nસરકારી મધ્યસ્થ મુદ્રણાલય, ગાંધીનગ2.\n",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.2000122070312,
+            "y1": 841.6799926757812,
+            "page": 5
+          },
+          "ocr_confidence": 0.85
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c000",
+      "gr_id": "HD-2018-032f5e",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: 2018-10-10",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: 2018-10-10",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c001",
+      "gr_id": "HD-2018-032f5e",
+      "text": "પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગના સરકારી આખરી જાહેરનામું.",
+      "text_clean": "પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગના સરકારી આખરી જાહેરનામું.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c002",
+      "gr_id": "HD-2018-032f5e",
+      "text": "ક્રમાંક: KP/23 of 2018/ELC/102017/3785/G તા.૧૦/૧૦/૨૦૧૮ ની નકલ સાથે.",
+      "text_clean": "ક્રમાંક: KP/23 of 2018/ELC/102017/3785/G તા.10/10/2018 ની નકલ સાથે.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c003",
+      "gr_id": "HD-2018-032f5e",
+      "text": "ક્રમાંક: ચટણ/૧૦૨૦૧૭/૩૭૮૫/ગ",
+      "text_clean": "ક્રમાંક: ચટણ/102017/3785/ગ",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c004",
+      "gr_id": "HD-2018-032f5e",
+      "text": "પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ, સચિવાલય, ગાંધીનગર.",
+      "text_clean": "પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ, સચિવાલય, ગાંધીનગર.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c005",
+      "gr_id": "HD-2018-032f5e",
+      "text": "જાણ તથા જરૂરી કાર્યવાહી અર્થે રવાના પ્રતિ,",
+      "text_clean": "જાણ તથા જરૂરી કાર્યવાહી અર્થે રવાના પ્રતિ,",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c006",
+      "gr_id": "HD-2018-032f5e",
+      "text": "અધિક મુખ્ય સચિવશ્રી, માન. મુખ્ય મંત્રીશ્રીનુ કાર્યાલય, સચિવાલય, ગાંધીનગર.",
+      "text_clean": "અધિક મુખ્ય સચિવશ્રી, માન. મુખ્ય મંત્રીશ્રીનુ કાર્યાલય, સચિવાલય, ગાંધીનગર.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c007",
+      "gr_id": "HD-2018-032f5e",
+      "text": "સર્વે માન. મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.",
+      "text_clean": "સર્વે માન. મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c008",
+      "gr_id": "HD-2018-032f5e",
+      "text": "સર્વે માન. રાજ્યકક્ષા મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.",
+      "text_clean": "સર્વે માન. રાજ્યકક્ષા મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c009",
+      "gr_id": "HD-2018-032f5e",
+      "text": "સચિવશ્રી, રાજ્ય ચૂંટણી આયોગ, બ્લોક નં. ૯/૬, સચિવાલય, ગાંધીનગર.",
+      "text_clean": "સચિવશ્રી, રાજ્ય ચૂંટણી આયોગ, બ્લોક નં. 9/6, સચિવાલય, ગાંધીનગર.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c010",
+      "gr_id": "HD-2018-032f5e",
+      "text": "વિકાસ કમિશ્નરશ્રી, વિકાસ કમિશ્નર ની કચેરી, બ્લોક નં; ૧૬/૨, ડૉ. જીવરાજ મહેતા ભવન,",
+      "text_clean": "વિકાસ કમિશ્નરશ્રી, વિકાસ કમિશ્નર ની કચેરી, બ્લોક નં; 16/2, ડૉ. જીવરાજ મહેતા ભવન,",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c011",
+      "gr_id": "HD-2018-032f5e",
+      "text": "> સર્વે જિલ્લા કલેક્ટરશ્રીઓ. આ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા મામલતદારશ્રીઓને પરિપત્ર કરવાની વિનંતી છે.",
+      "text_clean": "> સર્વે જિલ્લા કલેક્ટરશ્રીઓ. આ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા મામલતદારશ્રીઓને પરિપત્ર કરવાની વિનંતી છે.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c012",
+      "gr_id": "HD-2018-032f5e",
+      "text": ", કે સર્વે જિલ્લા વિકાસ અધિકારીશ્રીઓ.",
+      "text_clean": ", કે સર્વે જિલ્લા વિકાસ અધિકારીશ્રીઓ.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c013",
+      "gr_id": "HD-2018-032f5e",
+      "text": "આ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા વિકાસ અધિકારીશ્રીઓને પરિપત્ર કરવાની",
+      "text_clean": "આ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા વિકાસ અધિકારીશ્રીઓને પરિપત્ર કરવાની",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c014",
+      "gr_id": "HD-2018-032f5e",
+      "text": "નંતી છે. મ સચિવશ્રી (આઇ.ટી.શાખા), પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ. આ જાહેરનામા વિભાગના વેબસાઇટ ઉપર અપલોડ કરવાના વ્યવસ્થા કરવા સારૂ. > સિલેક્ટ ફાઇલ - શાખા / ના.સે.અ.શ્રી.",
+      "text_clean": "નંતી છે. મ સચિવશ્રી (આઇ.ટી.શાખા), પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ. આ જાહેરનામા વિભાગના વેબસાઇટ ઉપર અપલોડ કરવાના વ્યવસ્થા કરવા સારૂ. > સિલેક્ટ ફાઇલ - શાખા / ના.સે.અ.શ્રી.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p1_c015",
+      "gr_id": "HD-2018-032f5e",
+      "text": "( આર.સી. સથવ્‌રા ) ઉપ સચિવ (સેવા), પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ.",
+      "text_clean": "( આર.સી. સથવ્‌રા ) ઉપ સચિવ (સેવા), પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p2_c016",
+      "gr_id": "HD-2018-032f5e",
+      "text": "I\nF'l,xtra No. 90\nqrN3 qc{t\"dlt't\\ €?'lt. Yoool-\nW,tlt Gulnult Gobernment @slettr\nEXTRAORDII\\ARY\nPUBLISHE,D BY AUTHORITY\nTrqts \"{dd\nVol. LIXI\nWEDNESDAY, OCTOBER 10, 2018/ ASVINA 18, 1940\nSeparate paging is given to this part in order that it may be filed as a Separate Compilation.\nPART I-A\nCENTRAL SECTION\nOrders and Notilications (Other than those published in Part IV-B)\nunder the Gujarat Local Boards, Village Panchayats, Municipal\nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts.\nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT\nORDER\nSachivalaya, Gandhin agar, 10ft October, 20i 8.\nGUJARAT PANCHAYAT ACT, 1993.\nNo. KP/23 of 2018/ELCll020l7l3785lG:- WHEREAS, certain draft of rules amending the Gujarat\nPanchayats Election Rules, 1994 were published as required by sub-section (5) of section 274 read\nwith sub-section (2) of section 15 of the Gujarat Panchayats Act, 1993 (Guj. i8 of 1993) at the\npages 53-1 to 53-2 of the Gujarat Government Gazette, Extraordinary, Part I-A, Central Section\ndated the 18th June, 2018, under the Govemment Notification, Panchayats, Rural Housing and Rural\nDevelopment Department No.KPll2 of 201818LC11020I713785/G, dated the 18e June, 2018,\ninviting objections and suggestions from all persons likely to be affected thereby, within a period of\nthirty days from the date of publication of the said draft notification in the Official Gazette;;\nAND WHEREAS, no objection or suggestion has been received by the Government in\nrespect to the said draft notification;\nNOW, THEREFORE, in exercise of the powers conferred by sub-section (1) of section 274\nread with sub-section (2) of section 15 of the Gujarat Panchayats Act,1993 (Guj. 18 of 1993), the\nGovemment of Gujarat hereby makes the following rules further to amend the Gujarat Panchayats\nElections Rules, 1994, namely:-\nI-A-Ex.-90\n90-1",
+      "text_clean": "I\nF'l,xtra No. 90\nqrN3 qc{t\"dlt't\\ €?'lt. Yoool-\nW,tlt Gulnult Gobernment @slettr\nEXTRAORDII\\ARY\nPUBLISHE,D BY AUTHORITY\nTrqts \"{dd\nVol. LIXI\nWEDNESDAY, OCTOBER 10, 2018/ ASVINA 18, 1940\nSeparate paging is given to this part in order that it may be filed as a Separate Compilation.\nPART I-A\nCENTRAL SECTION\nOrders and Notilications (Other than those published in Part IV-B)\nunder the Gujarat Local Boards, Village Panchayats, Municipal\nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts.\nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT\nORDER\nSachivalaya, Gandhin agar, 10ft October, 20i 8.\nGUJARAT PANCHAYAT ACT, 1993.\nNo. KP/23 of 2018/ELCll020l7l3785lG:- WHEREAS, certain draft of rules amending the Gujarat\nPanchayats Election Rules, 1994 were published as required by sub-section (5) of section 274 read\nwith sub-section (2) of section 15 of the Gujarat Panchayats Act, 1993 (Guj. i8 of 1993) at the\npages 53-1 to 53-2 of the Gujarat Government Gazette, Extraordinary, Part I-A, Central Section\ndated the 18th June, 2018, under the Govemment Notification, Panchayats, Rural Housing and Rural\nDevelopment Department No.KPll2 of 201818LC11020I713785/G, dated the 18e June, 2018,\ninviting objections and suggestions from all persons likely to be affected thereby, within a period of\nthirty days from the date of publication of the said draft notification in the Official Gazette;;\nAND WHEREAS, no objection or suggestion has been received by the Government in\nrespect to the said draft notification;\nNOW, THEREFORE, in exercise of the powers conferred by sub-section (1) of section 274\nread with sub-section (2) of section 15 of the Gujarat Panchayats Act,1993 (Guj. 18 of 1993), the\nGovemment of Gujarat hereby makes the following rules further to amend the Gujarat Panchayats\nElections Rules, 1994, namely:-\nI-A-Ex.-90\n90-1",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 700.0,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p3_c017",
+      "gr_id": "HD-2018-032f5e",
+      "text": "1. \nThesc rules may be called the Gujarat Panchayats Elcctions (Amendment) Rules,2018.\n2. \ntn the Gujarat Panchavats Elections Rules. 1994. in l'omr-4. in Part-i. fbr paragiaph.\n90-2\ncandidate's first name\nname\n-\n\\ \\ t--.\nGUJARATGoVERNMENTGAZETTE,E,x,,10-i0.20l8[PARTI-A\ni-alher's * iiit-riitei' r\n*husband's name _ \nser (irlalu i-1r felnaiei --- \n'/\nthe tcliorvrllq ll?tragraph: shaii bil 1l'1:jL'rtcti i'liii'nci',\n-'Candidate's Name\n''ln case of urale candidate. candidate s ilrst uame\n*fathers *mother's name\n\"ln case of female candidate, if married\ncandidate's lirst uame\nsLlrname\nsurnalne\nhusband's name\n+fathers *mother's\n+fathers *mother's\nsurname\nBy order and in the name of the Govemor of Gujarat,\nVANRAJSINH PADHARIYA,\nDeputy Secretary to Government.\ncandidate's maidcn first name\nname\nsurname\nln case of fernale candidate, if unmarried -\nGovernment Central Press, Gandhinagar.",
+      "text_clean": "1. \nThesc rules may be called the Gujarat Panchayats Elcctions (Amendment) Rules,2018.\n2. \ntn the Gujarat Panchavats Elections Rules. 1994. in l'omr-4. in Part-i. fbr paragiaph.\n90-2\ncandidate's first name\nname\n-\n\\ \\ t--.\nGUJARATGoVERNMENTGAZETTE,E,x,,10-i0.20l8[PARTI-A\ni-alher's * iiit-riitei' r\n*husband's name _ \nser (irlalu i-1r felnaiei --- \n'/\nthe tcliorvrllq ll?tragraph: shaii bil 1l'1:jL'rtcti i'liii'nci',\n-'Candidate's Name\n''ln case of urale candidate. candidate s ilrst uame\n*fathers *mother's name\n\"ln case of female candidate, if married\ncandidate's lirst uame\nsLlrname\nsurnalne\nhusband's name\n+fathers *mother's\n+fathers *mother's\nsurname\nBy order and in the name of the Govemor of Gujarat,\nVANRAJSINH PADHARIYA,\nDeputy Secretary to Government.\ncandidate's maidcn first name\nname\nsurname\nln case of fernale candidate, if unmarried -\nGovernment Central Press, Gandhinagar.",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 700.0,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p4_c018",
+      "gr_id": "HD-2018-032f5e",
+      "text": "વાર્ષિક લવાજમનો દર 31.¥000/-\n\nPUBLISHED BY Y AUTHORUFY\nTHURSDAY, OCTOBER 25, 2018/KARTIKA 3, 1940\n\nSeparate paging is given to this Part in order that it may be filed as a Separate Compilation.\n\nPART IX\n\nGujarati translation of Bills, Acts and Notifications other than\nthose published in other parts.\n\nવૈધાનિક અને સંસદીય બાબતોનો વિભાગ\n\nસરદાર ભવન, સચિવાલય, ગાંધીનગર, રપમી ઓક્ટોબર, ૨૦૧૮\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં પ્રસિદ્ધ થયેલા ગુજરાત સરકારના પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ\nવિભાગના તારીખઃ ૧૦મી ઓક્ટોબર, ૨૦૧૮ના જાહેરનામા ક્રમાંકઃ કેપી/ર૦૧૮/નો ર૩/ઈએલસી/\n\n૧૦૨૦૧૭/૩૭૮૫/જી.- નો ગુજરાતી અનુવાદ આથી સર્વ લોકોની જાણ સારુ પ્રસિધ્ધ કર્યો છે.\n\nવી. એન. શેખ,\nસરકારના નાયબ સચિવ.\n\n_ TX Ex.-282 282-1",
+      "text_clean": "વાર્ષિક લવાજમનો દર 31.¥000/-\n\nPUBLISHED BY Y AUTHORUFY\nTHURSDAY, OCTOBER 25, 2018/KARTIKA 3, 1940\n\nSeparate paging is given to this Part in order that it may be filed as a Separate Compilation.\n\nPART IX\n\nGujarati translation of Bills, Acts and Notifications other than\nthose published in other parts.\n\nવૈધાનિક અને સંસદીય બાબતોનો વિભાગ\n\nસરદાર ભવન, સચિવાલય, ગાંધીનગર, રપમી ઓક્ટોબર, 2018\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં પ્રસિદ્ધ થયેલા ગુજરાત સરકારના પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ\nવિભાગના તારીખઃ 10મી ઓક્ટોબર, 2018ના જાહેરનામા ક્રમાંકઃ કેપી/ર018/નો ર3/ઈએલસી/\n\n102017/3785/જી.- નો ગુજરાતી અનુવાદ આથી સર્વ લોકોની જાણ સારુ પ્રસિધ્ધ કર્યો છે.\n\nવી. એન. શેખ,\nસરકારના નાયબ સચિવ.\n\n_ TX Ex.-282 282-1",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 700.0,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "HD-2018-032f5e_p5_c019",
+      "gr_id": "HD-2018-032f5e",
+      "text": "282-2 GUJARAT GOVERNMENT GAZETTE, EX., 25-10-2018 [ PART IX’\n\nNotification\nRegarding\nAmendment to the Gujarat Panchayats Elections Rules, 1994.\nગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪ સુધારવા સંબધી\nજાફેરનામું.\nપંચાયત, ગ્રામ ગૃહબિ્માણ અને ગ્રામ Masia વિભાગ,\nસચિવાલય, ગાંધીનગર.\nતારીખ:૧૦મી ઓક્ટોબર, ૨૦૧૮.\n\nગુજરાત પંચાયત અધિનિયમ, ૧૯૯૩.\nક્રમાંક: કેપી/૨૦૧૮નો૨૩/ઇએલસી/૧૦૨૦૧૭/૩૭૮૫/જી:- ગુજરાત પંચાયત અધિનિયમ, ૧૯૯૩ (સન\n૧૯૯૩ના ગુજરાતના ૧૮મા)ની કલમ ૧૫ની પેટા-કલમ (૨) સાથે વાંચતા, કલમ ૨૭૪ની પેટા-કલમ (૫)થી\nફરમાવ્યા પ્રમાણે, પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ વિભાગના તારીખ: ૧૮મી જૂન, ૨૦૧૮ના\nસરકારી જાહેરનામા ક્રમાંક: કેપી/૨૦૧૮નો૧૨/ઇએલસી/૧૦૨૦૧૭/૩૭૮૫/જી. હેઠળ, તેનાથી અસર\nથવાનો સંભવ હોય તેવી તમામ વ્યક્તિઓ પાસેથી, સદરહુ જાહેરનામાના મુસદ્દાની રાજપત્રમાં પ્રસિદ્ધિની તારીખથી\nત્રીસ દિવસની મુદતની અંદર, વાંધા અને સૂચનો મંગાવતો ગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪ સુધારતા\nનિયમોનો અમુક મુસદ્દો તારીખ: ૧૮મી જૂન, ૨૦૧૮ના ગુજરાત સરકારી રાજપત્ર, અસાધારણ, ભાગ-૧-એ,\nસેન્ટ્રલ સેક્શનમાં પાના ૫૩-૧ થી ૫૩-૨ ઉપર પ્રસિદ્ધ કર્યો હતો;\n\nઅને, સદરહુ જાહેરનામાના મુસદ્દાના સંબંધમાં સરકારને કોઇપણ વાંધો અથવા સૂચન મળેલ નથી;\n\nતેથી, હવે, ગુજરાત પંચાયત અધિનિયમ, ૧૯૯૩ (સન ૧૯૯૩ના ગુજરાતના ૧૮મા)ની કલમ ૧૫ની\nપેટા-કલમ (૨) સાથે વાંચતા, કલમ ૨૭૪ની પેટા-કલમ (૧)થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી,\nગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪ વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n૧. આ નિયમો ગુજરાત પંચાયત ચૂંટણી (સુધારા) નિયમો, ૨૦૧૮ કહેવાશે.\n૨. ગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪માં, નમૂના-૪માં, ભાગ-૧માં, “ઉમેદવારનું નામ\n*પિતા/માતા/પતિનું નામ જાતિ\n(પુરુષ અથવા સ્ત્રી) “એ પરિચ્છેદને બદલે, નીચેના પરિચ્છેદો દાખલ કરવા:-\n“પુરુષ ઉમેદવારના કિસ્સામાં, ઉમેદવારનું પ્રથમ નામ *પિતાનું/\n“માતાનું નામ અટક ”.\n\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, પરિણીત હોય તો-\n\nઉમેદવારનું પ્રથમ નામ પતિનું નામ\nઅટક\nસ્ત્રી ઉમેદવારનું લગ્ન પહેલાંનું પ્રથમ નામ *પિતાનું/ “માતાનું નામ\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, અપરિણીત હોય તો-\nઉમેદવારનું પ્રથધમનામ *પિતાનું/ *માતાનું નામ\nઅટક “\n\nગુજરાતના રાજ્યપાલના હુકમથી અને તેમના નામે,\n\nવનરાજસિંહ પઢારિયા,\nસરકારના નાયબ સચિવ.\n\nસરકારી મધ્યસ્થ મુદ્રણાલય, ગાંધીનગ૨.",
+      "text_clean": "282-2 GUJARAT GOVERNMENT GAZETTE, EX., 25-10-2018 [ PART IX’\n\nNotification\nRegarding\nAmendment to the Gujarat Panchayats Elections Rules, 1994.\nગુજરાત પંચાયત ચૂંટણી નિયમો, 1994 સુધારવા સંબધી\nજાફેરનામું.\nપંચાયત, ગ્રામ ગૃહબિ્માણ અને ગ્રામ Masia વિભાગ,\nસચિવાલય, ગાંધીનગર.\nતારીખ:10મી ઓક્ટોબર, 2018.\n\nગુજરાત પંચાયત અધિનિયમ, 1993.\nક્રમાંક: કેપી/2018નો23/ઇએલસી/102017/3785/જી:- ગુજરાત પંચાયત અધિનિયમ, 1993 (સન\n1993ના ગુજરાતના 18મા)ની કલમ 15ની પેટા-કલમ (2) સાથે વાંચતા, કલમ 274ની પેટા-કલમ (5)થી\nફરમાવ્યા પ્રમાણે, પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ વિભાગના તારીખ: 18મી જૂન, 2018ના\nસરકારી જાહેરનામા ક્રમાંક: કેપી/2018નો12/ઇએલસી/102017/3785/જી. હેઠળ, તેનાથી અસર\nથવાનો સંભવ હોય તેવી તમામ વ્યક્તિઓ પાસેથી, સદરહુ જાહેરનામાના મુસદ્દાની રાજપત્રમાં પ્રસિદ્ધિની તારીખથી\nત્રીસ દિવસની મુદતની અંદર, વાંધા અને સૂચનો મંગાવતો ગુજરાત પંચાયત ચૂંટણી નિયમો, 1994 સુધારતા\nનિયમોનો અમુક મુસદ્દો તારીખ: 18મી જૂન, 2018ના ગુજરાત સરકારી રાજપત્ર, અસાધારણ, ભાગ-1-એ,\nસેન્ટ્રલ સેક્શનમાં પાના 53-1 થી 53-2 ઉપર પ્રસિદ્ધ કર્યો હતો;\n\nઅને, સદરહુ જાહેરનામાના મુસદ્દાના સંબંધમાં સરકારને કોઇપણ વાંધો અથવા સૂચન મળેલ નથી;\n\nતેથી, હવે, ગુજરાત પંચાયત અધિનિયમ, 1993 (સન 1993ના ગુજરાતના 18મા)ની કલમ 15ની\nપેટા-કલમ (2) સાથે વાંચતા, કલમ 274ની પેટા-કલમ (1)થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી,\nગુજરાત પંચાયત ચૂંટણી નિયમો, 1994 વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n1. આ નિયમો ગુજરાત પંચાયત ચૂંટણી (સુધારા) નિયમો, 2018 કહેવાશે.\n2. ગુજરાત પંચાયત ચૂંટણી નિયમો, 1994માં, નમૂના-4માં, ભાગ-1માં, “ઉમેદવારનું નામ\n*પિતા/માતા/પતિનું નામ જાતિ\n(પુરુષ અથવા સ્ત્રી) “એ પરિચ્છેદને બદલે, નીચેના પરિચ્છેદો દાખલ કરવા:-\n“પુરુષ ઉમેદવારના કિસ્સામાં, ઉમેદવારનું પ્રથમ નામ *પિતાનું/\n“માતાનું નામ અટક ”.\n\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, પરિણીત હોય તો-\n\nઉમેદવારનું પ્રથમ નામ પતિનું નામ\nઅટક\nસ્ત્રી ઉમેદવારનું લગ્ન પહેલાંનું પ્રથમ નામ *પિતાનું/ “માતાનું નામ\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, અપરિણીત હોય તો-\nઉમેદવારનું પ્રથધમનામ *પિતાનું/ *માતાનું નામ\nઅટક “\n\nગુજરાતના રાજ્યપાલના હુકમથી અને તેમના નામે,\n\nવનરાજસિંહ પઢારિયા,\nસરકારના નાયબ સચિવ.\n\nસરકારી મધ્યસ્થ મુદ્રણાલય, ગાંધીનગ2.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 700.0,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગના સરકારી આખરી જાહેરનામું.\n\nક્રમાંક: KP/23 of 2018/ELC/102017/3785/G તા.૧૦/૧૦/૨૦૧૮ ની નકલ સાથે.\n\nક્રમાંક: ચટણ/૧૦૨૦૧૭/૩૭૮૫/ગ\n\nપંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ,\nસચિવાલય, ગાંધીનગર.\n\nતા:૨૭/૧૨/૨૦૧૮.\n\nજાણ તથા જરૂરી કાર્યવાહી અર્થે રવાના પ્રતિ,\n\nઅધિક મુખ્ય સચિવશ્રી, માન. મુખ્ય મંત્રીશ્રીનુ કાર્યાલય, સચિવાલય, ગાંધીનગર.\n\nસર્વે માન. મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.\n\nસર્વે માન. રાજ્યકક્ષા મંત્રીશ્રીના અંગત સચિવશ્રીઓ, સચિવાલય, ગાંધીનગર.\n\nસચિવશ્રી, રાજ્ય ચૂંટણી આયોગ, બ્લોક નં. ૯/૬, સચિવાલય, ગાંધીનગર.\n\nવિકાસ કમિશ્નરશ્રી, વિકાસ કમિશ્નર ની કચેરી, બ્લોક નં; ૧૬/૨, ડૉ. જીવરાજ મહેતા ભવન,\n\nગાંધીનગર.\n\n> સર્વે જિલ્લા કલેક્ટરશ્રીઓ.\nઆ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા મામલતદારશ્રીઓને પરિપત્ર કરવાની\nવિનંતી છે.\n\n, કે સર્વે જિલ્લા વિકાસ અધિકારીશ્રીઓ.\n\nઆ જાહેરનામાની પુરતી નકલો કરાવી તાલુકા વિકાસ અધિકારીશ્રીઓને પરિપત્ર કરવાની\n\nVV VV WV\n\nનંતી છે.\nમ સચિવશ્રી (આઇ.ટી.શાખા), પંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ.\nઆ જાહેરનામા વિભાગના વેબસાઇટ ઉપર અપલોડ કરવાના વ્યવસ્થા કરવા સારૂ.\n> સિલેક્ટ ફાઇલ - શાખા / ના.સે.અ.શ્રી.\n\n( આર.સી. સથવ્‌રા )\nઉપ સચિવ (સેવા),\nપંચાયત, ગ્રામ ગૃહ નિર્માણ અને ગ્રામ વિકાસ વિભાગ.\n\n\nI\nF'l,xtra No. 90\nqrN3 qc{t\"dlt't\\ €?'lt. Yoool-\nW,tlt Gulnult Gobernment @slettr\nEXTRAORDII\\ARY\nPUBLISHE,D BY AUTHORITY\nTrqts \"{dd\nVol. LIXI\nWEDNESDAY, OCTOBER 10, 2018/ ASVINA 18, 1940\nSeparate paging is given to this part in order that it may be filed as a Separate Compilation.\nPART I-A\nCENTRAL SECTION\nOrders and Notilications (Other than those published in Part IV-B)\nunder the Gujarat Local Boards, Village Panchayats, Municipal\nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts.\nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT\nORDER\nSachivalaya, Gandhin agar, 10ft October, 20i 8.\nGUJARAT PANCHAYAT ACT, 1993.\nNo. KP/23 of 2018/ELCll020l7l3785lG:- WHEREAS, certain draft of rules amending the Gujarat\nPanchayats Election Rules, 1994 were published as required by sub-section (5) of section 274 read\nwith sub-section (2) of section 15 of the Gujarat Panchayats Act, 1993 (Guj. i8 of 1993) at the\npages 53-1 to 53-2 of the Gujarat Government Gazette, Extraordinary, Part I-A, Central Section\ndated the 18th June, 2018, under the Govemment Notification, Panchayats, Rural Housing and Rural\nDevelopment Department No.KPll2 of 201818LC11020I713785/G, dated the 18e June, 2018,\ninviting objections and suggestions from all persons likely to be affected thereby, within a period of\nthirty days from the date of publication of the said draft notification in the Official Gazette;;\nAND WHEREAS, no objection or suggestion has been received by the Government in\nrespect to the said draft notification;\nNOW, THEREFORE, in exercise of the powers conferred by sub-section (1) of section 274\nread with sub-section (2) of section 15 of the Gujarat Panchayats Act,1993 (Guj. 18 of 1993), the\nGovemment of Gujarat hereby makes the following rules further to amend the Gujarat Panchayats\nElections Rules, 1994, namely:-\nI-A-Ex.-90\n90-1\n\n1. \nThesc rules may be called the Gujarat Panchayats Elcctions (Amendment) Rules,2018.\n2. \ntn the Gujarat Panchavats Elections Rules. 1994. in l'omr-4. in Part-i. fbr paragiaph.\n90-2\ncandidate's first name\nname\n-\n\\ \\ t--.\nGUJARATGoVERNMENTGAZETTE,E,x,,10-i0.20l8[PARTI-A\ni-alher's * iiit-riitei' r\n*husband's name _ \nser (irlalu i-1r felnaiei --- \n'/\nthe tcliorvrllq ll?tragraph: shaii bil 1l'1:jL'rtcti i'liii'nci',\n-'Candidate's Name\n''ln case of urale candidate. candidate s ilrst uame\n*fathers *mother's name\n\"ln case of female candidate, if married\ncandidate's lirst uame\nsLlrname\nsurnalne\nhusband's name\n+fathers *mother's\n+fathers *mother's\nsurname\nBy order and in the name of the Govemor of Gujarat,\nVANRAJSINH PADHARIYA,\nDeputy Secretary to Government.\ncandidate's maidcn first name\nname\nsurname\nln case of fernale candidate, if unmarried -\nGovernment Central Press, Gandhinagar.\n\nવાર્ષિક લવાજમનો દર 31.¥000/-\n\nPUBLISHED BY Y AUTHORUFY\nTHURSDAY, OCTOBER 25, 2018/KARTIKA 3, 1940\n\nSeparate paging is given to this Part in order that it may be filed as a Separate Compilation.\n\nPART IX\n\nGujarati translation of Bills, Acts and Notifications other than\nthose published in other parts.\n\nવૈધાનિક અને સંસદીય બાબતોનો વિભાગ\n\nસરદાર ભવન, સચિવાલય, ગાંધીનગર, રપમી ઓક્ટોબર, ૨૦૧૮\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં પ્રસિદ્ધ થયેલા ગુજરાત સરકારના પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ\nવિભાગના તારીખઃ ૧૦મી ઓક્ટોબર, ૨૦૧૮ના જાહેરનામા ક્રમાંકઃ કેપી/ર૦૧૮/નો ર૩/ઈએલસી/\n\n૧૦૨૦૧૭/૩૭૮૫/જી.- નો ગુજરાતી અનુવાદ આથી સર્વ લોકોની જાણ સારુ પ્રસિધ્ધ કર્યો છે.\n\nવી. એન. શેખ,\nસરકારના નાયબ સચિવ.\n\n_ TX Ex.-282 282-1\n\n\n282-2 GUJARAT GOVERNMENT GAZETTE, EX., 25-10-2018 [ PART IX’\n\nNotification\nRegarding\nAmendment to the Gujarat Panchayats Elections Rules, 1994.\nગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪ સુધારવા સંબધી\nજાફેરનામું.\nપંચાયત, ગ્રામ ગૃહબિ્માણ અને ગ્રામ Masia વિભાગ,\nસચિવાલય, ગાંધીનગર.\nતારીખ:૧૦મી ઓક્ટોબર, ૨૦૧૮.\n\nગુજરાત પંચાયત અધિનિયમ, ૧૯૯૩.\nક્રમાંક: કેપી/૨૦૧૮નો૨૩/ઇએલસી/૧૦૨૦૧૭/૩૭૮૫/જી:- ગુજરાત પંચાયત અધિનિયમ, ૧૯૯૩ (સન\n૧૯૯૩ના ગુજરાતના ૧૮મા)ની કલમ ૧૫ની પેટા-કલમ (૨) સાથે વાંચતા, કલમ ૨૭૪ની પેટા-કલમ (૫)થી\nફરમાવ્યા પ્રમાણે, પંચાયત, ગ્રામ ગૃહનિર્માણ અને ગ્રામ વિકાસ વિભાગના તારીખ: ૧૮મી જૂન, ૨૦૧૮ના\nસરકારી જાહેરનામા ક્રમાંક: કેપી/૨૦૧૮નો૧૨/ઇએલસી/૧૦૨૦૧૭/૩૭૮૫/જી. હેઠળ, તેનાથી અસર\nથવાનો સંભવ હોય તેવી તમામ વ્યક્તિઓ પાસેથી, સદરહુ જાહેરનામાના મુસદ્દાની રાજપત્રમાં પ્રસિદ્ધિની તારીખથી\nત્રીસ દિવસની મુદતની અંદર, વાંધા અને સૂચનો મંગાવતો ગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪ સુધારતા\nનિયમોનો અમુક મુસદ્દો તારીખ: ૧૮મી જૂન, ૨૦૧૮ના ગુજરાત સરકારી રાજપત્ર, અસાધારણ, ભાગ-૧-એ,\nસેન્ટ્રલ સેક્શનમાં પાના ૫૩-૧ થી ૫૩-૨ ઉપર પ્રસિદ્ધ કર્યો હતો;\n\nઅને, સદરહુ જાહેરનામાના મુસદ્દાના સંબંધમાં સરકારને કોઇપણ વાંધો અથવા સૂચન મળેલ નથી;\n\nતેથી, હવે, ગુજરાત પંચાયત અધિનિયમ, ૧૯૯૩ (સન ૧૯૯૩ના ગુજરાતના ૧૮મા)ની કલમ ૧૫ની\nપેટા-કલમ (૨) સાથે વાંચતા, કલમ ૨૭૪ની પેટા-કલમ (૧)થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી,\nગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪ વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n૧. આ નિયમો ગુજરાત પંચાયત ચૂંટણી (સુધારા) નિયમો, ૨૦૧૮ કહેવાશે.\n૨. ગુજરાત પંચાયત ચૂંટણી નિયમો, ૧૯૯૪માં, નમૂના-૪માં, ભાગ-૧માં, “ઉમેદવારનું નામ\n*પિતા/માતા/પતિનું નામ જાતિ\n(પુરુષ અથવા સ્ત્રી) “એ પરિચ્છેદને બદલે, નીચેના પરિચ્છેદો દાખલ કરવા:-\n“પુરુષ ઉમેદવારના કિસ્સામાં, ઉમેદવારનું પ્રથમ નામ *પિતાનું/\n“માતાનું નામ અટક ”.\n\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, પરિણીત હોય તો-\n\nઉમેદવારનું પ્રથમ નામ પતિનું નામ\nઅટક\nસ્ત્રી ઉમેદવારનું લગ્ન પહેલાંનું પ્રથમ નામ *પિતાનું/ “માતાનું નામ\n“સ્ત્રી ઉમેદવારના કિસ્સામાં, અપરિણીત હોય તો-\nઉમેદવારનું પ્રથધમનામ *પિતાનું/ *માતાનું નામ\nઅટક “\n\nગુજરાતના રાજ્યપાલના હુકમથી અને તેમના નામે,\n\nવનરાજસિંહ પઢારિયા,\nસરકારના નાયબ સચિવ.\n\nસરકારી મધ્યસ્થ મુદ્રણાલય, ગાંધીનગ૨.\n"
+}

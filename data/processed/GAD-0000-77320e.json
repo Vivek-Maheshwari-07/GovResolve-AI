@@ -1,0 +1,172 @@
+{
+  "gr_id": "GAD-0000-77320e",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\government-resolutions\\1_1834_1_NOTIFICATON-US-RR-271115.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 595.3200073242188,
+      "height": 841.9199829101562,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "NOTIFICATION \nGeneral Administration Department \nSachivalaya, Gandhinagar \nDated the 27th November, 2015 \n \nNo.GS/41-2015/SCV/102008/197350/G2 Cell:- In exercise of the powers \nconferred by the proviso to article 309 of the Constitution of India, the \nGovernor of Gujarat hereby makes the following rules further to amend \nthe Under Secretary, Class I, in the Gujarat Secretariat Service, \nRecruitment Rules, 2012, namely :- \n \n1. \nThese rules may be called the Under Secretary, Class I, in the Gujarat \nSecretariat Service, Recruitment (Amendment) Rules, 2015. \n \n2. \nIn the Under Secretary, Class I, in the Gujarat Secretariat Service \nRecruitment Rules, 2012, in rule 2, in clause (a), in sub-clause (i), for \nthe words \"eight years\", the  words \"seven years\" shall be \nsubstituted. \n \n \nBy order and in the name of the Governor of Gujarat, \n \n \n( K. M. Adhvaryu ) \nAdditional Secretary to Government \n \nTo, \n• The Secretary to the Hon. Governor of Gujarat,  Gandhinagar.   \n• The Chief Principal Secretary to the Hon. Chief Minister, Gandhinagar. \n• The Personal Secretary  to the Hon. Speaker of Gujarat  legislative  \nSecretariat, Gandhinagar. \nCONSTITUTION \nOF INDIA.",
+          "text_clean": "NOTIFICATION \nGeneral Administration Department \nSachivalaya, Gandhinagar \nDated the 27th November, 2015 \n \nNo.GS/41-2015/SCV/102008/197350/G2 Cell:- In exercise of the powers \nconferred by the proviso to article 309 of the Constitution of India, the \nGovernor of Gujarat hereby makes the following rules further to amend \nthe Under Secretary, Class I, in the Gujarat Secretariat Service, \nRecruitment Rules, 2012, namely :- \n \n1. \nThese rules may be called the Under Secretary, Class I, in the Gujarat \nSecretariat Service, Recruitment (Amendment) Rules, 2015. \n \n2. \nIn the Under Secretary, Class I, in the Gujarat Secretariat Service \nRecruitment Rules, 2012, in rule 2, in clause (a), in sub-clause (i), for \nthe words \"eight years\", the  words \"seven years\" shall be \nsubstituted. \n \n \nBy order and in the name of the Governor of Gujarat, \n \n \n( K. M. Adhvaryu ) \nAdditional Secretary to Government \n \nTo, \n• The Secretary to the Hon. Governor of Gujarat,  Gandhinagar.   \n• The Chief Principal Secretary to the Hon. Chief Minister, Gandhinagar. \n• The Personal Secretary  to the Hon. Speaker of Gujarat  legislative  \nSecretariat, Gandhinagar. \nCONSTITUTION \nOF INDIA.",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.3200073242188,
+            "y1": 841.9199829101562,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    },
+    {
+      "page_number": 2,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 595.3200073242188,
+      "height": 841.9199829101562,
+      "blocks": [
+        {
+          "block_id": "p2_b0",
+          "text": "• The Chief Secretary, Sachivalya, Gandhinagar. \n• The Additional Chief Secretary(Personal), General Administration \nDepartment Sachivalya, Gandhinagar. \n• The Personal Secretary to the All Minister/ Minister of  State, \nGandhinagar. \n The Secretary, Gujarat Legislature Secretariat. Gandhinagar. \n The Secretary, Gujarat Public Service Commission, Ahmedabad. \n The Secretary, Gujarat Vigilance Commission, Gandhinagar. \n The Register, Gujarat High Court, Ahmedabad. \n The Secretary, Gujarat Civil Services Tribunal, Gandhinagar. \n The Secretary, Gujarat Subordinate Service Selection Board, \nGandhinagar. \n The Secretary, Gujarat Panchayat Service Selection Board, Ahmedabad. \n• The Accountant General, Gujarat, Ahmedabad/Rajkot \n• The Pay and Accounts Officer, Ahmedabad/ Gandhinagar. \n• The Resident Audit Officer, Gandhinagar. \n• All Departments  of  Secretariat \n• All Head of Departments \n• Director General,  Sardar  Patel Institute of Public Administration,   \nAhmedabad. \n• The Manger, Government Central Press, Gandhinagar. \n  \nWith a request to publish the Notification in Gujarat Government \nGazette and send 100 copies to this department. \n• The Legislative and Parliamentary Affairs Department, Sachivalaya,  \nGandhinagar - with a request to publish Gujarati Translation of \nNotification and send 100 copies to this Department \n• All officers in General Administration Department. \n• All Branches of General Administration Department. \n• The Select File \n---------------------------- \n By letter",
+          "text_clean": "• The Chief Secretary, Sachivalya, Gandhinagar. \n• The Additional Chief Secretary(Personal), General Administration \nDepartment Sachivalya, Gandhinagar. \n• The Personal Secretary to the All Minister/ Minister of  State, \nGandhinagar. \n The Secretary, Gujarat Legislature Secretariat. Gandhinagar. \n The Secretary, Gujarat Public Service Commission, Ahmedabad. \n The Secretary, Gujarat Vigilance Commission, Gandhinagar. \n The Register, Gujarat High Court, Ahmedabad. \n The Secretary, Gujarat Civil Services Tribunal, Gandhinagar. \n The Secretary, Gujarat Subordinate Service Selection Board, \nGandhinagar. \n The Secretary, Gujarat Panchayat Service Selection Board, Ahmedabad. \n• The Accountant General, Gujarat, Ahmedabad/Rajkot \n• The Pay and Accounts Officer, Ahmedabad/ Gandhinagar. \n• The Resident Audit Officer, Gandhinagar. \n• All Departments  of  Secretariat \n• All Head of Departments \n• Director General,  Sardar  Patel Institute of Public Administration,   \nAhmedabad. \n• The Manger, Government Central Press, Gandhinagar. \n  \nWith a request to publish the Notification in Gujarat Government \nGazette and send 100 copies to this department. \n• The Legislative and Parliamentary Affairs Department, Sachivalaya,  \nGandhinagar - with a request to publish Gujarati Translation of \nNotification and send 100 copies to this Department \n• All officers in General Administration Department. \n• All Branches of General Administration Department. \n• The Select File \n---------------------------- \n By letter",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.3200073242188,
+            "y1": 841.9199829101562,
+            "page": 2
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-77320e_p1_c000",
+      "gr_id": "GAD-0000-77320e",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-77320e_p1_c001",
+      "gr_id": "GAD-0000-77320e",
+      "text": "NOTIFICATION General Administration Department Sachivalaya, Gandhinagar Dated the 27th November, 2015 No.GS/41-2015/SCV/102008/197350/G2 Cell:- In exercise of the powers conferred by the proviso to article 309 of the Constitution of India, the Governor of Gujarat hereby makes the following rules further to amend the Under Secretary, Class I, in the Gujarat Secretariat Service, Recruitment Rules, 2012, namely :-",
+      "text_clean": "NOTIFICATION General Administration Department Sachivalaya, Gandhinagar Dated the 27th November, 2015 No.GS/41-2015/SCV/102008/197350/G2 Cell:- In exercise of the powers conferred by the proviso to article 309 of the Constitution of India, the Governor of Gujarat hereby makes the following rules further to amend the Under Secretary, Class I, in the Gujarat Secretariat Service, Recruitment Rules, 2012, namely :-",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-77320e_p1_c002",
+      "gr_id": "GAD-0000-77320e",
+      "text": "1. These rules may be called the Under Secretary, Class I, in the Gujarat Secretariat Service, Recruitment (Amendment) Rules, 2015.",
+      "text_clean": "1. These rules may be called the Under Secretary, Class I, in the Gujarat Secretariat Service, Recruitment (Amendment) Rules, 2015.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-77320e_p1_c003",
+      "gr_id": "GAD-0000-77320e",
+      "text": "2. In the Under Secretary, Class I, in the Gujarat Secretariat Service Recruitment Rules, 2012, in rule 2, in clause (a), in sub-clause (i), for the words \"eight years\", the words \"seven years\" shall be substituted. By order and in the name of the Governor of Gujarat, ( K. M. Adhvaryu ) Additional Secretary to Government To, • The Secretary to the Hon. Governor of Gujarat, Gandhinagar. • The Chief Principal Secretary to the Hon. Chief Minister, Gandhinagar. • The Personal Secretary to the Hon. Speaker of Gujarat legislative Secretariat, Gandhinagar. CONSTITUTION OF INDIA.",
+      "text_clean": "2. In the Under Secretary, Class I, in the Gujarat Secretariat Service Recruitment Rules, 2012, in rule 2, in clause (a), in sub-clause (i), for the words \"eight years\", the words \"seven years\" shall be substituted. By order and in the name of the Governor of Gujarat, ( K. M. Adhvaryu ) Additional Secretary to Government To, • The Secretary to the Hon. Governor of Gujarat, Gandhinagar. • The Chief Principal Secretary to the Hon. Chief Minister, Gandhinagar. • The Personal Secretary to the Hon. Speaker of Gujarat legislative Secretariat, Gandhinagar. CONSTITUTION OF INDIA.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-77320e_p2_c004",
+      "gr_id": "GAD-0000-77320e",
+      "text": "• The Chief Secretary, Sachivalya, Gandhinagar. \n• The Additional Chief Secretary(Personal), General Administration \nDepartment Sachivalya, Gandhinagar. \n• The Personal Secretary to the All Minister/ Minister of  State, \nGandhinagar. \n The Secretary, Gujarat Legislature Secretariat. Gandhinagar. \n The Secretary, Gujarat Public Service Commission, Ahmedabad. \n The Secretary, Gujarat Vigilance Commission, Gandhinagar. \n The Register, Gujarat High Court, Ahmedabad. \n The Secretary, Gujarat Civil Services Tribunal, Gandhinagar. \n The Secretary, Gujarat Subordinate Service Selection Board, \nGandhinagar. \n The Secretary, Gujarat Panchayat Service Selection Board, Ahmedabad. \n• The Accountant General, Gujarat, Ahmedabad/Rajkot \n• The Pay and Accounts Officer, Ahmedabad/ Gandhinagar. \n• The Resident Audit Officer, Gandhinagar. \n• All Departments  of  Secretariat \n• All Head of Departments \n• Director General,  Sardar  Patel Institute of Public Administration,   \nAhmedabad. \n• The Manger, Government Central Press, Gandhinagar. \n  \nWith a request to publish the Notification in Gujarat Government \nGazette and send 100 copies to this department. \n• The Legislative and Parliamentary Affairs Department, Sachivalaya,  \nGandhinagar - with a request to publish Gujarati Translation of \nNotification and send 100 copies to this Department \n• All officers in General Administration Department. \n• All Branches of General Administration Department. \n• The Select File \n---------------------------- \n By letter",
+      "text_clean": "• The Chief Secretary, Sachivalya, Gandhinagar. \n• The Additional Chief Secretary(Personal), General Administration \nDepartment Sachivalya, Gandhinagar. \n• The Personal Secretary to the All Minister/ Minister of  State, \nGandhinagar. \n The Secretary, Gujarat Legislature Secretariat. Gandhinagar. \n The Secretary, Gujarat Public Service Commission, Ahmedabad. \n The Secretary, Gujarat Vigilance Commission, Gandhinagar. \n The Register, Gujarat High Court, Ahmedabad. \n The Secretary, Gujarat Civil Services Tribunal, Gandhinagar. \n The Secretary, Gujarat Subordinate Service Selection Board, \nGandhinagar. \n The Secretary, Gujarat Panchayat Service Selection Board, Ahmedabad. \n• The Accountant General, Gujarat, Ahmedabad/Rajkot \n• The Pay and Accounts Officer, Ahmedabad/ Gandhinagar. \n• The Resident Audit Officer, Gandhinagar. \n• All Departments  of  Secretariat \n• All Head of Departments \n• Director General,  Sardar  Patel Institute of Public Administration,   \nAhmedabad. \n• The Manger, Government Central Press, Gandhinagar. \n  \nWith a request to publish the Notification in Gujarat Government \nGazette and send 100 copies to this department. \n• The Legislative and Parliamentary Affairs Department, Sachivalaya,  \nGandhinagar - with a request to publish Gujarati Translation of \nNotification and send 100 copies to this Department \n• All officers in General Administration Department. \n• All Branches of General Administration Department. \n• The Select File \n---------------------------- \n By letter",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 700.0,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "NOTIFICATION \nGeneral Administration Department \nSachivalaya, Gandhinagar \nDated the 27th November, 2015 \n \nNo.GS/41-2015/SCV/102008/197350/G2 Cell:- In exercise of the powers \nconferred by the proviso to article 309 of the Constitution of India, the \nGovernor of Gujarat hereby makes the following rules further to amend \nthe Under Secretary, Class I, in the Gujarat Secretariat Service, \nRecruitment Rules, 2012, namely :- \n \n1. \nThese rules may be called the Under Secretary, Class I, in the Gujarat \nSecretariat Service, Recruitment (Amendment) Rules, 2015. \n \n2. \nIn the Under Secretary, Class I, in the Gujarat Secretariat Service \nRecruitment Rules, 2012, in rule 2, in clause (a), in sub-clause (i), for \nthe words \"eight years\", the  words \"seven years\" shall be \nsubstituted. \n \n \nBy order and in the name of the Governor of Gujarat, \n \n \n( K. M. Adhvaryu ) \nAdditional Secretary to Government \n \nTo, \n• The Secretary to the Hon. Governor of Gujarat,  Gandhinagar.   \n• The Chief Principal Secretary to the Hon. Chief Minister, Gandhinagar. \n• The Personal Secretary  to the Hon. Speaker of Gujarat  legislative  \nSecretariat, Gandhinagar. \nCONSTITUTION \nOF INDIA.\n\n• The Chief Secretary, Sachivalya, Gandhinagar. \n• The Additional Chief Secretary(Personal), General Administration \nDepartment Sachivalya, Gandhinagar. \n• The Personal Secretary to the All Minister/ Minister of  State, \nGandhinagar. \n The Secretary, Gujarat Legislature Secretariat. Gandhinagar. \n The Secretary, Gujarat Public Service Commission, Ahmedabad. \n The Secretary, Gujarat Vigilance Commission, Gandhinagar. \n The Register, Gujarat High Court, Ahmedabad. \n The Secretary, Gujarat Civil Services Tribunal, Gandhinagar. \n The Secretary, Gujarat Subordinate Service Selection Board, \nGandhinagar. \n The Secretary, Gujarat Panchayat Service Selection Board, Ahmedabad. \n• The Accountant General, Gujarat, Ahmedabad/Rajkot \n• The Pay and Accounts Officer, Ahmedabad/ Gandhinagar. \n• The Resident Audit Officer, Gandhinagar. \n• All Departments  of  Secretariat \n• All Head of Departments \n• Director General,  Sardar  Patel Institute of Public Administration,   \nAhmedabad. \n• The Manger, Government Central Press, Gandhinagar. \n  \nWith a request to publish the Notification in Gujarat Government \nGazette and send 100 copies to this department. \n• The Legislative and Parliamentary Affairs Department, Sachivalaya,  \nGandhinagar - with a request to publish Gujarati Translation of \nNotification and send 100 copies to this Department \n• All officers in General Administration Department. \n• All Branches of General Administration Department. \n• The Select File \n---------------------------- \n By letter"
+}

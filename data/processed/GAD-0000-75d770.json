@@ -1,0 +1,238 @@
+{
+  "gr_id": "GAD-0000-75d770",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "mixed",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\government-resolutions\\G-Branch-Notification-13022007.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 611.8800048828125,
+      "height": 791.8800048828125,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "ExtraNo. 10\nREGISTEREDNo. G/GNR/2\nffi\ns-fislq urd\nq6be Guturnt Gobeurm.silt Guttttt\nEXTRAORDINARY\nPI]BLISIIED BY ATITIIORTTY\nVol.)(LVItrJ\nTTUESDAY, FEBRUARY 13, ilrynvIAGHA A' I9?8,\n-\nPART I.A\nCENTRAL SECTION\nordersandNo6Eca6ons(otherthanlhosdPlbltshedinPartlv.B)\nunder the Gqiant r'\"\"i;;tt' o**t fanchayats'YY'tidPd\nBoroughs, Dist'ict uJ*J',P't-\"\"y edrrcation and I.ocal\ntrbnd AudltActs'\nPAI{CHAYATS, RLRAL EOUSING AND RURAL DE\\mLOPMENT DBPARTIVIEM\nNotiicadon\nSachivalaya' Gandhinagar' 13* Febnrary' z(f,fi'\ncurARArpRoffiffi ffi sFgufi$[cffi !$ffif\"*oFLocAL\nNo.KP/1of2frI7l1Vtisctto20wt403/G..InexerciseofthepowerscgnfgnedbysectionSof\nthe Gujarat provisionlli Oirq*frn*\"* ; M\"-b* of \n'.\"A-Ao*otitio \nfor Defection Acg 1986\n(Gui. 23 of 1gg6), ,u.-co\"ri-.\", .r irr,,ri r-\"t\"uv r** G folowing nrte's firflher'to me'ud\nth, Goirr.t provision for Disquatific.#ff#ilil;ta \neutn.ities for Defection Rules'\n1987, namelY:-\n1. These rules may be called the Gujarat hovision f9r Disqualification of Members of Local\nAuthoriti., fili\"f\"\"tioo lemendment) Rules' 2@7 '\nz.In the orjarat Frovisiou for Disqualification of Members of Inc1l Authorities for Defection\nRules, 1987 (hereinafter rrr*JJtJ;:ilr-;a J*r' in nrle 4, after sub-rule (2) the\nfollowing pi\"ilt\" tUtfi bc inserted' nanely' :-\nPlovidedthataCorrncilloroftheMrrnicipalCorporatiouortheMruricipalityora\nmc,nber of the panchayat *uo coote.rted as \" *Iiil* \nof anl political parry and had\nalready,raii*rr\",r,ri. ,n :rrliiJo;f';* ,\" tu\"Tin* t*tt't& be required to fiimish\nto the specified officer r ror*\"iioip.ttitur\"ts imd declaration inFormlrf\"\nI-A'Ex.r, 10'1\n10-1",
+          "text_clean": "ExtraNo. 10\nREGISTEREDNo. G/GNR/2\nffi\ns-fislq urd\nq6be Guturnt Gobeurm.silt Guttttt\nEXTRAORDINARY\nPI]BLISIIED BY ATITIIORTTY\nVol.)(LVItrJ\nTTUESDAY, FEBRUARY 13, ilrynvIAGHA A' I9?8,\n-\nPART I.A\nCENTRAL SECTION\nordersandNo6Eca6ons(otherthanlhosdPlbltshedinPartlv.B)\nunder the Gqiant r'\"\"i;;tt' o**t fanchayats'YY'tidPd\nBoroughs, Dist'ict uJ*J',P't-\"\"y edrrcation and I.ocal\ntrbnd AudltActs'\nPAI{CHAYATS, RLRAL EOUSING AND RURAL DE\\mLOPMENT DBPARTIVIEM\nNotiicadon\nSachivalaya' Gandhinagar' 13* Febnrary' z(f,fi'\ncurARArpRoffiffi ffi sFgufi$[cffi !$ffif\"*oFLocAL\nNo.KP/1of2frI7l1Vtisctto20wt403/G..InexerciseofthepowerscgnfgnedbysectionSof\nthe Gujarat provisionlli Oirq*frn*\"* ; M\"-b* of \n'.\"A-Ao*otitio \nfor Defection Acg 1986\n(Gui. 23 of 1gg6), ,u.-co\"ri-.\", .r irr,,ri r-\"t\"uv r** G folowing nrte's firflher'to me'ud\nth, Goirr.t provision for Disquatific.#ff#ilil;ta \neutn.ities for Defection Rules'\n1987, namelY:-\n1. These rules may be called the Gujarat hovision f9r Disqualification of Members of Local\nAuthoriti., fili\"f\"\"tioo lemendment) Rules' 2@7 '\nz.In the orjarat Frovisiou for Disqualification of Members of Inc1l Authorities for Defection\nRules, 1987 (hereinafter rrr*JJtJ;:ilr-;a J*r' in nrle 4, after sub-rule (2) the\nfollowing pi\"ilt\" tUtfi bc inserted' nanely' :-\nPlovidedthataCorrncilloroftheMrrnicipalCorporatiouortheMruricipalityora\nmc,nber of the panchayat *uo coote.rted as \" *Iiil* \nof anl political parry and had\nalready,raii*rr\",r,ri. ,n :rrliiJo;f';* ,\" tu\"Tin* t*tt't& be required to fiimish\nto the specified officer r ror*\"iioip.ttitur\"ts imd declaration inFormlrf\"\nI-A'Ex.r, 10'1\n10-1",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 611.8800048828125,
+            "y1": 791.8800048828125,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    },
+    {
+      "page_number": 2,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 611.8800048828125,
+      "height": 791.8800048828125,
+      "blocks": [
+        {
+          "block_id": "p2_b0",
+          "text": "LUz' \nGUJARAT CO\\IERNMENT GAATTE, EX. 13.2-2W7\n[PARTT-A\n. 3. In the iaid rules,'irfter nrle 9, the following shall be added, uamely :- \n' .\nt \n' \n..'-i,\n\"lo' \nA couocitlor of Municipal'cbiporation or the Municipality or a member of\n' the Paachayat who is blected on thi iy-upt,'-torporii\".r parry rhrf;iii anending.any\n' \nmeeting of Municipal Coiporation \", dg.I,iiri;ifJir), or i-paicUajrar eosure ivhethbr any\nmandate is'issued by such'political part-ji,+ttf';;mandate is issuedly such political\nparry,.he bhall obtain such mandare froq sucn . il;l pfl,_or.or*r ur*oa or authority\nauthorized bv $.;th: chirir-p-erson.^of. py i;;drt or vr*i\"ffiiorpootioo or the\nMunicipality or'a Panchayat sh-all verify t*r, i\"rn a -iaur\" has been isru\"a by the potitical\n- PffiY' and circul'ated to the csuncilior of Municiprt c\"{p;;i* oi-,r* Member of\nMunicipalityorb.memberoTthgpanchayat. . \n,.\n4. In the said nrles, 11rule 8, for the words...endeavor shall be made to determine the questioa\nwithin six months\"'the words *endeavdr to deieunine th;;;rbd;; ,'iilJm monihs,t shall\nbe substituted.\nBy order and in the narne of the Govemor of Gujarat,\ni\nS. N.DA\\18,\nJoint S ecretary, to Govenunent.\nGovernsrent cental press, Gandhinagar.",
+          "text_clean": "LUz' \nGUJARAT CO\\IERNMENT GAATTE, EX. 13.2-2W7\n[PARTT-A\n. 3. In the iaid rules,'irfter nrle 9, the following shall be added, uamely :- \n' .\nt \n' \n..'-i,\n\"lo' \nA couocitlor of Municipal'cbiporation or the Municipality or a member of\n' the Paachayat who is blected on thi iy-upt,'-torporii\".r parry rhrf;iii anending.any\n' \nmeeting of Municipal Coiporation \", dg.I,iiri;ifJir), or i-paicUajrar eosure ivhethbr any\nmandate is'issued by such'political part-ji,+ttf';;mandate is issuedly such political\nparry,.he bhall obtain such mandare froq sucn . il;l pfl,_or.or*r ur*oa or authority\nauthorized bv $.;th: chirir-p-erson.^of. py i;;drt or vr*i\"ffiiorpootioo or the\nMunicipality or'a Panchayat sh-all verify t*r, i\"rn a -iaur\" has been isru\"a by the potitical\n- PffiY' and circul'ated to the csuncilior of Municiprt c\"{p;;i* oi-,r* Member of\nMunicipalityorb.memberoTthgpanchayat. . \n,.\n4. In the said nrles, 11rule 8, for the words...endeavor shall be made to determine the questioa\nwithin six months\"'the words *endeavdr to deieunine th;;;rbd;; ,'iilJm monihs,t shall\nbe substituted.\nBy order and in the narne of the Govemor of Gujarat,\ni\nS. N.DA\\18,\nJoint S ecretary, to Govenunent.\nGovernsrent cental press, Gandhinagar.",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 611.8800048828125,
+            "y1": 791.8800048828125,
+            "page": 2
+          },
+          "ocr_confidence": null
+        }
+      ]
+    },
+    {
+      "page_number": 3,
+      "source_type": "scanned",
+      "ocr_confidence": 0.85,
+      "width": 611.8800048828125,
+      "height": 791.8800048828125,
+      "blocks": [
+        {
+          "block_id": "p3_b0",
+          "text": "!\nન\n1\nj\n\n. extra No. 19\n\nThe Gujarat Government Gwsette\n\n-_PUBI ISHED BY AUTHORITY -.\n\nVol. તી WEDNESDAY, FEBRUARY 21, 20071 PHALGUNA. 2, 1928\n\nPART. x\"\n\nરી ws ot દાણ translation of Bills; Acts and Notification other than.\nre “thse published i in other parts.”\n\n- વૈધાનિક અને સંસદીય બાબતોનો. વિભાગ\n_ abasic ગાંધીનગર, eal 'ફેબ્રુઆરી, ૨૦૦૭.\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં માં પ્રસિધ્ધ થયેલા પ aiden: ૧૩મી ફેબ્રુઆરી, ૨૦૦૦ના ગુજરાત સરકારના, પંચાયત, ગ્રામ\nstoi અંનેઃ ગ્રામ. વિકાંસઃ વિભાગના daa જાહેરનામાં: suis: કેપી/૨૦૦૭નો' '૧/એમઆઇએસસી/ ૧૦૨૦૦૬/\nઝી al | yet: એનુવાદ આયો સર્વ લોકોથી જાણે સારું, પ્રસિ ક્યો દ છે.\n\naud ad, પરમાર,\nસસ્કાસ્ના સંયુક્ત સચિવ.\n\nCoe\n",
+          "text_clean": "!\nન\n1\nj\n\n. extra No. 19\n\nThe Gujarat Government Gwsette\n\n-_PUBI ISHED BY AUTHORITY -.\n\nVol. તી WEDNESDAY, FEBRUARY 21, 20071 PHALGUNA. 2, 1928\n\nPART. x\"\n\nરી ws ot દાણ translation of Bills; Acts and Notification other than.\nre “thse published i in other parts.”\n\n- વૈધાનિક અને સંસદીય બાબતોનો. વિભાગ\n_ abasic ગાંધીનગર, eal 'ફેબ્રુઆરી, 2007.\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં માં પ્રસિધ્ધ થયેલા પ aiden: 13મી ફેબ્રુઆરી, 2000ના ગુજરાત સરકારના, પંચાયત, ગ્રામ\nstoi અંનેઃ ગ્રામ. વિકાંસઃ વિભાગના daa જાહેરનામાં: suis: કેપી/2007નો' '1/એમઆઇએસસી/ 102006/\nઝી al | yet: એનુવાદ આયો સર્વ લોકોથી જાણે સારું, પ્રસિ ક્યો દ છે.\n\naud ad, પરમાર,\nસસ્કાસ્ના સંયુક્ત સચિવ.\n\nCoe\n",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 611.8800048828125,
+            "y1": 791.8800048828125,
+            "page": 3
+          },
+          "ocr_confidence": 0.85
+        }
+      ]
+    },
+    {
+      "page_number": 4,
+      "source_type": "scanned",
+      "ocr_confidence": 0.85,
+      "width": 611.8800048828125,
+      "height": 791.8800048828125,
+      "blocks": [
+        {
+          "block_id": "p4_b0",
+          "text": ".192 _ GUJARAT GOVERNMENT GAZETTE, Ex, 21-02-2007\". . . (PART-IX...\n\neo a ન - Notification\n\n9. 1 ી ી ms . Rega ding -\n\nAMENDMENT T TO THE GUJARAT PROVISION FOR DISQUALIFICATION oF\n“MEMBERS.OF LOCAL AUTHORITIES FOR. DEFECTION. RULES, 1987. .\n\nગુજરાત પ પક્ષાંતર. બદલ સ્થાનિક સત્તામંડળોના સભ્યોનેઃ ગેરલાયક ઠરાવવા માટે જોગવાઇ & Sat બાબતના તિયમો,._\n- , ૧૯૮૦ સુધારવા સંબંધી. a a I\nક 7 જાહેરનામું * દે =\naie ગ ગ્રામ પમ શૂહસિર્માણ- અને ગ્રામ rt ih .\n<3 ફેબ્રુઆરી; ક\n\n. - સચિવાલેય, silo af mo\nગુજરાતનો પ પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઇ કરતો. અધિનિયમ, ૧૯ ૮૬..\nક્રમાંકઃ કેપી/૨૦૦૭નો . .૧/એમઆઇએસસી/૧૦૨૦૦૬/૪૦૩/જી.: =. ગુજરાતનો = “પક્ષાંતર બદલ ' સ્થાનિક\n\nસત્તામંડળોનાઃ સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઈ કરતો અધિનિયમ, ૧૯૮૬(સનઃ ૧૯૮૬ના ગુજરાતના ર૩મા)ની . .\nsan ૮થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી, ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક.\n\nઠરાવવા માટે જોગવાઈ કરવા બાબતના નિયમો, ૧૯૮૭ વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n૧: આ નિયમો ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળના. સભ્યોને ગેરલાયક ઠરાવવા માટે જોગવાઈ કરવા\n\n_બાબતના (સુધારા)નિયમો, 2009 કહેવાશે.\n\n| ૨. ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક'&ઃ ઠરાવવા માટે જોગવાઈ ક કરવા બાબતના ના નિયમો, *\n* - ૧૯૮૭( જેનો આમાં હવે' પછી. “ સદરહુ. Gerd: #: 'તરીકે ઉલ્લેખ sal છેં ani ન નિયમ “૪માં, પેઢા: નિયમ @) -\n\nપછી, નીચેનો પરંતુક દાખલ કરવોઃ- .\n“પરંતુ મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના કાઉન્સિલર : અથવા પંચાયતના સભ્ય, જેઓ\n\nકોઈ રાજકીય પક્ષના ઉમેદવાર તરીકે ચૂંટણી લેંડ્યા da અને તે મતલબનો એકરાર તેમણે ચૂંટણી અધિકારી સમક્ષ:\n\n* અગાઉ Sal હોય તેમણે, નમૂના-૩ મુજબ વિગતોનું પત્રક ક અને એકરાર નિર્દિષ્ટ અધિકારીને પૂચ પાડવાના wa\nનહિ.''. ”\nડુ. . સદરહુ નિયમોમાં, નિયમ ૯ પછી, નીચેનો નિયમ ઉમેરવોઃ -\n\n90. WHA પક્ષના .પ્રતૌક. Gur ચૂંટાયેલ dada મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના -\noo “nGuee WAU પંચાયતના સભ્યે, મ્યુનિસિપલ કોર્પોરેશનની અથવા નગરપાલિકાની. અથવા પંચાયતનીઃ AS બેઠકરમાં'' .\n\"હાજરી આપંતી aud, એવાં રાજકીય પક્ષ તરફથી કોઇ'આદેશ કાઢવામાં આવ્યો છે 3 કૈમ' તે સુનિશ્ચિત' કરવું જોઈશે\nઅને એવા રાજકીય પક્ષ તરફથી એવો કોઇ આદેશ” કાઢવામા આવો હોય તો, તેમણે એવાં રાજકીય પક્ષ અથવાં તેણે *\nઅધિકૃત કરેલી કોઇ વ્યક્તિ અથવા સત્તાધિકારી પાસેથી એવો આદેશ મેળવવો જોઇશે. મ્યુનિસિપલ કોર્પોરેશનની .\nઅથવા નગરપાલિકાની અથવા પંચાયતની કોઈ બેઠકના wed, રાજકીય પક્ષ તરફથી એવો AS આદેશ કાઢવામાં,\nઆવ્યો છે તેની ખરાઇ કરવી જોઇશે, અને તે, મ્યુનિસિપલ Tiida અથવા નગરપાલિકાના કાઉન્સિલરને અથવા\n\nપંચાયતના સભ્યને-પરિપત્રિત કરવો જોઇશે.'”.\n\n૪. સદરહુ નિયર્મોમાં, નિયમ cui, “ છ મહિનાની અંદર પ્રશ્નનો નિર્ણય કરવાનો પ્રયત કરવો ASA\" એ શબ્દોને\n\nબદલે, “ બે મહિનાની અંદર mated નિર્ણય. કરવાનો HUA કરવો જોઇશે ” એ શબ્દો મૂકવા..\nગુજરાતના રાજ્યપાલના હુકમથી અને તમના નામે,\n9\n\n_. એસ.એન.દવે, *\n\"સરકારના સંયુકત સચિવ. -\n\nસરકારી મધ્યસ્થ yeaa, ગાંધીનગર.\n\nદે\n\nચીં\n",
+          "text_clean": ".192 _ GUJARAT GOVERNMENT GAZETTE, Ex, 21-02-2007\". . . (PART-IX...\n\neo a ન - Notification\n\n9. 1 ી ી ms . Rega ding -\n\nAMENDMENT T TO THE GUJARAT PROVISION FOR DISQUALIFICATION oF\n“MEMBERS.OF LOCAL AUTHORITIES FOR. DEFECTION. RULES, 1987. .\n\nગુજરાત પ પક્ષાંતર. બદલ સ્થાનિક સત્તામંડળોના સભ્યોનેઃ ગેરલાયક ઠરાવવા માટે જોગવાઇ & Sat બાબતના તિયમો,._\n- , 1980 સુધારવા સંબંધી. a a I\nક 7 જાહેરનામું * દે =\naie ગ ગ્રામ પમ શૂહસિર્માણ- અને ગ્રામ rt ih .\n<3 ફેબ્રુઆરી; ક\n\n. - સચિવાલેય, silo af mo\nગુજરાતનો પ પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઇ કરતો. અધિનિયમ, 19 86..\nક્રમાંકઃ કેપી/2007નો . .1/એમઆઇએસસી/102006/403/જી.: =. ગુજરાતનો = “પક્ષાંતર બદલ ' સ્થાનિક\n\nસત્તામંડળોનાઃ સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઈ કરતો અધિનિયમ, 1986(સનઃ 1986ના ગુજરાતના ર3મા)ની . .\nsan 8થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી, ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક.\n\nઠરાવવા માટે જોગવાઈ કરવા બાબતના નિયમો, 1987 વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n1: આ નિયમો ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળના. સભ્યોને ગેરલાયક ઠરાવવા માટે જોગવાઈ કરવા\n\n_બાબતના (સુધારા)નિયમો, 2009 કહેવાશે.\n\n| 2. ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક'&ઃ ઠરાવવા માટે જોગવાઈ ક કરવા બાબતના ના નિયમો, *\n* - 1987( જેનો આમાં હવે' પછી. “ સદરહુ. Gerd: #: 'તરીકે ઉલ્લેખ sal છેં ani ન નિયમ “4માં, પેઢા: નિયમ @) -\n\nપછી, નીચેનો પરંતુક દાખલ કરવોઃ- .\n“પરંતુ મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના કાઉન્સિલર : અથવા પંચાયતના સભ્ય, જેઓ\n\nકોઈ રાજકીય પક્ષના ઉમેદવાર તરીકે ચૂંટણી લેંડ્યા da અને તે મતલબનો એકરાર તેમણે ચૂંટણી અધિકારી સમક્ષ:\n\n* અગાઉ Sal હોય તેમણે, નમૂના-3 મુજબ વિગતોનું પત્રક ક અને એકરાર નિર્દિષ્ટ અધિકારીને પૂચ પાડવાના wa\nનહિ.''. ”\nડુ. . સદરહુ નિયમોમાં, નિયમ 9 પછી, નીચેનો નિયમ ઉમેરવોઃ -\n\n90. WHA પક્ષના .પ્રતૌક. Gur ચૂંટાયેલ dada મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના -\noo “nGuee WAU પંચાયતના સભ્યે, મ્યુનિસિપલ કોર્પોરેશનની અથવા નગરપાલિકાની. અથવા પંચાયતનીઃ AS બેઠકરમાં'' .\n\"હાજરી આપંતી aud, એવાં રાજકીય પક્ષ તરફથી કોઇ'આદેશ કાઢવામાં આવ્યો છે 3 કૈમ' તે સુનિશ્ચિત' કરવું જોઈશે\nઅને એવા રાજકીય પક્ષ તરફથી એવો કોઇ આદેશ” કાઢવામા આવો હોય તો, તેમણે એવાં રાજકીય પક્ષ અથવાં તેણે *\nઅધિકૃત કરેલી કોઇ વ્યક્તિ અથવા સત્તાધિકારી પાસેથી એવો આદેશ મેળવવો જોઇશે. મ્યુનિસિપલ કોર્પોરેશનની .\nઅથવા નગરપાલિકાની અથવા પંચાયતની કોઈ બેઠકના wed, રાજકીય પક્ષ તરફથી એવો AS આદેશ કાઢવામાં,\nઆવ્યો છે તેની ખરાઇ કરવી જોઇશે, અને તે, મ્યુનિસિપલ Tiida અથવા નગરપાલિકાના કાઉન્સિલરને અથવા\n\nપંચાયતના સભ્યને-પરિપત્રિત કરવો જોઇશે.'”.\n\n4. સદરહુ નિયર્મોમાં, નિયમ cui, “ છ મહિનાની અંદર પ્રશ્નનો નિર્ણય કરવાનો પ્રયત કરવો ASA\" એ શબ્દોને\n\nબદલે, “ બે મહિનાની અંદર mated નિર્ણય. કરવાનો HUA કરવો જોઇશે ” એ શબ્દો મૂકવા..\nગુજરાતના રાજ્યપાલના હુકમથી અને તમના નામે,\n9\n\n_. એસ.એન.દવે, *\n\"સરકારના સંયુકત સચિવ. -\n\nસરકારી મધ્યસ્થ yeaa, ગાંધીનગર.\n\nદે\n\nચીં\n",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 611.8800048828125,
+            "y1": 791.8800048828125,
+            "page": 4
+          },
+          "ocr_confidence": 0.85
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-75d770_p1_c000",
+      "gr_id": "GAD-0000-75d770",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-75d770_p1_c001",
+      "gr_id": "GAD-0000-75d770",
+      "text": "ExtraNo. 10 REGISTEREDNo. G/GNR/2 ffi s-fislq urd q6be Guturnt Gobeurm.silt Guttttt EXTRAORDINARY PI]BLISIIED BY ATITIIORTTY Vol.)(LVItrJ TTUESDAY, FEBRUARY 13, ilrynvIAGHA A' I9?8, - PART I.A CENTRAL SECTION ordersandNo6Eca6ons(otherthanlhosdPlbltshedinPartlv.B) under the Gqiant r'\"\"i;;tt' o**t fanchayats'YY'tidPd Boroughs, Dist'ict uJ*J',P't-\"\"y edrrcation and I.ocal trbnd AudltActs' PAI{CHAYATS, RLRAL EOUSING AND RURAL DE\\mLOPMENT DBPARTIVIEM Notiicadon Sachivalaya' Gandhinagar' 13* Febnrary' z(f,fi' curARArpRoffiffi ffi sFgufi$[cffi !$ffif\"*oFLocAL No.KP/1of2frI7l1Vtisctto20wt403/G..InexerciseofthepowerscgnfgnedbysectionSof the Gujarat provisionlli Oirq*frn*\"* ; M\"-b* of '.\"A-Ao*otitio for Defection Acg 1986 (Gui. 23 of 1gg6), ,u.-co\"ri-.\", .r irr,,ri r-\"t\"uv r** G folowing nrte's firflher'to me'ud th, Goirr.t provision for Disquatific.#ff#ilil;ta eutn.ities for Defection Rules' 1987, namelY:-",
+      "text_clean": "ExtraNo. 10 REGISTEREDNo. G/GNR/2 ffi s-fislq urd q6be Guturnt Gobeurm.silt Guttttt EXTRAORDINARY PI]BLISIIED BY ATITIIORTTY Vol.)(LVItrJ TTUESDAY, FEBRUARY 13, ilrynvIAGHA A' I9?8, - PART I.A CENTRAL SECTION ordersandNo6Eca6ons(otherthanlhosdPlbltshedinPartlv.B) under the Gqiant r'\"\"i;;tt' o**t fanchayats'YY'tidPd Boroughs, Dist'ict uJ*J',P't-\"\"y edrrcation and I.ocal trbnd AudltActs' PAI{CHAYATS, RLRAL EOUSING AND RURAL DE\\mLOPMENT DBPARTIVIEM Notiicadon Sachivalaya' Gandhinagar' 13* Febnrary' z(f,fi' curARArpRoffiffi ffi sFgufi$[cffi !$ffif\"*oFLocAL No.KP/1of2frI7l1Vtisctto20wt403/G..InexerciseofthepowerscgnfgnedbysectionSof the Gujarat provisionlli Oirq*frn*\"* ; M\"-b* of '.\"A-Ao*otitio for Defection Acg 1986 (Gui. 23 of 1gg6), ,u.-co\"ri-.\", .r irr,,ri r-\"t\"uv r** G folowing nrte's firflher'to me'ud th, Goirr.t provision for Disquatific.#ff#ilil;ta eutn.ities for Defection Rules' 1987, namelY:-",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-75d770_p1_c002",
+      "gr_id": "GAD-0000-75d770",
+      "text": "1. These rules may be called the Gujarat hovision f9r Disqualification of Members of Local Authoriti., fili\"f\"\"tioo lemendment) Rules' 2@7 ' z.In the orjarat Frovisiou for Disqualification of Members of Inc1l Authorities for Defection Rules, 1987 (hereinafter rrr*JJtJ;:ilr-;a J*r' in nrle 4, after sub-rule (2) the following pi\"ilt\" tUtfi bc inserted' nanely' :- PlovidedthataCorrncilloroftheMrrnicipalCorporatiouortheMruricipalityora mc,nber of the panchayat *uo coote.rted as \" *Iiil* of anl political parry and had already,raii*rr\",r,ri. ,n :rrliiJo;f';* ,\" tu\"Tin* t*tt't& be required to fiimish to the specified officer r ror*\"iioip.ttitur\"ts imd declaration inFormlrf\" I-A'Ex.r, 10'1 10-1",
+      "text_clean": "1. These rules may be called the Gujarat hovision f9r Disqualification of Members of Local Authoriti., fili\"f\"\"tioo lemendment) Rules' 2@7 ' z.In the orjarat Frovisiou for Disqualification of Members of Inc1l Authorities for Defection Rules, 1987 (hereinafter rrr*JJtJ;:ilr-;a J*r' in nrle 4, after sub-rule (2) the following pi\"ilt\" tUtfi bc inserted' nanely' :- PlovidedthataCorrncilloroftheMrrnicipalCorporatiouortheMruricipalityora mc,nber of the panchayat *uo coote.rted as \" *Iiil* of anl political parry and had already,raii*rr\",r,ri. ,n :rrliiJo;f';* ,\" tu\"Tin* t*tt't& be required to fiimish to the specified officer r ror*\"iioip.ttitur\"ts imd declaration inFormlrf\" I-A'Ex.r, 10'1 10-1",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-75d770_p2_c003",
+      "gr_id": "GAD-0000-75d770",
+      "text": "LUz' \nGUJARAT CO\\IERNMENT GAATTE, EX. 13.2-2W7\n[PARTT-A\n. 3. In the iaid rules,'irfter nrle 9, the following shall be added, uamely :- \n' .\nt \n' \n..'-i,\n\"lo' \nA couocitlor of Municipal'cbiporation or the Municipality or a member of\n' the Paachayat who is blected on thi iy-upt,'-torporii\".r parry rhrf;iii anending.any\n' \nmeeting of Municipal Coiporation \", dg.I,iiri;ifJir), or i-paicUajrar eosure ivhethbr any\nmandate is'issued by such'political part-ji,+ttf';;mandate is issuedly such political\nparry,.he bhall obtain such mandare froq sucn . il;l pfl,_or.or*r ur*oa or authority\nauthorized bv $.;th: chirir-p-erson.^of. py i;;drt or vr*i\"ffiiorpootioo or the\nMunicipality or'a Panchayat sh-all verify t*r, i\"rn a -iaur\" has been isru\"a by the potitical\n- PffiY' and circul'ated to the csuncilior of Municiprt c\"{p;;i* oi-,r* Member of\nMunicipalityorb.memberoTthgpanchayat. . \n,.\n4. In the said nrles, 11rule 8, for the words...endeavor shall be made to determine the questioa\nwithin six months\"'the words *endeavdr to deieunine th;;;rbd;; ,'iilJm monihs,t shall\nbe substituted.\nBy order and in the narne of the Govemor of Gujarat,\ni\nS. N.DA\\18,\nJoint S ecretary, to Govenunent.\nGovernsrent cental press, Gandhinagar.",
+      "text_clean": "LUz' \nGUJARAT CO\\IERNMENT GAATTE, EX. 13.2-2W7\n[PARTT-A\n. 3. In the iaid rules,'irfter nrle 9, the following shall be added, uamely :- \n' .\nt \n' \n..'-i,\n\"lo' \nA couocitlor of Municipal'cbiporation or the Municipality or a member of\n' the Paachayat who is blected on thi iy-upt,'-torporii\".r parry rhrf;iii anending.any\n' \nmeeting of Municipal Coiporation \", dg.I,iiri;ifJir), or i-paicUajrar eosure ivhethbr any\nmandate is'issued by such'political part-ji,+ttf';;mandate is issuedly such political\nparry,.he bhall obtain such mandare froq sucn . il;l pfl,_or.or*r ur*oa or authority\nauthorized bv $.;th: chirir-p-erson.^of. py i;;drt or vr*i\"ffiiorpootioo or the\nMunicipality or'a Panchayat sh-all verify t*r, i\"rn a -iaur\" has been isru\"a by the potitical\n- PffiY' and circul'ated to the csuncilior of Municiprt c\"{p;;i* oi-,r* Member of\nMunicipalityorb.memberoTthgpanchayat. . \n,.\n4. In the said nrles, 11rule 8, for the words...endeavor shall be made to determine the questioa\nwithin six months\"'the words *endeavdr to deieunine th;;;rbd;; ,'iilJm monihs,t shall\nbe substituted.\nBy order and in the narne of the Govemor of Gujarat,\ni\nS. N.DA\\18,\nJoint S ecretary, to Govenunent.\nGovernsrent cental press, Gandhinagar.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 700.0,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-75d770_p3_c004",
+      "gr_id": "GAD-0000-75d770",
+      "text": "!\nન\n1\nj\n\n. extra No. 19\n\nThe Gujarat Government Gwsette\n\n-_PUBI ISHED BY AUTHORITY -.\n\nVol. તી WEDNESDAY, FEBRUARY 21, 20071 PHALGUNA. 2, 1928\n\nPART. x\"\n\nરી ws ot દાણ translation of Bills; Acts and Notification other than.\nre “thse published i in other parts.”\n\n- વૈધાનિક અને સંસદીય બાબતોનો. વિભાગ\n_ abasic ગાંધીનગર, eal 'ફેબ્રુઆરી, ૨૦૦૭.\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં માં પ્રસિધ્ધ થયેલા પ aiden: ૧૩મી ફેબ્રુઆરી, ૨૦૦૦ના ગુજરાત સરકારના, પંચાયત, ગ્રામ\nstoi અંનેઃ ગ્રામ. વિકાંસઃ વિભાગના daa જાહેરનામાં: suis: કેપી/૨૦૦૭નો' '૧/એમઆઇએસસી/ ૧૦૨૦૦૬/\nઝી al | yet: એનુવાદ આયો સર્વ લોકોથી જાણે સારું, પ્રસિ ક્યો દ છે.\n\naud ad, પરમાર,\nસસ્કાસ્ના સંયુક્ત સચિવ.\n\nCoe",
+      "text_clean": "!\nન\n1\nj\n\n. extra No. 19\n\nThe Gujarat Government Gwsette\n\n-_PUBI ISHED BY AUTHORITY -.\n\nVol. તી WEDNESDAY, FEBRUARY 21, 20071 PHALGUNA. 2, 1928\n\nPART. x\"\n\nરી ws ot દાણ translation of Bills; Acts and Notification other than.\nre “thse published i in other parts.”\n\n- વૈધાનિક અને સંસદીય બાબતોનો. વિભાગ\n_ abasic ગાંધીનગર, eal 'ફેબ્રુઆરી, 2007.\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં માં પ્રસિધ્ધ થયેલા પ aiden: 13મી ફેબ્રુઆરી, 2000ના ગુજરાત સરકારના, પંચાયત, ગ્રામ\nstoi અંનેઃ ગ્રામ. વિકાંસઃ વિભાગના daa જાહેરનામાં: suis: કેપી/2007નો' '1/એમઆઇએસસી/ 102006/\nઝી al | yet: એનુવાદ આયો સર્વ લોકોથી જાણે સારું, પ્રસિ ક્યો દ છે.\n\naud ad, પરમાર,\nસસ્કાસ્ના સંયુક્ત સચિવ.\n\nCoe",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 700.0,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-75d770_p4_c005",
+      "gr_id": "GAD-0000-75d770",
+      "text": ".192 _ GUJARAT GOVERNMENT GAZETTE, Ex, 21-02-2007\". . . (PART-IX...\n\neo a ન - Notification\n\n9. 1 ી ી ms . Rega ding -\n\nAMENDMENT T TO THE GUJARAT PROVISION FOR DISQUALIFICATION oF\n“MEMBERS.OF LOCAL AUTHORITIES FOR. DEFECTION. RULES, 1987. .\n\nગુજરાત પ પક્ષાંતર. બદલ સ્થાનિક સત્તામંડળોના સભ્યોનેઃ ગેરલાયક ઠરાવવા માટે જોગવાઇ & Sat બાબતના તિયમો,._\n- , ૧૯૮૦ સુધારવા સંબંધી. a a I\nક 7 જાહેરનામું * દે =\naie ગ ગ્રામ પમ શૂહસિર્માણ- અને ગ્રામ rt ih .\n<3 ફેબ્રુઆરી; ક\n\n. - સચિવાલેય, silo af mo\nગુજરાતનો પ પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઇ કરતો. અધિનિયમ, ૧૯ ૮૬..\nક્રમાંકઃ કેપી/૨૦૦૭નો . .૧/એમઆઇએસસી/૧૦૨૦૦૬/૪૦૩/જી.: =. ગુજરાતનો = “પક્ષાંતર બદલ ' સ્થાનિક\n\nસત્તામંડળોનાઃ સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઈ કરતો અધિનિયમ, ૧૯૮૬(સનઃ ૧૯૮૬ના ગુજરાતના ર૩મા)ની . .\nsan ૮થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી, ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક.\n\nઠરાવવા માટે જોગવાઈ કરવા બાબતના નિયમો, ૧૯૮૭ વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n૧: આ નિયમો ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળના. સભ્યોને ગેરલાયક ઠરાવવા માટે જોગવાઈ કરવા\n\n_બાબતના (સુધારા)નિયમો, 2009 કહેવાશે.\n\n| ૨. ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક'&ઃ ઠરાવવા માટે જોગવાઈ ક કરવા બાબતના ના નિયમો, *\n* - ૧૯૮૭( જેનો આમાં હવે' પછી. “ સદરહુ. Gerd: #: 'તરીકે ઉલ્લેખ sal છેં ani ન નિયમ “૪માં, પેઢા: નિયમ @) -\n\nપછી, નીચેનો પરંતુક દાખલ કરવોઃ- .\n“પરંતુ મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના કાઉન્સિલર : અથવા પંચાયતના સભ્ય, જેઓ\n\nકોઈ રાજકીય પક્ષના ઉમેદવાર તરીકે ચૂંટણી લેંડ્યા da અને તે મતલબનો એકરાર તેમણે ચૂંટણી અધિકારી સમક્ષ:\n\n* અગાઉ Sal હોય તેમણે, નમૂના-૩ મુજબ વિગતોનું પત્રક ક અને એકરાર નિર્દિષ્ટ અધિકારીને પૂચ પાડવાના wa\nનહિ.''. ”\nડુ. . સદરહુ નિયમોમાં, નિયમ ૯ પછી, નીચેનો નિયમ ઉમેરવોઃ -\n\n90. WHA પક્ષના .પ્રતૌક. Gur ચૂંટાયેલ dada મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના -\noo “nGuee WAU પંચાયતના સભ્યે, મ્યુનિસિપલ કોર્પોરેશનની અથવા નગરપાલિકાની. અથવા પંચાયતનીઃ AS બેઠકરમાં'' .\n\"હાજરી આપંતી aud, એવાં રાજકીય પક્ષ તરફથી કોઇ'આદેશ કાઢવામાં આવ્યો છે 3 કૈમ' તે સુનિશ્ચિત' કરવું જોઈશે\nઅને એવા રાજકીય પક્ષ તરફથી એવો કોઇ આદેશ” કાઢવામા આવો હોય તો, તેમણે એવાં રાજકીય પક્ષ અથવાં તેણે *\nઅધિકૃત કરેલી કોઇ વ્યક્તિ અથવા સત્તાધિકારી પાસેથી એવો આદેશ મેળવવો જોઇશે. મ્યુનિસિપલ કોર્પોરેશનની .\nઅથવા નગરપાલિકાની અથવા પંચાયતની કોઈ બેઠકના wed, રાજકીય પક્ષ તરફથી એવો AS આદેશ કાઢવામાં,\nઆવ્યો છે તેની ખરાઇ કરવી જોઇશે, અને તે, મ્યુનિસિપલ Tiida અથવા નગરપાલિકાના કાઉન્સિલરને અથવા\n\nપંચાયતના સભ્યને-પરિપત્રિત કરવો જોઇશે.'”.\n\n૪. સદરહુ નિયર્મોમાં, નિયમ cui, “ છ મહિનાની અંદર પ્રશ્નનો નિર્ણય કરવાનો પ્રયત કરવો ASA\" એ શબ્દોને\n\nબદલે, “ બે મહિનાની અંદર mated નિર્ણય. કરવાનો HUA કરવો જોઇશે ” એ શબ્દો મૂકવા..\nગુજરાતના રાજ્યપાલના હુકમથી અને તમના નામે,\n9\n\n_. એસ.એન.દવે, *\n\"સરકારના સંયુકત સચિવ. -\n\nસરકારી મધ્યસ્થ yeaa, ગાંધીનગર.\n\nદે\n\nચીં",
+      "text_clean": ".192 _ GUJARAT GOVERNMENT GAZETTE, Ex, 21-02-2007\". . . (PART-IX...\n\neo a ન - Notification\n\n9. 1 ી ી ms . Rega ding -\n\nAMENDMENT T TO THE GUJARAT PROVISION FOR DISQUALIFICATION oF\n“MEMBERS.OF LOCAL AUTHORITIES FOR. DEFECTION. RULES, 1987. .\n\nગુજરાત પ પક્ષાંતર. બદલ સ્થાનિક સત્તામંડળોના સભ્યોનેઃ ગેરલાયક ઠરાવવા માટે જોગવાઇ & Sat બાબતના તિયમો,._\n- , 1980 સુધારવા સંબંધી. a a I\nક 7 જાહેરનામું * દે =\naie ગ ગ્રામ પમ શૂહસિર્માણ- અને ગ્રામ rt ih .\n<3 ફેબ્રુઆરી; ક\n\n. - સચિવાલેય, silo af mo\nગુજરાતનો પ પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઇ કરતો. અધિનિયમ, 19 86..\nક્રમાંકઃ કેપી/2007નો . .1/એમઆઇએસસી/102006/403/જી.: =. ગુજરાતનો = “પક્ષાંતર બદલ ' સ્થાનિક\n\nસત્તામંડળોનાઃ સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઈ કરતો અધિનિયમ, 1986(સનઃ 1986ના ગુજરાતના ર3મા)ની . .\nsan 8થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી, ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક.\n\nઠરાવવા માટે જોગવાઈ કરવા બાબતના નિયમો, 1987 વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n1: આ નિયમો ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળના. સભ્યોને ગેરલાયક ઠરાવવા માટે જોગવાઈ કરવા\n\n_બાબતના (સુધારા)નિયમો, 2009 કહેવાશે.\n\n| 2. ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક'&ઃ ઠરાવવા માટે જોગવાઈ ક કરવા બાબતના ના નિયમો, *\n* - 1987( જેનો આમાં હવે' પછી. “ સદરહુ. Gerd: #: 'તરીકે ઉલ્લેખ sal છેં ani ન નિયમ “4માં, પેઢા: નિયમ @) -\n\nપછી, નીચેનો પરંતુક દાખલ કરવોઃ- .\n“પરંતુ મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના કાઉન્સિલર : અથવા પંચાયતના સભ્ય, જેઓ\n\nકોઈ રાજકીય પક્ષના ઉમેદવાર તરીકે ચૂંટણી લેંડ્યા da અને તે મતલબનો એકરાર તેમણે ચૂંટણી અધિકારી સમક્ષ:\n\n* અગાઉ Sal હોય તેમણે, નમૂના-3 મુજબ વિગતોનું પત્રક ક અને એકરાર નિર્દિષ્ટ અધિકારીને પૂચ પાડવાના wa\nનહિ.''. ”\nડુ. . સદરહુ નિયમોમાં, નિયમ 9 પછી, નીચેનો નિયમ ઉમેરવોઃ -\n\n90. WHA પક્ષના .પ્રતૌક. Gur ચૂંટાયેલ dada મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના -\noo “nGuee WAU પંચાયતના સભ્યે, મ્યુનિસિપલ કોર્પોરેશનની અથવા નગરપાલિકાની. અથવા પંચાયતનીઃ AS બેઠકરમાં'' .\n\"હાજરી આપંતી aud, એવાં રાજકીય પક્ષ તરફથી કોઇ'આદેશ કાઢવામાં આવ્યો છે 3 કૈમ' તે સુનિશ્ચિત' કરવું જોઈશે\nઅને એવા રાજકીય પક્ષ તરફથી એવો કોઇ આદેશ” કાઢવામા આવો હોય તો, તેમણે એવાં રાજકીય પક્ષ અથવાં તેણે *\nઅધિકૃત કરેલી કોઇ વ્યક્તિ અથવા સત્તાધિકારી પાસેથી એવો આદેશ મેળવવો જોઇશે. મ્યુનિસિપલ કોર્પોરેશનની .\nઅથવા નગરપાલિકાની અથવા પંચાયતની કોઈ બેઠકના wed, રાજકીય પક્ષ તરફથી એવો AS આદેશ કાઢવામાં,\nઆવ્યો છે તેની ખરાઇ કરવી જોઇશે, અને તે, મ્યુનિસિપલ Tiida અથવા નગરપાલિકાના કાઉન્સિલરને અથવા\n\nપંચાયતના સભ્યને-પરિપત્રિત કરવો જોઇશે.'”.\n\n4. સદરહુ નિયર્મોમાં, નિયમ cui, “ છ મહિનાની અંદર પ્રશ્નનો નિર્ણય કરવાનો પ્રયત કરવો ASA\" એ શબ્દોને\n\nબદલે, “ બે મહિનાની અંદર mated નિર્ણય. કરવાનો HUA કરવો જોઇશે ” એ શબ્દો મૂકવા..\nગુજરાતના રાજ્યપાલના હુકમથી અને તમના નામે,\n9\n\n_. એસ.એન.દવે, *\n\"સરકારના સંયુકત સચિવ. -\n\nસરકારી મધ્યસ્થ yeaa, ગાંધીનગર.\n\nદે\n\nચીં",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 700.0,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "ExtraNo. 10\nREGISTEREDNo. G/GNR/2\nffi\ns-fislq urd\nq6be Guturnt Gobeurm.silt Guttttt\nEXTRAORDINARY\nPI]BLISIIED BY ATITIIORTTY\nVol.)(LVItrJ\nTTUESDAY, FEBRUARY 13, ilrynvIAGHA A' I9?8,\n-\nPART I.A\nCENTRAL SECTION\nordersandNo6Eca6ons(otherthanlhosdPlbltshedinPartlv.B)\nunder the Gqiant r'\"\"i;;tt' o**t fanchayats'YY'tidPd\nBoroughs, Dist'ict uJ*J',P't-\"\"y edrrcation and I.ocal\ntrbnd AudltActs'\nPAI{CHAYATS, RLRAL EOUSING AND RURAL DE\\mLOPMENT DBPARTIVIEM\nNotiicadon\nSachivalaya' Gandhinagar' 13* Febnrary' z(f,fi'\ncurARArpRoffiffi ffi sFgufi$[cffi !$ffif\"*oFLocAL\nNo.KP/1of2frI7l1Vtisctto20wt403/G..InexerciseofthepowerscgnfgnedbysectionSof\nthe Gujarat provisionlli Oirq*frn*\"* ; M\"-b* of \n'.\"A-Ao*otitio \nfor Defection Acg 1986\n(Gui. 23 of 1gg6), ,u.-co\"ri-.\", .r irr,,ri r-\"t\"uv r** G folowing nrte's firflher'to me'ud\nth, Goirr.t provision for Disquatific.#ff#ilil;ta \neutn.ities for Defection Rules'\n1987, namelY:-\n1. These rules may be called the Gujarat hovision f9r Disqualification of Members of Local\nAuthoriti., fili\"f\"\"tioo lemendment) Rules' 2@7 '\nz.In the orjarat Frovisiou for Disqualification of Members of Inc1l Authorities for Defection\nRules, 1987 (hereinafter rrr*JJtJ;:ilr-;a J*r' in nrle 4, after sub-rule (2) the\nfollowing pi\"ilt\" tUtfi bc inserted' nanely' :-\nPlovidedthataCorrncilloroftheMrrnicipalCorporatiouortheMruricipalityora\nmc,nber of the panchayat *uo coote.rted as \" *Iiil* \nof anl political parry and had\nalready,raii*rr\",r,ri. ,n :rrliiJo;f';* ,\" tu\"Tin* t*tt't& be required to fiimish\nto the specified officer r ror*\"iioip.ttitur\"ts imd declaration inFormlrf\"\nI-A'Ex.r, 10'1\n10-1\n\nLUz' \nGUJARAT CO\\IERNMENT GAATTE, EX. 13.2-2W7\n[PARTT-A\n. 3. In the iaid rules,'irfter nrle 9, the following shall be added, uamely :- \n' .\nt \n' \n..'-i,\n\"lo' \nA couocitlor of Municipal'cbiporation or the Municipality or a member of\n' the Paachayat who is blected on thi iy-upt,'-torporii\".r parry rhrf;iii anending.any\n' \nmeeting of Municipal Coiporation \", dg.I,iiri;ifJir), or i-paicUajrar eosure ivhethbr any\nmandate is'issued by such'political part-ji,+ttf';;mandate is issuedly such political\nparry,.he bhall obtain such mandare froq sucn . il;l pfl,_or.or*r ur*oa or authority\nauthorized bv $.;th: chirir-p-erson.^of. py i;;drt or vr*i\"ffiiorpootioo or the\nMunicipality or'a Panchayat sh-all verify t*r, i\"rn a -iaur\" has been isru\"a by the potitical\n- PffiY' and circul'ated to the csuncilior of Municiprt c\"{p;;i* oi-,r* Member of\nMunicipalityorb.memberoTthgpanchayat. . \n,.\n4. In the said nrles, 11rule 8, for the words...endeavor shall be made to determine the questioa\nwithin six months\"'the words *endeavdr to deieunine th;;;rbd;; ,'iilJm monihs,t shall\nbe substituted.\nBy order and in the narne of the Govemor of Gujarat,\ni\nS. N.DA\\18,\nJoint S ecretary, to Govenunent.\nGovernsrent cental press, Gandhinagar.\n\n!\nન\n1\nj\n\n. extra No. 19\n\nThe Gujarat Government Gwsette\n\n-_PUBI ISHED BY AUTHORITY -.\n\nVol. તી WEDNESDAY, FEBRUARY 21, 20071 PHALGUNA. 2, 1928\n\nPART. x\"\n\nરી ws ot દાણ translation of Bills; Acts and Notification other than.\nre “thse published i in other parts.”\n\n- વૈધાનિક અને સંસદીય બાબતોનો. વિભાગ\n_ abasic ગાંધીનગર, eal 'ફેબ્રુઆરી, ૨૦૦૭.\n\nગુજરાત ગેઝેટમાં અંગ્રેજીમાં માં પ્રસિધ્ધ થયેલા પ aiden: ૧૩મી ફેબ્રુઆરી, ૨૦૦૦ના ગુજરાત સરકારના, પંચાયત, ગ્રામ\nstoi અંનેઃ ગ્રામ. વિકાંસઃ વિભાગના daa જાહેરનામાં: suis: કેપી/૨૦૦૭નો' '૧/એમઆઇએસસી/ ૧૦૨૦૦૬/\nઝી al | yet: એનુવાદ આયો સર્વ લોકોથી જાણે સારું, પ્રસિ ક્યો દ છે.\n\naud ad, પરમાર,\nસસ્કાસ્ના સંયુક્ત સચિવ.\n\nCoe\n\n\n.192 _ GUJARAT GOVERNMENT GAZETTE, Ex, 21-02-2007\". . . (PART-IX...\n\neo a ન - Notification\n\n9. 1 ી ી ms . Rega ding -\n\nAMENDMENT T TO THE GUJARAT PROVISION FOR DISQUALIFICATION oF\n“MEMBERS.OF LOCAL AUTHORITIES FOR. DEFECTION. RULES, 1987. .\n\nગુજરાત પ પક્ષાંતર. બદલ સ્થાનિક સત્તામંડળોના સભ્યોનેઃ ગેરલાયક ઠરાવવા માટે જોગવાઇ & Sat બાબતના તિયમો,._\n- , ૧૯૮૦ સુધારવા સંબંધી. a a I\nક 7 જાહેરનામું * દે =\naie ગ ગ્રામ પમ શૂહસિર્માણ- અને ગ્રામ rt ih .\n<3 ફેબ્રુઆરી; ક\n\n. - સચિવાલેય, silo af mo\nગુજરાતનો પ પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઇ કરતો. અધિનિયમ, ૧૯ ૮૬..\nક્રમાંકઃ કેપી/૨૦૦૭નો . .૧/એમઆઇએસસી/૧૦૨૦૦૬/૪૦૩/જી.: =. ગુજરાતનો = “પક્ષાંતર બદલ ' સ્થાનિક\n\nસત્તામંડળોનાઃ સભ્યોને ગેરલાયક ઠરાવવાની જોગવાઈ કરતો અધિનિયમ, ૧૯૮૬(સનઃ ૧૯૮૬ના ગુજરાતના ર૩મા)ની . .\nsan ૮થી મળેલી સત્તાની રૂએ, ગુજરાત સરકાર, આથી, ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક.\n\nઠરાવવા માટે જોગવાઈ કરવા બાબતના નિયમો, ૧૯૮૭ વધુ સુધારવા નીચેના નિયમો કરે છે:-\n\n૧: આ નિયમો ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળના. સભ્યોને ગેરલાયક ઠરાવવા માટે જોગવાઈ કરવા\n\n_બાબતના (સુધારા)નિયમો, 2009 કહેવાશે.\n\n| ૨. ગુજરાત પક્ષાંતર બદલ સ્થાનિક સત્તામંડળોના સભ્યોને ગેરલાયક'&ઃ ઠરાવવા માટે જોગવાઈ ક કરવા બાબતના ના નિયમો, *\n* - ૧૯૮૭( જેનો આમાં હવે' પછી. “ સદરહુ. Gerd: #: 'તરીકે ઉલ્લેખ sal છેં ani ન નિયમ “૪માં, પેઢા: નિયમ @) -\n\nપછી, નીચેનો પરંતુક દાખલ કરવોઃ- .\n“પરંતુ મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના કાઉન્સિલર : અથવા પંચાયતના સભ્ય, જેઓ\n\nકોઈ રાજકીય પક્ષના ઉમેદવાર તરીકે ચૂંટણી લેંડ્યા da અને તે મતલબનો એકરાર તેમણે ચૂંટણી અધિકારી સમક્ષ:\n\n* અગાઉ Sal હોય તેમણે, નમૂના-૩ મુજબ વિગતોનું પત્રક ક અને એકરાર નિર્દિષ્ટ અધિકારીને પૂચ પાડવાના wa\nનહિ.''. ”\nડુ. . સદરહુ નિયમોમાં, નિયમ ૯ પછી, નીચેનો નિયમ ઉમેરવોઃ -\n\n90. WHA પક્ષના .પ્રતૌક. Gur ચૂંટાયેલ dada મ્યુનિસિપલ કોર્પોરેશનના અથવા નગરપાલિકાના -\noo “nGuee WAU પંચાયતના સભ્યે, મ્યુનિસિપલ કોર્પોરેશનની અથવા નગરપાલિકાની. અથવા પંચાયતનીઃ AS બેઠકરમાં'' .\n\"હાજરી આપંતી aud, એવાં રાજકીય પક્ષ તરફથી કોઇ'આદેશ કાઢવામાં આવ્યો છે 3 કૈમ' તે સુનિશ્ચિત' કરવું જોઈશે\nઅને એવા રાજકીય પક્ષ તરફથી એવો કોઇ આદેશ” કાઢવામા આવો હોય તો, તેમણે એવાં રાજકીય પક્ષ અથવાં તેણે *\nઅધિકૃત કરેલી કોઇ વ્યક્તિ અથવા સત્તાધિકારી પાસેથી એવો આદેશ મેળવવો જોઇશે. મ્યુનિસિપલ કોર્પોરેશનની .\nઅથવા નગરપાલિકાની અથવા પંચાયતની કોઈ બેઠકના wed, રાજકીય પક્ષ તરફથી એવો AS આદેશ કાઢવામાં,\nઆવ્યો છે તેની ખરાઇ કરવી જોઇશે, અને તે, મ્યુનિસિપલ Tiida અથવા નગરપાલિકાના કાઉન્સિલરને અથવા\n\nપંચાયતના સભ્યને-પરિપત્રિત કરવો જોઇશે.'”.\n\n૪. સદરહુ નિયર્મોમાં, નિયમ cui, “ છ મહિનાની અંદર પ્રશ્નનો નિર્ણય કરવાનો પ્રયત કરવો ASA\" એ શબ્દોને\n\nબદલે, “ બે મહિનાની અંદર mated નિર્ણય. કરવાનો HUA કરવો જોઇશે ” એ શબ્દો મૂકવા..\nગુજરાતના રાજ્યપાલના હુકમથી અને તમના નામે,\n9\n\n_. એસ.એન.દવે, *\n\"સરકારના સંયુકત સચિવ. -\n\nસરકારી મધ્યસ્થ yeaa, ગાંધીનગર.\n\nદે\n\nચીં\n"
+}

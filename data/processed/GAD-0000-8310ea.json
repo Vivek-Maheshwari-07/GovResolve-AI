@@ -1,0 +1,128 @@
+{
+  "gr_id": "GAD-0000-8310ea",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\notifications\\Mukhya-Sevika-Superior-Amendment-21-3-2022.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 595.219970703125,
+      "height": 842.0,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "Government Central Press, Gandhinagar.\n Extra No. 12 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTHURSDAY,  MARCH  24,  2022 / CHAITRA  3,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 21th March, 2022 \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/16 of 2022/PRR/102013/1847/KH :- In exercise of the powers conferred  by sub-section (5) of section 227 read with \nsection 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the following \nrules further to amend the Mukhya Sevika, Class – III, in the Superior Panchayat Service Recruitment Rules, 2013, namely :- \n1.  These rules may be called the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment (Amendment) \nRules, 2022. \n2. In the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment Rules, 2013, in rule 3, in clause (b), for \nsub-clause (i), the following sub-clause shall be substituted, namely:- \n“ (i) a Bachelor’s degree or as the case may be a Master’s degree in Home Science or Sociology or Child Development or \nNutrition or Social Work obtained from any of the Universities established or incorporated by or under the Central or \nState Act in India; or any other educational institution recognised as such or declared to be deemed as a University \nunder section 3 of the University Grants Commission Act, 1956;”. \nBy order and in the name of the Governor of Gujarat, \nHITESH GOHIL, \nDeputy Secretary to Government. \n---------- \nI-A Ex.-12 \n12-1 \nSigned by:Shri P. B. Kanwar\nDate: 2022.04.08 13:47:48 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+          "text_clean": "Government Central Press, Gandhinagar.\n Extra No. 12 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTHURSDAY,  MARCH  24,  2022 / CHAITRA  3,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 21th March, 2022 \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/16 of 2022/PRR/102013/1847/KH :- In exercise of the powers conferred  by sub-section (5) of section 227 read with \nsection 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the following \nrules further to amend the Mukhya Sevika, Class – III, in the Superior Panchayat Service Recruitment Rules, 2013, namely :- \n1.  These rules may be called the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment (Amendment) \nRules, 2022. \n2. In the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment Rules, 2013, in rule 3, in clause (b), for \nsub-clause (i), the following sub-clause shall be substituted, namely:- \n“ (i) a Bachelor’s degree or as the case may be a Master’s degree in Home Science or Sociology or Child Development or \nNutrition or Social Work obtained from any of the Universities established or incorporated by or under the Central or \nState Act in India; or any other educational institution recognised as such or declared to be deemed as a University \nunder section 3 of the University Grants Commission Act, 1956;”. \nBy order and in the name of the Governor of Gujarat, \nHITESH GOHIL, \nDeputy Secretary to Government. \n---------- \nI-A Ex.-12 \n12-1 \nSigned by:Shri P. B. Kanwar\nDate: 2022.04.08 13:47:48 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.219970703125,
+            "y1": 842.0,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-8310ea_p1_c000",
+      "gr_id": "GAD-0000-8310ea",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-8310ea_p1_c001",
+      "gr_id": "GAD-0000-8310ea",
+      "text": "Government Central Press, Gandhinagar. Extra No. 12 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXIII ] THURSDAY, MARCH 24, 2022 / CHAITRA 3, 1944 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 21th March, 2022 GUJARAT PANCHAYATS ACT, 1993. No.KP/16 of 2022/PRR/102013/1847/KH :- In exercise of the powers conferred by sub-section (5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the Mukhya Sevika, Class – III, in the Superior Panchayat Service Recruitment Rules, 2013, namely :-",
+      "text_clean": "Government Central Press, Gandhinagar. Extra No. 12 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXIII ] THURSDAY, MARCH 24, 2022 / CHAITRA 3, 1944 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 21th March, 2022 GUJARAT PANCHAYATS ACT, 1993. No.KP/16 of 2022/PRR/102013/1847/KH :- In exercise of the powers conferred by sub-section (5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the Mukhya Sevika, Class – III, in the Superior Panchayat Service Recruitment Rules, 2013, namely :-",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-8310ea_p1_c002",
+      "gr_id": "GAD-0000-8310ea",
+      "text": "1. These rules may be called the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment (Amendment) Rules, 2022.",
+      "text_clean": "1. These rules may be called the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment (Amendment) Rules, 2022.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-8310ea_p1_c003",
+      "gr_id": "GAD-0000-8310ea",
+      "text": "2. In the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment Rules, 2013, in rule 3, in clause (b), for sub-clause (i), the following sub-clause shall be substituted, namely:- “ (i) a Bachelor’s degree or as the case may be a Master’s degree in Home Science or Sociology or Child Development or Nutrition or Social Work obtained from any of the Universities established or incorporated by or under the Central or State Act in India; or any other educational institution recognised as such or declared to be deemed as a University under section 3 of the University Grants Commission Act, 1956;”. By order and in the name of the Governor of Gujarat, HITESH GOHIL, Deputy Secretary to Government. ---------- I-A Ex.-12 12-1 Signed by:Shri P. B. Kanwar Date: 2022.04.08 13:47:48 +05:30 Reason: Validate Document Location: Government Central Press, Gandhinagar Signature Not Verified",
+      "text_clean": "2. In the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment Rules, 2013, in rule 3, in clause (b), for sub-clause (i), the following sub-clause shall be substituted, namely:- “ (i) a Bachelor’s degree or as the case may be a Master’s degree in Home Science or Sociology or Child Development or Nutrition or Social Work obtained from any of the Universities established or incorporated by or under the Central or State Act in India; or any other educational institution recognised as such or declared to be deemed as a University under section 3 of the University Grants Commission Act, 1956;”. By order and in the name of the Governor of Gujarat, HITESH GOHIL, Deputy Secretary to Government. ---------- I-A Ex.-12 12-1 Signed by:Shri P. B. Kanwar Date: 2022.04.08 13:47:48 +05:30 Reason: Validate Document Location: Government Central Press, Gandhinagar Signature Not Verified",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "Government Central Press, Gandhinagar.\n Extra No. 12 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTHURSDAY,  MARCH  24,  2022 / CHAITRA  3,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 21th March, 2022 \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/16 of 2022/PRR/102013/1847/KH :- In exercise of the powers conferred  by sub-section (5) of section 227 read with \nsection 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993), the Government of Gujarat hereby makes the following \nrules further to amend the Mukhya Sevika, Class – III, in the Superior Panchayat Service Recruitment Rules, 2013, namely :- \n1.  These rules may be called the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment (Amendment) \nRules, 2022. \n2. In the Mukhya Sevika, Class-III, in the Superior Panchayat Service Recruitment Rules, 2013, in rule 3, in clause (b), for \nsub-clause (i), the following sub-clause shall be substituted, namely:- \n“ (i) a Bachelor’s degree or as the case may be a Master’s degree in Home Science or Sociology or Child Development or \nNutrition or Social Work obtained from any of the Universities established or incorporated by or under the Central or \nState Act in India; or any other educational institution recognised as such or declared to be deemed as a University \nunder section 3 of the University Grants Commission Act, 1956;”. \nBy order and in the name of the Governor of Gujarat, \nHITESH GOHIL, \nDeputy Secretary to Government. \n---------- \nI-A Ex.-12 \n12-1 \nSigned by:Shri P. B. Kanwar\nDate: 2022.04.08 13:47:48 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified"
+}

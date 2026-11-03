@@ -1,0 +1,128 @@
+{
+  "gr_id": "GAD-0000-51aae9",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\notifications\\Gram-Sevak-Panchayat-Service-Recruitment-11-01-2022.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 595.3200073242188,
+      "height": 842.0399780273438,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "Government Central Press, Gandhinagar.\nExtra No. 2 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII] \nMONDAY, JANUARY 17, 2022 / PAUSHA 27, 1943 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n \n \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 11th January, 2022 \nGUJARAT PANCHAYATS ACT, 1993. \nNo. KP/01/2022/PRR/102013/1864/KH:- In exercise of the powers conferred by section 227 read with sub-section (5) \nof section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of  Gujarat hereby makes the \nfollowing rules further to amend the Gram  Sevak, Class III, in the Superior Panchayat Service Recruitment Rules, 2014, \nNamely:- \n1. \n    These rules may be called the Gram Sevak, Class III, in the Superior Panchayat Service Recruitment \n(Amendment) Rules, 2022.   \n2. \nIn the Gram Sevak, Class III in the Superior Panchayat Service, Recruitment Rules, 2014, in rule 3, in clause \n(b), in sub-clause (i)(a), after the words “Rural Development and Management”,  the words  “Rural Studies in \nRural Farm Management / B.Sc. (Agriculture) or B.E. (Agriculture) / B.Sc. (Horticulture) ” shall be inserted. \nBy order and in the name of the Governor of Gujarat, \n \n \nHITESH GOHIL, \n \n \nDeputy Secretary to Government. \n---------- \n \n \n \n \nI-A Ex.-2 \n2-1 \nSigned by:Shri P. B. Kanwar\nDate: 2022.04.28 14:38:20 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+          "text_clean": "Government Central Press, Gandhinagar.\nExtra No. 2 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII] \nMONDAY, JANUARY 17, 2022 / PAUSHA 27, 1943 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n \n \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 11th January, 2022 \nGUJARAT PANCHAYATS ACT, 1993. \nNo. KP/01/2022/PRR/102013/1864/KH:- In exercise of the powers conferred by section 227 read with sub-section (5) \nof section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of  Gujarat hereby makes the \nfollowing rules further to amend the Gram  Sevak, Class III, in the Superior Panchayat Service Recruitment Rules, 2014, \nNamely:- \n1. \n    These rules may be called the Gram Sevak, Class III, in the Superior Panchayat Service Recruitment \n(Amendment) Rules, 2022.   \n2. \nIn the Gram Sevak, Class III in the Superior Panchayat Service, Recruitment Rules, 2014, in rule 3, in clause \n(b), in sub-clause (i)(a), after the words “Rural Development and Management”,  the words  “Rural Studies in \nRural Farm Management / B.Sc. (Agriculture) or B.E. (Agriculture) / B.Sc. (Horticulture) ” shall be inserted. \nBy order and in the name of the Governor of Gujarat, \n \n \nHITESH GOHIL, \n \n \nDeputy Secretary to Government. \n---------- \n \n \n \n \nI-A Ex.-2 \n2-1 \nSigned by:Shri P. B. Kanwar\nDate: 2022.04.28 14:38:20 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.3200073242188,
+            "y1": 842.0399780273438,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-51aae9_p1_c000",
+      "gr_id": "GAD-0000-51aae9",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-51aae9_p1_c001",
+      "gr_id": "GAD-0000-51aae9",
+      "text": "Government Central Press, Gandhinagar. Extra No. 2 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXIII] MONDAY, JANUARY 17, 2022 / PAUSHA 27, 1943 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 11th January, 2022 GUJARAT PANCHAYATS ACT, 1993. No. KP/01/2022/PRR/102013/1864/KH:- In exercise of the powers conferred by section 227 read with sub-section (5) of section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the Gram Sevak, Class III, in the Superior Panchayat Service Recruitment Rules, 2014, Namely:-",
+      "text_clean": "Government Central Press, Gandhinagar. Extra No. 2 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXIII] MONDAY, JANUARY 17, 2022 / PAUSHA 27, 1943 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 11th January, 2022 GUJARAT PANCHAYATS ACT, 1993. No. KP/01/2022/PRR/102013/1864/KH:- In exercise of the powers conferred by section 227 read with sub-section (5) of section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the Gram Sevak, Class III, in the Superior Panchayat Service Recruitment Rules, 2014, Namely:-",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-51aae9_p1_c002",
+      "gr_id": "GAD-0000-51aae9",
+      "text": "1. These rules may be called the Gram Sevak, Class III, in the Superior Panchayat Service Recruitment (Amendment) Rules, 2022.",
+      "text_clean": "1. These rules may be called the Gram Sevak, Class III, in the Superior Panchayat Service Recruitment (Amendment) Rules, 2022.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-51aae9_p1_c003",
+      "gr_id": "GAD-0000-51aae9",
+      "text": "2. In the Gram Sevak, Class III in the Superior Panchayat Service, Recruitment Rules, 2014, in rule 3, in clause (b), in sub-clause (i)(a), after the words “Rural Development and Management”, the words “Rural Studies in Rural Farm Management / B.Sc. (Agriculture) or B.E. (Agriculture) / B.Sc. (Horticulture) ” shall be inserted. By order and in the name of the Governor of Gujarat, HITESH GOHIL, Deputy Secretary to Government. ---------- I-A Ex.-2 2-1 Signed by:Shri P. B. Kanwar Date: 2022.04.28 14:38:20 +05:30 Reason: Validate Document Location: Government Central Press, Gandhinagar Signature Not Verified",
+      "text_clean": "2. In the Gram Sevak, Class III in the Superior Panchayat Service, Recruitment Rules, 2014, in rule 3, in clause (b), in sub-clause (i)(a), after the words “Rural Development and Management”, the words “Rural Studies in Rural Farm Management / B.Sc. (Agriculture) or B.E. (Agriculture) / B.Sc. (Horticulture) ” shall be inserted. By order and in the name of the Governor of Gujarat, HITESH GOHIL, Deputy Secretary to Government. ---------- I-A Ex.-2 2-1 Signed by:Shri P. B. Kanwar Date: 2022.04.28 14:38:20 +05:30 Reason: Validate Document Location: Government Central Press, Gandhinagar Signature Not Verified",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "Government Central Press, Gandhinagar.\nExtra No. 2 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII] \nMONDAY, JANUARY 17, 2022 / PAUSHA 27, 1943 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n \n \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 11th January, 2022 \nGUJARAT PANCHAYATS ACT, 1993. \nNo. KP/01/2022/PRR/102013/1864/KH:- In exercise of the powers conferred by section 227 read with sub-section (5) \nof section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of  Gujarat hereby makes the \nfollowing rules further to amend the Gram  Sevak, Class III, in the Superior Panchayat Service Recruitment Rules, 2014, \nNamely:- \n1. \n    These rules may be called the Gram Sevak, Class III, in the Superior Panchayat Service Recruitment \n(Amendment) Rules, 2022.   \n2. \nIn the Gram Sevak, Class III in the Superior Panchayat Service, Recruitment Rules, 2014, in rule 3, in clause \n(b), in sub-clause (i)(a), after the words “Rural Development and Management”,  the words  “Rural Studies in \nRural Farm Management / B.Sc. (Agriculture) or B.E. (Agriculture) / B.Sc. (Horticulture) ” shall be inserted. \nBy order and in the name of the Governor of Gujarat, \n \n \nHITESH GOHIL, \n \n \nDeputy Secretary to Government. \n---------- \n \n \n \n \nI-A Ex.-2 \n2-1 \nSigned by:Shri P. B. Kanwar\nDate: 2022.04.28 14:38:20 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified"
+}

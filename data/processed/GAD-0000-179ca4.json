@@ -1,0 +1,370 @@
+{
+  "gr_id": "GAD-0000-179ca4",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "scanned",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\government-resolutions\\KP-232-of-1994-DEL-10941850-J-May-2018.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "scanned",
+      "ocr_confidence": 0.85,
+      "width": 595.260009765625,
+      "height": 841.8599853515625,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "8\n\nextra No. 340 REGISTERED NO. G/GNR\n\naaa aga\n\ntijarat Government Hasette.\n\n| EXTRAORDINARY\n\nPUBLISHED BY AUTHORITY\n\nVol. XXXV]\n\nBete d\n\n[RESELL Ser\n\nSeparate paging is given to this Part in order that it may be filed as a Separate CompUation.\n\nPAR T—LA\nCENTRAL SECTION.\n\nOrders and Natificattans (other than ‘hese published in Part 1V-B)\nwader the Gufsrat Local Roards, Village Pauchay: t-, Municipal\nBormughs, Distriet Mumicigst, Primary Edneation and Local\nકરય Audit Acts,\n\nPANCHAYATS AND RURAL HOUSING DEPARTMENT *\nNotification\nSachivalaya, Gandhinagar, 6th October, 1994.\n\nGosanat PanowaYats Act, 1993.\n\nNo. KP/222 of 1991/DEL-1094/18590) J.—In ૦૩૩૪૩૩૩ of ths powers ooaferred by sab-setioa (1) of\n5૩05103 271 of the Gujazat Paaohayats Aot, 1993 (Gaj. 18 of 1993), ths Governmnt of Gajacas horeby\namends ths Government Notification, Panchayats aid Rural Housing Dopactmont No. KP-191 of 1994-\nDBL-103£-1216-J, dated ths 26th July, 1994, a3 follows, nanaly :—\n\nTa tha sa'd aotification, in the Sshedule, in east of ths eutries 3, 4 and 5 for thy words “ard 3૩૩41 —\naid Educationally Baskward Olaas28” the words “Specially aad Edusationally Baskward Claes ani:\nwomen” shall be substituted. —\n\nBy order and in the name of the Governor of Gujarat,\n\nB. V. RAWAL,\nDeputy Seeretary to Government.\n\n340-1\nI-A-Extra-340-]\n\nGOVERNMENT CENTRAL PRESS, GANDEINAGAR\n",
+          "text_clean": "8\n\nextra No. 340 REGISTERED NO. G/GNR\n\naaa aga\n\ntijarat Government Hasette.\n\n| EXTRAORDINARY\n\nPUBLISHED BY AUTHORITY\n\nVol. XXXV]\n\nBete d\n\n[RESELL Ser\n\nSeparate paging is given to this Part in order that it may be filed as a Separate CompUation.\n\nPAR T—LA\nCENTRAL SECTION.\n\nOrders and Natificattans (other than ‘hese published in Part 1V-B)\nwader the Gufsrat Local Roards, Village Pauchay: t-, Municipal\nBormughs, Distriet Mumicigst, Primary Edneation and Local\nકરય Audit Acts,\n\nPANCHAYATS AND RURAL HOUSING DEPARTMENT *\nNotification\nSachivalaya, Gandhinagar, 6th October, 1994.\n\nGosanat PanowaYats Act, 1993.\n\nNo. KP/222 of 1991/DEL-1094/18590) J.—In 0334333 of ths powers ooaferred by sab-setioa (1) of\n5305103 271 of the Gujazat Paaohayats Aot, 1993 (Gaj. 18 of 1993), ths Governmnt of Gajacas horeby\namends ths Government Notification, Panchayats aid Rural Housing Dopactmont No. KP-191 of 1994-\nDBL-103£-1216-J, dated ths 26th July, 1994, a3 follows, nanaly :—\n\nTa tha sa'd aotification, in the Sshedule, in east of ths eutries 3, 4 and 5 for thy words “ard 33341 —\naid Educationally Baskward Olaas28” the words “Specially aad Edusationally Baskward Claes ani:\nwomen” shall be substituted. —\n\nBy order and in the name of the Governor of Gujarat,\n\nB. V. RAWAL,\nDeputy Seeretary to Government.\n\n340-1\nI-A-Extra-340-]\n\nGOVERNMENT CENTRAL PRESS, GANDEINAGAR\n",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.260009765625,
+            "y1": 841.8599853515625,
+            "page": 1
+          },
+          "ocr_confidence": 0.85
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c000",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c001",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "extra No. 340 REGISTERED NO. G/GNR",
+      "text_clean": "extra No. 340 REGISTERED NO. G/GNR",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c002",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "tijarat Government Hasette.",
+      "text_clean": "tijarat Government Hasette.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c003",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "PUBLISHED BY AUTHORITY",
+      "text_clean": "PUBLISHED BY AUTHORITY",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c004",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "Separate paging is given to this Part in order that it may be filed as a Separate CompUation.",
+      "text_clean": "Separate paging is given to this Part in order that it may be filed as a Separate CompUation.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c005",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "PAR T—LA CENTRAL SECTION.",
+      "text_clean": "PAR T—LA CENTRAL SECTION.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c006",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "Orders and Natificattans (other than ‘hese published in Part 1V-B) wader the Gufsrat Local Roards, Village Pauchay: t-, Municipal Bormughs, Distriet Mumicigst, Primary Edneation and Local કરય Audit Acts,",
+      "text_clean": "Orders and Natificattans (other than ‘hese published in Part 1V-B) wader the Gufsrat Local Roards, Village Pauchay: t-, Municipal Bormughs, Distriet Mumicigst, Primary Edneation and Local કરય Audit Acts,",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c007",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "PANCHAYATS AND RURAL HOUSING DEPARTMENT * Notification Sachivalaya, Gandhinagar, 6th October, 1994.",
+      "text_clean": "PANCHAYATS AND RURAL HOUSING DEPARTMENT * Notification Sachivalaya, Gandhinagar, 6th October, 1994.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c008",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "Gosanat PanowaYats Act, 1993.",
+      "text_clean": "Gosanat PanowaYats Act, 1993.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c009",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "No. KP/222 of 1991/DEL-1094/18590) J.—In ૦૩૩૪૩૩૩ of ths powers ooaferred by sab-setioa (1) of 5૩05103 271 of the Gujazat Paaohayats Aot, 1993 (Gaj. 18 of 1993), ths Governmnt of Gajacas horeby amends ths Government Notification, Panchayats aid Rural Housing Dopactmont No. KP-191 of 1994- DBL-103£-1216-J, dated ths 26th July, 1994, a3 follows, nanaly :—",
+      "text_clean": "No. KP/222 of 1991/DEL-1094/18590) J.—In 0334333 of ths powers ooaferred by sab-setioa (1) of 5305103 271 of the Gujazat Paaohayats Aot, 1993 (Gaj. 18 of 1993), ths Governmnt of Gajacas horeby amends ths Government Notification, Panchayats aid Rural Housing Dopactmont No. KP-191 of 1994- DBL-103£-1216-J, dated ths 26th July, 1994, a3 follows, nanaly :—",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c010",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "Ta tha sa'd aotification, in the Sshedule, in east of ths eutries 3, 4 and 5 for thy words “ard 3૩૩41 — aid Educationally Baskward Olaas28” the words “Specially aad Edusationally Baskward Claes ani: women” shall be substituted. —",
+      "text_clean": "Ta tha sa'd aotification, in the Sshedule, in east of ths eutries 3, 4 and 5 for thy words “ard 33341 — aid Educationally Baskward Olaas28” the words “Specially aad Edusationally Baskward Claes ani: women” shall be substituted. —",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c011",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "By order and in the name of the Governor of Gujarat,",
+      "text_clean": "By order and in the name of the Governor of Gujarat,",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c012",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "B. V. RAWAL, Deputy Seeretary to Government.",
+      "text_clean": "B. V. RAWAL, Deputy Seeretary to Government.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c013",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "340-1 I-A-Extra-340-]",
+      "text_clean": "340-1 I-A-Extra-340-]",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-179ca4_p1_c014",
+      "gr_id": "GAD-0000-179ca4",
+      "text": "GOVERNMENT CENTRAL PRESS, GANDEINAGAR",
+      "text_clean": "GOVERNMENT CENTRAL PRESS, GANDEINAGAR",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "8\n\nextra No. 340 REGISTERED NO. G/GNR\n\naaa aga\n\ntijarat Government Hasette.\n\n| EXTRAORDINARY\n\nPUBLISHED BY AUTHORITY\n\nVol. XXXV]\n\nBete d\n\n[RESELL Ser\n\nSeparate paging is given to this Part in order that it may be filed as a Separate CompUation.\n\nPAR T—LA\nCENTRAL SECTION.\n\nOrders and Natificattans (other than ‘hese published in Part 1V-B)\nwader the Gufsrat Local Roards, Village Pauchay: t-, Municipal\nBormughs, Distriet Mumicigst, Primary Edneation and Local\nકરય Audit Acts,\n\nPANCHAYATS AND RURAL HOUSING DEPARTMENT *\nNotification\nSachivalaya, Gandhinagar, 6th October, 1994.\n\nGosanat PanowaYats Act, 1993.\n\nNo. KP/222 of 1991/DEL-1094/18590) J.—In ૦૩૩૪૩૩૩ of ths powers ooaferred by sab-setioa (1) of\n5૩05103 271 of the Gujazat Paaohayats Aot, 1993 (Gaj. 18 of 1993), ths Governmnt of Gajacas horeby\namends ths Government Notification, Panchayats aid Rural Housing Dopactmont No. KP-191 of 1994-\nDBL-103£-1216-J, dated ths 26th July, 1994, a3 follows, nanaly :—\n\nTa tha sa'd aotification, in the Sshedule, in east of ths eutries 3, 4 and 5 for thy words “ard 3૩૩41 —\naid Educationally Baskward Olaas28” the words “Specially aad Edusationally Baskward Claes ani:\nwomen” shall be substituted. —\n\nBy order and in the name of the Governor of Gujarat,\n\nB. V. RAWAL,\nDeputy Seeretary to Government.\n\n340-1\nI-A-Extra-340-]\n\nGOVERNMENT CENTRAL PRESS, GANDEINAGAR\n"
+}

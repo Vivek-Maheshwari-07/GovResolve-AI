@@ -1,0 +1,128 @@
+{
+  "gr_id": "GAD-0000-82a0e6",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\government-resolutions\\KP152021PSR1294706KH-6.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 595.3200073242188,
+      "height": 842.0399780273438,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "Government Central Press, Gandhinagar.\nExtra No. 58 \n \n \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXII ] \nTHURSDAY, JULY 8, 2021 / ASADHA 17, 1943 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 8th July, 2021. \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/15/2021/PSR/1294/706/KH:-In exercise of the powers conferred by section 274 read with sub-section (5) and \n(6) of section 227 of the Gujarat Panchayats Act, 1993(Guj.18 of 1993), the Government of Gujarat hereby repeals the \nGujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998 as follows, namely:- \n1.  \nThese rules may be called the Gujarat District Panchayat Service Selection Committee (Consultation) (Repeal) \n \nRules, 2021.  \n2.  \nThe Gujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998, issued under the \n \nGovernment Notification, Panchayats, Rural Housing and Rural Development Department, No. KP/40/ \n \n1998/PSR/1294/706/10-4-D, dated the 7th July, 1998 are hereby repealed:  \nProvided that such repeal shall not affect the thing done or any action taken under the rules so repealed:  \nProvided however that all the advertisements for recruitment published by the District Panchayat Service \nSelection Committees of all 33 districts, in which competitive examination is not held, shall stand withdrawn and \ncancelled. \nBy order and in the name of the Governor of Gujarat,  \nJAYDEEP DVIVEDI, \nJoint Secretary to Government. \n---------------- \nI-A-Ex.- 58 \n58-1",
+          "text_clean": "Government Central Press, Gandhinagar.\nExtra No. 58 \n \n \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXII ] \nTHURSDAY, JULY 8, 2021 / ASADHA 17, 1943 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 8th July, 2021. \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/15/2021/PSR/1294/706/KH:-In exercise of the powers conferred by section 274 read with sub-section (5) and \n(6) of section 227 of the Gujarat Panchayats Act, 1993(Guj.18 of 1993), the Government of Gujarat hereby repeals the \nGujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998 as follows, namely:- \n1.  \nThese rules may be called the Gujarat District Panchayat Service Selection Committee (Consultation) (Repeal) \n \nRules, 2021.  \n2.  \nThe Gujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998, issued under the \n \nGovernment Notification, Panchayats, Rural Housing and Rural Development Department, No. KP/40/ \n \n1998/PSR/1294/706/10-4-D, dated the 7th July, 1998 are hereby repealed:  \nProvided that such repeal shall not affect the thing done or any action taken under the rules so repealed:  \nProvided however that all the advertisements for recruitment published by the District Panchayat Service \nSelection Committees of all 33 districts, in which competitive examination is not held, shall stand withdrawn and \ncancelled. \nBy order and in the name of the Governor of Gujarat,  \nJAYDEEP DVIVEDI, \nJoint Secretary to Government. \n---------------- \nI-A-Ex.- 58 \n58-1",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.3200073242188,
+            "y1": 842.0399780273438,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-82a0e6_p1_c000",
+      "gr_id": "GAD-0000-82a0e6",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-82a0e6_p1_c001",
+      "gr_id": "GAD-0000-82a0e6",
+      "text": "Government Central Press, Gandhinagar. Extra No. 58 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXII ] THURSDAY, JULY 8, 2021 / ASADHA 17, 1943 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 8th July, 2021. GUJARAT PANCHAYATS ACT, 1993. No.KP/15/2021/PSR/1294/706/KH:-In exercise of the powers conferred by section 274 read with sub-section (5) and (6) of section 227 of the Gujarat Panchayats Act, 1993(Guj.18 of 1993), the Government of Gujarat hereby repeals the Gujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998 as follows, namely:-",
+      "text_clean": "Government Central Press, Gandhinagar. Extra No. 58 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXII ] THURSDAY, JULY 8, 2021 / ASADHA 17, 1943 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 8th July, 2021. GUJARAT PANCHAYATS ACT, 1993. No.KP/15/2021/PSR/1294/706/KH:-In exercise of the powers conferred by section 274 read with sub-section (5) and (6) of section 227 of the Gujarat Panchayats Act, 1993(Guj.18 of 1993), the Government of Gujarat hereby repeals the Gujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998 as follows, namely:-",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-82a0e6_p1_c002",
+      "gr_id": "GAD-0000-82a0e6",
+      "text": "1. These rules may be called the Gujarat District Panchayat Service Selection Committee (Consultation) (Repeal) Rules, 2021.",
+      "text_clean": "1. These rules may be called the Gujarat District Panchayat Service Selection Committee (Consultation) (Repeal) Rules, 2021.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-82a0e6_p1_c003",
+      "gr_id": "GAD-0000-82a0e6",
+      "text": "2. The Gujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998, issued under the Government Notification, Panchayats, Rural Housing and Rural Development Department, No. KP/40/ 1998/PSR/1294/706/10-4-D, dated the 7th July, 1998 are hereby repealed: Provided that such repeal shall not affect the thing done or any action taken under the rules so repealed: Provided however that all the advertisements for recruitment published by the District Panchayat Service Selection Committees of all 33 districts, in which competitive examination is not held, shall stand withdrawn and cancelled. By order and in the name of the Governor of Gujarat, JAYDEEP DVIVEDI, Joint Secretary to Government. ---------------- I-A-Ex.- 58 58-1",
+      "text_clean": "2. The Gujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998, issued under the Government Notification, Panchayats, Rural Housing and Rural Development Department, No. KP/40/ 1998/PSR/1294/706/10-4-D, dated the 7th July, 1998 are hereby repealed: Provided that such repeal shall not affect the thing done or any action taken under the rules so repealed: Provided however that all the advertisements for recruitment published by the District Panchayat Service Selection Committees of all 33 districts, in which competitive examination is not held, shall stand withdrawn and cancelled. By order and in the name of the Governor of Gujarat, JAYDEEP DVIVEDI, Joint Secretary to Government. ---------------- I-A-Ex.- 58 58-1",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "Government Central Press, Gandhinagar.\nExtra No. 58 \n \n \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXII ] \nTHURSDAY, JULY 8, 2021 / ASADHA 17, 1943 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 8th July, 2021. \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/15/2021/PSR/1294/706/KH:-In exercise of the powers conferred by section 274 read with sub-section (5) and \n(6) of section 227 of the Gujarat Panchayats Act, 1993(Guj.18 of 1993), the Government of Gujarat hereby repeals the \nGujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998 as follows, namely:- \n1.  \nThese rules may be called the Gujarat District Panchayat Service Selection Committee (Consultation) (Repeal) \n \nRules, 2021.  \n2.  \nThe Gujarat District Panchayat Service Selection Committee (Consultation) Rules, 1998, issued under the \n \nGovernment Notification, Panchayats, Rural Housing and Rural Development Department, No. KP/40/ \n \n1998/PSR/1294/706/10-4-D, dated the 7th July, 1998 are hereby repealed:  \nProvided that such repeal shall not affect the thing done or any action taken under the rules so repealed:  \nProvided however that all the advertisements for recruitment published by the District Panchayat Service \nSelection Committees of all 33 districts, in which competitive examination is not held, shall stand withdrawn and \ncancelled. \nBy order and in the name of the Governor of Gujarat,  \nJAYDEEP DVIVEDI, \nJoint Secretary to Government. \n---------------- \nI-A-Ex.- 58 \n58-1"
+}
