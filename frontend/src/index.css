@@ -2,10 +2,12 @@
 @import '@fontsource/plus-jakarta-sans/500.css';
 @import '@fontsource/plus-jakarta-sans/600.css';
 @import '@fontsource/plus-jakarta-sans/700.css';
+@import '@fontsource/plus-jakarta-sans/800.css';
 @import '@fontsource/noto-sans-gujarati/400.css';
 @import '@fontsource/noto-sans-gujarati/500.css';
 @import '@fontsource/noto-sans-gujarati/600.css';
 @import '@fontsource/merriweather/400.css';
+@import '@fontsource/merriweather/700.css';
 @import '@fontsource/jetbrains-mono/400.css';
 @import '@fontsource/jetbrains-mono/500.css';
 
@@ -16,57 +18,64 @@
 html, body, #root { height: 100%; }
 
 body {
-  background: #F8F7F4;
-  color: #1E293B;
+  background: #FBFAF6;
+  color: #0F1B33;
   font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* one calm wash of civic blue at the top, a trace of saffron at the corner: nothing else competes */
   background-image:
-    radial-gradient(1100px 520px at 0% -10%, rgba(99, 102, 241, 0.08), transparent 60%),
-    radial-gradient(800px 480px at 100% -5%, rgba(20, 184, 166, 0.07), transparent 60%),
-    radial-gradient(900px 540px at 50% 110%, rgba(245, 158, 11, 0.06), transparent 60%),
-    radial-gradient(700px 460px at 85% 60%, rgba(139, 92, 246, 0.05), transparent 60%);
+    radial-gradient(900px 420px at 50% -8%, rgba(62, 98, 230, 0.075), transparent 70%),
+    radial-gradient(520px 320px at 100% 0%, rgba(232, 137, 12, 0.06), transparent 70%);
   background-attachment: fixed;
 }
 
 @layer components {
   /* Gujarati text and verbatim legal quotes: roomy line height for long reading */
-  .legal-text { font-family: Merriweather, 'Noto Sans Gujarati', Georgia, serif; line-height: 1.75; }
+  .legal-text { font-family: Merriweather, 'Noto Sans Gujarati', Georgia, serif; line-height: 1.8; }
   .gu-text { font-family: 'Noto Sans Gujarati', 'Plus Jakarta Sans', sans-serif; line-height: 1.75; }
+  .display { font-family: Merriweather, 'Noto Sans Gujarati', Georgia, serif; letter-spacing: -0.015em; }
+
+  /* Section label: small, quiet, sans (replaces the loud mono-uppercase labels) */
+  .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5B6678; }
 
   .glass {
-    background: rgba(255, 255, 255, 0.90);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    border: 1px solid #E6E4DD;
-    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    background: rgba(255, 255, 255, 0.86);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+    border: 1px solid #E8E4D9;
   }
 
   .glass-card {
-    background: rgba(255, 255, 255, 0.92);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    border: 1px solid #E6E4DD;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #FFFFFF;
+    border: 1px solid #E8E4D9;
+    box-shadow: 0 1px 2px rgba(15, 27, 51, 0.03);
+    transition: border-color .2s ease, box-shadow .25s cubic-bezier(0.16, 1, 0.3, 1), transform .25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .glass-card:hover {
+    border-color: rgba(62, 98, 230, 0.35);
+    box-shadow: 0 10px 28px -10px rgba(15, 27, 51, 0.14);
   }
 
-  .glass-card:hover {
-    border-color: rgba(99, 102, 241, 0.35);
-    box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.06);
+  .btn-primary {
+    background: linear-gradient(180deg, #2F54DA 0%, #2139A8 100%);
+    box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 8px 20px -8px rgba(33, 57, 168, 0.65);
   }
 
   .skeleton {
-    background: linear-gradient(90deg, #F1EFEA 25%, #E6E4DD 50%, #F1EFEA 75%);
+    background: linear-gradient(90deg, #F4F2EB 25%, #E8E4D9 50%, #F4F2EB 75%);
     background-size: 200% 100%;
   }
 }
 
-::selection { background: rgba(79, 70, 229, 0.16); color: #1E293B; }
+::selection { background: rgba(62, 98, 230, 0.18); color: #0F1B33; }
+:focus-visible { outline: 2px solid #3E62E6; outline-offset: 2px; border-radius: 6px; }
 
-* { scrollbar-width: thin; scrollbar-color: rgba(100, 116, 139, 0.3) transparent; }
+* { scrollbar-width: thin; scrollbar-color: rgba(91, 102, 120, 0.3) transparent; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.25); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.45); }
+::-webkit-scrollbar-thumb { background: rgba(91, 102, 120, 0.25); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(91, 102, 120, 0.45); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

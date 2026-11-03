@@ -10,6 +10,7 @@ const ICONS = {
   insufficient: ShieldQuestion,
 };
 
+/** Slim, always-visible verdict strip. It sits directly above the answer so it can never be missed or pushed below the fold. */
 export default function StatusBanner({ status, reasonCode, asOf, asOfStatus }) {
   const s = STATUS[status] || STATUS.insufficient;
   const t = TONES[s.tone];
@@ -19,51 +20,34 @@ export default function StatusBanner({ status, reasonCode, asOf, asOfStatus }) {
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 10, scale: 0.985 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-      className={`relative overflow-hidden rounded-2xl border ${t.ring} ${t.pill} ${t.glow} p-4 shadow-card`}
+      className={`relative overflow-hidden rounded-2xl border ${t.ring} ${t.pill} py-3 pl-5 pr-4`}
       role="status"
       aria-label={`Status: ${s.label}`}
     >
-      {/* Decorative status strip */}
       <span aria-hidden className={`absolute inset-y-0 left-0 w-1.5 ${t.dot}`} />
-
-      <div className="flex items-start gap-3.5">
-        <div className={`mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white shadow-sm ring-1 ${t.iconRing} ${t.text}`}>
-          <Icon className="h-5 w-5" />
-        </div>
-
+      <div className="flex items-start gap-3">
+        <Icon className={`mt-0.5 h-[22px] w-[22px] shrink-0 ${t.text}`} strokeWidth={2.1} />
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className={`inline-flex items-center gap-1.5 rounded-full ${t.pill} border ${t.ring} px-2.5 py-0.5 font-mono text-[10.5px] font-bold uppercase tracking-wider ${t.text}`}>
-              <span className={`h-1.5 w-1.5 rounded-full ${t.dot}`} /> {s.label}
-            </span>
+          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+            <h3 className={`text-[15px] font-bold ${t.text}`}>{s.headline}</h3>
+            <span className={`rounded-full border ${t.ring} bg-white/70 px-2 py-0.5 text-[10.5px] font-bold ${t.text}`}>{s.label}</span>
             {reasonCode && (
-              <span className="rounded-full border border-hair bg-sand px-2.5 py-0.5 font-mono text-[10.5px] font-medium text-mist" title={REASONS[reasonCode] || ''}>
+              <span className="rounded-full border border-hair bg-white px-2 py-0.5 font-mono text-[10.5px] font-medium text-mist" title={REASONS[reasonCode] || ''}>
                 {reasonCode}{REASONS[reasonCode] ? ` · ${REASONS[reasonCode]}` : ''}
               </span>
             )}
           </div>
+          <p className="mt-0.5 text-[12.5px] leading-relaxed text-mist">{s.note}</p>
 
-          <h3 className={`mt-1.5 text-[15.5px] font-bold tracking-tight ${t.text}`}>{s.headline}</h3>
-          <p className="mt-0.5 text-xs leading-relaxed text-mist">{s.note}</p>
-
-          {/* Time Machine status overlay notifications */}
-          {notIssued && (
-            <div className="mt-2.5 flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50/90 px-3 py-1.5 text-xs text-amber-900 shadow-sm">
-              <CalendarClock className="h-3.5 w-3.5 text-amber-700 shrink-0" />
+          {(notIssued || asOfInfo) && (
+            <div className="mt-2 flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs text-amber-900">
+              <CalendarClock className="h-3.5 w-3.5 shrink-0 text-amber-700" />
               <span>
-                <strong>As of {asOf}:</strong> the cited document had not been issued yet.
-              </span>
-            </div>
-          )}
-
-          {asOfInfo && (
-            <div className="mt-2.5 flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50/90 px-3 py-1.5 text-xs text-amber-900 shadow-sm">
-              <CalendarClock className="h-3.5 w-3.5 text-amber-700 shrink-0" />
-              <span>
-                <strong>As of {asOf}:</strong> this document would have shown “{asOfInfo.label}”.
+                <strong>As of {asOf}:</strong>{' '}
+                {notIssued ? 'the cited document had not been issued yet.' : `this document would have shown “${asOfInfo.label}”.`}
               </span>
             </div>
           )}

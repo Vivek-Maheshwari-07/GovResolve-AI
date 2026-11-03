@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Quote, TriangleAlert, Sparkles, ListChecks, MessageSquareWarning, ExternalLink, ArrowRight } from 'lucide-react';
+import { FileText, Quote, TriangleAlert, Sparkles, ShieldCheck, ListChecks, MessageSquareWarning, ExternalLink, ArrowRight } from 'lucide-react';
 
 export const citeKey = (c) => (c ? `${c.gr_id}|${c.page}|${c.passage || ''}` : '');
 
@@ -20,14 +20,14 @@ export function CitationChip({ cit, active, onSelect }) {
       onClick={() => onSelect(cit)}
       aria-pressed={active}
       title={cit.subject || cit.gr_number}
-      className={`inline-flex max-w-full items-center gap-1.5 rounded-lg border px-2.5 py-1 font-mono text-[11px] transition-all ${
+      className={`inline-flex max-w-full items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11.5px] transition-all ${
         active
           ? 'border-amber-400 bg-amber-50 text-amber-900 shadow-[0_2px_10px_-2px_rgba(217,119,6,0.35)] ring-1 ring-amber-300'
           : 'border-hair bg-white text-mist hover:border-iris-400 hover:bg-iris-50/80 hover:text-iris-800 shadow-sm'
       }`}
     >
       <FileText className="h-3 w-3 shrink-0 text-iris-600" />
-      <span className="truncate font-medium">{cit.gr_number || cit.gr_id}</span>
+      <span className="truncate font-mono font-medium">{cit.gr_number || cit.gr_id}</span>
       <span className="text-[#8A94A6]">·</span>
       <span className="shrink-0 font-semibold">p.{cit.page}</span>
     </motion.button>
@@ -47,7 +47,7 @@ export default function AnswerCard({ response, active, onSelect }) {
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
           role="alert"
-          className="space-y-1.5 rounded-2xl border border-amber-300 bg-amber-50/90 p-3.5 shadow-sm"
+          className="space-y-1.5 rounded-2xl border border-amber-200 bg-amber-50 p-3.5"
         >
           {warnings.map((w, i) => (
             <p key={i} className="flex items-start gap-2 text-xs leading-relaxed text-amber-900 font-medium">
@@ -58,43 +58,33 @@ export default function AnswerCard({ response, active, onSelect }) {
         </motion.div>
       )}
 
-      {/* Primary Executive Summary / Reason Card */}
-      <section
-        className={`relative overflow-hidden rounded-2xl border p-4 shadow-card ${
-          answered
-            ? 'border-indigo-100 bg-gradient-to-br from-indigo-50/70 via-white to-white'
-            : 'border-rose-100 bg-gradient-to-br from-rose-50/70 via-white to-white'
-        }`}
-      >
-        <div className="mb-2 flex items-center justify-between">
-          <h2
-            className={`flex items-center gap-1.5 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] ${
-              answered ? 'text-indigo-700' : 'text-rose-700'
-            }`}
-          >
+      {/* The answer: first thing read, set large in serif */}
+      <section className={`relative overflow-hidden rounded-3xl border bg-white p-5 shadow-lift sm:p-6 ${answered ? 'border-hair' : 'border-rose-100'}`}>
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <h2 className={`eyebrow flex items-center gap-1.5 ${answered ? '!text-iris-700' : '!text-rose-700'}`}>
             {answered ? <Sparkles className="h-3.5 w-3.5" /> : <MessageSquareWarning className="h-3.5 w-3.5" />}
-            {answered ? 'Executive Finding' : 'Definitive Limitation / Reason'}
+            {answered ? 'Answer' : 'Why no answer'}
           </h2>
           {answered && (
-            <span className="rounded-md border border-hair bg-white px-2 py-0.5 font-mono text-[10px] text-mist">
-              Verified from official text
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-800">
+              <ShieldCheck className="h-3 w-3" /> Verified from official text
             </span>
           )}
         </div>
-        <p className={`${isGu ? 'gu-text' : ''} text-[15px] leading-relaxed text-legal font-normal`}>
+        <p className={`${isGu ? 'gu-text' : 'display'} text-[19px] font-normal leading-[1.65] text-legal sm:text-[21px]`}>
           {answered ? response.summary : response.insufficient_reason}
         </p>
       </section>
 
       {/* Statements and Proof Sources */}
       {answered && (response.statements || []).length > 0 && (
-        <section className="glass-card space-y-2.5 rounded-2xl p-4 shadow-lift">
+        <section className="space-y-3 rounded-2xl border border-hair bg-white p-4 shadow-card sm:p-5">
           <div className="flex items-center justify-between">
-            <h2 className="flex items-center gap-1.5 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-violet-700">
-              <ListChecks className="h-3.5 w-3.5" /> Verified Statements & Sources
+            <h2 className="eyebrow flex items-center gap-1.5">
+              <ListChecks className="h-3.5 w-3.5 text-iris-500" /> Statements &amp; sources
             </h2>
-            <span className="font-mono text-[10px] text-mist">
-              {response.statements.length} verified {response.statements.length === 1 ? 'clause' : 'clauses'}
+            <span className="text-[11.5px] text-mist">
+              {response.statements.length} {response.statements.length === 1 ? 'statement' : 'statements'}
             </span>
           </div>
 
@@ -107,12 +97,12 @@ export default function AnswerCard({ response, active, onSelect }) {
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.04 }}
-                  className="space-y-2 rounded-xl border border-hair/90 bg-sand/40 p-3 transition-colors hover:border-iris-300 hover:bg-white"
+                  className="space-y-2 rounded-xl border border-hair bg-canvas p-3.5 transition-colors hover:border-iris-300 hover:bg-white"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <p className="gu-text text-[13.5px] leading-relaxed text-legal font-normal">{st.text}</p>
+                    <p className="gu-text text-[14.5px] leading-relaxed text-legal">{st.text}</p>
                     <span
-                      className={`shrink-0 rounded-md border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
+                      className={`shrink-0 rounded-full border px-2.5 py-0.5 text-[10.5px] font-bold ${
                         LABELS[label] || LABELS.Unverified
                       }`}
                     >
@@ -122,7 +112,7 @@ export default function AnswerCard({ response, active, onSelect }) {
 
                   {st.citations.length > 0 && (
                     <div className="flex flex-wrap items-center gap-1.5 pt-1 border-t border-hair/60">
-                      <span className="font-mono text-[10px] text-mist mr-1">Cited in:</span>
+                      <span className="mr-1 text-[11.5px] text-mist">Cited in</span>
                       {st.citations.map((c, j) => (
                         <CitationChip
                           key={j}
@@ -144,10 +134,10 @@ export default function AnswerCard({ response, active, onSelect }) {
       {answered && response.citations.length > 0 && (
         <section className="space-y-2">
           <div className="flex items-center justify-between px-1">
-            <h2 className="flex items-center gap-1.5 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-amber-800">
-              <Quote className="h-3.5 w-3.5" /> Verbatim Page Passages
+            <h2 className="eyebrow flex items-center gap-1.5">
+              <Quote className="h-3.5 w-3.5 text-saffron-500" /> Verbatim passages
             </h2>
-            <span className="font-mono text-[10px] text-mist">Click to inspect original PDF</span>
+            <span className="text-[11.5px] text-mist">Select one to open the page</span>
           </div>
 
           <div className="space-y-2">
@@ -161,19 +151,19 @@ export default function AnswerCard({ response, active, onSelect }) {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08 + i * 0.04 }}
-                  className={`group relative block w-full rounded-2xl p-4 text-left transition-all border ${
+                  className={`group relative block w-full rounded-2xl border border-l-[3px] bg-white p-4 text-left transition-all ${
                     on
-                      ? 'border-amber-400 bg-amber-50/70 shadow-[0_6px_22px_-6px_rgba(217,119,6,0.3)] ring-1 ring-amber-300'
-                      : 'glass-card hover:border-iris-300 hover:bg-iris-50/40'
+                      ? 'border-amber-300 border-l-saffron-500 bg-amber-50/50 shadow-lift'
+                      : 'border-hair border-l-stone hover:border-iris-200 hover:border-l-iris-500 hover:shadow-lift'
                   }`}
                 >
-                  <p className="legal-text text-[13.5px] text-legal font-normal leading-relaxed">
+                  <p className="legal-text text-[14px] text-legal">
                     “{c.passage}”
                   </p>
 
-                  <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-hair/60 pt-2 font-mono text-[11px] text-mist">
+                  <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-hair/60 pt-2 text-[11.5px] text-mist">
                     <div className="flex flex-wrap items-center gap-x-2.5">
-                      <span className="font-semibold text-legal">{c.gr_number || c.gr_id}</span>
+                      <span className="font-mono font-semibold text-legal">{c.gr_number || c.gr_id}</span>
                       {c.issue_date && <span>· {c.issue_date}</span>}
                       <span>· Page {c.page}</span>
                       {c.lineage?.status &&
@@ -189,8 +179,8 @@ export default function AnswerCard({ response, active, onSelect }) {
                         )}
                     </div>
 
-                    <span className="inline-flex items-center gap-1 text-[10.5px] text-iris-600 font-semibold group-hover:translate-x-0.5 transition-transform">
-                      Inspect <ArrowRight className="h-3 w-3" />
+                    <span className="inline-flex items-center gap-1 text-[11.5px] font-semibold text-iris-600 transition-transform group-hover:translate-x-0.5">
+                      Open page <ArrowRight className="h-3 w-3" />
                     </span>
                   </div>
                 </motion.button>

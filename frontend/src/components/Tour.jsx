@@ -124,7 +124,7 @@ export default function Tour({ open, onClose }) {
             style={pos}
           >
             <div className="mb-2 flex items-center justify-between pb-1.5 border-b border-hair">
-              <span className="flex items-center gap-1 font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-indigo-600">
+              <span className="flex items-center gap-1 eyebrow text-indigo-600">
                 <Sparkles className="h-3 w-3" /> System Tour · {i + 1} / {TOUR_STEPS.length}
               </span>
               <button
@@ -162,7 +162,7 @@ export default function Tour({ open, onClose }) {
                 )}
                 <button
                   onClick={() => (last ? onClose() : setI(i + 1))}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition hover:brightness-110 active:scale-98"
+                  className="inline-flex items-center gap-1.5 rounded-xl btn-primary px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition hover:brightness-110 active:scale-98"
                 >
                   <span>{last ? 'Get Started' : 'Next'}</span>
                   <ArrowRight className="h-3.5 w-3.5" />

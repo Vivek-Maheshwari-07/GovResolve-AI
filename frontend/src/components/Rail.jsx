@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { MessagesSquare, Library, FlaskConical, Lightbulb, Keyboard } from 'lucide-react';
 
 export const WORKSPACES = [
-  { id: 'ask', label: 'Inquiry', icon: MessagesSquare, key: '1', tint: 'text-indigo-800 bg-indigo-50/90 ring-indigo-200 border-indigo-200' },
-  { id: 'library', label: 'Library', icon: Library, key: '2', tint: 'text-teal-800 bg-teal-50/90 ring-teal-200 border-teal-200' },
-  { id: 'method', label: 'Method', icon: FlaskConical, key: '3', tint: 'text-violet-800 bg-violet-50/90 ring-violet-200 border-violet-200' },
+  { id: 'ask', label: 'Inquiry', icon: MessagesSquare, key: '1', tint: 'text-iris-700 bg-iris-50 ring-iris-200 border-iris-200' },
+  { id: 'library', label: 'Library', icon: Library, key: '2', tint: 'text-iris-700 bg-iris-50 ring-iris-200 border-iris-200' },
+  { id: 'method', label: 'Method', icon: FlaskConical, key: '3', tint: 'text-iris-700 bg-iris-50 ring-iris-200 border-iris-200' },
 ];
 
 function RailButton({ active, onClick, icon: Icon, label, tint, hint }) {
@@ -37,7 +37,7 @@ export default function Rail({ active, onChange, onTour, onShortcuts }) {
     <nav
       aria-label="Workspaces"
       data-tour="rail"
-      className="hidden w-[80px] shrink-0 flex-col justify-between border-r border-hair bg-white/80 px-2 py-3.5 backdrop-blur-md md:flex"
+      className="hidden w-[76px] shrink-0 flex-col justify-between border-r border-hair bg-white/70 px-2 py-4 backdrop-blur-md md:flex"
     >
       <div className="space-y-2">
         {WORKSPACES.map((w) => (

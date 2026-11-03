@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Sparkles, Keyboard, CornerDownLeft, X, ArrowUpRight } from 'lucide-react';
 import GujaratiKeyboard from './GujaratiKeyboard';
-import { SAMPLES, KIND_STYLE } from '../lib/samples';
 
 const TEMPLATES = [
   { label: 'GR No. search', text: 'GR No. ' },
@@ -10,7 +9,7 @@ const TEMPLATES = [
   { label: 'Pay & allowances', text: 'Pay fixation: ' },
 ];
 
-export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal }) {
+export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal, hero = false }) {
   const [kb, setKb] = useState(false);
   const ref = useRef(null);
 
@@ -29,16 +28,16 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
 
   return (
     <div className="space-y-2.5" data-tour="ask">
-      <div className="glass-card relative rounded-2xl p-2.5 shadow-lift focus-within:border-iris-400 focus-within:shadow-[0_0_0_1px_rgba(79,70,229,0.45),0_12px_28px_-12px_rgba(79,70,229,0.3)] transition-all">
+      <div className={`relative border bg-white transition-all focus-within:border-iris-400 focus-within:shadow-[0_0_0_4px_rgba(62,98,230,0.12),0_16px_40px_-16px_rgba(33,57,168,0.35)] ${hero ? 'rounded-[22px] border-stone p-3 shadow-float' : 'rounded-2xl border-hair p-2.5 shadow-lift'}`}>
         <div className="flex items-start gap-2.5">
-          <div className="mt-2.5 grid h-8 w-8 place-items-center rounded-xl bg-iris-50 border border-iris-100 text-iris-600 shrink-0">
+          <div className="mt-2 grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-iris-100 bg-iris-50 text-iris-600">
             <Search className="h-4 w-4" />
           </div>
 
           <textarea
             ref={ref}
             id="question-input"
-            rows={compact ? 2 : 3}
+            rows={2}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={(e) => {
@@ -47,10 +46,10 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
                 submit();
               }
             }}
-            placeholder="Ask in Gujarati, English or Gujlish — e.g. “પ્રસૂતિ રજા માટે કયા documents જોઈએ?” or “CRR 2008 maternity rules”"
+            placeholder={hero ? 'Ask about any resolution, in any language…' : 'Ask a follow-up or a new question…'}
             aria-label="Your question"
             maxLength={2000}
-            className="gu-text max-h-44 min-h-[3.2rem] flex-1 resize-none bg-transparent py-1.5 text-[14.5px] font-normal text-legal placeholder:text-[#8A94A6] outline-none leading-relaxed"
+            className={`gu-text max-h-44 flex-1 resize-none bg-transparent py-2 font-normal text-legal outline-none placeholder:text-[#8B94A5] ${hero ? 'min-h-[3.4rem] text-[16px]' : 'min-h-[2.8rem] text-[14.5px]'}`}
           />
 
           <div className="flex shrink-0 flex-col items-end gap-1.5 pt-0.5">
@@ -71,26 +70,26 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
                 type="button"
                 onClick={submit}
                 disabled={!value.trim() || loading}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-700 px-4 py-2 text-xs font-semibold text-white shadow-[0_4px_14px_-2px_rgba(79,70,229,0.5)] transition hover:brightness-110 active:scale-98 disabled:cursor-not-allowed disabled:opacity-40"
+                className="btn-primary inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[13px] font-semibold text-white transition hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
               >
                 {loading ? <Sparkles className="h-3.5 w-3.5 animate-spin" /> : <CornerDownLeft className="h-3.5 w-3.5" />}
-                <span>{loading ? 'Analyzing…' : 'Investigate'}</span>
+                <span>{loading ? 'Searching…' : 'Ask'}</span>
               </button>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="hidden sm:inline font-mono text-[10px] text-mist/80">Enter ↵</span>
+              <span className="hidden text-[10.5px] text-mist/80 sm:inline">Enter to send</span>
               <button
                 type="button"
                 onClick={() => setKb((v) => !v)}
                 className={`gu-text inline-flex items-center gap-1 rounded-lg border px-2 py-0.5 text-[11px] font-semibold transition-colors ${
                   kb
-                    ? 'border-teal-300 bg-teal-50 text-teal-800'
+                    ? 'border-iris-300 bg-iris-50 text-iris-800'
                     : 'border-hair bg-sand/60 text-mist hover:text-legal hover:bg-sand'
                 }`}
                 aria-pressed={kb}
               >
-                <Keyboard className="h-3 w-3 text-teal-600" />
+                <Keyboard className="h-3 w-3 text-iris-500" />
                 <span>ગુજરાતી</span>
               </button>
             </div>
@@ -121,8 +120,9 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
       </div>
 
       {/* Suggested Quick Starters */}
-      <div className="flex flex-wrap items-center gap-1.5 px-0.5">
-        <span className="font-mono text-[10px] uppercase tracking-wider text-mist mr-1">Starters:</span>
+      {hero && (
+      <div className="flex flex-wrap items-center justify-center gap-1.5 px-0.5">
+        <span className="mr-1 text-[11.5px] font-medium text-mist">Start with</span>
         {TEMPLATES.map((t) => (
           <button
             key={t.label}
@@ -131,33 +131,14 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
               onChange(t.text);
               ref.current?.focus();
             }}
-            className="rounded-full border border-hair bg-white px-2.5 py-0.5 text-[11px] font-medium text-mist transition hover:border-iris-300 hover:text-iris-700 hover:bg-iris-50/50"
+            className="rounded-full border border-hair bg-white px-3 py-1 text-[12px] font-medium text-mist transition hover:border-iris-300 hover:bg-iris-50 hover:text-iris-700"
           >
             {t.label}
           </button>
         ))}
 
-        {compact && (
-          <>
-            <span className="mx-1 h-3 w-px bg-hair" />
-            {SAMPLES.slice(0, 3).map((s) => (
-              <button
-                key={s.label}
-                type="button"
-                onClick={() => onSubmit(s.text, true)}
-                disabled={loading}
-                title={s.text}
-                className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition hover:brightness-95 disabled:opacity-40 ${
-                  KIND_STYLE[s.kind].chip
-                } ${s.kind === 'gu' ? 'gu-text' : ''}`}
-              >
-                <span className={`h-1.5 w-1.5 rounded-full ${KIND_STYLE[s.kind].dot}`} />
-                <span>{s.label}</span>
-              </button>
-            ))}
-          </>
-        )}
       </div>
+      )}
     </div>
   );
 }

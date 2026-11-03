@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { Languages, DatabaseZap, GitBranch, ScanSearch, Check, Sparkles, Cpu } from 'lucide-react';
 
 const STAGES = [
-  { icon: Languages, label: 'Normalizing multi-script Gujarati/English query…', detail: 'Detecting language, expanding legal synonyms', after: 0, tint: 'bg-teal-50 text-teal-800 ring-teal-200 border-teal-200', icon_c: 'text-teal-600' },
+  { icon: Languages, label: 'Normalizing multi-script Gujarati/English query…', detail: 'Detecting language, expanding legal synonyms', after: 0, tint: 'bg-iris-50 text-iris-800 ring-iris-200 border-iris-200', icon_c: 'text-iris-600' },
   { icon: DatabaseZap, label: 'Searching hybrid BM25 + dense vector index…', detail: 'Fusing keyword hits & bge-m3 embeddings', after: 2, tint: 'bg-indigo-50 text-indigo-800 ring-indigo-200 border-indigo-200', icon_c: 'text-indigo-600' },
-  { icon: GitBranch, label: 'Tracing amendment lineage graph…', detail: 'Extracting modification & supersession edges', after: 6, tint: 'bg-violet-50 text-violet-800 ring-violet-200 border-violet-200', icon_c: 'text-violet-600' },
+  { icon: GitBranch, label: 'Tracing amendment lineage graph…', detail: 'Extracting modification & supersession edges', after: 6, tint: 'bg-iris-50 text-iris-800 ring-iris-200 border-iris-200', icon_c: 'text-iris-600' },
   { icon: ScanSearch, label: 'Verifying verbatim quote coordinates…', detail: 'Bounding-box validation against document OCR text', after: 12, tint: 'bg-amber-50 text-amber-800 ring-amber-200 border-amber-200', icon_c: 'text-amber-600' },
 ];
 
@@ -52,7 +52,7 @@ export default function PipelineLoader() {
       <div className="space-y-1">
         <div className="h-1.5 overflow-hidden rounded-full bg-sand">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-teal-500 via-indigo-600 to-amber-500"
+            className="h-full rounded-full bg-gradient-to-r from-iris-500 via-indigo-600 to-amber-500"
             animate={{ width: `${pct}%` }}
             transition={{ ease: 'easeOut', duration: 0.8 }}
           />
