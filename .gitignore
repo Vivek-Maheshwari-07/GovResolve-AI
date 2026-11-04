@@ -23,15 +23,16 @@ frontend/dist/
 .env
 *.env.local
 
-# Data (large or generated; rebuild from final_dataset/manifest)
+# Data (raw PDFs ignored to keep repo lightweight; processed records and index tracked)
 final_dataset/
 data/govresolve.sqlite
 data/vector/
 data/edges_detected.csv
-data/grs/*.pdf
-data/processed/*.json
-data/index/
+data/grs/
 data/corpus_v2/
+data/index/chroma_test/
+data/index/*.sqlite3
+data/index/translations.json
 
 # Model cache
 .cache/

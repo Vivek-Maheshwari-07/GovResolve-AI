@@ -12,12 +12,9 @@ Outputs a scorecard on 5 official metrics:
 from __future__ import annotations
 
 import json
-import os
-import re
 import sys
 from pathlib import Path
-from dataclasses import dataclass, field, asdict
-from typing import Optional
+from dataclasses import dataclass
 
 from loguru import logger
 from dotenv import load_dotenv
@@ -25,7 +22,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from backend.models import AnswerStatus, GRRecord, InsufficientReason
+from backend.models import AnswerStatus, GRRecord
 from backend.rag.search_engine import GRIndex, RAGPipeline
 from backend.ingestion.ingest import ingest_directory
 try:

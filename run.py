@@ -33,8 +33,8 @@ sys.path.insert(0, str(ROOT / "backend"))
 
 
 def find_corpus() -> Path | None:
-    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "corpus_v2"):
-        if c and Path(c).is_dir() and any(Path(c).glob("GR-*.json")):
+    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "processed", ROOT / "data" / "corpus_v2"):
+        if c and Path(c).is_dir() and any(Path(c).glob("*.json")):
             return Path(c)
     return None
 
@@ -76,8 +76,8 @@ def main() -> int:
             print("  [!] No corpus found. Set GOV_CORPUS_DIR or see backend/README.md to build it.")
         elif not index.is_dir():
             print(f"  [!] No search index at {index}. Build it: cd backend && python -m scripts.build_squad2_index --corpus {corpus} --index ../data/index/chroma")
-    # Source PDFs: final_dataset and data/pdfs are searched recursively by file name
-    extra = [p for p in (ROOT / "final_dataset", ROOT / "data" / "pdfs") if p.is_dir()]
+    # Source PDFs: final_dataset, data/grs, data/pdfs are searched recursively by file name
+    extra = [p for p in (ROOT / "final_dataset", ROOT / "data" / "grs", ROOT / "data" / "pdfs") if p.is_dir()]
     if extra:
         os.environ["GOV_PDF_EXTRA_DIRS"] = os.pathsep.join([os.environ.get("GOV_PDF_EXTRA_DIRS", ""), *map(str, extra)]).strip(os.pathsep)
     build_ui()

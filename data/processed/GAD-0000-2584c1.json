@@ -1,0 +1,128 @@
+{
+  "gr_id": "GAD-0000-2584c1",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\notifications\\Multi-Purpose-Health-Worker-Male-Superior-Panchayat-Service-12-4-2022.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 595.219970703125,
+      "height": 842.0,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "Government Central Press, Gandhinagar.\nExtra No. 15 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTUESDAY,  APRIL  12,  2022 / CHAITRA  22,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 12th April, 2022 \nGUJARAT PANCHAYATS ACT, 1993. \nNo. KP/22 of 2022 /PRR /102014 /77 /KH: In exercise of the powers conferred by sub-section (5) of section 227 read \nwith section 274 of the Gujarat Panchayats Act, 1993 (Guj:18 of 1993), the Government of Gujarat hereby makes the \nfollowing rules further to amend the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, \nRecruitment Rules 2022 namely:- \n1. These rules may be called the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, \nRecruitment (Amendment) Rules, 2022.  \n2. In the Multi Purpose Health Worker (Male) Class III in the Superior Panchayat Service Recruitment Rules, 2022, in \nrule 3, in clause (a) after the existing provisos, the following proviso shall be inserted, namely:- \n\"Provided that the upper age limit shall not be applicable in case of a candidate who is appointed as a Multi \nPurpose Health Worker (Male), Class III, in the Superior Panchayat Service either on contract basis on fixed pay for \na fixed period or on adhoc basis in regular pay- scale but for a fixed period, and who possesses the qualifications as \nprescribed in clause (b) of this rule and who offers his candidature in respect of advertisement which may be \npublished in the year 2022;\" \nBy order and in the name of the Governor of Gujarat, \nHITESH GOHIL, \nDeputy Secretary to Government. \n---------- \nI-A Ex.-15 \n15-1 \nSigned by:Shri P. B. Kanwar\nDate: 2022.04.26 12:39:59 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+          "text_clean": "Government Central Press, Gandhinagar.\nExtra No. 15 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTUESDAY,  APRIL  12,  2022 / CHAITRA  22,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 12th April, 2022 \nGUJARAT PANCHAYATS ACT, 1993. \nNo. KP/22 of 2022 /PRR /102014 /77 /KH: In exercise of the powers conferred by sub-section (5) of section 227 read \nwith section 274 of the Gujarat Panchayats Act, 1993 (Guj:18 of 1993), the Government of Gujarat hereby makes the \nfollowing rules further to amend the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, \nRecruitment Rules 2022 namely:- \n1. These rules may be called the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, \nRecruitment (Amendment) Rules, 2022.  \n2. In the Multi Purpose Health Worker (Male) Class III in the Superior Panchayat Service Recruitment Rules, 2022, in \nrule 3, in clause (a) after the existing provisos, the following proviso shall be inserted, namely:- \n\"Provided that the upper age limit shall not be applicable in case of a candidate who is appointed as a Multi \nPurpose Health Worker (Male), Class III, in the Superior Panchayat Service either on contract basis on fixed pay for \na fixed period or on adhoc basis in regular pay- scale but for a fixed period, and who possesses the qualifications as \nprescribed in clause (b) of this rule and who offers his candidature in respect of advertisement which may be \npublished in the year 2022;\" \nBy order and in the name of the Governor of Gujarat, \nHITESH GOHIL, \nDeputy Secretary to Government. \n---------- \nI-A Ex.-15 \n15-1 \nSigned by:Shri P. B. Kanwar\nDate: 2022.04.26 12:39:59 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 595.219970703125,
+            "y1": 842.0,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-2584c1_p1_c000",
+      "gr_id": "GAD-0000-2584c1",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-2584c1_p1_c001",
+      "gr_id": "GAD-0000-2584c1",
+      "text": "Government Central Press, Gandhinagar. Extra No. 15 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXIII ] TUESDAY, APRIL 12, 2022 / CHAITRA 22, 1944 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 12th April, 2022 GUJARAT PANCHAYATS ACT, 1993. No. KP/22 of 2022 /PRR /102014 /77 /KH: In exercise of the powers conferred by sub-section (5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj:18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, Recruitment Rules 2022 namely:-",
+      "text_clean": "Government Central Press, Gandhinagar. Extra No. 15 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXIII ] TUESDAY, APRIL 12, 2022 / CHAITRA 22, 1944 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 12th April, 2022 GUJARAT PANCHAYATS ACT, 1993. No. KP/22 of 2022 /PRR /102014 /77 /KH: In exercise of the powers conferred by sub-section (5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj:18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, Recruitment Rules 2022 namely:-",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-2584c1_p1_c002",
+      "gr_id": "GAD-0000-2584c1",
+      "text": "1. These rules may be called the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, Recruitment (Amendment) Rules, 2022.",
+      "text_clean": "1. These rules may be called the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, Recruitment (Amendment) Rules, 2022.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-2584c1_p1_c003",
+      "gr_id": "GAD-0000-2584c1",
+      "text": "2. In the Multi Purpose Health Worker (Male) Class III in the Superior Panchayat Service Recruitment Rules, 2022, in rule 3, in clause (a) after the existing provisos, the following proviso shall be inserted, namely:- \"Provided that the upper age limit shall not be applicable in case of a candidate who is appointed as a Multi Purpose Health Worker (Male), Class III, in the Superior Panchayat Service either on contract basis on fixed pay for a fixed period or on adhoc basis in regular pay- scale but for a fixed period, and who possesses the qualifications as prescribed in clause (b) of this rule and who offers his candidature in respect of advertisement which may be published in the year 2022;\" By order and in the name of the Governor of Gujarat, HITESH GOHIL, Deputy Secretary to Government. ---------- I-A Ex.-15 15-1 Signed by:Shri P. B. Kanwar Date: 2022.04.26 12:39:59 +05:30 Reason: Validate Document Location: Government Central Press, Gandhinagar Signature Not Verified",
+      "text_clean": "2. In the Multi Purpose Health Worker (Male) Class III in the Superior Panchayat Service Recruitment Rules, 2022, in rule 3, in clause (a) after the existing provisos, the following proviso shall be inserted, namely:- \"Provided that the upper age limit shall not be applicable in case of a candidate who is appointed as a Multi Purpose Health Worker (Male), Class III, in the Superior Panchayat Service either on contract basis on fixed pay for a fixed period or on adhoc basis in regular pay- scale but for a fixed period, and who possesses the qualifications as prescribed in clause (b) of this rule and who offers his candidature in respect of advertisement which may be published in the year 2022;\" By order and in the name of the Governor of Gujarat, HITESH GOHIL, Deputy Secretary to Government. ---------- I-A Ex.-15 15-1 Signed by:Shri P. B. Kanwar Date: 2022.04.26 12:39:59 +05:30 Reason: Validate Document Location: Government Central Press, Gandhinagar Signature Not Verified",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "Government Central Press, Gandhinagar.\nExtra No. 15 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTUESDAY,  APRIL  12,  2022 / CHAITRA  22,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 12th April, 2022 \nGUJARAT PANCHAYATS ACT, 1993. \nNo. KP/22 of 2022 /PRR /102014 /77 /KH: In exercise of the powers conferred by sub-section (5) of section 227 read \nwith section 274 of the Gujarat Panchayats Act, 1993 (Guj:18 of 1993), the Government of Gujarat hereby makes the \nfollowing rules further to amend the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, \nRecruitment Rules 2022 namely:- \n1. These rules may be called the Multi Purpose Health Worker (Male), Class III in the Superior Panchayat Service, \nRecruitment (Amendment) Rules, 2022.  \n2. In the Multi Purpose Health Worker (Male) Class III in the Superior Panchayat Service Recruitment Rules, 2022, in \nrule 3, in clause (a) after the existing provisos, the following proviso shall be inserted, namely:- \n\"Provided that the upper age limit shall not be applicable in case of a candidate who is appointed as a Multi \nPurpose Health Worker (Male), Class III, in the Superior Panchayat Service either on contract basis on fixed pay for \na fixed period or on adhoc basis in regular pay- scale but for a fixed period, and who possesses the qualifications as \nprescribed in clause (b) of this rule and who offers his candidature in respect of advertisement which may be \npublished in the year 2022;\" \nBy order and in the name of the Governor of Gujarat, \nHITESH GOHIL, \nDeputy Secretary to Government. \n---------- \nI-A Ex.-15 \n15-1 \nSigned by:Shri P. B. Kanwar\nDate: 2022.04.26 12:39:59 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified"
+}

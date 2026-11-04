@@ -1,0 +1,150 @@
+{
+  "gr_id": "GAD-0000-cb4c58",
+  "gr_number": "UNKNOWN",
+  "department": "General Administration Department",
+  "issue_date": null,
+  "effective_date": null,
+  "subject": "Unknown Subject",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\notifications\\ACT-5-april-2018.pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 612.0,
+      "height": 791.760009765625,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "Extra No. 5 \n© \n~~ \ntltbt 49ujarat ~obernment ~a~ette \nVol. LIX] \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nMONDAY, MARCH 12, 2018/PHALGUNA 21, 1939 \nSeparate paging is given to this Part in order that it may be filed as a Separate Compilation. \nPART IV \nActs of Gujarat Legislature and Ordinances promulgated and Regulations \nmade by the Governor. \nThe following Act of the Gujarat Legislature, having been assented to by the \nGovernor on the 71h March, 2018 is hereby published for general information. \nK.M.LALA, \nSecretary to the Government ofGujarat, \nLegislative and Parliamentary Affairs Department. \nGUJARAT ACT NO.5 OF 2018. \n(First published, after having received the assent of the Governor, in the \"Gujarat \nGovernment Gazette\", on the l2\n1h March, 2018). \nAN ACT \nfurther to amend the Gujarat Panchayats Act, 1993. \nIt is hereby enacted in the Sixty-ninth Year of the Republic of India \nas follows:-\n1. \n(1) This Act may be called the Gujarat Panchayats (Amendment) Act, Shorttitleand \n2018. \n(2) It shall come into force at once. \n2. In the Gujarat Panchayats Act; 1993,in section 55, in sub-section (4), for the \nAmendment of words \"Sarpanch or a member of the panchayat authorized in that behalf by the \nsection 55 of \nGuj.18 of 1993. panchayat, and the Secretary\", the words \"Sarpanch and the Secretary\" shall be \nsubstituted. \nIV-Ex.-5-1 \n5-1 \nGOVERNMENT CENTRAL PRESS, GANDHINAGAR. \ncommencement. \nGuj.18 of 1993.",
+          "text_clean": "Extra No. 5 \n© \n~~ \ntltbt 49ujarat ~obernment ~a~ette \nVol. LIX] \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nMONDAY, MARCH 12, 2018/PHALGUNA 21, 1939 \nSeparate paging is given to this Part in order that it may be filed as a Separate Compilation. \nPART IV \nActs of Gujarat Legislature and Ordinances promulgated and Regulations \nmade by the Governor. \nThe following Act of the Gujarat Legislature, having been assented to by the \nGovernor on the 71h March, 2018 is hereby published for general information. \nK.M.LALA, \nSecretary to the Government ofGujarat, \nLegislative and Parliamentary Affairs Department. \nGUJARAT ACT NO.5 OF 2018. \n(First published, after having received the assent of the Governor, in the \"Gujarat \nGovernment Gazette\", on the l2\n1h March, 2018). \nAN ACT \nfurther to amend the Gujarat Panchayats Act, 1993. \nIt is hereby enacted in the Sixty-ninth Year of the Republic of India \nas follows:-\n1. \n(1) This Act may be called the Gujarat Panchayats (Amendment) Act, Shorttitleand \n2018. \n(2) It shall come into force at once. \n2. In the Gujarat Panchayats Act; 1993,in section 55, in sub-section (4), for the \nAmendment of words \"Sarpanch or a member of the panchayat authorized in that behalf by the \nsection 55 of \nGuj.18 of 1993. panchayat, and the Secretary\", the words \"Sarpanch and the Secretary\" shall be \nsubstituted. \nIV-Ex.-5-1 \n5-1 \nGOVERNMENT CENTRAL PRESS, GANDHINAGAR. \ncommencement. \nGuj.18 of 1993.",
+          "bbox": {
+            "x0": 0.0,
+            "y0": 0.0,
+            "x1": 612.0,
+            "y1": 791.760009765625,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "GAD-0000-cb4c58_p1_c000",
+      "gr_id": "GAD-0000-cb4c58",
+      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 500.0,
+          "y1": 200.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "preamble",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cb4c58_p1_c001",
+      "gr_id": "GAD-0000-cb4c58",
+      "text": "Extra No. 5 © ~~ tltbt 49ujarat ~obernment ~a~ette Vol. LIX] EXTRAORDINARY PUBLISHED BY AUTHORITY MONDAY, MARCH 12, 2018/PHALGUNA 21, 1939 Separate paging is given to this Part in order that it may be filed as a Separate Compilation. PART IV Acts of Gujarat Legislature and Ordinances promulgated and Regulations made by the Governor. The following Act of the Gujarat Legislature, having been assented to by the Governor on the 71h March, 2018 is hereby published for general information. K.M.LALA, Secretary to the Government ofGujarat, Legislative and Parliamentary Affairs Department. GUJARAT ACT NO.5 OF 2018. (First published, after having received the assent of the Governor, in the \"Gujarat Government Gazette\", on the l2 1h March, 2018). AN ACT further to amend the Gujarat Panchayats Act, 1993. It is hereby enacted in the Sixty-ninth Year of the Republic of India as follows:-",
+      "text_clean": "Extra No. 5 © ~~ tltbt 49ujarat ~obernment ~a~ette Vol. LIX] EXTRAORDINARY PUBLISHED BY AUTHORITY MONDAY, MARCH 12, 2018/PHALGUNA 21, 1939 Separate paging is given to this Part in order that it may be filed as a Separate Compilation. PART IV Acts of Gujarat Legislature and Ordinances promulgated and Regulations made by the Governor. The following Act of the Gujarat Legislature, having been assented to by the Governor on the 71h March, 2018 is hereby published for general information. K.M.LALA, Secretary to the Government ofGujarat, Legislative and Parliamentary Affairs Department. GUJARAT ACT NO.5 OF 2018. (First published, after having received the assent of the Governor, in the \"Gujarat Government Gazette\", on the l2 1h March, 2018). AN ACT further to amend the Gujarat Panchayats Act, 1993. It is hereby enacted in the Sixty-ninth Year of the Republic of India as follows:-",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cb4c58_p1_c002",
+      "gr_id": "GAD-0000-cb4c58",
+      "text": "1. (1) This Act may be called the Gujarat Panchayats (Amendment) Act, Shorttitleand",
+      "text_clean": "1. (1) This Act may be called the Gujarat Panchayats (Amendment) Act, Shorttitleand",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cb4c58_p1_c003",
+      "gr_id": "GAD-0000-cb4c58",
+      "text": "2018. (2) It shall come into force at once.",
+      "text_clean": "2018. (2) It shall come into force at once.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cb4c58_p1_c004",
+      "gr_id": "GAD-0000-cb4c58",
+      "text": "2. In the Gujarat Panchayats Act; 1993,in section 55, in sub-section (4), for the Amendment of words \"Sarpanch or a member of the panchayat authorized in that behalf by the section 55 of Guj.18 of 1993. panchayat, and the Secretary\", the words \"Sarpanch and the Secretary\" shall be substituted. IV-Ex.-5-1 5-1 GOVERNMENT CENTRAL PRESS, GANDHINAGAR. commencement. Guj.18 of 1993.",
+      "text_clean": "2. In the Gujarat Panchayats Act; 1993,in section 55, in sub-section (4), for the Amendment of words \"Sarpanch or a member of the panchayat authorized in that behalf by the section 55 of Guj.18 of 1993. panchayat, and the Secretary\", the words \"Sarpanch and the Secretary\" shall be substituted. IV-Ex.-5-1 5-1 GOVERNMENT CENTRAL PRESS, GANDHINAGAR. commencement. Guj.18 of 1993.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 200.0,
+          "x1": 500.0,
+          "y1": 600.0,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.88,
+  "raw_text": "Extra No. 5 \n© \n~~ \ntltbt 49ujarat ~obernment ~a~ette \nVol. LIX] \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nMONDAY, MARCH 12, 2018/PHALGUNA 21, 1939 \nSeparate paging is given to this Part in order that it may be filed as a Separate Compilation. \nPART IV \nActs of Gujarat Legislature and Ordinances promulgated and Regulations \nmade by the Governor. \nThe following Act of the Gujarat Legislature, having been assented to by the \nGovernor on the 71h March, 2018 is hereby published for general information. \nK.M.LALA, \nSecretary to the Government ofGujarat, \nLegislative and Parliamentary Affairs Department. \nGUJARAT ACT NO.5 OF 2018. \n(First published, after having received the assent of the Governor, in the \"Gujarat \nGovernment Gazette\", on the l2\n1h March, 2018). \nAN ACT \nfurther to amend the Gujarat Panchayats Act, 1993. \nIt is hereby enacted in the Sixty-ninth Year of the Republic of India \nas follows:-\n1. \n(1) This Act may be called the Gujarat Panchayats (Amendment) Act, Shorttitleand \n2018. \n(2) It shall come into force at once. \n2. In the Gujarat Panchayats Act; 1993,in section 55, in sub-section (4), for the \nAmendment of words \"Sarpanch or a member of the panchayat authorized in that behalf by the \nsection 55 of \nGuj.18 of 1993. panchayat, and the Secretary\", the words \"Sarpanch and the Secretary\" shall be \nsubstituted. \nIV-Ex.-5-1 \n5-1 \nGOVERNMENT CENTRAL PRESS, GANDHINAGAR. \ncommencement. \nGuj.18 of 1993."
+}
