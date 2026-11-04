@@ -131,3 +131,10 @@ def test_store_path_persists_ingested_documents(tmp_path):
     client.post("/documents", json={"doc_id": "d1", "pages": [{"page": 1, "text": "hello"}]})
     reloaded = TestClient(create_app(store_path=path))
     assert reloaded.get("/health").json()["documents"] == 1
+
+
+def test_upload_pdf_rejects_non_pdf():
+    client = TestClient(create_app(graph=LineageGraph()))
+    res = client.post("/api/upload", files={"file": ("test.txt", b"plain text", "text/plain")})
+    assert res.status_code == 400
+    assert "Only PDF files are supported" in res.json()["detail"]

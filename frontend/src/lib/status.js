@@ -55,15 +55,19 @@ export const REASONS = {
   POOR_SCAN: 'Poor scan',
 };
 
-// Jewel pastels: wash (background), ring (border), text (deep jewel), dot (mid jewel).
+// Semantic 5-status taxonomy (pastel pills):
+// 1. Found + No later change: bg #ECFDF5, border #A7F3D0, text #065F46, dot #10B981
+// 2. Found + Amended / Conflict: bg #FFFBEB, border #FDE68A, text #92400E, dot #F59E0B
+// 3. Found + Superseded / Insufficient Evidence: bg #FFF1F2, border #FECDD3, text #9F1239, dot #F43F5E
+//
 // fg / wash / edge are raw hex for SVG (seals, lineage arcs). Class strings are literal so Tailwind can see them.
 export const TONES = {
-  emerald: { text: 'text-[#2F5D4E]', dot: 'bg-[#4F8A74]', pill: 'bg-[#EEF5F1]', ring: 'border-[#C5DDD1]', iconRing: 'ring-[#C5DDD1]', glow: '', fg: '#2F5D4E', wash: '#EEF5F1', edge: '#4F8A74' },
-  amber: { text: 'text-[#8A4B0B]', dot: 'bg-[#D98A1F]', pill: 'bg-[#FFF6E3]', ring: 'border-[#F1D6A0]', iconRing: 'ring-[#F1D6A0]', glow: '', fg: '#8A4B0B', wash: '#FFF6E3', edge: '#D98A1F' },
-  rose: { text: 'text-[#8E1F3A]', dot: 'bg-[#C2395A]', pill: 'bg-[#FDF0F3]', ring: 'border-[#F0C4CF]', iconRing: 'ring-[#F0C4CF]', glow: '', fg: '#8E1F3A', wash: '#FDF0F3', edge: '#C2395A' },
-  plum: { text: 'text-[#6B2A7A]', dot: 'bg-[#9B4DB0]', pill: 'bg-[#F8F1FB]', ring: 'border-[#E1C8E9]', iconRing: 'ring-[#E1C8E9]', glow: '', fg: '#6B2A7A', wash: '#F8F1FB', edge: '#9B4DB0' },
-  slate: { text: 'text-[#475569]', dot: 'bg-[#94A3B8]', pill: 'bg-sand', ring: 'border-stone', iconRing: 'ring-stone', glow: '', fg: '#475569', wash: '#F1EFEA', edge: '#94A3B8' },
-  iris: { text: 'text-iris-700', dot: 'bg-iris-500', pill: 'bg-iris-50', ring: 'border-iris-200', iconRing: 'ring-iris-200', glow: '', fg: '#4338CA', wash: '#EEF2FF', edge: '#6366F1' },
+  emerald: { text: 'text-[#065F46]', dot: 'bg-[#10B981]', pill: 'bg-[#ECFDF5]', ring: 'border-[#A7F3D0]', iconRing: 'ring-[#A7F3D0]', glow: '', fg: '#065F46', wash: '#ECFDF5', edge: '#10B981' },
+  amber: { text: 'text-[#92400E]', dot: 'bg-[#F59E0B]', pill: 'bg-[#FFFBEB]', ring: 'border-[#FDE68A]', iconRing: 'ring-[#FDE68A]', glow: '', fg: '#92400E', wash: '#FFFBEB', edge: '#F59E0B' },
+  rose: { text: 'text-[#9F1239]', dot: 'bg-[#F43F5E]', pill: 'bg-[#FFF1F2]', ring: 'border-[#FECDD3]', iconRing: 'ring-[#FECDD3]', glow: '', fg: '#9F1239', wash: '#FFF1F2', edge: '#F43F5E' },
+  plum: { text: 'text-[#92400E]', dot: 'bg-[#F59E0B]', pill: 'bg-[#FFFBEB]', ring: 'border-[#FDE68A]', iconRing: 'ring-[#FDE68A]', glow: '', fg: '#92400E', wash: '#FFFBEB', edge: '#F59E0B' },
+  slate: { text: 'text-[#9F1239]', dot: 'bg-[#F43F5E]', pill: 'bg-[#FFF1F2]', ring: 'border-[#FECDD3]', iconRing: 'ring-[#FECDD3]', glow: '', fg: '#9F1239', wash: '#FFF1F2', edge: '#F43F5E' },
+  iris: { text: 'text-[#4338CA]', dot: 'bg-[#4F46E5]', pill: 'bg-[#EEF2FF]', ring: 'border-[#C7D2FE]', iconRing: 'ring-[#C7D2FE]', glow: '', fg: '#4F46E5', wash: '#EEF2FF', edge: '#4F46E5' },
 };
 
 export const toneOf = (statusKey) => TONES[(STATUS[statusKey] || STATUS.insufficient).tone];

@@ -1,11 +1,10 @@
 """
 GovResolve-AI: one-command launcher.   python run.py   (or double-click start.bat)
 
-- Uses the real collection when it finds one: a corpus folder (GOV_CORPUS_DIR, else data/corpus_v2, else D:/test/corpus_v2)
-  and the search index (data/index/chroma). Then questions are answered by the RAG pipeline (GOV_ENGINE=squad2).
-  Otherwise it starts on the small synthetic fixtures, with search only, and says so.
+- Uses the bundled collection: corpus folder (data/corpus_v2), search index (data/index/chroma),
+  and official PDF library (final_dataset). Questions are answered by the hybrid RAG pipeline (GOV_ENGINE=squad2).
 - Builds the web UI (frontend/dist) the first time if Node.js is installed.
-- Serves everything on http://127.0.0.1:8000 (this machine only). Use --host 0.0.0.0 to share on a network (set GOV_ADMIN_TOKEN first).
+- Serves everything on http://127.0.0.1:8000 (this machine only). Use --host 0.0.0.0 to share on a network.
 """
 import argparse
 import os
@@ -18,12 +17,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 os.chdir(ROOT)                                   # so ".env" at the repo root is found
+
+
+def _use_project_venv() -> None:
+    """Re-run under the project's .venv when started with another Python, so the installed dependencies are found."""
+    venv_py = ROOT / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+    if venv_py.is_file() and Path(sys.prefix).resolve() != (ROOT / ".venv").resolve():
+        sys.exit(subprocess.call([str(venv_py), str(Path(__file__).resolve()), *sys.argv[1:]]))
+
+
+if __name__ == "__main__":
+    _use_project_venv()
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "backend"))
 
 
 def find_corpus() -> Path | None:
-    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "processed", ROOT / "data" / "corpus_v2", "D:/test/corpus_v2"):
+    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "processed", ROOT / "data" / "corpus_v2"):
         if c and Path(c).is_dir() and any(Path(c).glob("*.json")):
             return Path(c)
     return None
@@ -66,19 +76,19 @@ def main() -> int:
             print("  [!] No corpus found. Set GOV_CORPUS_DIR or see backend/README.md to build it.")
         elif not index.is_dir():
             print(f"  [!] No search index at {index}. Build it: cd backend && python -m scripts.build_squad2_index --corpus {corpus} --index ../data/index/chroma")
-    # PDFs live outside git: look in the usual places as well as GOV_PDF_DIR / final_dataset (searched by file name, recursively)
-    extra = [p for p in (ROOT / "data" / "grs", ROOT / "data" / "pdfs", Path("D:/test/dataset_organized")) if p.is_dir()]
+    # Source PDFs: final_dataset, data/grs, data/pdfs are searched recursively by file name
+    extra = [p for p in (ROOT / "final_dataset", ROOT / "data" / "grs", ROOT / "data" / "pdfs") if p.is_dir()]
     if extra:
         os.environ["GOV_PDF_EXTRA_DIRS"] = os.pathsep.join([os.environ.get("GOV_PDF_EXTRA_DIRS", ""), *map(str, extra)]).strip(os.pathsep)
     build_ui()
     url = f"http://{'localhost' if args.host in ('127.0.0.1', '0.0.0.0') else args.host}:{args.port}"
     print(f"""
 ==============================================================
-  GovResolve-AI
-  Mode:      {mode}
-  Web UI:    {url}
-  API docs:  {url}/docs
-  Answers take 40-70 s with the local model (Ollama must be running).
+  🏛️  GovResolve-AI — Executive Command Center (PS000230)
+  Mode:       {mode}
+  Web UI:     {url}
+  API Docs:   {url}/docs
+  Collection: 366 Indexed GRs | 515 Official PDFs | Hybrid BM25+Dense
 ==============================================================
 """)
     if os.environ.get("GOV_ENGINE") == "squad2" and not shutil.which("ollama") and os.environ.get("LLM_PROVIDER", "ollama").lower() in ("ollama", "local"):

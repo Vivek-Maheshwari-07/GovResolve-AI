@@ -1,6 +1,6 @@
-"""Precision/recall of detected lineage edges against eval/gold_lineage.csv.
+"""Precision/recall of detected lineage edges against eval/gold_lineage_verified.csv.
 
-Usage (from backend/):  python -m scripts.eval_lineage [--gold ../eval/gold_lineage.csv]
+Usage (from backend/):  python -m scripts.eval_lineage [--gold ../eval/gold_lineage_verified.csv]
 """
 import argparse
 import csv
@@ -53,7 +53,7 @@ def score(detected: list, gold: set[tuple]) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--gold", type=Path, default=ROOT / "eval" / "gold_lineage.csv")
+    ap.add_argument("--gold", type=Path, default=ROOT / "eval" / "gold_lineage_verified.csv")
     args = ap.parse_args()
     st = AppState.create(settings, persist_vectors=False)
     res = score(st.lineage.edges(), load_gold(args.gold))

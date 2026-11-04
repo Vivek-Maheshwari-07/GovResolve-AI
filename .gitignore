@@ -29,8 +29,10 @@ data/govresolve.sqlite
 data/vector/
 data/edges_detected.csv
 data/grs/
+data/corpus_v2/
 data/index/chroma_test/
 data/index/chroma_target_test/
+data/index/*.sqlite3
 data/index/translations.json
 
 # Model cache
@@ -54,3 +56,6 @@ eval/scorecard.json
 # frontend build output
 frontend/node_modules/
 frontend/dist/
+
+# Unwanted / archived files
+/unwanted/

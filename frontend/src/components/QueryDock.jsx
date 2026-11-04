@@ -27,14 +27,16 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
   };
 
   return (
-    <div className="space-y-3" data-tour="ask">
+    <div className="space-y-3 print:hidden" data-tour="ask">
       <div
-        className={`sheet group/dock transition-shadow focus-within:[box-shadow:0_0_0_1.5px_#4F46E5,0_0_0_6px_rgba(79,70,229,0.12),0_24px_48px_-20px_rgba(79,70,229,0.45)] ${hero ? 'rounded-[22px] p-3.5' : 'rounded-2xl p-3'}`}
+        className={`glass-dock group/dock transition-all duration-200 focus-within:border-[#4F46E5] focus-within:ring-4 focus-within:ring-[#4F46E5]/15 focus-within:[box-shadow:0_10px_32px_-6px_rgba(79,70,229,0.22)] ${
+          hero ? 'rounded-[22px] p-4' : 'rounded-2xl p-3.5'
+        }`}
       >
         {hero && (
-          <div className="mb-1.5 flex items-center justify-between px-1">
-            <span className="mono-label text-faint">Inquiry · ગુજરાતી / English / Gujlish</span>
-            <span className="hidden items-center gap-1.5 text-[11px] text-faint sm:flex">
+          <div className="mb-2 flex items-center justify-between px-1">
+            <span className="mono-label text-[#64748B]">Official Inquiry · ગુજરાતી / English / Gujlish</span>
+            <span className="hidden items-center gap-1.5 text-[11px] text-[#64748B] sm:flex">
               <kbd className="kbd">/</kbd> to focus
             </span>
           </div>
@@ -53,16 +55,24 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
                 submit();
               }
             }}
-            placeholder={hero ? 'Ask about any resolution, in any language…' : 'Ask a follow-up or a new question…'}
+            placeholder={hero ? 'Ask about any government resolution, in any language…' : 'Ask a follow-up or a new administrative question…'}
             aria-label="Your question"
             maxLength={2000}
-            className={`gu-text max-h-44 flex-1 resize-none bg-transparent px-1 py-1.5 font-normal text-ink outline-none placeholder:text-faint ${hero ? 'min-h-[4rem] text-[17px]' : 'min-h-[2.9rem] text-[14.5px]'}`}
+            className={`gu-text max-h-48 flex-1 resize-none bg-transparent px-1.5 py-1 text-[15px] font-normal leading-relaxed text-[#1E293B] outline-none placeholder:text-[#64748B]/60 ${
+              hero ? 'min-h-[4.2rem] text-[17px]' : 'min-h-[3rem]'
+            }`}
           />
 
           <div className="flex shrink-0 flex-col items-end gap-2 pt-0.5">
             <div className="flex items-center gap-1.5">
               {value.trim() && !loading && (
-                <button type="button" onClick={clear} aria-label="Clear question" title="Clear input" className="rounded-lg p-1.5 text-mist transition hover:bg-sand hover:text-ink">
+                <button
+                  type="button"
+                  onClick={clear}
+                  aria-label="Clear question"
+                  title="Clear input"
+                  className="rounded-lg p-1.5 text-[#64748B] transition hover:bg-[#F1EFEA] hover:text-[#1E293B]"
+                >
                   <X className="h-4 w-4" />
                 </button>
               )}
@@ -71,7 +81,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
                 onClick={submit}
                 disabled={!value.trim() || loading}
                 whileTap={{ scale: 0.97 }}
-                className="btn-primary inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+                className="btn-primary inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-semibold text-white shadow-sm transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none"
               >
                 {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CornerDownLeft className="h-3.5 w-3.5" />}
                 <span>{loading ? 'Searching…' : 'Ask'}</span>
@@ -80,14 +90,18 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
 
             <div className="flex items-center gap-2">
               <HistoryMenu history={history} onOpen={onOpenHistory} onClear={onClearHistory} />
-              <span className="hidden text-[10.5px] text-faint sm:inline">Enter to send</span>
+              <span className="hidden text-[10.5px] text-[#64748B] sm:inline">Enter to send</span>
               <button
                 type="button"
                 onClick={() => setKb((v) => !v)}
-                className={`gu-text inline-flex items-center gap-1 rounded-lg px-2 py-0.5 text-[11px] font-semibold transition-colors ${kb ? 'bg-iris-50 text-iris-800 ring-1 ring-iris-200' : 'bg-sand text-mist ring-1 ring-stone hover:text-ink'}`}
+                className={`gu-text inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-semibold transition-all ${
+                  kb
+                    ? 'border border-[#C7D2FE] bg-[#EEF2FF] text-[#4F46E5] shadow-sm'
+                    : 'border border-[#E6E4DD] bg-[#F1EFEA] text-[#64748B] hover:text-[#1E293B] hover:bg-white'
+                }`}
                 aria-pressed={kb}
               >
-                <Keyboard className="h-3 w-3 text-iris-500" />
+                <Keyboard className="h-3 w-3 text-[#4F46E5]" />
                 <span>ગુજરાતી</span>
               </button>
             </div>
@@ -118,8 +132,8 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
       </div>
 
       {hero && (
-        <div className="flex flex-wrap items-center gap-1.5 px-0.5">
-          <span className="mr-1 text-[11.5px] font-medium text-mist">Start with</span>
+        <div className="flex flex-wrap items-center gap-2 px-1">
+          <span className="mr-0.5 text-[11.5px] font-medium text-[#64748B]">Quick examples:</span>
           {TEMPLATES.map((t) => (
             <button
               key={t.label}
@@ -128,8 +142,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
                 onChange(t.text);
                 ref.current?.focus();
               }}
-              className="rounded-full bg-ivory px-3 py-1 text-[12px] font-medium text-mist transition hover:text-iris-700 hover:[box-shadow:0_0_0_1px_#A5B4FC]"
-              style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.09), inset 0 1px 0 #fff' }}
+              className="rounded-full border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] px-3.5 py-1 text-[12px] font-medium text-[#64748B] transition-all hover:border-[#C7D2FE] hover:bg-[#EEF2FF] hover:text-[#4F46E5] shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
             >
               {t.label}
             </button>

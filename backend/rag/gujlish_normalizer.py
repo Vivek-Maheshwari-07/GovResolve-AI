@@ -8,6 +8,7 @@ into a synchronized Search Bundle:
 """
 from __future__ import annotations
 
+import difflib
 import json
 import re
 from pathlib import Path
@@ -122,7 +123,8 @@ class GujlishNormalizer:
         # 1. Check glossary and known Gujlish terms
         words_set = set(words)
         gujlish_hits = 0
-        for stem in self.functional_stems.keys():
+        stem_keys = list(self.functional_stems.keys())
+        for stem in stem_keys:
             stem_words = stem.split()
             if len(stem_words) == 1 and stem_words[0] in words_set:
                 gujlish_hits += 2
@@ -136,6 +138,12 @@ class GujlishNormalizer:
                     gujlish_hits += 3
                 elif syn_lower in words_set:
                     gujlish_hits += 2
+
+        # Fuzzy check for minor misspellings of distinctive Gujlish words
+        distinctive_list = list(_DISTINCTIVE_GUJLISH)
+        for w in words_set:
+            if difflib.get_close_matches(w, distinctive_list, n=1, cutoff=0.85):
+                gujlish_hits += 2
 
         # 2. Check linguistic suffixes, phonetics, and administrative vocabulary
         en_count = sum(1 for w in words if w in _COMMON_EN_WORDS)

@@ -15,7 +15,18 @@ def _make_lineage(corpus: Corpus, settings: Settings, cache=None):
     if settings.lineage_engine != "stub":
         try:
             from .lineage import LineageService
-            return LineageService(corpus, cache=cache), "real"
+            from .lineage.llm_fallback import LLMFallback
+
+            def _llm_call(prompt: str) -> str:
+                try:
+                    from backend.rag.llm_gateway import execute_llm_generation
+                    reply, _ = execute_llm_generation("Reply with valid JSON only.", prompt, max_tokens=250, json_mode=True)
+                    return reply
+                except Exception:
+                    return ""
+
+            llm = LLMFallback(_llm_call, cache=cache)
+            return LineageService(corpus, llm=llm, cache=cache), "real"
         except ImportError:
             if settings.lineage_engine == "real":
                 raise
@@ -39,7 +50,10 @@ class AppState:
     def create(cls, settings: Settings, *, persist_vectors: bool = True) -> "AppState":
         st = cls(settings=settings)
         st.db = Database(settings.db_path)
-        st.vectors = VectorStore(settings.vector_dir if persist_vectors else None, settings.embed_model)
+        # When GOV_ENGINE=squad2, search is handled by GRIndex (data/index/chroma).
+        # Keep vectors ephemeral in memory rather than writing duplicate data to data/vector.
+        persist = persist_vectors and (settings.engine != "squad2")
+        st.vectors = VectorStore(settings.vector_dir if persist else None, settings.embed_model)
         st.rebuild()
         return st
 
@@ -50,7 +64,8 @@ class AppState:
         added, removed = self.db.overrides()
         self.lineage.apply_overrides(added, removed)
         self.db.save_edges(self.lineage.edges())
-        self.vectors.index_corpus(self.corpus)
+        if self.settings.engine != "squad2":
+            self.vectors.index_corpus(self.corpus)
         self.build_ms = int((time.perf_counter() - t0) * 1000)
 
     def reapply_overrides(self) -> None:

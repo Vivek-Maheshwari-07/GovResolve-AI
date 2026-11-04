@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     lineage_engine: str = "auto"  # auto = real engine if importable | real | stub
     stub_edges: Path | None = None  # seed edges for the stub engine (tests, demos)
     # local only by default (the UI is served from the same origin); set GOV_CORS_ORIGINS='["https://your.host"]' or '["*"]' for a shared demo
-    cors_origins: list[str] = ["http://localhost:8000", "http://127.0.0.1:8000", "http://localhost:5173", "http://127.0.0.1:5173"]
+    cors_origins: list[str] = ["*"]
     frontend_dir: Path = ROOT / "frontend" / "dist"  # built UI, served at / when it exists
 
 

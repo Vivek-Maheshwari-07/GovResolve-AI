@@ -39,7 +39,7 @@ calls `/api/*`, so if Squad 4 reuses it, either the UI is repointed to the contr
    (`NO_DOCUMENT`, `TOO_VAGUE`, `MISSING_FACTS`, `BROKEN_CHAIN`, `POOR_SCAN`, `OUT_OF_SCOPE`). `BROKEN_CHAIN` is NOT produced anywhere yet: our graph has external stubs for missing GRs, but nothing turns a cited GR's stub into
    that code. To do on our side; Squad 2 produces the other five.
 3. **Their pipeline has never been run.** Installing `requirements.txt` in a clean venv (needs `loguru`, `rank_bm25`,
-   `indic_transliteration`; `BAAI/bge-m3` is a large download) and running `tests/test_pipeline.py` and `eval/evaluate.py` is Squad 2's job
+   `indic_transliteration`; `BAAI/bge-m3` is a large download) and running `eval/evaluate.py` is Squad 2's job
    and the first thing to do. Until then the bridge is tested only against stand-ins.
 4. **They need a language model.** `llm_gateway.py` wants a running Ollama model or a Groq key (see `docs/LLM_PROVIDERS.md`). Without one the pipeline falls back
    to a deterministic answer. Decide which model the demo uses.

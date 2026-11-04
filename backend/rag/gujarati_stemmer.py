@@ -6,6 +6,7 @@ Solves the agglutinative inflected nature of Gujarati in BM25 lexical search:
 - Tokenizes alphanumeric identifiers (e.g. GAD/2021/0147)
 """
 import re
+import unicodedata
 
 # Gujarati digit normalization table
 GU_DIGIT_MAP = str.maketrans("૦૧૨૩૪૫૬૭૮૯", "0123456789")
@@ -27,6 +28,14 @@ def normalize_gujarati_digits(text: str) -> str:
     return text.translate(GU_DIGIT_MAP)
 
 
+def normalize_gujarati_text(text: str) -> str:
+    """Normalize Unicode to NFC, strip zero-width joiners/non-joiners, and normalize digits."""
+    if not text:
+        return ""
+    cleaned = unicodedata.normalize("NFC", text).replace("\u200c", "").replace("\u200d", "")
+    return normalize_gujarati_digits(cleaned)
+
+
 def stem_gujarati_word(word: str) -> str:
     """Strip inflectional suffixes from a Gujarati word."""
     m = GU_SUFFIX_RE.match(word)
@@ -38,12 +47,13 @@ def stem_gujarati_word(word: str) -> str:
 def tokenize_for_bm25(text: str) -> list[str]:
     """
     Tokenize bilingual Gujarati-English administrative text for BM25:
-    1. Normalizes Gujarati numerals to standard ASCII
-    2. Extracts alphanumeric tokens (words, GR numbers, dates)
-    3. Stems Gujarati case suffixes
-    4. Filters out stop words and short noise
+    1. Normalizes Unicode to NFC and strips zero-width joiners/non-joiners
+    2. Normalizes Gujarati numerals to standard ASCII
+    3. Extracts alphanumeric tokens (words, GR numbers, dates)
+    4. Stems Gujarati case suffixes
+    5. Filters out stop words and short noise
     """
-    normalized = normalize_gujarati_digits(text)
+    normalized = normalize_gujarati_text(text)
     
     # Extract words or compound codes (e.g. GAD/2021/123)
     raw_tokens = re.findall(r"[\u0A80-\u0AFF]+|[a-zA-Z0-9]+(?:[/\-_][a-zA-Z0-9]+)*", normalized)

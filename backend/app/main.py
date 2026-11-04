@@ -4,7 +4,7 @@ import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -78,6 +78,7 @@ def create_app(
         if cfg is not None:
             app.state.gov = AppState.create(cfg, persist_vectors=persist_vectors)
             app.state.contract_graph = graph
+            app.state.engine = engine
             if not graph.list_documents():
                 load_corpus(graph, app.state.gov.corpus, app.state.gov.lineage)
             if os.getenv("SFIC_SEED", "0") == "1":
@@ -124,6 +125,33 @@ def create_app(
             persist()
             return result
 
+        @app.post("/api/upload")
+        async def upload_pdf(file: UploadFile = File(...)):
+            if not (file.filename or "").lower().endswith(".pdf"):
+                raise HTTPException(400, "Only PDF files are supported.")
+            import tempfile
+            import shutil
+            from ..ingestion.ingest import ingest_pdf
+            from ..schemas.gr import GRRecord as SchemaGRRecord
+
+            with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+                shutil.copyfileobj(file.file, tmp)
+                tmp_path = Path(tmp.name)
+            try:
+                rec = ingest_pdf(str(tmp_path), processed_dir=str(cfg.corpus_dir if cfg else "data/processed"))
+                st = getattr(app.state, "gov", None)
+                if st and st.corpus:
+                    schema_rec = SchemaGRRecord.model_validate(rec.model_dump(mode="json"))
+                    st.corpus.grs[schema_rec.gr_id] = schema_rec
+                    st.corpus._reindex()
+                    cg = getattr(app.state, "contract_graph", None)
+                    if cg is not None:
+                        load_corpus(cg, st.corpus, st.lineage)
+                return {"status": "ok", "gr_id": rec.gr_id, "gr_number": rec.gr_number, "pages": len(rec.pages)}
+            finally:
+                if tmp_path.exists():
+                    tmp_path.unlink()
+
         @app.get("/documents", response_model=list[DocumentMeta])
         def list_documents() -> list[DocumentMeta]:
             return graph.list_documents()
@@ -153,6 +181,7 @@ def create_app(
             return graph.edges()
 
         @app.post("/query", response_model=QueryResponse)
+        @app.post("/api/query", response_model=QueryResponse, include_in_schema=False)
         def query(req: QueryRequest) -> QueryResponse:
             language = req.language or detect_language(req.question)
             result = engine.answer(req.question, language)
