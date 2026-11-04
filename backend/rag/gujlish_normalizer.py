@@ -18,16 +18,67 @@ from loguru import logger
 # Load GAD Glossary
 _GLOSSARY_PATH = Path(__file__).parent.parent.parent / "config" / "gad_glossary.json"
 
-_GUJLISH_MARKERS = {
-    "na", "ni", "nu", "no", "ma", "che", "shu", "su", "mate", "joie", "joye",
-    "ketla", "ketli", "ketlu", "kya", "kyare", "kone", "pachi", "pahela",
-    "sudhi", "bhav", "karmchari", "karmchario", "nathi", "aapo", "apo",
-    "leva", "male", "malse", "spashtata", "jagyae", "vanchvanu", "ganvesh",
+# Core English vocabulary used for statistical language discrimination
+_COMMON_EN_WORDS = {
+    "the", "is", "at", "which", "on", "what", "how", "many", "when", "where", "who", "whom",
+    "whose", "why", "can", "could", "should", "would", "will", "shall", "does", "do", "did",
+    "are", "were", "been", "being", "have", "has", "had", "for", "from", "with", "without",
+    "under", "over", "between", "about", "into", "through", "during", "before", "after", "above",
+    "below", "to", "of", "in", "and", "or", "any", "some", "all", "each", "every", "both",
+    "few", "more", "most", "other", "such", "only", "own", "same", "so", "than", "too", "very",
+    "rules", "rule", "order", "orders", "circular", "resolution", "government", "employee",
+    "employees", "department", "entitled", "entitlement", "ceiling", "limit", "amount",
+    "allowance", "leave", "pension", "salary", "service", "medical", "claim", "reimbursement",
+    "officer", "officers", "office", "date", "year", "number", "policy", "scheme", "application",
+    "notification", "benefits", "benefit", "eligible", "eligibility", "procedure", "document",
+    "documents", "status", "amendment", "superseded", "guidelines", "prescribed", "pay", "fixed"
 }
 
+_INDIC_PHONETICS = re.compile(
+    r"(?:kh|bh|dh|gh|chh|jh|thh|ddh|shh|rya|kya|tya|mya|vya|sva|shva|ksha|gna|shth|[aeiou]{2,})",
+    re.I
+)
+
+_GU_SUFFIXES = (
+    "mate", "matena", "mateni", "mateno", "matenu",
+    "oma", "ma", "thi", "athi", "ethi",
+    "na", "ni", "nu", "no", "nao", "nio",
+    "vama", "vani", "vano", "vanu", "vathi", "va",
+    "karelu", "karel", "karela", "kareli", "karyu", "karya", "karto", "karta", "karti",
+    "thase", "thashe", "thay", "thayo", "thayi", "thayu",
+    "malse", "malshe", "male", "maleche", "malechhe",
+    "uo", "ao", "io"
+)
+
+_GU_ADMIN_WORDS = {
+    "aadesh", "hukam", "tharav", "paripatra", "suchna", "suchnao", "nirdesh", "margdarshan",
+    "aheval", "samiti", "aayog", "karyalay", "kacheri", "vibhag", "khathu", "shakha", "seva",
+    "sevao", "sanstha", "mandal", "mandas", "karyakram", "yojana", "yojanao", "anudan",
+    "fadavani", "aavantan", "manjuri", "darakhast", "tapas", "tathya", "tapasani", "nirnay",
+    "chukaado", "nyay", "adalat", "karyavahi", "karyapadhati", "karyavidhi", "amal", "amalikaran",
+    "pagla", "paglan", "niyam", "niyamo", "niyamavali", "kaydo", "kaydao", "adhiniyam",
+    "jeshthata", "badhti", "badli", "bharti", "nivad", "pasandagi", "nemnuk", "chuntani",
+    "sarpanch", "talati", "mantri", "prant", "mamlatdar", "collector", "sachivalay", "sachivalaya",
+    "gandhinagar", "gujarat", "rajya", "sarkar", "shasan", "rajyapal", "mukhyamantri",
+    "karmachari", "karmchari", "karmchario", "adhikari", "adhikario", "sevak", "sevako",
+    "shikshak", "vidyasahayak", "sahayak", "talim", "pariksha", "kasoti", "pagar", "bhadu",
+    "bhathu", "vetan", "vadhari", "vadharo", "kapat", "vasulat", "dand", "shiksha", "shist",
+    "guno", "faraj", "farajo", "kamgiri", "kam", "hajari", "gerhajari", "rajani", "raja",
+    "rajao", "arji", "arjio", "puravatha", "godown", "vahan", "kharedi", "deadstock",
+    "bhav", "dar", "ganvesh", "kapad", "sahay", "updan", "pension", "nivruti", "sevanivruti",
+    "che", "chhe", "nathi", "shu", "su", "kya", "kyan", "kyare", "kone", "ketla", "ketli", "ketlu",
+    "kevi", "kevo", "kevu", "kem", "kaun", "kon", "pachi", "pahela", "sudhi", "hethal", "mujab",
+    "anusar", "sathe", "dwara", "vade", "padi", "raheli", "rahel", "vastu", "vastuo", "binjaruri",
+    "bin", "jaruri", "nikal", "nikalva", "karvu", "karva", "aapo", "apo", "leva", "melvva",
+    "joie", "joye", "spashtata", "jagyae", "vanchvanu"
+}
+
+_GUJLISH_MARKERS = _GU_ADMIN_WORDS
 _DISTINCTIVE_GUJLISH = {
     "vanchvanu", "karmchario", "spashtata", "jagyae", "malse", "ketla", "ketli",
     "ketlu", "ganvesh", "pachi", "pahela", "sudhi", "nathi",
+    "mateni", "karyavidhi", "karyapadhati", "nikal", "sachivalay", "binjaruri", "raheli", "vastuo",
+    "darakhast", "manjur", "tathya", "tapas", "aheval", "kramank"
 }
 
 
@@ -55,34 +106,56 @@ class GujlishNormalizer:
             logger.warning(f"Glossary not found at {glossary_path}")
 
     def detect_language(self, text: str) -> str:
-        """Classify script: 'gu', 'en', 'gujlish', or 'mixed'."""
+        """Classify script robustly: 'gu', 'en', 'gujlish', or 'mixed'."""
         gu_chars = len(re.findall(r"[\u0A80-\u0AFF]", text))
         en_chars = len(re.findall(r"[a-zA-Z]", text))
         
         if gu_chars > 0 and en_chars == 0:
             return "gu"
+        if gu_chars > 0 and en_chars > 0:
+            return "mixed"
         
-        # Check for Gujlish keywords in Latin script
-        words = set(re.findall(r"[a-zA-Z]+", text.lower()))
+        words = re.findall(r"[a-zA-Z]+", text.lower())
+        if not words:
+            return "en"
+        
+        # 1. Check glossary and known Gujlish terms
+        words_set = set(words)
         gujlish_hits = 0
         for stem in self.functional_stems.keys():
             stem_words = stem.split()
-            if len(stem_words) == 1 and stem_words[0] in words:
-                gujlish_hits += 1
-            elif len(stem_words) > 1 and stem in text.lower():
+            if len(stem_words) == 1 and stem_words[0] in words_set:
                 gujlish_hits += 2
+            elif len(stem_words) > 1 and stem in text.lower():
+                gujlish_hits += 3
 
-        # Check distinctive markers
-        if any(w in words for w in _DISTINCTIVE_GUJLISH):
-            gujlish_hits += 2
-        elif sum(1 for w in words if w in _GUJLISH_MARKERS) >= 2:
-            gujlish_hits += 2
+        for term in self.secretariat_terms:
+            for syn in term.get("synonyms", []):
+                syn_lower = syn.lower()
+                if " " in syn_lower and syn_lower in text.lower():
+                    gujlish_hits += 3
+                elif syn_lower in words_set:
+                    gujlish_hits += 2
 
-        if gujlish_hits >= 1:
-            return "gujlish" if gu_chars == 0 else "mixed"
-        
-        if gu_chars > 0 and en_chars > 0:
-            return "mixed"
+        # 2. Check linguistic suffixes, phonetics, and administrative vocabulary
+        en_count = sum(1 for w in words if w in _COMMON_EN_WORDS)
+        gu_count = sum(1 for w in words if w in _GU_ADMIN_WORDS)
+        suffix_hits = sum(1 for w in words if len(w) > 3 and any(w.endswith(sfx) for sfx in _GU_SUFFIXES))
+        phonetic_hits = sum(1 for w in words if _INDIC_PHONETICS.search(w) and w not in _COMMON_EN_WORDS)
+
+        total_gu_clues = gujlish_hits + (gu_count * 2) + suffix_hits + phonetic_hits
+        total_en_clues = en_count * 2
+
+        if any(w in words_set for w in _DISTINCTIVE_GUJLISH):
+            return "gujlish"
+        if total_gu_clues >= 2 and total_gu_clues > total_en_clues:
+            return "gujlish"
+        if (gu_count >= 1 or gujlish_hits >= 1) and en_count == 0:
+            return "gujlish"
+        if en_count >= 2 and total_en_clues >= total_gu_clues:
+            return "en"
+        if total_gu_clues >= 2:
+            return "gujlish"
         
         return "en"
 

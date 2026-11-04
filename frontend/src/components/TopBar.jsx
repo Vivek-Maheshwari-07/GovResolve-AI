@@ -67,29 +67,34 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
 
         {/* Controls */}
         <div className="ml-auto flex flex-wrap items-center gap-2.5">
-          <div role="tablist" aria-label="Question language" className="relative flex rounded-xl bg-sand p-0.5" style={{ boxShadow: 'inset 0 1px 2px rgba(30,41,59,.08), inset 0 0 0 1px rgba(30,41,59,.05)' }}>
-            {LANGS.map((l) => {
-              const on = language === l.id;
-              return (
-                <button
-                  key={String(l.id)}
-                  role="tab"
-                  aria-selected={on}
-                  onClick={() => onLanguage(l.id)}
-                  className={`relative rounded-[10px] px-2.5 py-1 text-xs font-semibold transition-colors ${on ? 'text-ink' : 'text-mist hover:text-ink'} ${l.id === 'gu' ? 'gu-text' : ''}`}
-                >
-                  {on && (
-                    <motion.span
-                      layoutId="lang-pill"
-                      className="absolute inset-0 rounded-[10px] bg-ivory"
-                      style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.09), 0 1px 3px rgba(30,41,59,.1), inset 0 1px 0 #fff' }}
-                      transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-                    />
-                  )}
-                  <span className="relative z-10">{l.label}</span>
-                </button>
-              );
-            })}
+          <div className="flex items-center gap-1.5">
+            <span className="mono-label hidden text-[10px] text-faint sm:inline" title="Target language for the answer / પરિણામ ભાષા">
+              Answer:
+            </span>
+            <div role="tablist" aria-label="Answer language" className="relative flex rounded-xl bg-sand p-0.5" style={{ boxShadow: 'inset 0 1px 2px rgba(30,41,59,.08), inset 0 0 0 1px rgba(30,41,59,.05)' }}>
+              {LANGS.map((l) => {
+                const on = language === l.id;
+                return (
+                  <button
+                    key={String(l.id)}
+                    role="tab"
+                    aria-selected={on}
+                    onClick={() => onLanguage(l.id)}
+                    className={`relative rounded-[10px] px-2.5 py-1 text-xs font-semibold transition-colors ${on ? 'text-ink' : 'text-mist hover:text-ink'} ${l.id === 'gu' ? 'gu-text' : ''}`}
+                  >
+                    {on && (
+                      <motion.span
+                        layoutId="lang-pill"
+                        className="absolute inset-0 rounded-[10px] bg-ivory"
+                        style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.09), 0 1px 3px rgba(30,41,59,.1), inset 0 1px 0 #fff' }}
+                        transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                      />
+                    )}
+                    <span className="relative z-10">{l.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div

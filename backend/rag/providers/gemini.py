@@ -12,8 +12,15 @@ class GeminiProvider(LLMProvider):
 
     def __init__(self) -> None:
         self.api_key = env_first("GOOGLE_API_KEY")
-        self.model = env_first("GEMINI_MODEL", default="gemini-2.0-flash")
+        self.model = env_first("GEMINI_MODEL", default="gemini-2.5-flash")
         self.max_output_tokens = int(env_first("GEMINI_MAX_TOKENS", default="2500"))
+        self._client = None
+
+    def _get_client(self):
+        if self._client is None and self.api_key:
+            from google import genai
+            self._client = genai.Client(api_key=self.api_key)
+        return self._client
 
     def _secrets(self) -> tuple[str, ...]:
         return (self.api_key,)
@@ -39,10 +46,12 @@ class GeminiProvider(LLMProvider):
         if not self.is_configured():
             return None
         try:
-            from google import genai
             from google.genai import types
 
-            response = genai.Client(api_key=self.api_key).models.generate_content(
+            client = self._get_client()
+            if not client:
+                return None
+            response = client.models.generate_content(
                 model=self.model, contents=user,
                 config=types.GenerateContentConfig(system_instruction=system, temperature=0.0, max_output_tokens=self.max_output_tokens))
             return response.text

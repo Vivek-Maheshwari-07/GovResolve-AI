@@ -34,7 +34,7 @@ function CitationChip({ cit, active, onSelect }) {
   );
 }
 
-export default function AnswerCard({ response, active, onSelect }) {
+export default function AnswerCard({ response, active, onSelect, language, onLanguageChange }) {
   const answered = response.verdict === 'answered';
   const warnings = response.warnings || [];
   const isGu = /[઀-૿]/.test(response.summary || response.insufficient_reason || '');
@@ -54,11 +54,46 @@ export default function AnswerCard({ response, active, onSelect }) {
 
       {/* The finding: first thing read, set large in serif */}
       <section data-tour="finding" className="sheet px-5 pb-5 pt-4 sm:px-7 sm:pb-6">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className={`eyebrow flex items-center gap-1.5 ${answered ? '!text-iris-700' : '!text-[#475569]'}`}>
-            {answered ? <span className="h-1.5 w-1.5 rounded-full bg-iris-600" /> : <MessageSquareWarning className="h-3.5 w-3.5" />}
-            {answered ? 'Answer' : 'Why no answer'}
-          </h2>
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <h2 className={`eyebrow flex items-center gap-1.5 ${answered ? '!text-iris-700' : '!text-[#475569]'}`}>
+              {answered ? <span className="h-1.5 w-1.5 rounded-full bg-iris-600" /> : <MessageSquareWarning className="h-3.5 w-3.5" />}
+              {answered ? (isGu ? 'ઉત્તર / Answer' : 'Answer') : (isGu ? 'જવાબ કેમ નથી' : 'Why no answer')}
+            </h2>
+            {onLanguageChange && (
+              <div
+                role="group"
+                aria-label="Result language toggle"
+                className="inline-flex items-center rounded-lg bg-sand/80 p-0.5 text-[11px]"
+                style={{ boxShadow: 'inset 0 1px 2px rgba(30,41,59,.07)' }}
+              >
+                <button
+                  type="button"
+                  onClick={() => onLanguageChange('en')}
+                  className={`rounded-md px-2 py-0.5 font-semibold transition-all ${
+                    (language === 'en' || (!language && !isGu))
+                      ? 'bg-ivory text-iris-800 shadow-sm ring-1 ring-black/5'
+                      : 'text-mist hover:text-ink'
+                  }`}
+                  title="Show answer in English"
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onLanguageChange('gu')}
+                  className={`gu-text rounded-md px-2 py-0.5 font-semibold transition-all ${
+                    (language === 'gu' || (!language && isGu))
+                      ? 'bg-ivory text-iris-800 shadow-sm ring-1 ring-black/5'
+                      : 'text-mist hover:text-ink'
+                  }`}
+                  title="પરિણામ ગુજરાતીમાં જુઓ (Show answer in Gujarati)"
+                >
+                  ગુજરાતી
+                </button>
+              </div>
+            )}
+          </div>
           {answered && (
             <span className="inline-flex items-center gap-1 rounded-full border border-[#C5DDD1] bg-[#EEF5F1] px-2.5 py-0.5 text-[11px] font-semibold text-[#2F5D4E]">
               <ShieldCheck className="h-3 w-3" /> Verified from official text
@@ -75,7 +110,7 @@ export default function AnswerCard({ response, active, onSelect }) {
       {answered && (response.statements || []).length > 0 && (
         <section className="sheet p-4 sm:p-5">
           <div className="flex items-center justify-between">
-            <h2 className="eyebrow">Statements &amp; sources</h2>
+            <h2 className="eyebrow">{isGu ? 'વિધાનો અને સંદર્ભ' : 'Statements & sources'}</h2>
             <span className="mono-label text-faint">{response.statements.length} {response.statements.length === 1 ? 'statement' : 'statements'}</span>
           </div>
           <ol className="ledger mt-2">
@@ -113,8 +148,8 @@ export default function AnswerCard({ response, active, onSelect }) {
       {answered && response.citations.length > 0 && (
         <section data-tour="passages" className="space-y-2.5">
           <div className="flex items-center justify-between px-1">
-            <h2 className="eyebrow">Verbatim passages</h2>
-            <span className="text-[11.5px] text-faint">Select one to lock it on the page</span>
+            <h2 className="eyebrow">{isGu ? 'મૂળ સરકારી ઠરાવના ફકરા' : 'Verbatim passages'}</h2>
+            <span className="text-[11.5px] text-faint">{isGu ? 'પૃષ્ઠ પર જોવા માટે પસંદ કરો' : 'Select one to lock it on the page'}</span>
           </div>
           {response.citations.map((c, i) => {
             const on = citeKey(c) === citeKey(active);
@@ -152,10 +187,10 @@ export default function AnswerCard({ response, active, onSelect }) {
                     {on ? (
                       <>
                         <span className="relative flex h-1.5 w-1.5"><span className="absolute inset-0 animate-pingSoft rounded-full bg-[#D98A1F]" /><span className="relative h-1.5 w-1.5 rounded-full bg-[#D98A1F]" /></span>
-                        Locked on page
+                        {isGu ? 'પૃષ્ઠ પર ચિહ્નિત' : 'Locked on page'}
                       </>
                     ) : (
-                      <>Lock on page <ArrowRight className="h-3 w-3" /></>
+                      <>{isGu ? 'પૃષ્ઠ પર જુઓ' : 'Lock on page'} <ArrowRight className="h-3 w-3" /></>
                     )}
                   </span>
                 </div>

@@ -223,7 +223,7 @@ export default function App() {
     }
   }, []);
 
-  const submit = async (text, fromSample = false) => {
+  const submit = async (text, fromSample = false, overrideLang = undefined) => {
     const q = text.trim();
     if (!q || loading) return;
     if (fromSample) setQuery(q);
@@ -236,8 +236,9 @@ export default function App() {
     abortRef.current?.abort();
     const ctl = new AbortController();
     abortRef.current = ctl;
+    const effectiveLang = overrideLang !== undefined ? overrideLang : language;
     try {
-      const r = await ask(q, language, ctl.signal);
+      const r = await ask(q, effectiveLang, ctl.signal);
       const sec = Math.round((performance.now() - t0) / 1000);
       setResponse(r);
       setOnline(true);
@@ -384,7 +385,12 @@ export default function App() {
         stats={stats}
         online={online}
         language={language}
-        onLanguage={setLanguage}
+        onLanguage={(lang) => {
+          setLanguage(lang);
+          if (query && response && !loading) {
+            submit(query, false, lang);
+          }
+        }}
         asOf={asOf}
         onAsOf={setAsOf}
         session={session}
@@ -446,7 +452,18 @@ export default function App() {
                       {response && !loading && (
                         <motion.div key="answer" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3.5">
                           <StatusBanner status={response.answer_status} reasonCode={response.reason_code} asOf={asOf} asOfStatus={asOfStatus} />
-                          <AnswerCard response={response} active={active} onSelect={setActive} />
+                          <AnswerCard
+                            response={response}
+                            active={active}
+                            onSelect={setActive}
+                            language={language}
+                            onLanguageChange={(newLang) => {
+                              setLanguage(newLang);
+                              if (query && !loading) {
+                                submit(query, false, newLang);
+                              }
+                            }}
+                          />
                           <LineageGraph chain={shownChain} forGr={shownFor?.gr_number} asOf={asOf} onAsOf={setAsOf} activeId={active?.gr_id} onSelectNode={openNode} />
                         </motion.div>
                       )}

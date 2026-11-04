@@ -59,7 +59,14 @@ TRANSLATE_SYSTEM = (
     "Latin letters, or mixed with English. Reply with the English translation only: one sentence, no quotes, no explanation. "
     "Keep numbers, dates, GR numbers and names exactly as written. If the question is already English, repeat it."
 )
+TRANSLATE_GU_SYSTEM = (
+    "You translate questions about Gujarat Government Resolutions into formal Gujarati in Gujarati script (ગુજરાતી લિપિ). "
+    "The question may be in English, Gujlish (Gujarati in Latin letters), or mixed. "
+    "Reply with the Gujarati translation in Gujarati script only: one concise search query, no quotes, no explanation. "
+    "Keep numbers, dates, and GR identifiers intact. If the question is already pure Gujarati script, repeat it."
+)
 _TRANSLATIONS: dict[str, str] = {}
+_TRANSLATIONS_GU: dict[str, str] = {}
 _TRANSLATIONS_LOADED = False
 
 
@@ -120,3 +127,36 @@ def translate_to_english(question: str) -> Optional[str]:
         except OSError:
             pass
     return english
+
+
+def _clean_gujarati_translation(reply: str) -> Optional[str]:
+    """The model's reply as one plain Gujarati sentence in Gujarati script, or None."""
+    reply = (reply or "").strip()
+    if reply.startswith("{"):
+        try:
+            values = [v for v in json.loads(reply).values() if isinstance(v, str)]
+        except (ValueError, AttributeError):
+            values = []
+        reply = values[0] if values else ""
+    lines = [ln.strip() for ln in reply.splitlines() if ln.strip()]
+    if not lines:
+        return None
+    text = re.sub(r"^(?:gujarati\s+)?translation\s*[:\-]\s*", "", lines[0], flags=re.I).strip().strip("\"'`“”‘’ ")
+    gujarati = len(re.findall(r"[઀-૿]", text))
+    if gujarati < 2:
+        return None
+    return text[:300]
+
+
+def translate_to_gujarati(question: str) -> Optional[str]:
+    """One short model call that renders an English or Gujlish question in Gujarati script, so keyword search and sentence choice can
+    match Gujarati resolutions. None when no model answers or the reply is not Gujarati script."""
+    key = question.strip()
+    if key in _TRANSLATIONS_GU:
+        return _TRANSLATIONS_GU[key] or None
+    reply, provider = execute_llm_generation(TRANSLATE_GU_SYSTEM, key, max_tokens=100, json_mode=False)
+    if provider == "fallback":
+        return None
+    gujarati = _clean_gujarati_translation(reply)
+    _TRANSLATIONS_GU[key] = gujarati or ""
+    return gujarati

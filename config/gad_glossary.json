@@ -127,6 +127,122 @@
     "ganvesh": {
       "gu": "ગણવેશ",
       "en": "uniform"
+    },
+    "mateni": {
+      "gu": "માટેની",
+      "en": "procedure for"
+    },
+    "matena": {
+      "gu": "માટેના",
+      "en": "guidelines for"
+    },
+    "mateno": {
+      "gu": "માટેનો",
+      "en": "regarding"
+    },
+    "matenu": {
+      "gu": "માટેનું",
+      "en": "for"
+    },
+    "nikal": {
+      "gu": "નિકાલ",
+      "en": "disposal"
+    },
+    "karyavidhi": {
+      "gu": "કાર્યવિધિ / કાર્યપદ્ધતિ",
+      "en": "procedure / process"
+    },
+    "karyapadhati": {
+      "gu": "કાર્યપદ્ધતિ",
+      "en": "procedure / workflow"
+    },
+    "karyavahi": {
+      "gu": "કાર્યવાહી",
+      "en": "action / proceedings"
+    },
+    "bin jaruri": {
+      "gu": "બિનજરૂરી",
+      "en": "unnecessary / surplus"
+    },
+    "binjaruri": {
+      "gu": "બિનજરૂરી",
+      "en": "unnecessary / surplus"
+    },
+    "padi raheli": {
+      "gu": "પડી રહેલી / બિનઉપયોગી",
+      "en": "lying unused / dead stock"
+    },
+    "vastuo": {
+      "gu": "વસ્તુઓ",
+      "en": "items / articles"
+    },
+    "sachivalay": {
+      "gu": "સચિવાલય",
+      "en": "Secretariat"
+    },
+    "gandhinagar": {
+      "gu": "ગાંધીનગર",
+      "en": "Gandhinagar"
+    },
+    "tapas": {
+      "gu": "તપાસ / ચકાસણી",
+      "en": "investigation / scrutiny"
+    },
+    "aheval": {
+      "gu": "અહેવાલ",
+      "en": "report"
+    },
+    "samiti": {
+      "gu": "સમિતિ",
+      "en": "committee"
+    },
+    "hethal": {
+      "gu": "હેઠળ / અન્વયે",
+      "en": "under / as per"
+    },
+    "anusar": {
+      "gu": "અનુસાર / મુજબ",
+      "en": "in accordance with / as per"
+    },
+    "mujab": {
+      "gu": "મુજબ",
+      "en": "as per"
+    },
+    "pagla": {
+      "gu": "પગલાં / કાર્યવાહી",
+      "en": "steps / measures"
+    },
+    "suchnao": {
+      "gu": "સૂચનાઓ",
+      "en": "guidelines / instructions"
+    },
+    "suchna": {
+      "gu": "સૂચના",
+      "en": "instruction / notice"
+    },
+    "babat": {
+      "gu": "બાબત / સંદર્ભે",
+      "en": "regarding / subject"
+    },
+    "babate": {
+      "gu": "બાબતે",
+      "en": "in matter of"
+    },
+    "tharav": {
+      "gu": "ઠરાવ",
+      "en": "resolution"
+    },
+    "paripatra": {
+      "gu": "પરિપત્ર",
+      "en": "circular"
+    },
+    "hukam": {
+      "gu": "હુકમ / આદેશ",
+      "en": "order"
+    },
+    "aadesh": {
+      "gu": "આદેશ",
+      "en": "office order"
     }
   },
   "secretariat_terms": [
@@ -371,6 +487,142 @@
         "ગણવેશ",
         "યુનિફોર્મ",
         "કાપડ"
+      ]
+    },
+    {
+      "key": "disposal_unserviceable",
+      "canonical_gu": "બિનજરૂરી અને બિનઉપયોગી વસ્તુઓ / ડેડસ્ટોકનો નિકાલ કરવાની કાર્યપદ્ધતિ",
+      "canonical_en": "procedure for disposal of unserviceable obsolete items and dead stock",
+      "synonyms": [
+        "nikal",
+        "disposal",
+        "binjaruri",
+        "bin jaruri",
+        "deadstock",
+        "dead stock",
+        "bhangar",
+        "scrap",
+        "kachro",
+        "kharab",
+        "vastuo",
+        "nikalva",
+        "nikalvani",
+        "નિકાલ",
+        "બિનજરૂરી",
+        "ડેડસ્ટોક"
+      ]
+    },
+    {
+      "key": "right_to_information",
+      "canonical_gu": "માહિતી અધિકાર અધિનિયમ (આર.ટી.આઈ.) હેઠળ માહિતી મેળવવાની અરજી અને ફી",
+      "canonical_en": "Right to Information RTI application procedure and fee",
+      "synonyms": [
+        "rti",
+        "mahiti adhikar",
+        "mahiti",
+        "arji",
+        "માહિતી અધિકાર",
+        "આરટીઆઈ"
+      ]
+    },
+    {
+      "key": "disciplinary_action",
+      "canonical_gu": "શિસ્ત વિષયક કાર્યવાહી / ખાતાકીય તપાસ / અનધિકૃત ગેરહાજરી",
+      "canonical_en": "disciplinary proceedings departmental inquiry unauthorized absence penalties",
+      "synonyms": [
+        "shist",
+        "shist pagla",
+        "inquiry",
+        "tapas",
+        "karyavahi",
+        "shiksha",
+        "dand",
+        "charge sheet",
+        "kashuri",
+        "gerhajari",
+        "shistbhang",
+        "શિસ્ત",
+        "તપાસ",
+        "દંડ"
+      ]
+    },
+    {
+      "key": "transfer_posting",
+      "canonical_gu": "કર્મચારીઓની બદલી અને નવી જગ્યાએ નેમણૂક અંગેની માર્ગદર્શક નીતિ",
+      "canonical_en": "transfer and posting policy guidelines for government employees",
+      "synonyms": [
+        "badli",
+        "transfer",
+        "posting",
+        "nemnuk",
+        "ferbadli",
+        "kamchalao",
+        "બદલી",
+        "નેમણૂક"
+      ]
+    },
+    {
+      "key": "compassionate_appointment",
+      "canonical_gu": "અવસાન પામેલ કર્મચારીના આશ્રિત કુટુંબને રહેમરાહે નોકરી / ઉચ્ચક સહાય",
+      "canonical_en": "compassionate appointment lump sum financial assistance to dependents",
+      "synonyms": [
+        "raham rahe",
+        "compassionate",
+        "rahamrahe",
+        "aashrit",
+        "avsan",
+        "varasdar",
+        "warasdar",
+        "રહેમરાહે",
+        "અવસાન",
+        "આશ્રિત"
+      ]
+    },
+    {
+      "key": "higher_pay_scale",
+      "canonical_gu": "ઉચ્ચતર પગાર ધોરણ યોજના (૯-૧૮-૨૭ વર્ષ સેવા)",
+      "canonical_en": "higher pay scale scheme 9 18 27 years financial upgradation",
+      "synonyms": [
+        "uchhatar pagar",
+        "higher pay",
+        "9 18 27",
+        "12 24",
+        "uchhatar",
+        "pagar dhoran",
+        "ઉચ્ચતર પગાર"
+      ]
+    },
+    {
+      "key": "recruitment_selection",
+      "canonical_gu": "સીધી ભરતી / પસંદગી પ્રક્રિયા / ખાતાકીય પરીક્ષા નિયમો",
+      "canonical_en": "direct recruitment selection process departmental examination rules",
+      "synonyms": [
+        "bharti",
+        "recruitment",
+        "pasandagi",
+        "direct recruitment",
+        "nivad",
+        "pariksha",
+        "bharti niyam",
+        "ભરતી",
+        "પસંદગી"
+      ]
+    },
+    {
+      "key": "government_vehicles",
+      "canonical_gu": "સરકારી વાહનોની ખરીદી / વપરાશ / ડ્રાઈવર ભથ્થું / લોગબુક નિયમો",
+      "canonical_en": "government vehicle purchase maintenance fuel logbook ceiling",
+      "synonyms": [
+        "vahan",
+        "vehicle",
+        "kharedi",
+        "gadi",
+        "driver",
+        "petrol",
+        "diesel",
+        "maramat",
+        "વાહન",
+        "ખરીદી"
       ]
     }
   ]

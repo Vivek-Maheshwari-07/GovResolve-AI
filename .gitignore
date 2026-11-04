@@ -30,6 +30,8 @@ data/vector/
 data/edges_detected.csv
 data/grs/
 data/index/chroma_test/
+data/index/chroma_target_test/
+data/index/translations.json
 
 # Model cache
 .cache/

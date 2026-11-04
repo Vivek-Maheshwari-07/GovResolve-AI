@@ -82,7 +82,7 @@ class Squad2Engine:
 
     def answer(self, question: str, language: str) -> EngineResult:
         try:
-            return to_engine_result(self.pipeline.answer(question, None))
+            return to_engine_result(self.pipeline.answer(question, None, target_language=language))
         except Exception as exc:  # their pipeline must never take /query down
             return EngineResult(insufficient_reason=f"Answer engine error: {type(exc).__name__}")
 

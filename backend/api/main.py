@@ -113,6 +113,7 @@ class QueryRequest(BaseModel):
     department: Optional[str] = None
     year:       Optional[int] = None
     gr_id:      Optional[str] = None   # direct GR lookup
+    language:   Optional[str] = None
 
 
 class IngestRequest(BaseModel):
@@ -179,7 +180,7 @@ def query(req: QueryRequest):
         filters["year"] = req.year
 
     try:
-        response = _pipeline.answer(req.question, filters or None)
+        response = _pipeline.answer(req.question, filters or None, target_language=req.language)
         # Attach lineage chain if we have records
         if _lineage and response.citations:
             gr_ids = list({c.gr_id for c in response.citations})

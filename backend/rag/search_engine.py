@@ -44,7 +44,7 @@ from backend.models import (
 )
 from backend.rag.gujlish_normalizer import GujlishNormalizer, SearchBundle
 from backend.rag.gujarati_stemmer import tokenize_for_bm25
-from backend.rag.llm_gateway import execute_llm_generation, translate_to_english
+from backend.rag.llm_gateway import execute_llm_generation, translate_to_english, translate_to_gujarati
 from backend.rag.providers import ollama_host
 from backend.lineage.lineage_graph import LineageGraph
 
@@ -742,15 +742,26 @@ class RAGPipeline:
         return max(dates) if dates else "unknown"
 
     def prepare(self, raw_query: str) -> SearchBundle:
-        """The search bundle for a question. For Gujarati, Gujarati-in-Latin-letters and mixed questions it also holds an English rendering
-        (one short model call, remembered): the documents are mostly English, and a Gujarati question shares no words with them, so
-        neither keyword search nor sentence choice could match. Without a model the bundle is unchanged."""
+        """The search bundle for a question. Guarantees synchronized bilingual query representations (English + Gujarati script).
+        For Gujarati, Gujarati-in-Latin-letters (Gujlish) and mixed questions, generates both canonical English and canonical Gujarati script
+        so that both English and Gujarati government resolutions can be retrieved."""
         bundle = normalizer.normalize(raw_query)
-        if bundle.detected_lang != "en":
+        has_gujarati_script = any(0x0A80 <= ord(c) <= 0x0AFF for c in raw_query)
+
+        # 1. High-quality English query (bridges Gujarati/Gujlish to English GRs)
+        if bundle.detected_lang != "en" or not bundle.query_en:
             english = translate_to_english(raw_query)
             if english:
                 words = [w.lower() for w in re.findall(r"[A-Za-z0-9]{3,}", english)]
                 bundle = dataclasses.replace(bundle, query_en=english, keywords=list(dict.fromkeys(list(bundle.keywords) + words)))
+
+        # 2. High-quality Gujarati script query (bridges Gujlish/English to Gujarati GRs)
+        if not has_gujarati_script:
+            gujarati = translate_to_gujarati(raw_query)
+            if gujarati:
+                gu_words = [w for w in re.findall(r"[\u0A80-\u0AFF0-9]{2,}", gujarati)]
+                bundle = dataclasses.replace(bundle, query_gu=gujarati, keywords=list(dict.fromkeys(list(bundle.keywords) + gu_words)))
+
         return bundle
 
     def build_evidence(self, raw_query: str, passages: list[dict], bundle: Optional[SearchBundle] = None) -> tuple[str, dict, list[dict]]:
@@ -902,29 +913,41 @@ class RAGPipeline:
         word = reply.strip().upper()[:1]
         return True if word == "Y" else False if word == "N" else None
 
-    def _extractive_response(self, raw_query: str, sentence_registry: dict, language: Language) -> QueryResponse:
+    def _extractive_response(self, raw_query: str, sentence_registry: dict, language: Language, target_language: Optional[Language] = None) -> QueryResponse:
         """Answer without a language model: the best-matching evidence sentence (just one: the runner-up was usually unrelated), verbatim, labelled `inferred` (nobody checked that they
         answer the question) and flagged with a warning. With no evidence at all this is still a refusal."""
         best = [e for e in sorted(sentence_registry.values(), key=lambda e: e["rank"])[:1] if e["coverage"] >= EXTRACTIVE_MIN_COVERAGE]
+        effective_tgt = target_language or language
         if not best:
+            no_match_text = (
+                "દસ્તાવેજોમાં પ્રશ્નના પૂરતા શબ્દો મળતા નથી (અને ભાષા મોડેલ અનુપલબ્ધ છે)."
+                if effective_tgt == Language.GU
+                else "No passage in the documents shares enough of the question's words (and the language model is unavailable)."
+            )
             return QueryResponse(
                 question=raw_query, answer_status=AnswerStatus.INSUFFICIENT, insufficient_reason=InsufficientReason.NO_DOCUMENT,
-                summary="No passage in the documents shares enough of the question's words (and the language model is unavailable).",
+                summary=no_match_text,
                 language_detected=language, collection_latest_date=self.collection_latest_date)
         cites = [Citation(gr_id=e["gr_id"], gr_number=e["gr_number"], issue_date=e["issue_date"], page=e["page"],
                           passage=e["verbatim_text"], bbox=e.get("bbox")) for e in best]
+        warn = (
+            "ભાષા મોડેલ અનુપલબ્ધ છે, તેથી આ પ્રશ્નના શબ્દો સાથે સૌથી વધુ મેળ ખાતો ફકરો છે, લખેલો જવાબ નથી. કૃપા કરીને દર્શાવેલ પૃષ્ઠ સાથે તેની ચકાસણી કરો."
+            if effective_tgt == Language.GU
+            else "The language model is unavailable, so this is the passage that best matches the question's words, not a written "
+                 "answer, and nobody has checked that it answers the question. Check it against the cited page."
+        )
         return QueryResponse(
             question=raw_query, answer_status=AnswerStatus.NO_LATER_CHANGE,
             summary=" ".join(c.passage for c in cites),
             statements=[AnswerStatement(text=c.passage, label=StatementLabel.INFERRED, citations=[c]) for c in cites],
             citations=cites, language_detected=language, collection_latest_date=self.collection_latest_date,
-            warnings=["The language model is unavailable, so this is the passage that best matches the question's words, not a written "
-                      "answer, and nobody has checked that it answers the question. Check it against the cited page."])
+            warnings=[warn])
 
     def answer(
         self,
         raw_query: str,
         filters: Optional[dict] = None,
+        target_language: Optional[str] = None,
     ) -> QueryResponse:
         """
         Complete 5-Pillar RAG Execution:
@@ -934,40 +957,71 @@ class RAGPipeline:
           4. Sentence-ID Grounding Context Construction
           5. Pluggable Generation & Verbatim Citation Resolution
         """
-        # ── Step 1: Pre-processing & Guardrails ──
-        if is_out_of_scope(raw_query):
-            return QueryResponse(
-                question=raw_query,
-                answer_status=AnswerStatus.INSUFFICIENT,
-                insufficient_reason=InsufficientReason.OUT_OF_SCOPE,
-                summary="This question requests legal advice or an opinion. GovResolve-AI only provides information from gazetted Government Resolutions and cannot give legal advice.",
-                language_detected=Language.EN,
-                collection_latest_date=self.collection_latest_date,
-            )
-
-        if is_too_vague(raw_query):
-            return QueryResponse(
-                question=raw_query,
-                answer_status=AnswerStatus.INSUFFICIENT,
-                insufficient_reason=InsufficientReason.TOO_VAGUE,
-                summary="Your question is too broad. Could you please specify the department, allowance, or leave type?",
-                follow_up_question="Which specific department or rule (e.g., Casual Leave, LTC, Maternity Leave) are you asking about?",
-                language_detected=Language.EN,
-                collection_latest_date=self.collection_latest_date,
-            )
-
         # Generate Synchronized Search Bundle
         bundle = self.prepare(raw_query)
         detected_lang = Language.GU if bundle.detected_lang == "gu" else (Language.MIXED if bundle.detected_lang in ("gujlish", "mixed") else Language.EN)
 
+        # Target language for answer synthesis (explicit choice or fall back to question language)
+        tgt = (target_language or "").strip().lower()
+        if tgt in ("gu", "gujarati"):
+            effective_target_lang = Language.GU
+        elif tgt in ("en", "english"):
+            effective_target_lang = Language.EN
+        elif tgt in ("mixed", "gujlish"):
+            effective_target_lang = Language.MIXED
+        else:
+            effective_target_lang = detected_lang
+
+        # ── Step 1: Pre-processing & Guardrails ──
+        if is_out_of_scope(raw_query):
+            summary = (
+                "આ પ્રશ્ન કાનૂની સલાહ અથવા અભિપ્રાય માંગે છે. GovResolve-AI ફક્ત સત્તાવાર સરકારી ઠરાવોમાંથી માહિતી પ્રદાન કરે છે અને કાનૂની સલાહ આપી શકતું નથી."
+                if effective_target_lang == Language.GU
+                else "This question requests legal advice or an opinion. GovResolve-AI only provides information from gazetted Government Resolutions and cannot give legal advice."
+            )
+            return QueryResponse(
+                question=raw_query,
+                answer_status=AnswerStatus.INSUFFICIENT,
+                insufficient_reason=InsufficientReason.OUT_OF_SCOPE,
+                summary=summary,
+                language_detected=detected_lang,
+                collection_latest_date=self.collection_latest_date,
+            )
+
+        if is_too_vague(raw_query):
+            summary = (
+                "તમારો પ્રશ્ન ખૂબ વ્યાપક છે. શું તમે ચોક્કસ વિભાગ, ભથ્થું અથવા રજાના પ્રકારનો ઉલ્લેખ કરી શકો છો?"
+                if effective_target_lang == Language.GU
+                else "Your question is too broad. Could you please specify the department, allowance, or leave type?"
+            )
+            follow_up = (
+                "તમે કયા ચોક્કસ વિભાગ અથવા નિયમ (દા.ત., કેઝ્યુઅલ રજા, એલટીસી, પ્રસુતિ રજા) વિશે પૂછી રહ્યા છો?"
+                if effective_target_lang == Language.GU
+                else "Which specific department or rule (e.g., Casual Leave, LTC, Maternity Leave) are you asking about?"
+            )
+            return QueryResponse(
+                question=raw_query,
+                answer_status=AnswerStatus.INSUFFICIENT,
+                insufficient_reason=InsufficientReason.TOO_VAGUE,
+                summary=summary,
+                follow_up_question=follow_up,
+                language_detected=detected_lang,
+                collection_latest_date=self.collection_latest_date,
+            )
+
         # ── Step 2: Symmetric Hybrid Retrieval ──
         passages = self.index.search(bundle, top_k=TOP_K_RETRIEVE, filters=filters)
         if not passages:
+            summary = (
+                "આ પ્રશ્ન માટે સંગ્રહમાં કોઈ સંબંધિત સરકારી ઠરાવ (GR) મળ્યો નથી."
+                if effective_target_lang == Language.GU
+                else "No relevant Government Resolutions found in the collection for this query."
+            )
             return QueryResponse(
                 question=raw_query,
                 answer_status=AnswerStatus.INSUFFICIENT,
                 insufficient_reason=InsufficientReason.NO_DOCUMENT,
-                summary="No relevant Government Resolutions found in the collection for this query.",
+                summary=summary,
                 language_detected=detected_lang,
                 collection_latest_date=self.collection_latest_date,
             )
@@ -975,13 +1029,16 @@ class RAGPipeline:
         context_str, sentence_registry, injected_context_chunks = self.build_evidence(raw_query, passages, bundle)
 
         # ── Step 5: Grounded Generation Prompt ──
-        # Kept short on purpose: on a CPU the model reads about 30 tokens/s and writes about 5, so every sentence of prompt and
-        # every word of answer costs seconds. The system prompt is identical for every question (the server can reuse its
-        # cached form); the language rule goes in the user message. The answer text is built from the statements, not
-        # written a second time as a summary.
-        lang_rule = {Language.GU: "Write each `explanation` in Gujarati.",
-                     Language.MIXED: "Write each `explanation` in the language of the question's main text (Gujarati or English)."
-                     }.get(detected_lang, "Write each `explanation` in English, even if the evidence is in Gujarati.")
+        if effective_target_lang == Language.GU:
+            lang_rule = (
+                "MANDATORY LANGUAGE INSTRUCTION: The user has requested the answer in GUJARATI. "
+                "Write the summary and each `explanation` in fluent, accurate, natural Gujarati script (ગુજરાતીમાં). "
+                "Do NOT write explanations in English. All explanations MUST be in Gujarati."
+            )
+        elif effective_target_lang == Language.MIXED:
+            lang_rule = "Write each `explanation` in the language of the question's main text (Gujarati or English)."
+        else:
+            lang_rule = "Write each `explanation` in English, even if the evidence is in Gujarati."
         system_prompt = SYSTEM_PROMPT
 
         user_prompt = (
@@ -993,7 +1050,7 @@ class RAGPipeline:
 
         raw_llm, provider_used = execute_llm_generation(system_prompt, user_prompt)
         if provider_used == "fallback":  # no model answered (offline, unreachable, no key): quote the best passages instead
-            return self._extractive_response(raw_query, sentence_registry, detected_lang)
+            return self._extractive_response(raw_query, sentence_registry, detected_lang, target_language=effective_target_lang)
 
         # Parse LLM Response
         parsed = parse_llm_json(raw_llm)
@@ -1025,16 +1082,52 @@ class RAGPipeline:
                 StatementLabel.INFERRED if "infer" in label_str.lower() else StatementLabel.NOT_FOUND
             )
 
+            stmt_text = str(stmt.get("explanation", "")).strip()
+            if effective_target_lang == Language.GU:
+                gu_chars = sum("઀" <= ch <= "૿" for ch in stmt_text)
+                if gu_chars == 0 and stmt_text:
+                    tr = translate_to_gujarati(stmt_text)
+                    if tr:
+                        stmt_text = tr
+            elif effective_target_lang == Language.EN:
+                gu_chars = sum("઀" <= ch <= "૿" for ch in stmt_text)
+                if gu_chars > 3 and stmt_text:
+                    tr = translate_to_english(stmt_text)
+                    if tr:
+                        stmt_text = tr
+
             final_statements.append(AnswerStatement(
-                text=stmt.get("explanation", ""),
+                text=stmt_text,
                 label=label,
                 citations=stmt_cits,
             ))
 
         # The answer text is the statements' explanations (the model no longer writes a separate summary).
-        summary = (parsed.get("summary") or "").strip() or " ".join(
-            (st.get("explanation") or "").strip() for st in parsed.get("statements", []) if st.get("explanation")
+        raw_summary = (parsed.get("summary") or "").strip()
+        summary = raw_summary or " ".join(
+            (st.text or "").strip() for st in final_statements if (st.text or "").strip()
         ).strip() or (parsed.get("insufficient_reason") or "").strip()
+
+        if effective_target_lang == Language.GU:
+            gu_chars = sum("઀" <= ch <= "૿" for ch in summary)
+            if gu_chars == 0 and summary:
+                tr = translate_to_gujarati(summary)
+                if tr:
+                    summary = tr
+        elif effective_target_lang == Language.EN:
+            gu_chars = sum("઀" <= ch <= "૿" for ch in summary)
+            if gu_chars > 3 and summary:
+                tr = translate_to_english(summary)
+                if tr:
+                    summary = tr
+
+        follow_up = parsed.get("follow_up_question")
+        if follow_up and effective_target_lang == Language.GU:
+            gu_chars = sum("઀" <= ch <= "૿" for ch in follow_up)
+            if gu_chars == 0:
+                tr_fu = translate_to_gujarati(follow_up)
+                if tr_fu:
+                    follow_up = tr_fu
 
         # Status mapping
         status_map = {
@@ -1071,7 +1164,7 @@ class RAGPipeline:
             summary=summary,
             statements=final_statements,
             citations=verified_citations,
-            follow_up_question=parsed.get("follow_up_question"),
+            follow_up_question=follow_up,
             collection_latest_date=self.collection_latest_date,
             language_detected=detected_lang,
         )
