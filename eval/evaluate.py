@@ -28,7 +28,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from backend.models import AnswerStatus, GRRecord, InsufficientReason
 from backend.rag.search_engine import GRIndex, RAGPipeline
 from backend.ingestion.ingest import ingest_directory
-from backend.lineage.lineage_graph import LineageGraph, apply_lineage_to_records
+try:
+    from backend.lineage.lineage_graph import LineageGraph, apply_lineage_to_records
+except ImportError:
+    LineageGraph = None
+    def apply_lineage_to_records(records, lineage):
+        pass
 
 GOLD_SET_PATH   = Path("./eval/gold_set.json")
 PROCESSED_DIR   = "./data/processed"

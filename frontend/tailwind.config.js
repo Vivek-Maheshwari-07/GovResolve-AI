@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-// "The Gazette Dossier": warm alabaster canvas, ivory sheets, deep legal-slate ink, civic indigo.
-// Daylight only. No pure white canvas, no pure black text. Status colours are jewel pastels and semantic only.
+// "Warm Alabaster & Legal Ink": warm alabaster canvas, translucent crisp ivory elevated surfaces, deep slate ink, royal civic indigo.
+// Daylight only. Zero eye-strain. No pure white canvas, no dark mode.
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -11,22 +11,44 @@ export default {
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       colors: {
-        canvas: '#F8F7F4',   // warm alabaster
-        sand: '#F1EFEA',     // recessed wells, muted fills
-        ivory: '#FDFCF9',    // sheets (never pure white)
-        stone: '#E4E1D8',    // hairlines
-        rule: '#D6D2C5',     // stronger rules, crop marks
-        ink: '#0F172A',      // deepest ink
-        legal: '#1E293B',    // primary text
-        mist: '#556075',     // secondary text (AA on canvas)
-        faint: '#8A93A4',    // placeholders, tertiary
-        iris: { 50: '#EEF2FF', 100: '#E0E7FF', 200: '#C7D2FE', 300: '#A5B4FC', 400: '#818CF8', 500: '#6366F1', 600: '#4F46E5', 700: '#4338CA', 800: '#3730A3' },
-        gold: { 300: '#FCD34D', 400: '#F5B83D', 500: '#D97706', 600: '#B45309' },
+        canvas: '#F8F7F4',   // Warm Alabaster / Parchment (global background)
+        sand: '#F1EFEA',     // Soft Sand (secondary surfaces, sidebars, metadata headers)
+        ivory: 'rgba(255, 255, 255, 0.88)', // Translucent Crisp Ivory
+        stone: '#E6E4DD',    // Warm Hairline Stone
+        rule: '#E6E4DD',     // Warm Hairline Stone borders & rules
+        hairline: '#E6E4DD',
+        ink: '#1E293B',      // Deep Slate (primary text & legal quotes)
+        legal: '#1E293B',    // Deep Slate (primary text & legal quotes)
+        mist: '#64748B',     // Cool Gray Slate (secondary metadata, GR numbers, dates)
+        faint: '#64748B',    // Cool Gray Slate
+        civic: '#4F46E5',    // Royal Civic Indigo (buttons, active tabs, graph links)
+        lavender: '#EEF2FF', // Soft Lavender wash (hover/active states on citation chips)
+        iris: {
+          50: '#EEF2FF',     // Soft Lavender wash
+          100: '#E0E7FF',
+          200: '#C7D2FE',
+          300: '#A5B4FC',
+          400: '#818CF8',
+          500: '#6366F1',
+          600: '#4F46E5',    // Royal Civic Indigo
+          700: '#4338CA',
+          800: '#3730A3',
+        },
+        gold: {
+          300: '#FDE68A',
+          400: '#F59E0B',
+          500: '#D97706',
+          600: '#92400E',
+        },
       },
-      borderColor: { hair: '#E4E1D8' },
+      borderColor: {
+        hair: '#E6E4DD',
+        stone: '#E6E4DD',
+      },
       boxShadow: {
-        card: '0 1px 2px rgba(30, 41, 59, 0.05), 0 2px 8px -2px rgba(30, 41, 59, 0.06)',
-        float: '0 2px 4px rgba(30, 41, 59, 0.05), 0 24px 56px -16px rgba(30, 41, 59, 0.22)',
+        card: '0 4px 20px -2px rgba(15, 23, 42, 0.05)',
+        elevated: '0 4px 20px -2px rgba(15, 23, 42, 0.05)',
+        float: '0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 24px 56px -16px rgba(15, 23, 42, 0.16)',
       },
       keyframes: {
         pulseDot: { '0%, 100%': { opacity: 1, transform: 'scale(1)' }, '50%': { opacity: 0.45, transform: 'scale(1.5)' } },

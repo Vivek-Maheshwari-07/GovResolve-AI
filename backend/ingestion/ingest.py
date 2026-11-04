@@ -80,10 +80,56 @@ DEPT_KEYWORDS = {
     "Finance": "Finance Department",
     "Revenue": "Revenue Department",
     "Education": "Education Department",
-    "Health": "Health Department",
+    "Health and Family Welfare": "Health and Family Welfare Department",
+    "Health": "Health and Family Welfare Department",
     "Home": "Home Department",
+    "Panchayat": "Panchayat, Rural Housing and Rural Development Department",
+    "PRHRDD": "Panchayat, Rural Housing and Rural Development Department",
+    "Agriculture": "Agriculture, Farmers Welfare and Co-operation Department",
+    "Roads and Buildings": "Roads and Buildings Department",
+    "PWD": "Roads and Buildings Department",
+    "Urban Development": "Urban Development and Urban Housing Department",
+    "Social Justice": "Social Justice and Empowerment Department",
+    "Tribal Development": "Tribal Development Department",
+    "Women and Child": "Women and Child Development Department",
+    "Labour": "Labour, Skill Development and Employment Department",
+    "Food, Civil Supplies": "Food, Civil Supplies and Consumer Affairs Department",
+    "Water Resources": "Water Resources and Water Supply Department",
+    "Forest and Environment": "Forest and Environment Department",
+    "Forest": "Forest and Environment Department",
+    "Energy and Petrochemicals": "Energy and Petrochemicals Department",
+    "Industries and Mines": "Industries and Mines Department",
+    "Ports and Transport": "Ports and Transport Department",
+    "Science and Technology": "Science and Technology Department",
+    "Legal": "Legal Department",
+    "Legislative and Parliamentary": "Legislative and Parliamentary Affairs Department",
+    "Information and Broadcasting": "Information and Broadcasting Department",
+    "Tourism": "Tourism, Civil Aviation and Pilgrimage Department",
+    "Sports, Youth": "Sports, Youth and Cultural Activities Department",
+    # Gujarati names
     "સામાન્ય વહીવટ": "General Administration Department",
     "નાણા": "Finance Department",
+    "મહેસૂલ": "Revenue Department",
+    "ગૃહ": "Home Department",
+    "શિક્ષણ": "Education Department",
+    "આરોગ્ય": "Health and Family Welfare Department",
+    "પંચાયત": "Panchayat, Rural Housing and Rural Development Department",
+    "કૃષિ": "Agriculture, Farmers Welfare and Co-operation Department",
+    "માર્ગ અને મકાન": "Roads and Buildings Department",
+    "શહેરી વિકાસ": "Urban Development and Urban Housing Department",
+    "સામાજિક ન્યાય": "Social Justice and Empowerment Department",
+    "આદિજાતિ": "Tribal Development Department",
+    "મહિલા અને બાળ": "Women and Child Development Department",
+    "શ્રમ અને રોજગાર": "Labour, Skill Development and Employment Department",
+    "અન્ન અને નાગરિક પુરવઠા": "Food, Civil Supplies and Consumer Affairs Department",
+    "જળસંપત્તિ": "Water Resources and Water Supply Department",
+    "વન અને પર્યાવરણ": "Forest and Environment Department",
+    "ઊર્જા": "Energy and Petrochemicals Department",
+    "ઉદ્યોગ": "Industries and Mines Department",
+    "બંદરો અને વાહનવ્યવહાર": "Ports and Transport Department",
+    "વિજ્ઞાન અને પ્રૌદ્યોગિકી": "Science and Technology Department",
+    "કાયદા": "Legal Department",
+    "રમતગમત": "Sports, Youth and Cultural Activities Department",
 }
 
 
@@ -149,21 +195,64 @@ def ocr_image(img: Image.Image) -> tuple[str, float]:
 
 def ocr_page(fitz_page: fitz.Page, page_number: int) -> tuple[str, float, list[TextBlock]]:
     """OCR a fitz page; return (full_text, confidence, blocks)."""
-    mat = fitz.Matrix(2, 2)          # 2x scale for better OCR
+    zoom = 2.0
+    mat = fitz.Matrix(zoom, zoom)          # 2x scale for better OCR
     pix = fitz_page.get_pixmap(matrix=mat)
     img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
     img = preprocess_image(img)
-    text, conf = ocr_image(img)
 
-    # Build a single block (bounding-box for whole page)
-    block = TextBlock(
-        block_id=f"p{page_number}_b0",
-        text=text,
-        text_clean=normalise_gujarati_digits(text),
-        bbox=BoundingBox(x0=0, y0=0, x1=pix.width / 2, y1=pix.height / 2, page=page_number),
-        ocr_confidence=conf,
-    )
-    return text, conf, [block]
+    if not TESSERACT_AVAILABLE:
+        return "", 0.0, []
+
+    lang = TESSERACT_LANG
+    try:
+        avail = pytesseract.get_languages()
+        if "guj" not in avail and "eng" in avail:
+            lang = "eng"
+    except Exception:
+        pass
+
+    try:
+        data = pytesseract.image_to_data(img, lang=lang, output_type=pytesseract.Output.DICT)
+    except Exception as e:
+        logger.warning(f"OCR failed for image: {e}")
+        return "", 0.0, []
+
+    paras: dict[tuple[int, int], dict] = {}
+    confs: list[float] = []
+    for i, word in enumerate(data.get("text", [])):
+        word = word.strip()
+        c = float(data.get("conf", [0])[i])
+        if not word or c < 0:
+            continue
+        confs.append(c / 100.0)
+        key = (data["block_num"][i], data["par_num"][i])
+        x0, y0 = data["left"][i] / zoom, data["top"][i] / zoom
+        x1, y1 = x0 + data["width"][i] / zoom, y0 + data["height"][i] / zoom
+        p = paras.setdefault(key, {"words": [], "bb": [x0, y0, x1, y1], "confs": []})
+        p["words"].append(word)
+        p["confs"].append(c / 100.0)
+        p["bb"] = [min(p["bb"][0], x0), min(p["bb"][1], y0), max(p["bb"][2], x1), max(p["bb"][3], y1)]
+
+    blocks: list[TextBlock] = []
+    full_text_parts: list[str] = []
+    for key, p in paras.items():
+        para_text = " ".join(p["words"]).strip()
+        if len(para_text) < 10:
+            continue
+        full_text_parts.append(para_text)
+        para_conf = sum(p["confs"]) / len(p["confs"]) if p["confs"] else 0.0
+        blocks.append(TextBlock(
+            block_id=f"p{page_number}_b{len(blocks)}",
+            text=para_text,
+            text_clean=normalise_gujarati_digits(para_text),
+            bbox=BoundingBox(x0=p["bb"][0], y0=p["bb"][1], x1=p["bb"][2], y1=p["bb"][3], page=page_number),
+            ocr_confidence=para_conf,
+        ))
+
+    overall_conf = sum(confs) / len(confs) if confs else 0.0
+    full_text = "\n".join(full_text_parts)
+    return full_text, overall_conf, blocks
 
 
 def extract_digital_page(fitz_page: fitz.Page, page_number: int) -> tuple[str, list[TextBlock]]:
@@ -252,14 +341,25 @@ def extract_department(text: str) -> str:
 
 
 def extract_subject(text: str) -> str:
-    """Find the line after 'Subject:' or 'વિષય:'"""
+    """Find the line after 'Subject:' or 'વિષય:', or search window before Preamble/આમુખ."""
     for pat in [r"Subject\s*[:\-]\s*(.+)", r"વિષય\s*[:\-]\s*(.+)"]:
         m = re.search(pat, text)
         if m:
             return m.group(1).strip()[:200]
-    # fallback: first non-empty line after 2 lines
-    lines = [l.strip() for l in text.splitlines() if l.strip()]
-    return lines[2] if len(lines) > 2 else lines[0] if lines else "Unknown Subject"
+
+    preamble_match = re.search(r"(?:Preamble|આમુખ|વાંચાણે\s*લીધા|READ\s*[:\-])", text, re.IGNORECASE)
+    if preamble_match:
+        header_text = text[:preamble_match.start()]
+        candidate_lines = []
+        for line in header_text.splitlines():
+            line = line.strip()
+            if len(line) >= 15 and not re.search(r"^(?:ક્રમાંક|No\.?|તારીખ|Date|સચિવાલય|Government|ગુજરાત|ગાંધીનગર)", line, re.I):
+                candidate_lines.append(line)
+        if candidate_lines:
+            return " ".join(candidate_lines[:2])[:200]
+
+    lines = [l.strip() for l in text.splitlines() if l.strip() and len(l.strip()) >= 15]
+    return lines[1] if len(lines) > 1 else lines[0] if lines else "Unknown Subject"
 
 
 def detect_language(text: str) -> Language:

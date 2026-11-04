@@ -122,7 +122,8 @@ def broken(request: Request):
 @router.post("/ask", response_model=AskResponse)
 def ask(body: AskRequest, request: Request):
     st = S(request)
-    return run_ask(body, store=st.vectors, lineage=st.lineage, corpus=st.corpus, db=st.db)
+    engine = getattr(request.app.state, "engine", None)
+    return run_ask(body, store=st.vectors, lineage=st.lineage, corpus=st.corpus, db=st.db, engine=engine)
 
 
 @router.post("/feedback")

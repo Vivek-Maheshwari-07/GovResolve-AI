@@ -1,34 +1,39 @@
 {
  "summary": {
   "mode": "retrieval",
-  "questions": 50,
+  "questions": 60,
   "by_category": {
-   "simple": 24,
-   "amended": 11,
-   "unanswerable": 10,
-   "vague": 5
+   "simple": 15,
+   "amended": 10,
+   "superseded": 8,
+   "no_later_change": 7,
+   "multi_doc": 10,
+   "refusal": 10
   },
   "by_language": {
-   "en": 22,
-   "gu": 16,
-   "mixed": 12
+   "en": 20,
+   "gu": 20,
+   "mixed": 20
   },
   "1_retrieval": {
-   "questions": 35,
-   "top1": 0.829,
-   "top3": 0.971,
+   "questions": 50,
+   "top1": 0.6,
+   "top3": 0.76,
    "top1_by_category": {
-    "simple": 0.833,
-    "amended": 0.818
+    "simple": 0.6,
+    "amended": 0.7,
+    "superseded": 0.75,
+    "no_later_change": 0.571,
+    "multi_doc": 0.4
    }
   },
   "1_evidence": {
-   "questions": 35,
-   "answer_in_evidence": 0.829,
+   "questions": 50,
+   "answer_in_evidence": 0.62,
    "by_language": {
-    "en": 0.867,
-    "gu": 0.727,
-    "mixed": 0.889
+    "en": 0.625,
+    "gu": 0.765,
+    "mixed": 0.471
    }
   },
   "4_chain": {
@@ -43,534 +48,704 @@
  },
  "questions": [
   {
-   "id": "Q-001",
+   "id": "Q-MY-001",
    "category": "simple",
    "language": "en",
    "top1": true,
    "top3": true,
    "ranked": [
-    "GR-1_3989_1_36-594b69",
-    "GR-1_3991_1_34-0ddb9b",
-    "GR-1_3812_1_GR-b0e194"
+    "GR-1_1324_1_GTU-b97551",
+    "GR-1_3633_1_06-05-2017-Original-1e3973",
+    "GR-1_3641_1_09-03-1973-4dbb74"
    ],
    "answer_in_evidence": false
   },
   {
-   "id": "Q-002",
+   "id": "Q-MY-002",
    "category": "simple",
    "language": "gu",
-   "top1": false,
-   "top3": true,
-   "ranked": [
-    "GR-1_3812_1_GR-b0e194",
-    "GR-1_3989_1_36-594b69",
-    "GR-1_3991_1_34-0ddb9b"
-   ],
-   "answer_in_evidence": false
-  },
-  {
-   "id": "Q-003",
-   "category": "simple",
-   "language": "en",
    "top1": true,
    "top3": true,
    "ranked": [
-    "GR-1_728_1_CENTRAL-CIVIL-SERVICE-LTC-RULES-1988-10-5-2001--b3077d",
-    "GR-1_3854_1_LTC-Karmyogi-Circular-dated-24-03-25-76df1c",
-    "GR-1_4040_1_Circular-Draft-Dated-b0900c"
+    "GR-1_1309_1_spn-102013-635148-T-2014-de7d1b",
+    "GR-1_3891_1_10-health_family_welfare_department-6c9be7",
+    "GR-1_1383_1_Outsource30-11-06-4598ac"
    ],
    "answer_in_evidence": true
   },
   {
-   "id": "Q-004",
-   "category": "simple",
-   "language": "mixed",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_728_1_CENTRAL-CIVIL-SERVICE-LTC-RULES-1988-10-5-2001--b3077d",
-    "GR-1_3854_1_LTC-Karmyogi-Circular-dated-24-03-25-76df1c",
-    "GR-1_4040_1_Circular-Draft-Dated-b0900c"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-005",
-   "category": "simple",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_551_1_Gh_Notification_22-2-2013-772272",
-    "GR-1_547_1_G5_Notification_31-1-2013-34c019",
-    "GR-1_3492_1_03-04-2013-1-631753"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-006",
-   "category": "simple",
-   "language": "mixed",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_551_1_Gh_Notification_22-2-2013-772272",
-    "GR-1_1383_1_Outsource30-11-06-4598ac",
-    "GR-1_3635_1_31-12-2018-ENG-CIASS-1-_-2-707e1f"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-007",
-   "category": "simple",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2023_1_eng-07-09-2019-e18955",
-    "GR-1_3201_1_Vacancy-Circular-3dd95d",
-    "GR-1_3260_1_Revenue-Grant-order-Jan-to-Feb-23_001-c145c2"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-008",
-   "category": "simple",
-   "language": "gu",
-   "top1": false,
-   "top3": true,
-   "ranked": [
-    "GR-1_3201_1_Vacancy-Circular-3dd95d",
-    "GR-1_2023_1_eng-07-09-2019-e18955",
-    "GR-1_2024_1_guj-07-09-2019-add876"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-009",
-   "category": "simple",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
-    "GR-1_2023_1_eng-07-09-2019-e18955",
-    "GR-1_1730_1_RESO-ALL-DS-JS-SACHIVALAYA-207468"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-010",
+   "id": "Q-MY-003",
    "category": "simple",
    "language": "mixed",
    "top1": true,
    "top3": true,
    "ranked": [
     "GR-1_1687_1_Reso-Mobile-15-10-2015-cd94d0",
-    "GR-1_2023_1_eng-07-09-2019-e18955",
-    "GR-1_2259_1_08-06-2021-Head-Clerk-Pre-Service-Rules-6617b3"
+    "GR-1_1699_1_CDR-142015-1129-Inq_Cell-Dt-15-10-2015-CHARGESHEET-fd0a67",
+    "GR-1_1998_1_02-Revenue-Grant-order-August-to-November-2019-147807"
    ],
    "answer_in_evidence": true
   },
   {
-   "id": "Q-011",
-   "category": "simple",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2245_1_Shri-Anupam-Anand-CEO-Notification_06_2021_Date_03--781343",
-    "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07",
-    "GR-1_2375_1_5-OCT-2021-9c070a"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-012",
+   "id": "Q-MY-004",
    "category": "simple",
    "language": "gu",
    "top1": true,
    "top3": true,
    "ranked": [
-    "GR-1_2245_1_Shri-Anupam-Anand-CEO-Notification_06_2021_Date_03--781343",
-    "GR-1_1715_1_GPSC-chairman-member-Appoinment-ba49f6",
-    "GR-1_4061_1_Shri-Mayur-K-Mehta-111c7a"
+    "GR-1_3811_1_15072024_GR_FOR_DRIVER_UNIFORM-b69fca",
+    "GR-1_4035_1_gr_for_increment_in_driver_uniform_washing_allowanc-7f7b93",
+    "GR-1_3270_1_Capital-Grant-order-April-23-to-June-23-31f287"
    ],
    "answer_in_evidence": true
   },
   {
-   "id": "Q-013",
+   "id": "Q-MY-005",
    "category": "simple",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3954_1_travelling-2022-dd68a0",
-    "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07",
-    "GR-1_4029_1_1-5-2026_amendment_so_department_exam_rules-83e875"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-014",
-   "category": "simple",
-   "language": "mixed",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3954_1_travelling-2022-dd68a0",
-    "GR-1_3865_1_ViewPdf-966ed4",
-    "GR-1_2296_1_GAS-Service-Rules--bc9c35"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-015",
-   "category": "simple",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2195_1_Sr-Clerk-pre-ser-Paper-5-23-9-20-d9f0b4",
-    "GR-1_2205_1_01-senior-clerk-61e31b",
-    "GR-1_3638_1_31-03-2015-6fe10a"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-016",
-   "category": "simple",
-   "language": "gu",
-   "top1": false,
-   "top3": true,
-   "ranked": [
-    "GR-1_3638_1_31-03-2015-6fe10a",
-    "GR-1_3686_1_21-05-1985-ff9539",
-    "GR-1_2195_1_Sr-Clerk-pre-ser-Paper-5-23-9-20-d9f0b4"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-017",
-   "category": "simple",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2375_1_5-OCT-2021-9c070a",
-    "GR-1_1926_1_12-12-18-ENG-SER-CIVIL-CLASS-12-6ac648",
-    "GR-1_3260_1_Revenue-Grant-order-Jan-to-Feb-23_001-c145c2"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-018",
-   "category": "simple",
-   "language": "mixed",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2375_1_5-OCT-2021-9c070a",
-    "GR-1_3260_1_Revenue-Grant-order-Jan-to-Feb-23_001-c145c2",
-    "GR-1_3252_1_20-01-23-gazatted-8e6696"
-   ],
-   "answer_in_evidence": false
-  },
-  {
-   "id": "Q-019",
-   "category": "amended",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07",
-    "GR-1_4008_1_CCE-Rules-2026-gazette-ae48aa",
-    "GR-1_3197_1_English-The-Gujarat-Civil-Services-Classification-a-de2c2c"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-020",
-   "category": "amended",
    "language": "en",
    "top1": false,
    "top3": true,
    "ranked": [
-    "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5",
-    "GR-1_2209_1_notification-gad-30092006-f9c4e0",
-    "GR-1_519_1_K_Notification_31-1-2013-c74696"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-021",
-   "category": "amended",
-   "language": "gu",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2209_1_notification-gad-30092006-f9c4e0",
-    "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5",
-    "GR-1_519_1_K_Notification_31-1-2013-c74696"
+    "GR-1_2203_1_01-Capital-Grant-Oct-Nov-20-b78b00",
+    "GR-1_3215_1_SCSP-Grant-order-September-to-November-22-c89afe",
+    "GR-e-gram-viswagrm-project-6b8e87"
    ],
    "answer_in_evidence": false
   },
   {
-   "id": "Q-022",
-   "category": "amended",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3472_1_20-09-2007-42f7bb",
-    "GR-1_3470_1_30-04-2007-108c35",
-    "GR-1_515_1_K_Notification_1-1-2011-ef1fbd"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-023",
-   "category": "amended",
-   "language": "gu",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3472_1_20-09-2007-42f7bb",
-    "GR-1_3470_1_30-04-2007-108c35",
-    "GR-1_515_1_K_Notification_1-1-2011-ef1fbd"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-024",
-   "category": "amended",
-   "language": "mixed",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3499_1_22-05-2015-e5a1fb",
-    "GR-1_3494_1_22-07-2013-1-6573bc",
-    "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-025",
-   "category": "amended",
-   "language": "en",
-   "top1": false,
-   "top3": true,
-   "ranked": [
-    "GR-1_3494_1_22-07-2013-1-6573bc",
-    "GR-1_519_1_K_Notification_31-1-2013-c74696",
-    "GR-1_3314_1_31-01-2013-1-9cf4c7"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-026",
-   "category": "amended",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3906_1_04102025_Gazette-98889f",
-    "GR-1_3252_1_20-01-23-gazatted-8e6696",
-    "GR-1_3254_1_The-Probationary-Section-Officer17-01-23--151acb"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-027",
-   "category": "amended",
-   "language": "mixed",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3252_1_20-01-23-gazatted-8e6696",
-    "GR-1_3906_1_04102025_Gazette-98889f",
-    "GR-1_3251_1_20-01-23-oa-74f96c"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-028",
-   "category": "amended",
-   "language": "gu",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3828_1_CCC_Notification_24july_2024-3e085e",
-    "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5",
-    "GR-1_2209_1_notification-gad-30092006-f9c4e0"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-029",
-   "category": "unanswerable",
-   "language": "en"
-  },
-  {
-   "id": "Q-030",
-   "category": "unanswerable",
-   "language": "gu"
-  },
-  {
-   "id": "Q-031",
-   "category": "unanswerable",
-   "language": "mixed"
-  },
-  {
-   "id": "Q-032",
-   "category": "unanswerable",
-   "language": "en"
-  },
-  {
-   "id": "Q-033",
-   "category": "unanswerable",
-   "language": "gu"
-  },
-  {
-   "id": "Q-034",
-   "category": "unanswerable",
-   "language": "en"
-  },
-  {
-   "id": "Q-035",
-   "category": "unanswerable",
-   "language": "en"
-  },
-  {
-   "id": "Q-036",
-   "category": "unanswerable",
-   "language": "gu"
-  },
-  {
-   "id": "Q-037",
-   "category": "unanswerable",
-   "language": "mixed"
-  },
-  {
-   "id": "Q-038",
-   "category": "unanswerable",
-   "language": "en"
-  },
-  {
-   "id": "Q-039",
-   "category": "vague",
-   "language": "en"
-  },
-  {
-   "id": "Q-040",
-   "category": "vague",
-   "language": "en"
-  },
-  {
-   "id": "Q-041",
-   "category": "vague",
-   "language": "gu"
-  },
-  {
-   "id": "Q-042",
-   "category": "vague",
-   "language": "gu"
-  },
-  {
-   "id": "Q-043",
-   "category": "vague",
-   "language": "mixed"
-  },
-  {
-   "id": "Q-044",
-   "category": "simple",
-   "language": "gu",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2208_1_circular-dt-19112020-125cd0",
-    "GR-1_3768_1_CONSTITUTION_DAY-26-11-2023-730baa",
-    "GR-1_3875_1_Notification-Gazette-210625-1-63ea23"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-045",
-   "category": "simple",
-   "language": "en",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2208_1_circular-dt-19112020-125cd0",
-    "GR-1_2187_1_Senior-Clerk-RR-Amendment-31082020-a01c5e",
-    "GR-1_2195_1_Sr-Clerk-pre-ser-Paper-5-23-9-20-d9f0b4"
-   ],
-   "answer_in_evidence": false
-  },
-  {
-   "id": "Q-046",
-   "category": "simple",
-   "language": "gu",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2377_1_Covid-Certy-0b4818",
-    "GR-1_1493_1_Recruitment-Rules-Book-1967-English-f0ba24",
-    "GR-1_3197_1_English-The-Gujarat-Civil-Services-Classification-a-de2c2c"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-047",
-   "category": "simple",
-   "language": "mixed",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_2377_1_Covid-Certy-0b4818",
-    "GR-1_1493_1_Recruitment-Rules-Book-1967-English-f0ba24",
-    "GR-2015-ad2836"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-048",
-   "category": "simple",
-   "language": "gu",
-   "top1": true,
-   "top3": true,
-   "ranked": [
-    "GR-1_3871_1_GAD-Circular-13-05-25-65497e",
-    "GR-g2_gr_2025-07e608",
-    "GR-1_3869_1_leave-cancelation-circular-f02a67"
-   ],
-   "answer_in_evidence": true
-  },
-  {
-   "id": "Q-049",
+   "id": "Q-MY-006",
    "category": "simple",
    "language": "mixed",
    "top1": false,
    "top3": false,
    "ranked": [
-    "GR-1_3306_1_06-05-2021-e15672",
-    "GR-1_3847_1_Leave-LTC-Notification_25-10-24-08701b",
-    "GR-1_4056_1_CIrcular_Karmyogi_API-Request-Form-b8d901"
+    "GR-kha-1-24-03-2026-2256-b543bb",
+    "GR-1_2259_1_08-06-2021-Head-Clerk-Pre-Service-Rules-6617b3",
+    "GR-1_3115_1_20160229-c68a3b"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-007",
+   "category": "simple",
+   "language": "gu",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_3871_1_GAD-Circular-13-05-25-65497e",
+    "GR-1_3869_1_leave-cancelation-circular-f02a67",
+    "GR-g2_gr_2025-07e608"
    ],
    "answer_in_evidence": true
   },
   {
-   "id": "Q-050",
+   "id": "Q-MY-008",
+   "category": "simple",
+   "language": "en",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_4040_1_Circular-Draft-Dated-b0900c",
+    "GR-1_3854_1_LTC-Karmyogi-Circular-dated-24-03-25-76df1c",
+    "GR-1_3847_1_Leave-LTC-Notification_25-10-24-08701b"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-009",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-cha-sakha-27-09-2026-1970-82e7ae",
+    "GR-GR-031-ch-7eed0f",
+    "GR-jogvai-vahivati-manjuri-49895b"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-010",
+   "category": "simple",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-kha-1-02-04-2025-0764-e41b46",
+    "GR-kha-1-02-12-2025-1771-9f2b5e",
+    "GR-1_2235_1_01-Capital-Grant-February-21-2eca1a"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-011",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3882_1_1-gad-3d07ae",
+    "GR-1_3897_1_16-revenue_department-e5632a",
+    "GR-1_3887_1_6-social_justice-2a04c7"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-012",
+   "category": "simple",
+   "language": "mixed",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3724_1_09-06-2014-class-1_2-9ae97d",
+    "GR-1_1369_1_0289-7b7cb8",
+    "GR-1_1529_1_gujarat-Civil-services-rulese-1967-f5e8be"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-013",
+   "category": "simple",
+   "language": "gu",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_2209_1_notification-gad-30092006-f9c4e0",
+    "GR-1_10_1_cabinet-unit-01-11-1996-5fcd5a",
+    "GR-1_2317_1_Case-Nikaal-Sthayi-Hukamo-0668d8"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-014",
+   "category": "simple",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1363_1_ministry-9fa8c4",
+    "GR-1_1495_1_Final-PortDistri-59163e",
+    "GR-1_3912_1_Ministers-Portfolio-b22c71"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-015",
+   "category": "simple",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1980_1_vc-2nd-consultation-cir-1522019-fcfe5c",
+    "GR-1_3633_1_06-05-2017-Original-1e3973",
+    "GR-1_1493_1_Recruitment-Rules-Book-1967-English-f0ba24"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-016",
+   "category": "amended",
+   "language": "en",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_3672_1_11-07-2018_class_1_2-1908a6",
+    "GR-1_3318_1_09-03-2017-6b272b",
+    "GR-1_3258_1_09-03-2023-29f237"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-017",
    "category": "amended",
    "language": "gu",
    "top1": true,
    "top3": true,
    "ranked": [
-    "GR-1_3869_1_leave-cancelation-circular-f02a67",
-    "GR-g2_gr_2025-07e608",
-    "GR-1_3871_1_GAD-Circular-13-05-25-65497e"
+    "GR-1_3318_1_09-03-2017-6b272b",
+    "GR-1_3672_1_11-07-2018_class_1_2-1908a6",
+    "GR-1_1994_1_12-7-19-class-1-2-ca66d5"
    ],
    "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-018",
+   "category": "amended",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3317_1_03-02-2017-CLASS-1-2-RULES-246ebc",
+    "GR-1_3258_1_09-03-2023-29f237",
+    "GR-1_1994_1_12-7-19-class-1-2-ca66d5"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-019",
+   "category": "amended",
+   "language": "en",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_1493_1_Recruitment-Rules-Book-1967-English-f0ba24",
+    "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5",
+    "GR-1_3197_1_English-The-Gujarat-Civil-Services-Classification-a-de2c2c"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-020",
+   "category": "amended",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3470_1_30-04-2007-108c35",
+    "GR-1_3472_1_20-09-2007-42f7bb",
+    "GR-1_3492_1_03-04-2013-1-631753"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-021",
+   "category": "amended",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2209_1_notification-gad-30092006-f9c4e0",
+    "GR-1_3313_1_30-06-2010-1-e8614e",
+    "GR-1_514_1_K_Notification_30-06-2010-f4a9c3"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-022",
+   "category": "amended",
+   "language": "gu",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_547_1_G5_Notification_31-1-2013-34c019",
+    "GR-1_60_1_Notification_GS-2008-6-CRR-102005-1008-G5_3-5-2008-79266d",
+    "GR-1_84_1_Notification_GS-33-2010-CRR-102007-120320-G5_30-6-201-8f2149"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-023",
+   "category": "amended",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_60_1_Notification_GS-2008-6-CRR-102005-1008-G5_3-5-2008-79266d",
+    "GR-1_64_1_Notification_GS-8-2009-CRR-102005-1008-G5_Dt-12-2-200-199678",
+    "GR-1_84_1_Notification_GS-33-2010-CRR-102007-120320-G5_30-6-201-8f2149"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-024",
+   "category": "amended",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3686_1_21-05-1985-ff9539",
+    "GR-1_3688_1_10-05-1991-5e27f4",
+    "GR-1_3687_1_27-09-1988-4750f7"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-025",
+   "category": "amended",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3684_1_25-02-1983-9e2ebf",
+    "GR-1_1913_1_Recruitement-Rules-of-Section-Officer-2518e7",
+    "GR-1_3686_1_21-05-1985-ff9539"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-026",
+   "category": "superseded",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3875_1_Notification-Gazette-210625-1-63ea23",
+    "GR-1_3901_1_20-industries_mines-eff51d",
+    "GR-1_3891_1_10-health_family_welfare_department-6c9be7"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-027",
+   "category": "superseded",
+   "language": "gu",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_1309_1_spn-102013-635148-T-2014-de7d1b",
+    "GR-1_3221_1_21-09-22-62890b",
+    "GR-1_3887_1_6-social_justice-2a04c7"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-028",
+   "category": "superseded",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2296_1_GAS-Service-Rules--bc9c35",
+    "GR-1_826_1_Notification_GS-41-CRR-1167-G_10-10-1967_G5-a18881",
+    "GR-1_2728_1_20160919-22da4e"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-029",
+   "category": "superseded",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3629_1_05-07-1991-1-3cd910",
+    "GR-1_3323_1_13-08-2020-clerk-rr-sudhaaro-d72c81",
+    "GR-1_1913_1_Recruitement-Rules-of-Section-Officer-2518e7"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-030",
+   "category": "superseded",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1913_1_Recruitement-Rules-of-Section-Officer-2518e7",
+    "GR-1_3689_1_29-06-2020_new-7ae736",
+    "GR-1_3333_1_14-09-2018-Dyso-RR-new-fe0026"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-031",
+   "category": "superseded",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_10_1_cabinet-unit-01-11-1996-5fcd5a",
+    "GR-1_2317_1_Case-Nikaal-Sthayi-Hukamo-0668d8",
+    "GR-1_4040_1_Circular-Draft-Dated-b0900c"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-032",
+   "category": "superseded",
+   "language": "mixed",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3633_1_06-05-2017-Original-1e3973",
+    "GR-1_3325_1_14-07-2017-eng-class-1-2-c897e4",
+    "GR-1_3319_1_14-03-2017-e2b97d"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-033",
+   "category": "superseded",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_2028_1_26_24-09-2019-b1bf2c",
+    "GR-1_2198_1_12-7-1962-b43923",
+    "GR-1_4057_1_Notification_GPSC-Conditions-of-Service-Amendment-R-76d6c5"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-034",
+   "category": "no_later_change",
+   "language": "en",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_2023_1_eng-07-09-2019-e18955",
+    "GR-1_1493_1_Recruitment-Rules-Book-1967-English-f0ba24",
+    "GR-1_564_1_G-C-S-C-R-G-R-1976-dea6d5"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-035",
+   "category": "no_later_change",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_1324_1_GTU-b97551",
+    "GR-1_3499_1_22-05-2015-e5a1fb",
+    "GR-1_3492_1_03-04-2013-1-631753"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-036",
+   "category": "no_later_change",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3811_1_15072024_GR_FOR_DRIVER_UNIFORM-b69fca",
+    "GR-1_3898_1_17-roads_building_department-4ff54f",
+    "GR-1_3798_1_Capital-Grant_Order-April_to_June-24_002-b21370"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-037",
+   "category": "no_later_change",
+   "language": "en",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-e-gram-viswagrm-project-6b8e87",
+    "GR-19-Resolution-regarding-increasing-direct-list-booth-limit-896570",
+    "GR-1_3851_1_GAZETTE-03-03-2025-GPSC-CLASS-1-2-EXAMINATION-RULES-f47e7a"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-038",
+   "category": "no_later_change",
+   "language": "gu",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-kha-1-24-03-2026-2256-b543bb",
+    "GR-1_3900_1_19-urban_development-ef65fd",
+    "GR-bajet-8-503155"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-039",
+   "category": "no_later_change",
+   "language": "mixed",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3865_1_ViewPdf-966ed4",
+    "GR-1_3889_1_8-forests_environment-036502",
+    "GR-1_3890_1_9-finance_department-61527a"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-040",
+   "category": "no_later_change",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-kha-1-02-04-2025-0764-e41b46",
+    "GR-1_3214_1_Capital-Grant-order-Oct-to-Dec-22-0625a8",
+    "GR-1_2235_1_01-Capital-Grant-February-21-2eca1a"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-041",
+   "category": "multi_doc",
+   "language": "en",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_3807_1_CCC_Syllabus_Amendment_Notification_24-07-2024_2407-66fce5",
+    "GR-1_1493_1_Recruitment-Rules-Book-1967-English-f0ba24",
+    "GR-1_2209_1_notification-gad-30092006-f9c4e0"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-042",
+   "category": "multi_doc",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3811_1_15072024_GR_FOR_DRIVER_UNIFORM-b69fca",
+    "GR-1_4026_1_Draft-gr-for-driver-uniform-colour-73bfda",
+    "GR-1_4035_1_gr_for_increment_in_driver_uniform_washing_allowanc-7f7b93"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-043",
+   "category": "multi_doc",
+   "language": "mixed",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_1715_1_GPSC-chairman-member-Appoinment-ba49f6",
+    "GR-1_2296_1_GAS-Service-Rules--bc9c35",
+    "GR-1_4060_1_Shri-H-J-Prajapati-d6a777"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-044",
+   "category": "multi_doc",
+   "language": "en",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3897_1_16-revenue_department-e5632a",
+    "GR-1_3858_1_Payroll-Karmyogi-Circular-29-03-2025-4b3cf3",
+    "GR-1_3890_1_9-finance_department-61527a"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-045",
+   "category": "multi_doc",
+   "language": "gu",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3318_1_09-03-2017-6b272b",
+    "GR-1_3672_1_11-07-2018_class_1_2-1908a6",
+    "GR-1_3319_1_14-03-2017-e2b97d"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-046",
+   "category": "multi_doc",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_3686_1_21-05-1985-ff9539",
+    "GR-1_1913_1_Recruitement-Rules-of-Section-Officer-2518e7",
+    "GR-1_3688_1_10-05-1991-5e27f4"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-047",
+   "category": "multi_doc",
+   "language": "en",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3897_1_16-revenue_department-e5632a",
+    "GR-1_3901_1_20-industries_mines-eff51d",
+    "GR-1_3882_1_1-gad-3d07ae"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-048",
+   "category": "multi_doc",
+   "language": "gu",
+   "top1": false,
+   "top3": true,
+   "ranked": [
+    "GR-1_3812_1_GR-b0e194",
+    "GR-1_3846_1_Draft-gr-0bb651",
+    "GR-1_3805_1_22072024_HOD_CADRE_STRENGTH_GR1-a5355d"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-049",
+   "category": "multi_doc",
+   "language": "mixed",
+   "top1": false,
+   "top3": false,
+   "ranked": [
+    "GR-1_3270_1_Capital-Grant-order-April-23-to-June-23-31f287",
+    "GR-1_3903_1_22-panchayat-ca1627",
+    "GR-kha-1-24-03-2026-2256-b543bb"
+   ],
+   "answer_in_evidence": false
+  },
+  {
+   "id": "Q-MY-050",
+   "category": "multi_doc",
+   "language": "mixed",
+   "top1": true,
+   "top3": true,
+   "ranked": [
+    "GR-1_60_1_Notification_GS-2008-6-CRR-102005-1008-G5_3-5-2008-79266d",
+    "GR-1_64_1_Notification_GS-8-2009-CRR-102005-1008-G5_Dt-12-2-200-199678",
+    "GR-1_826_1_Notification_GS-41-CRR-1167-G_10-10-1967_G5-a18881"
+   ],
+   "answer_in_evidence": true
+  },
+  {
+   "id": "Q-MY-051",
+   "category": "refusal",
+   "language": "en"
+  },
+  {
+   "id": "Q-MY-052",
+   "category": "refusal",
+   "language": "gu"
+  },
+  {
+   "id": "Q-MY-053",
+   "category": "refusal",
+   "language": "mixed"
+  },
+  {
+   "id": "Q-MY-054",
+   "category": "refusal",
+   "language": "en"
+  },
+  {
+   "id": "Q-MY-055",
+   "category": "refusal",
+   "language": "gu"
+  },
+  {
+   "id": "Q-MY-056",
+   "category": "refusal",
+   "language": "mixed"
+  },
+  {
+   "id": "Q-MY-057",
+   "category": "refusal",
+   "language": "en"
+  },
+  {
+   "id": "Q-MY-058",
+   "category": "refusal",
+   "language": "gu"
+  },
+  {
+   "id": "Q-MY-059",
+   "category": "refusal",
+   "language": "mixed"
+  },
+  {
+   "id": "Q-MY-060",
+   "category": "refusal",
+   "language": "en"
   }
  ]
 }

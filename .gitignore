@@ -31,6 +31,7 @@ data/edges_detected.csv
 data/grs/*.pdf
 data/processed/*.json
 data/index/
+data/corpus_v2/
 
 # Model cache
 .cache/
@@ -53,3 +54,6 @@ eval/scorecard.json
 # frontend build output
 frontend/node_modules/
 frontend/dist/
+
+# Unwanted / archived files
+/unwanted/

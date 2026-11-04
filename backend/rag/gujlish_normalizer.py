@@ -8,6 +8,7 @@ into a synchronized Search Bundle:
 """
 from __future__ import annotations
 
+import difflib
 import json
 import re
 from pathlib import Path
@@ -62,21 +63,24 @@ class GujlishNormalizer:
         if gu_chars > 0 and en_chars == 0:
             return "gu"
         
-        # Check for Gujlish keywords in Latin script
+        # Check for Gujlish keywords in Latin script with fuzzy matching
         words = set(re.findall(r"[a-zA-Z]+", text.lower()))
         gujlish_hits = 0
-        for stem in self.functional_stems.keys():
-            stem_words = stem.split()
-            if len(stem_words) == 1 and stem_words[0] in words:
-                gujlish_hits += 1
-            elif len(stem_words) > 1 and stem in text.lower():
-                gujlish_hits += 2
+        stem_keys = list(self.functional_stems.keys())
+        gujlish_markers_list = list(_GUJLISH_MARKERS)
+        distinctive_list = list(_DISTINCTIVE_GUJLISH)
 
-        # Check distinctive markers
-        if any(w in words for w in _DISTINCTIVE_GUJLISH):
-            gujlish_hits += 2
-        elif sum(1 for w in words if w in _GUJLISH_MARKERS) >= 2:
-            gujlish_hits += 2
+        for w in words:
+            if difflib.get_close_matches(w, distinctive_list, n=1, cutoff=0.8):
+                gujlish_hits += 2
+            elif difflib.get_close_matches(w, gujlish_markers_list, n=1, cutoff=0.8):
+                gujlish_hits += 1
+            elif difflib.get_close_matches(w, stem_keys, n=1, cutoff=0.8):
+                gujlish_hits += 1
+
+        for stem in stem_keys:
+            if " " in stem and stem in text.lower():
+                gujlish_hits += 2
 
         if gujlish_hits >= 1:
             return "gujlish" if gu_chars == 0 else "mixed"

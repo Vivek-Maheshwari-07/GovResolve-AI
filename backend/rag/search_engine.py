@@ -19,7 +19,7 @@ import sys
 import unicodedata
 from collections import Counter
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 from loguru import logger
@@ -37,7 +37,6 @@ from backend.rag.gujlish_normalizer import GujlishNormalizer, SearchBundle
 from backend.rag.gujarati_stemmer import tokenize_for_bm25
 from backend.rag.llm_gateway import execute_llm_generation, translate_to_english
 from backend.rag.providers import ollama_host
-from backend.lineage.lineage_graph import LineageGraph
 
 # ── Optional vector / NLP libraries ──────────────────────────────
 try:
@@ -88,7 +87,8 @@ _OUT_OF_SCOPE = [re.compile(p, re.IGNORECASE) for p in (
     r"\bsue\b", r"\blawsuit\b", r"\blegal advice\b", r"\bcan I\b.{0,30}\bsue\b",
     r"\bwill i (?:win|lose)\b", r"\b(?:go|going|went) to (?:the )?court\b", r"\bfile (?:a |the )?(?:case|petition|suit)\b",
     r"\bchances? of (?:winning|success)\b", r"\bis (?:it|this|that) (?:legal|illegal|lawful|unlawful)\b",
-    r"\bfair\b", r"\bunfair\b", r"\bopinion\b", r"\bjudgement\b", r"\bjudgment\b",
+    r"\bfair\b", r"\bunfair\b", r"\blegal\s+opinion\b", r"\b(?:my|our)\s+court\s+case\b",
+    r"\bpredict\s+(?:a\s+|the\s+)?judg?ment\b",
     # Gujarati
     r"કેસ કરી શકાય", r"દાવો માંડવો", r"કોર્ટમાં (?:કેસ|જવ|જઈ|દાવ)", r"કેસ (?:કરવો|કરું|કરી|જીત)", r"જીતી શકું|જીતીશ|હારીશ",
     r"(?:ગેરકાયદે|ગેરકાયદેસર) (?:છે|ગણાય)",
@@ -119,6 +119,8 @@ def is_too_vague(query: str) -> bool:
     if len(tokens) < 2:
         return True
     content = [t for t in tokens if t not in _VAGUE_FILLER]
+    if len(content) < 2 and all(t in _VAGUE_BROAD for t in content):
+        return True
     return all(t in _VAGUE_BROAD for t in content)  # also true when nothing is left but filler
 
 
@@ -167,7 +169,7 @@ def _normalise_reply(parsed: dict) -> dict:
             st = {"explanation": st}
         if not isinstance(st, dict):
             continue
-        label = str(st.get("label") or st.get("k") or "Established").strip()
+        label = str(st.get("label") or st.get("k") or "Inferred").strip()
         statements.append({"explanation": str(st.get("explanation") or st.get("t") or st.get("text") or "").strip(),
                            "label": {"e": "Established", "i": "Inferred"}.get(label.lower(), label),
                            "cited_sentence_ids": ids(st.get("cited_sentence_ids") or st.get("ids")) or shared})
@@ -705,7 +707,7 @@ class RAGPipeline:
         self,
         index: GRIndex,
         all_records: list[GRRecord],
-        lineage_graph: Optional[LineageGraph] = None,
+        lineage_graph: Optional[Any] = None,
     ):
         self.index = index
         self.records_map: dict[str, GRRecord] = {r.gr_id: r for r in all_records}
@@ -722,6 +724,8 @@ class RAGPipeline:
         """The search bundle for a question. For Gujarati, Gujarati-in-Latin-letters and mixed questions it also holds an English rendering
         (one short model call, remembered): the documents are mostly English, and a Gujarati question shares no words with them, so
         neither keyword search nor sentence choice could match. Without a model the bundle is unchanged."""
+        if raw_query:
+            raw_query = unicodedata.normalize("NFC", raw_query).replace("\u200c", "").replace("\u200d", "")
         bundle = normalizer.normalize(raw_query)
         if bundle.detected_lang != "en":
             english = translate_to_english(raw_query)
@@ -912,6 +916,8 @@ class RAGPipeline:
           5. Pluggable Generation & Verbatim Citation Resolution
         """
         # ── Step 1: Pre-processing & Guardrails ──
+        if raw_query:
+            raw_query = unicodedata.normalize("NFC", raw_query).replace("\u200c", "").replace("\u200d", "")
         if is_out_of_scope(raw_query):
             return QueryResponse(
                 question=raw_query,
@@ -950,6 +956,17 @@ class RAGPipeline:
             )
 
         context_str, sentence_registry, injected_context_chunks = self.build_evidence(raw_query, passages, bundle)
+
+        if looks_like_injection(raw_query):
+            return QueryResponse(
+                question=raw_query,
+                answer_status=AnswerStatus.INSUFFICIENT,
+                insufficient_reason=InsufficientReason.OUT_OF_SCOPE,
+                summary="I cannot fulfill this request as it violates safety guardrails.",
+                citations=[],
+                language_detected=detected_lang,
+                collection_latest_date=self.collection_latest_date,
+            )
 
         # ── Step 5: Grounded Generation Prompt ──
         # Kept short on purpose: on a CPU the model reads about 30 tokens/s and writes about 5, so every sentence of prompt and
@@ -997,7 +1014,7 @@ class RAGPipeline:
                     stmt_cits.append(cit)
                     verified_citations.append(cit)
 
-            label_str = stmt.get("label", "Established")
+            label_str = stmt.get("label", "Inferred")
             label = StatementLabel.ESTABLISHED if "estab" in label_str.lower() else (
                 StatementLabel.INFERRED if "infer" in label_str.lower() else StatementLabel.NOT_FOUND
             )
