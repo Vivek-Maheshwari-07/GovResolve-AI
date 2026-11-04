@@ -24,7 +24,6 @@ load_dotenv()
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from backend.models import AnswerStatus, GRRecord
 from backend.rag.search_engine import GRIndex, RAGPipeline
-from backend.ingestion.ingest import ingest_directory
 try:
     from backend.lineage.lineage_graph import LineageGraph, apply_lineage_to_records
 except ImportError:
