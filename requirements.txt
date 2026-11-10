@@ -6,7 +6,7 @@ fastapi>=0.115
 uvicorn>=0.30
 python-multipart>=0.0.18
 pydantic>=2.7
-pydantic-settings>=2.3
+pydantic-settings>=2.15.0
 python-dotenv>=1.0
 loguru>=0.7
 
