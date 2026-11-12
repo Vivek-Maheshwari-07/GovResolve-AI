@@ -81,6 +81,9 @@ def main() -> int:
     if extra:
         os.environ["GOV_PDF_EXTRA_DIRS"] = os.pathsep.join([os.environ.get("GOV_PDF_EXTRA_DIRS", ""), *map(str, extra)]).strip(os.pathsep)
     build_ui()
+    n_grs = len(list(corpus.glob("*.json"))) if corpus else 0
+    n_pdfs = sum(1 for d in extra for _ in d.rglob("*.pdf"))
+    stats = f"{n_grs} GR records | {n_pdfs} source PDFs | Hybrid BM25 + dense search"
     url = f"http://{'localhost' if args.host in ('127.0.0.1', '0.0.0.0') else args.host}:{args.port}"
     print(f"""
 ==============================================================
@@ -88,7 +91,7 @@ def main() -> int:
   Mode:       {mode}
   Web UI:     {url}
   API Docs:   {url}/docs
-  Collection: 366 Indexed GRs | 515 Official PDFs | Hybrid BM25+Dense
+  Collection: {stats}
 ==============================================================
 """)
     if os.environ.get("GOV_ENGINE") == "squad2" and not shutil.which("ollama") and os.environ.get("LLM_PROVIDER", "ollama").lower() in ("ollama", "local"):

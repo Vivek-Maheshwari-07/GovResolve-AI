@@ -1,306 +1,147 @@
-# GovResolve-AI (PS000230)
+# GovResolve-AI
 
 [![CI](https://github.com/Vivek-Maheshwari-07/GovResolve-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/Vivek-Maheshwari-07/GovResolve-AI/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python: 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB.svg)](requirements.txt)
-[![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com)
-[![React 18](https://img.shields.io/badge/frontend-React%2018%20%7C%20Vite-61DAFB.svg)](https://react.dev)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB.svg)](requirements.txt)
 
-> **High-Accuracy Bilingual (Gujarati–English) AI Assistant for Government Resolutions**  
-> Developed for the **Seva First Innovation Challenge (PS000230)**.
+A Gujarati-English assistant for Government Resolutions (GRs), built for the Seva First Innovation Challenge, problem statement PS000230.
+It answers questions in Gujarati, English or transliterated Gujarati ("Gujlish"), quotes the source word for word, and shows whether a later order has amended or superseded the rule.
 
----
+## Why this exists
 
-## Problem Solved
+- **Rules change quietly.** A resolution from 2018 may have been amended in 2021 or replaced in 2024. A plain keyword search returns all of them with equal weight, so an officer can apply a rule that no longer holds.
+- **Users switch languages.** Questions arrive in Gujarati script, in English, or in Latin-script Gujarati. Keyword search fails across those boundaries.
+- **Many source documents are scans.** Old resolutions often have no usable text layer, so they need OCR before they can be searched.
 
-Navigating Government Resolutions (GRs), notifications, and administrative circulars presents acute challenges for departments, legal officers, and citizens:
+## Features
 
-1. **The "Amendment Trap":**  
-   Government rules are amended, substituted, and superseded quietly over time. A 2018 resolution establishing a quota, fee, or service rule might be superseded or amended by a 2021 or 2024 resolution. Traditional search engines retrieve all matching keywords equally, leading officers to inadvertently apply repealed, superseded, or partially amended rules. GovResolve-AI eliminates this risk by building a deterministic, direction-enforced lineage graph that traces amendments and displays status alongside every cited rule.
-2. **Gujlish Queries & Code-Switching:**  
-   Users frequently query administrative portals in Gujarati script, English, or transliterated Gujarati in Latin script ("Gujlish", e.g., *"makan bhada bhattha mate su niyam chhe?"*). Standard search fails across these language boundaries. GovResolve-AI features an integrated phonological normalizer and administrative lexicon stemmer to normalize bilingual and Gujlish queries seamlessly.
-3. **Corrupted & Scanned PDFs:**  
-   Legacy and regional government documents frequently feature broken unicode fonts, lossy embedded text layers, or non-searchable scanned images. GovResolve-AI applies a dual-layer extraction pipeline (PyMuPDF text extraction + Google Tesseract OCR with `guj+eng` language models) that extracts clean text, computes bounding box coordinates (`bboxes`) for verbatim passage highlighting, and scores OCR confidence.
+- **Grounded answers.** Every answer carries the document, page, issue date and a verbatim quote taken from the stored page text. A model never retypes a quote.
+- **Amendment lineage.** A graph links each GR to the older GRs it amends or supersedes. Links come only from explicit references and always point from the newer order to the older one.
+- **Honest status.** A GR is shown as `superseded`, `amended`, `no_later_amendment_found` or `unknown`. The system never says "active": finding no later order does not prove a rule is in force.
+- **Refusals instead of guesses.** When the documents do not support an answer, the response says so and gives a reason code (for example `NO_DOCUMENT`, `OUT_OF_SCOPE`, `BROKEN_CHAIN`).
+- **Hybrid search.** Dense vectors (bge-m3 through Ollama) and BM25 with a Gujarati stemmer are combined by reciprocal rank fusion.
+- **OCR for scans.** PyMuPDF reads text layers; Tesseract (`guj+eng`) handles scanned pages and records bounding boxes so the cited passage can be boxed on the PDF page.
+- **Pluggable language model.** Local Ollama by default, Groq or any OpenAI-compatible service as an option. With no model reachable, the app returns one verbatim passage with a warning.
+- **Web interface.** A React app with the answer, citations, the original PDF with the cited passage highlighted, and a lineage view.
 
----
-
-## Core Architecture
-
-GovResolve-AI combines deterministic graph computation with modern retrieval-augmented generation to provide legally verifiable, hallucination-free answers:
+## How it works
 
 ```mermaid
-flowchart TD
-    subgraph INGEST["1. Ingestion & Pre-processing"]
-        PDF["GR PDFs / Scans"] --> DUAL["Dual-Layer Parsing<br/>PyMuPDF + Tesseract OCR (guj+eng)"]
-        DUAL --> CHUNKS["Chunking & Bounding Box Mapping"]
-        CHUNKS --> SQLITE[("Corpus Store (SQLite & JSON)")]
-    end
-
-    subgraph RETRIEVAL["2. Asymmetric Hybrid Retrieval"]
-        Q["User Query<br/>(Gujarati / English / Gujlish)"] --> NORM["Bilingual & Gujlish Normalizer"]
-        NORM --> DENSE["ChromaDB Dense Vectors<br/>(bge-m3 Embeddings)"]
-        NORM --> SPARSE["Sparse Keyword Search<br/>(BM25Okapi + Gujarati Stemmer)"]
-        DENSE & SPARSE --> RRF["Reciprocal Rank Fusion (RRF)"]
-    end
-
-    subgraph LINEAGE["3. Deterministic Lineage Graph"]
-        CHUNKS --> REGEX["Explicit Statutory Reference Extraction"]
-        REGEX --> GRAPH[("NetworkX Directed Graph<br/>(Strictly Newer -> Older)")]
-        GRAPH --> STATUS["Clause & Resolution Status<br/>(Amended, Superseded, No Later Change)"]
-    end
-
-    subgraph GENERATION["4. Grounded Synthesis & Trust Verification"]
-        RRF --> PROMPT["Context Assembly + Numbered Sentences"]
-        STATUS --> PROMPT
-        PROMPT --> LLM{{"LLM Gateway<br/>(Local Ollama / Hosted Groq)"}}
-        LLM --> V_CHECK["Verbatim Sentence ID Matching"]
-        V_CHECK --> SHIELD["Trust Shield & Visual Verdict"]
-    end
-
-    SHIELD --> UI["React 18 Interface + PDF Viewer"]
+flowchart LR
+    PDF["GR PDFs"] --> ING["Ingestion<br/>PyMuPDF + Tesseract"]
+    ING --> CORPUS[("Corpus JSON")]
+    CORPUS --> IDX[("Chroma + BM25 index")]
+    CORPUS --> LIN["Lineage engine<br/>explicit references"]
+    Q["Question<br/>gu / en / Gujlish"] --> NORM["Normalizer"]
+    NORM --> IDX
+    IDX --> LLM["Language model<br/>Ollama / Groq"]
+    LIN --> LLM
+    LLM --> CHECK["Verbatim quote check"]
+    CHECK --> UI["Web UI + API"]
 ```
 
-### 1. Asymmetric Hybrid RAG
-- **ChromaDB with `bge-m3`:** Captures deep cross-lingual semantics across Gujarati and English administrative vocabularies.
-- **Sparse `BM25Okapi` with Gujarati Suffix-Stripping:** Guarantees exact statutory token matches (GR numbers, departments, section names).
-- **Reciprocal Rank Fusion (RRF):** Fuses dense vector scores and sparse keyword ranks to produce high-precision evidence candidates without embedding drift.
+## Repository layout
 
-### 2. Deterministic Lineage Graph Injection
-- Implemented with **NetworkX**, enforcing strict temporal and directional integrity: edges point exclusively from **newer resolution $\rightarrow$ older resolution**.
-- Extracts explicit statutory amendment phrases (e.g., *"in supersession of"*, *"further to amend"*, *"આથી રદ કરવામાં આવે છે"*).
-- Pre-injects amending and superseding resolutions directly into the RAG context window, alerting the language model before generation begins.
-- Strictly adheres to the rule: **never output an "active" status**—absence of an amendment indicates *No later change found in collection*, never conclusive legal validity.
-
-### 3. Dual-Layer OCR & Optical Verification
-- Leverages **PyMuPDF (`fitz`)** for rapid native digital extraction and word coordinate mapping.
-- Automatically invokes **Google Tesseract OCR (`guj+eng`)** when embedded font streams are missing, corrupt, or score low character confidence.
-- Records exact pixel bounding boxes for every chunk, enabling verbatim quote highlighting in the integrated PDF Inspector.
-
----
-
-## Tech Stack
-
-| Layer | Technologies |
+| Path | Contents |
 |---|---|
-| **Backend Framework** | **FastAPI** (Python 3.10+), Pydantic v2, Uvicorn, Python-Multipart |
-| **Lineage & Graph Engine** | **NetworkX**, NetworkX MultiDiGraph |
-| **Vector & Search Storage** | **ChromaDB** (`bge-m3`), **Rank-BM25** (`BM25Okapi`) |
-| **Database & Metadata** | **SQLite** (Audit logging, feedback collection, overrides) |
-| **Document Processing & OCR** | **PyMuPDF** (`fitz`), **Google Tesseract OCR** (`guj+eng`) |
-| **LLM Inference Gateway** | **Ollama** (`qwen3.5:4b`, offline CPU/GPU) or **Groq** (`openai/gpt-oss-120b`) |
-| **Frontend UI** | **React 18**, **Vite**, Tailwind CSS, Lucide Icons |
+| `backend/app/` | FastAPI application, lineage engine, SQLite store, API schemas |
+| `backend/rag/` | Search index, question normalizer, answer pipeline, language-model providers |
+| `backend/ingestion/` | PDF to GR record conversion (text layer and OCR) |
+| `backend/scripts/` | Corpus, index, scorecard and smoke-test tools |
+| `backend/tests/` | Backend test suite (pytest) |
+| `frontend/` | React 18 and Vite web app |
+| `data/` | Processed GR records, search index, demo fixtures, Tesseract language data |
+| `eval/` | Gold questions, lineage gold set and saved scorecards |
+| `docs/` | Design documents, provider guide, requirements traceability |
+| `config/` | Glossaries for Gujarati and Gujlish normalization |
 
----
+## Quick start
 
-## Setup Instructions
-
-### Prerequisites
-- **Python 3.10 or higher**
-- **Node.js 18+ (Node 20 LTS recommended)** & `npm`
-- **Google Tesseract OCR** with `guj` and `eng` trained data packages installed.
-- *(Optional)* [Ollama](https://ollama.com) for local offline LLM inference (`ollama pull qwen3.5:4b` and `ollama pull bge-m3`).
-
----
-
-### Step 1: Clone and Configure Environment
+Requirements: Python 3.10+, Node.js 18+ (20 recommended), and [Tesseract](https://github.com/tesseract-ocr/tesseract) if you ingest new PDFs.
+For local answers install [Ollama](https://ollama.com) and pull the models: `ollama pull qwen3.5:4b` and `ollama pull bge-m3`.
 
 ```bash
 git clone https://github.com/Vivek-Maheshwari-07/GovResolve-AI.git
 cd GovResolve-AI
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+make install                       # Python and web dependencies
+cp .env.example .env               # edit to choose Ollama or Groq
+python run.py                      # Windows: double-click start.bat
 ```
 
-Create a `.env` file in the project root:
+`run.py` builds the web UI on first run, then serves the app and API at <http://localhost:8000> (API docs at `/docs`).
+It uses the bundled records in `data/processed` and the index in `data/index/chroma`. If either is missing it starts with synthetic demo documents and says so.
 
-```env
-# Language Model Configuration (choose ollama, groq, or openai)
-LLM_PROVIDER=ollama
-OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=qwen3.5:4b
+On a CPU, expect 40 to 70 seconds per answer with the local model. Groq answers in about 10 seconds but sends the question and evidence passages to a hosted service.
 
-# Hosted Groq Fallback (Optional)
-GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=openai/gpt-oss-120b
-
-# Search & Verification Configuration
-EMBEDDING_MODEL=ollama:bge-m3
-CHROMA_PERSIST_DIR=./data/index/chroma
-ANSWER_CHECK=off
-GOV_ENGINE=squad2
-
-# CORS & Server Settings
-GOV_CORS_ORIGINS=["*"]
-cors_origins=["*"]
-
-# OCR Configuration
-TESSERACT_CMD=tesseract
-```
-
----
-
-### Step 2: Backend Setup & Execution
-
-Install Python dependencies:
+Other ways to run:
 
 ```bash
-python -m pip install -r requirements.txt
+make demo           # synthetic documents only, no model needed
+make docker-up      # Docker; set GOV_ADMIN_TOKEN in .env first
+make help           # list every shortcut
 ```
 
-Launch the FastAPI backend service via Uvicorn:
+## Configuration
+
+All settings live in `.env` (see `.env.example`, which documents each one). The most useful:
+
+| Variable | Purpose |
+|---|---|
+| `LLM_PROVIDER` | `ollama` (default), `groq`, `openai`, `gemini` or `auto` |
+| `GROQ_API_KEY` | Needed only for Groq |
+| `GOV_ENGINE` | `squad2` answers through the RAG pipeline; `retrieval` returns passages only |
+| `GOV_ADMIN_TOKEN` | Protects `/admin/*` and writes to `/documents`. Set it whenever the server is reachable by anyone else |
+| `GOV_CORS_ORIGINS` | Allowed browser origins, as a JSON list |
+| `GOV_QUERY_RATE_PER_MIN` | Questions per client per minute (default 120) |
+
+Never commit `.env`. Details of the language-model options are in [docs/LLM_PROVIDERS.md](docs/LLM_PROVIDERS.md).
+
+## API overview
+
+The full contract, including field meanings, is in [backend/API_CONTRACT.md](backend/API_CONTRACT.md). Public field names are frozen.
+
+| Method and path | Purpose |
+|---|---|
+| `POST /query` | Ask a question; returns `verdict`, `answer`, `citations`, `statements`, `warnings` |
+| `GET /documents`, `GET /documents/{id}` | List documents and read one with its lineage status |
+| `GET /lineage/{id}` | Lineage graph around a document |
+| `GET /grs`, `GET /grs/{id}/pdf` | Library listing and the source PDF |
+| `POST /ask` | Question with clause-level status and a query id for feedback |
+| `GET /health` | Corpus, edge and index counts |
+
+Example:
 
 ```bash
-# From repository root:
-cd backend
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+curl -X POST http://localhost:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is the upper age limit for direct selection of a Stenographer, Grade III?", "language": "en"}'
 ```
 
-*The backend will be available at `http://127.0.0.1:8000` with interactive Swagger docs at `http://127.0.0.1:8000/docs`.*
+A successful response has `"verdict": "answered"`. Each citation has `doc_id`, `page`, `quote`, `issue_date`, `bbox` and a `lineage` object. A refusal has `"verdict": "insufficient_evidence"` with `reason` and `reason_code`.
 
----
-
-### Step 3: Frontend Setup & Execution
-
-Open a separate terminal:
+## Development
 
 ```bash
-# Navigate to frontend directory
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start Vite development server
-npm run dev
+make test       # backend (pytest) and frontend tests
+make lint       # ruff
+make ui         # build the web app into frontend/dist
+make llm-check  # verify Ollama or Groq setup
 ```
 
-*The frontend application will be accessible at `http://localhost:5173`.*
+Frontend development server: `cd frontend && npm run dev` (port 3000, proxies API calls to port 8000).
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing lineage, citation or API behaviour, and [backend/IMPLEMENTATION_PLAN.md](backend/IMPLEMENTATION_PLAN.md) for the code map.
 
----
+## Evaluation
 
-### Step 4: Running Test Suites
+Saved scorecards, the gold questions and honest notes on what works and what does not are in [eval/SCORECARD_SUMMARY.md](eval/SCORECARD_SUMMARY.md).
+Known limits: Gujarati lineage detection is weak, and the gold questions have not been validated by officers.
 
-Run the backend test suite:
+## Documentation
 
-```bash
-python -m pytest backend/tests -v
-```
-
-Run the frontend test suite:
-
-```bash
-cd frontend && npm test
-```
-
----
-
-## API Usage
-
-### 1. Upload Resolution PDF (`POST /api/upload`)
-Uploads a scanned or digital Government Resolution PDF for dynamic ingestion, dual-layer OCR text extraction, chunking, and live lineage indexing.
-
-- **Endpoint:** `POST /api/upload`
-- **Content-Type:** `multipart/form-data`
-- **Payload:** `file=@resolution.pdf`
-
-**Example Response:**
-```json
-{
-  "status": "ok",
-  "gr_id": "GAD-2024-e41b46",
-  "gr_number": "CRR/102024/104/G.2",
-  "pages": 4
-}
-```
-
----
-
-### 2. Fast Query Pipeline (`POST /query` or `POST /api/query`)
-High-speed query endpoint utilizing asymmetric hybrid retrieval, guardrails, and deterministic lineage status synthesis.
-
-- **Endpoint:** `POST /query`
-- **Content-Type:** `application/json`
-
-**Example Request:**
-```json
-{
-  "question": "What is the maximum casual leave period for Gujarat state government employees?",
-  "language": "en"
-}
-```
-
-**Example Response:**
-```json
-{
-  "question": "What is the maximum casual leave period for Gujarat state government employees?",
-  "answer_status": "FOUND",
-  "summary": "State employees are eligible for a maximum of 12 days casual leave per calendar year under the revised rules.",
-  "statements": [
-    {
-      "explanation": "State government employees are eligible for up to 12 days casual leave annually.",
-      "label": "Established",
-      "cited_sentence_ids": ["GAD-2024-e41b46_c1_s2"]
-    }
-  ],
-  "citations": [
-    {
-      "sentence_id": "GAD-2024-e41b46_c1_s2",
-      "gr_id": "GAD-2024-e41b46",
-      "gr_number": "CRR/102024/104/G.2",
-      "quote": "State government employees shall be entitled to 12 days of casual leave in each calendar year.",
-      "page": 1,
-      "issue_date": "2024-03-15",
-      "department": "General Administration Department",
-      "status": "NO_LATER_CHANGE"
-    }
-  ],
-  "warnings": [],
-  "collection_latest_date": "2026-03-31"
-}
-```
-
----
-
-### 3. Comprehensive Grounded Ask (`POST /api/ask`)
-Primary endpoint for the React UI, returning deep clause-level status (`AMENDED`, `SUPERSEDED`, `NO_LATER_CHANGE`), quote bounding boxes for PDF rendering, and audit trail IDs.
-
-- **Endpoint:** `POST /api/ask`
-- **Content-Type:** `application/json`
-
-**Example Request:**
-```json
-{
-  "question": "વર્ગ-૪ કર્મચારીઓના પ્રમોશન માટેના નિયમો શું છે?",
-  "language": "gu"
-}
-```
-
-**Example Response:**
-```json
-{
-  "query_id": "q-9b0d1e2f",
-  "question": "વર્ગ-૪ કર્મચારીઓના પ્રમોશન માટેના નિયમો શું છે?",
-  "answer": "વર્ગ-૪ કર્મચારીઓને પ્રમોશન માટે ન્યૂનતમ ૫ વર્ષની સંતોષકારક સેવા આવશ્યક છે...",
-  "verdict": "FOUND",
-  "lineage_status": "AMENDED",
-  "citations": [
-    {
-      "gr_id": "FD-2022-ab3fe6",
-      "gr_number": "PVS/102022/45/P",
-      "quote": "વર્ગ-૪ કર્મચારીઓને પ્રમોશન આપવા માટે પાંચ વર્ષની સેવા...",
-      "page_number": 2,
-      "bounding_box": [72.0, 144.5, 520.0, 180.2],
-      "amended_by": "FD-2024-885ae5"
-    }
-  ],
-  "trust_score": {
-    "verbatim_quote_count": 1,
-    "established_statements": 1,
-    "inferred_statements": 0
-  }
-}
-```
-
----
+See [docs/README.md](docs/README.md) for the design documents and [SECURITY.md](SECURITY.md) for reporting vulnerabilities. Release notes are in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+MIT. See [LICENSE](LICENSE).
