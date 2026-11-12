@@ -40,6 +40,7 @@ Settings come from environment variables or `.env` (see the repository `.env.exa
 |---|---|---|
 | `GOV_ENGINE` | `retrieval` | `squad2` answers through the RAG pipeline (needs a corpus, an index and a model) |
 | `GOV_CORPUS_DIR` | `data/fixtures` | Folder of GR JSON records |
+| `GOV_LINEAGE_LLM` | `false` | `true` lets the language model classify references with no change phrase while the lineage graph is built. It can add minutes to the first start-up |
 | `GOV_PDF_DIR` | `data/raw` | Where source PDFs are looked up |
 | `GOV_EMBED_MODEL` | `hash` | Offline test embedder; use a multilingual model for real retrieval |
 | `GOV_DB_PATH`, `GOV_VECTOR_DIR` | under `data/` | SQLite and vector store locations |

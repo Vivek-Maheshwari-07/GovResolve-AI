@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     engine: str = "retrieval"  # /query engine: retrieval (default) | squad2 (RAG pipeline from branch squad2)
     squad2_index_dir: Path = ROOT / "data" / "index" / "chroma"  # built by scripts.build_squad2_index
     lineage_engine: str = "auto"  # auto = real engine if importable | real | stub
+    # Ask the language model about references that name no change phrase, while the lineage graph is built. Off by default: each
+    # question can take seconds to minutes, which would block start-up (results are cached in the database once a model answers).
+    lineage_llm: bool = False
     stub_edges: Path | None = None  # seed edges for the stub engine (tests, demos)
     # local only by default (the UI is served from the same origin); set GOV_CORS_ORIGINS='["https://your.host"]' or '["*"]' for a shared demo
     cors_origins: list[str] = ["http://localhost:8000", "http://127.0.0.1:8000", "http://localhost:3000", "http://127.0.0.1:3000"]

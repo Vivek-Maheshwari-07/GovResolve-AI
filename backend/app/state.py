@@ -17,15 +17,24 @@ def _make_lineage(corpus: Corpus, settings: Settings, cache=None):
             from .lineage import LineageService
             from .lineage.llm_fallback import LLMFallback
 
+            llm_down = False   # once no model answers, skip it for the rest of the build instead of waiting on every sentence
+
             def _llm_call(prompt: str) -> str:
+                nonlocal llm_down
+                if llm_down:
+                    return ""
                 try:
                     from backend.rag.llm_gateway import execute_llm_generation
-                    reply, _ = execute_llm_generation("Reply with valid JSON only.", prompt, max_tokens=250, json_mode=True)
+                    reply, provider = execute_llm_generation("Reply with valid JSON only.", prompt, max_tokens=250, json_mode=True)
+                    if provider == "fallback":
+                        llm_down = True
+                        return ""
                     return reply
                 except Exception:
+                    llm_down = True
                     return ""
 
-            llm = LLMFallback(_llm_call, cache=cache)
+            llm = LLMFallback(_llm_call, cache=cache) if settings.lineage_llm else None
             return LineageService(corpus, llm=llm, cache=cache), "real"
         except ImportError:
             if settings.lineage_engine == "real":
