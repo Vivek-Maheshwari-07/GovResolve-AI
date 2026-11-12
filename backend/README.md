@@ -42,9 +42,11 @@ Settings come from environment variables or `.env` (see the repository `.env.exa
 | `GOV_PDF_DIR` | `data/raw` | Where source PDFs are looked up |
 | `GOV_EMBED_MODEL` | `hash` | Offline test embedder; use a multilingual model for real retrieval |
 | `GOV_DB_PATH`, `GOV_VECTOR_DIR` | under `data/` | SQLite and vector store locations |
-| `GOV_ADMIN_TOKEN` | empty | When set, `/admin/*` and writes to `/documents` need the header `X-Admin-Token` |
+| `GOV_ADMIN_TOKEN` | empty | When set, `/admin/*` and writes to `/documents`, `/logs` and `/api/upload` need the header `X-Admin-Token`; with no token they work from this machine only |
 | `GOV_QUERY_RATE_PER_MIN` | `120` | Questions per client per minute (`0` turns it off) |
-| `GOV_CORS_ORIGINS` | `["*"]` | Allowed origins, as a JSON list. Restrict this for any shared deployment |
+| `GOV_CORS_ORIGINS` | localhost only | Allowed origins, as a JSON list; add your host for a shared deployment |
+| `GOV_TRUST_PROXY` | `0` | `1` reads the client address from `X-Forwarded-For` (only behind your own proxy) |
+| `GOV_MAX_UPLOAD_MB` | `50` | Size limit for `POST /api/upload` |
 
 Language-model settings (`LLM_PROVIDER`, `OLLAMA_*`, `GROQ_*`) are documented in [../docs/LLM_PROVIDERS.md](../docs/LLM_PROVIDERS.md).
 

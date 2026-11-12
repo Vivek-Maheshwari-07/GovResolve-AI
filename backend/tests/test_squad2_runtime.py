@@ -58,7 +58,7 @@ def test_prewarm_builds_once_in_the_background_and_questions_wait_for_it(monkeyp
     built, gate = [], threading.Event()
 
     class Pipe:
-        def answer(self, q, f):
+        def answer(self, q, f, **kwargs):
             return NS(answer_status=NS(value="Found, no later change"), summary="ok", insufficient_reason=None,
                       citations=[], follow_up_question=None)
 

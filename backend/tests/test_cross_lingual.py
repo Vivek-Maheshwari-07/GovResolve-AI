@@ -26,6 +26,7 @@ def model(monkeypatch):
     monkeypatch.setattr(gw, "execute_llm_generation", fake)
     monkeypatch.setattr(gw, "_TRANSLATIONS", {})
     monkeypatch.setattr(gw, "_TRANSLATIONS_LOADED", True)
+    monkeypatch.setattr(gw, "_TRANSLATIONS_GU", {})
     monkeypatch.setattr(se, "translate_to_english", gw.translate_to_english)   # undo the test default (no translation)
     return calls, state
 
@@ -63,10 +64,13 @@ def test_nothing_is_remembered_or_returned_when_no_model_answers(model):
     assert gw.translate_to_english(GU_Q) == EN_Q and len(calls) == 2           # the failure was not cached
 
 
-def test_english_questions_cost_no_model_call(model):
+def test_english_questions_need_no_english_translation(model):
+    """An English question is never translated to English; it only gets one (cached) Gujarati rendering for Gujarati GRs."""
     calls, _ = model
     bundle = pipeline().prepare(EN_Q)
-    assert calls == [] and bundle.detected_lang == "en"
+    assert bundle.detected_lang == "en"
+    assert not [c for c in calls if "into English" in c[0]]
+    assert len(calls) <= 1
 
 
 @pytest.mark.parametrize("question", [GU_Q, LATIN_Q])
@@ -75,7 +79,7 @@ def test_non_english_questions_get_an_english_rendering_in_the_search_bundle(mod
     state["reply"] = "What is the age limit for direct selection of a Gujarati Stenographer, Grade III?"
     original = se.normalizer.normalize(question)
     bundle = pipeline().prepare(question)
-    assert len(calls) == 1 and bundle.query_en == state["reply"]
+    assert len([c for c in calls if "into English" in c[0]]) == 1 and bundle.query_en == state["reply"]
     assert bundle.original_query == question and bundle.query_gu == original.query_gu          # the original channels stay
     assert {"stenographer", "selection", "age", "limit"} <= set(bundle.keywords)             # English words reach the keyword search
     assert set(original.keywords) <= set(bundle.keywords)

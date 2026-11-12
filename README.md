@@ -92,7 +92,7 @@ All settings live in `.env` (see `.env.example`, which documents each one). The 
 | `LLM_PROVIDER` | `ollama` (default), `groq`, `openai`, `gemini` or `auto` |
 | `GROQ_API_KEY` | Needed only for Groq |
 | `GOV_ENGINE` | `squad2` answers through the RAG pipeline; `retrieval` returns passages only |
-| `GOV_ADMIN_TOKEN` | Protects `/admin/*` and writes to `/documents`. Set it whenever the server is reachable by anyone else |
+| `GOV_ADMIN_TOKEN` | Protects `/admin/*`, `/logs`, `/api/upload` and writes to `/documents`; without it they work from this machine only. Set it whenever the server is reachable by anyone else |
 | `GOV_CORS_ORIGINS` | Allowed browser origins, as a JSON list |
 | `GOV_QUERY_RATE_PER_MIN` | Questions per client per minute (default 120) |
 

@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import threading
 from typing import Optional
 
 from loguru import logger
@@ -67,6 +68,16 @@ TRANSLATE_GU_SYSTEM = (
 )
 _TRANSLATIONS: dict[str, str] = {}
 _TRANSLATIONS_GU: dict[str, str] = {}
+_TRANSLATION_LOCK = threading.Lock()
+MAX_TRANSLATIONS = 5000   # oldest entries are dropped beyond this, so user questions cannot grow memory or the file without limit
+
+
+def _remember(cache: dict, key: str, value: str) -> None:
+    with _TRANSLATION_LOCK:
+        cache.pop(key, None)
+        cache[key] = value
+        while len(cache) > MAX_TRANSLATIONS:
+            cache.pop(next(iter(cache)))
 _TRANSLATIONS_LOADED = False
 
 
@@ -118,12 +129,15 @@ def translate_to_english(question: str) -> Optional[str]:
     if provider == "fallback":
         return None  # nothing answered; do not remember a failure
     english = _clean_translation(reply)
-    _TRANSLATIONS[key] = english or ""
+    _remember(_TRANSLATIONS, key, english or "")
     if path:
         try:
             os.makedirs(os.path.dirname(path), exist_ok=True)
-            with open(path, "w", encoding="utf-8") as f:
-                json.dump(_TRANSLATIONS, f, ensure_ascii=False, indent=0)
+            tmp = f"{path}.tmp"
+            with _TRANSLATION_LOCK:
+                with open(tmp, "w", encoding="utf-8") as f:
+                    json.dump(_TRANSLATIONS, f, ensure_ascii=False, indent=0)
+                os.replace(tmp, path)   # atomic: a crash never leaves a half-written cache
         except OSError:
             pass
     return english
@@ -158,5 +172,5 @@ def translate_to_gujarati(question: str) -> Optional[str]:
     if provider == "fallback":
         return None
     gujarati = _clean_gujarati_translation(reply)
-    _TRANSLATIONS_GU[key] = gujarati or ""
+    _remember(_TRANSLATIONS_GU, key, gujarati or "")
     return gujarati

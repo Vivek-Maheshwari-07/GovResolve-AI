@@ -40,6 +40,9 @@ from .squad2_runtime import LazySquad2Engine
 from .state import AppState
 
 
+MAX_UPLOAD_BYTES = int(os.getenv("GOV_MAX_UPLOAD_MB", "50")) * 1_000_000
+
+
 def jsonable(errors: list[dict]) -> list[dict]:
     return [{"loc": list(e.get("loc", [])), "msg": e.get("msg", ""), "type": e.get("type", "")} for e in errors]
 
@@ -126,31 +129,53 @@ def create_app(
             return result
 
         @app.post("/api/upload")
-        async def upload_pdf(file: UploadFile = File(...)):
-            if not (file.filename or "").lower().endswith(".pdf"):
-                raise HTTPException(400, "Only PDF files are supported.")
-            import tempfile
-            import shutil
-            from ..ingestion.ingest import ingest_pdf
-            from ..schemas.gr import GRRecord as SchemaGRRecord
+        def upload_pdf(file: UploadFile = File(...)):
+            """Add one PDF to the collection (admin call; see security.py). Plain `def`, so OCR runs in a worker thread."""
+            import re
+            import sys
 
-            with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
-                shutil.copyfileobj(file.file, tmp)
-                tmp_path = Path(tmp.name)
+            root = str(Path(__file__).resolve().parents[2])
+            if root not in sys.path:
+                sys.path.insert(0, root)
+            from backend.ingestion.ingest import ingest_pdf
+            from .schemas.gr import GRRecord as SchemaGRRecord
+
+            name = re.sub(r"[^A-Za-z0-9._-]+", "_", Path(file.filename or "").name)
+            if not name.lower().endswith(".pdf"):
+                raise HTTPException(400, "Only PDF files are supported.")
+            head = file.file.read(5)
+            if head != b"%PDF-":
+                raise HTTPException(400, "The file is not a PDF.")
+            pdf_dir = Path(cfg.pdf_dir if cfg else "data/raw")
+            pdf_dir.mkdir(parents=True, exist_ok=True)
+            dest = pdf_dir / name
+            n = 1
+            while dest.exists():
+                dest = pdf_dir / f"{Path(name).stem}_{n}.pdf"
+                n += 1
+            size = len(head)
             try:
-                rec = ingest_pdf(str(tmp_path), processed_dir=str(cfg.corpus_dir if cfg else "data/processed"))
-                st = getattr(app.state, "gov", None)
-                if st and st.corpus:
-                    schema_rec = SchemaGRRecord.model_validate(rec.model_dump(mode="json"))
-                    st.corpus.grs[schema_rec.gr_id] = schema_rec
-                    st.corpus._reindex()
-                    cg = getattr(app.state, "contract_graph", None)
-                    if cg is not None:
-                        load_corpus(cg, st.corpus, st.lineage)
-                return {"status": "ok", "gr_id": rec.gr_id, "gr_number": rec.gr_number, "pages": len(rec.pages)}
-            finally:
-                if tmp_path.exists():
-                    tmp_path.unlink()
+                with open(dest, "wb") as out:
+                    out.write(head)
+                    while chunk := file.file.read(1024 * 1024):
+                        size += len(chunk)
+                        if size > MAX_UPLOAD_BYTES:
+                            raise HTTPException(413, f"PDF is larger than {MAX_UPLOAD_BYTES // 1_000_000} MB.")
+                        out.write(chunk)
+                rec = ingest_pdf(str(dest), processed_dir=str(cfg.corpus_dir if cfg else "data/processed"))
+            except Exception:
+                dest.unlink(missing_ok=True)
+                raise
+            st = getattr(app.state, "gov", None)
+            if st and st.corpus:
+                schema_rec = SchemaGRRecord.model_validate(rec.model_dump(mode="json"))
+                st.corpus.grs[schema_rec.gr_id] = schema_rec
+                st.corpus._reindex()
+                cg = getattr(app.state, "contract_graph", None)
+                if cg is not None:
+                    load_corpus(cg, st.corpus, st.lineage)
+            return {"status": "ok", "gr_id": rec.gr_id, "gr_number": rec.gr_number, "pages": len(rec.pages),
+                    "note": "Added to the library; restart the server to make it searchable by the answer engine."}
 
         @app.get("/documents", response_model=list[DocumentMeta])
         def list_documents() -> list[DocumentMeta]:

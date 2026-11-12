@@ -48,7 +48,7 @@ def test_page_zero_is_clamped_to_one_and_blank_passages_are_dropped():
 
 def test_engine_error_becomes_a_refusal():
     class Boom:
-        def answer(self, q, f):
+        def answer(self, q, f, **kwargs):
             raise RuntimeError("model down")
     out = Squad2Engine(Boom()).answer("q", "en")
     assert out.answer is None and "RuntimeError" in out.insufficient_reason
@@ -58,7 +58,7 @@ def test_query_endpoint_uses_the_bridge_and_drops_citations_to_unknown_documents
     from fastapi.testclient import TestClient
 
     class Pipe:
-        def answer(self, q, filters):
+        def answer(self, q, filters, **kwargs):
             return resp(cites=[NS(**{**CITE.__dict__, "gr_id": "not-ingested"})])
     client = TestClient(create_app(engine=Squad2Engine(Pipe())))
     body = client.post("/query", json={"question": "medical certificate?"}).json()
