@@ -11,7 +11,7 @@ These are enforced by tests and must not be broken by a change:
 2. **Only explicit references create edges.** Never infer a link from topic similarity.
 3. **No "active" status.** Finding no later order does not prove a rule is in force.
 4. **Quotes are verbatim.** Cited text is copied from the stored page text, never retyped by a model.
-5. **Public API fields are frozen.** Add optional fields if you must; never rename or remove one (`backend/API_CONTRACT.md`).
+5. **Public API fields are frozen.** Add optional fields if you must; never rename or remove one (`docs/API_CONTRACT.md`).
 
 ## Setup
 

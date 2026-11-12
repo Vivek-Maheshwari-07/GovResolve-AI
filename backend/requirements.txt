@@ -1,2 +1,0 @@
-# Dependencies are managed at the repository root so there is one source of truth.
--r ../requirements.txt

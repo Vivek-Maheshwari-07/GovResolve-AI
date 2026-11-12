@@ -1,6 +1,6 @@
 """
 Evaluation Script — nightly gold-set scorer
-Run: python eval/evaluate.py
+Run: python data/eval/evaluate.py
 
 Outputs a scorecard on 5 official metrics:
   1. Correct-document retrieval (Top-1 / Top-3 hit rate)
@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from backend.models import AnswerStatus, GRRecord
 from backend.rag.search_engine import GRIndex, RAGPipeline
 try:
@@ -31,7 +31,7 @@ except ImportError:
     def apply_lineage_to_records(records, lineage):
         pass
 
-GOLD_SET_PATH   = Path("./eval/gold_set.json")
+GOLD_SET_PATH   = Path("./data/eval/gold_set.json")
 PROCESSED_DIR   = "./data/processed"
 CHROMA_DIR      = "./data/index/chroma"
 LINEAGE_GRAPH   = "./data/index/lineage_graph.json"
@@ -379,7 +379,7 @@ def run_evaluation():
         "scorecard": final,
         "details":   results,
     }
-    out_path = Path("./eval/scorecard.json")
+    out_path = Path("./data/eval/scorecard.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2)
     logger.success(f"Scorecard saved → {out_path}")

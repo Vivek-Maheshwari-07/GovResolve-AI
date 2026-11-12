@@ -34,7 +34,7 @@ evidence sentences (`build_evidence(question, passages, bundle)`), because a Guj
   `{"answer": ...}` or empty and was rejected (13 of 15). Plain-text mode (`json_mode=False`) is now asked for here; answers keep JSON mode.
 - Tests never call a model: `tests/conftest.py` switches the pipeline's translation off, and `tests/test_cross_lingual.py` switches it back on with a fake model.
 
-Result on the 50 gold questions (35 answerable; the dev set the changes were made against, so treat the gain with care; `eval/scorecard_full_v3.json`):
+Result on the 50 gold questions (35 answerable; the dev set the changes were made against, so treat the gain with care; `data/eval/scorecard_full_v3.json`):
 
 | | Before (`scorecard_full_v2`) | After (`scorecard_full_v3`) |
 |---|---|---|
@@ -54,7 +54,7 @@ amendment's dates for the September 2007 question). English is unchanged. Still 
 Q-016, Q-021, Q-050 (Gujarati; Q-050 is the known Gujarati-lineage gap).
 
 ## 2.2 Wrong-document answers: what was tried, what works, what does not
-Measured on the 31 answers of the gold set (`eval/scorecard_full_v3.json`, citations recorded by a re-run). Of the 7 answers the scorer marks wrong, 3 are right answers it
+Measured on the 31 answers of the gold set (`data/eval/scorecard_full_v3.json`, citations recorded by a re-run). Of the 7 answers the scorer marks wrong, 3 are right answers it
 cannot read (Q-005 date without the year, Q-009, Q-012 name spelled differently); **4 are genuinely wrong: Q-016, Q-021, Q-023, Q-050.** Only Q-023 cited another
 document (the April 2007 amendment for a September 2007 question); Q-016, Q-021 and Q-050 cite the *right* GR and the model reads the wrong figure from it (Q-021 took the
 notification date from the header, not the commencement date).
@@ -76,8 +76,8 @@ needs a hosted model or a GPU. Nothing hosted has been measured yet: there is no
 1. Get a key (free tiers: Groq or OpenRouter; check each service's current limits and model names). Put it in `.env` only, never in chat or git (`.env` is git-ignored):
    `LLM_PROVIDER=api`, `LLM_API_URL=...`, `LLM_API_KEY=...`, `LLM_API_MODEL=...` (examples in `.env.example`). The local model stays the automatic fallback.
 2. `python -m scripts.llm_smoke` (from `backend/`): one tiny request per provider, prints OK/FAILED and seconds, never the key.
-3. Full comparison on the 50 gold questions: `python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --mode full --out ../eval/scorecard_full_hosted.json`
-   and compare with `eval/scorecard_full_v3.json` (local): median / p95 seconds, answered correctly (esp. Gujarati), wrongly refused, citations on the gold page.
+3. Full comparison on the 50 gold questions: `python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --mode full --out ../data/eval/scorecard_full_hosted.json`
+   and compare with `data/eval/scorecard_full_v3.json` (local): median / p95 seconds, answered correctly (esp. Gujarati), wrongly refused, citations on the gold page.
 4. With a fast model also try the bigger evidence budget (`EVIDENCE_MAX_CHARS=6000`, `EVIDENCE_CHARS_PER_CHUNK=1200`, `TOP_K_RERANK=5`) and `ANSWER_CHECK=warn` (2.2).
 Questions and GR text are sent to the provider; the GRs are public documents, but check that the challenge rules allow an outside service. For an offline demo keep local Ollama
 (and the model-free fallback, item 1.5) as the fallback.
@@ -109,10 +109,10 @@ wording, not the instrument being amended. Result on `corpus_v2`: the wrong edge
 outside the gold documents. Tests in `tests/test_resolve.py`.
 
 ## 2.6 Held-out set (16 questions, scored once, nothing tuned on them)
-`eval/heldout_questions.json`, built by `scripts/make_heldout_questions.py`: 11 answerable (8 simple, 3 amended) + 5 refusals (3 absent topics, 1 legal-advice trap, 1 vague); en 8 / gu 5 / mixed 3.
+`data/eval/heldout_questions.json`, built by `scripts/make_heldout_questions.py`: 11 answerable (8 simple, 3 amended) + 5 refusals (3 absent topics, 1 legal-advice trap, 1 vague); en 8 / gu 5 / mixed 3.
 All cited documents are ones no gold question uses (the builder and `tests/test_heldout_questions.py` check this), and every key point was verified on the cited page.
-Drafted by Claude, **not officer-validated**. Saved runs: `eval/heldout_retrieval.json` (no model) and `eval/heldout_full.json` (local `qwen3.5:4b`, log in `eval/heldout_full.log`).
-Run: `python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --gold ../eval/heldout_questions.json --mode full --out ../eval/heldout_full.json`
+Drafted by Claude, **not officer-validated**. Saved runs: `data/eval/heldout_retrieval.json` (no model) and `data/eval/heldout_full.json` (local `qwen3.5:4b`, log in `data/eval/heldout_full.log`).
+Run: `python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --gold ../data/eval/heldout_questions.json --mode full --out ../data/eval/heldout_full.json`
 
 | | Held-out (11 answerable + 5 refusals) | Dev set (`scorecard_full_v3`, 35 + 15) |
 |---|---|---|

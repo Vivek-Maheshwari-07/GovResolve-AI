@@ -1,6 +1,6 @@
 """
 Test bilingual target language selection for synthesis and guardrails.
-Run: python tests/test_target_language.py
+Run: python backend/tests/manual/test_target_language.py
 """
 import sys
 import os
@@ -9,7 +9,7 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from backend.models import (
     GRRecord, PageRecord, TextBlock, Chunk, BoundingBox,

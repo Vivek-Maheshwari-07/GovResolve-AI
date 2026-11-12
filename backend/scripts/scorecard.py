@@ -1,4 +1,4 @@
-"""Scorecard on the five official metrics, over the gold questions in eval/gold_questions.json.
+"""Scorecard on the five official metrics, over the gold questions in data/eval/gold_questions.json.
 
 Usage (from backend/, with the repo .venv; Ollama running for --mode full):
     python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --mode retrieval
@@ -11,7 +11,7 @@ Metrics
   1. Retrieval: top-1 / top-3 hit rate (is a gold document the first / among the first three documents the search returns).
   2. Citations: share whose (document, page) is a gold page, and share whose quote is verbatim on that page.
   3. Answer correctness: key-point coverage (all points present / average share), numbers compared in ASCII digits.
-  4. Amendment chain: precision and recall of the engine's changing edges against eval/gold_lineage_verified.csv.
+  4. Amendment chain: precision and recall of the engine's changing edges against data/eval/gold_lineage_verified.csv.
   5. Refusals: unanswerable and vague questions refused (and with the right reason code); answerable ones refused wrongly.
 The gold questions are drafted from the document text and are NOT officer-validated; see each question's `validated_by`.
 """
@@ -155,15 +155,15 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--corpus", type=Path)
     ap.add_argument("--index", type=Path, default=ROOT / "data" / "index" / "chroma")
-    ap.add_argument("--gold", type=Path, default=ROOT / "eval" / "gold_questions.json")
-    ap.add_argument("--gold-lineage", type=Path, default=ROOT / "eval" / "gold_lineage_verified.csv")
+    ap.add_argument("--gold", type=Path, default=ROOT / "data" / "eval" / "gold_questions.json")
+    ap.add_argument("--gold-lineage", type=Path, default=ROOT / "data" / "eval" / "gold_lineage_verified.csv")
     ap.add_argument("--mode", choices=["retrieval", "full"], default="retrieval")
     ap.add_argument("--category")
     ap.add_argument("--ids", help="comma-separated question ids, e.g. Q-001,Q-013")
     ap.add_argument("--rescore", type=Path, help="recompute the answer metrics of a saved full run with the current matcher (no model, no app)")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--pause", type=float, default=0, help="seconds to wait after each question that called the model (keeps a hosted free tier under its tokens-per-minute limit, so no answer silently falls back to the local model)")
-    ap.add_argument("--out", type=Path, default=ROOT / "eval" / "scorecard_latest.json")
+    ap.add_argument("--out", type=Path, default=ROOT / "data" / "eval" / "scorecard_latest.json")
     args = ap.parse_args()
     if args.rescore:
         return rescore(args.rescore, args.gold, args.out)

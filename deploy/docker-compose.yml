@@ -1,18 +1,20 @@
 # GovResolve-AI with Docker.
 #
 #   cp .env.example .env        # set GOV_ADMIN_TOKEN, and GROQ_API_KEY (or use the Ollama profile)
-#   docker compose up -d        # API + web app on http://localhost:8000
+#   docker compose -f deploy/docker-compose.yml --project-directory . up -d    # or: make docker-up
+#   (run from the repository root; --project-directory keeps .env and ./data relative to the root)
 #
 # Local models instead of Groq:
-#   docker compose --profile ollama up -d
-#   docker compose --profile init run --rm ollama-pull      # downloads qwen3.5:4b and bge-m3 once
+#   make docker-up-ollama      # downloads qwen3.5:4b and bge-m3 once
 #
 # The corpus and search index are not in git: put them under ./data (see README, "Using your own collection").
 name: govresolve
 
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
     image: govresolve-ai:latest
     ports:
       - "8000:8000"

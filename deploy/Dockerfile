@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
-# GovResolve-AI: API + built web app in one image.  docker compose up   (see docker-compose.yml)
+# GovResolve-AI: API + built web app in one image.
+# Build from the repository root:  docker compose -f deploy/docker-compose.yml --project-directory . up -d   (or: make docker-up)
 
 # ---- build the web app --------------------------------------------------------------------------------------------------
 FROM node:20-alpine AS ui
@@ -17,10 +18,9 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-eng tesseract-ocr-guj curl \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
+COPY requirements/base.txt ./requirements/base.txt
+RUN pip install -r requirements/base.txt
 COPY backend ./backend
-COPY config ./config
 COPY data/fixtures ./data/fixtures
 COPY run.py ./
 COPY --from=ui /ui/dist ./frontend/dist

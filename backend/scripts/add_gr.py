@@ -2,16 +2,16 @@
 CLI tool to quickly add GR PDFs and verify the pipeline.
 
 Usage:
-  python scripts/add_gr.py path/to/file.pdf           # ingest one PDF
-  python scripts/add_gr.py --dir path/to/grs/          # ingest all PDFs in a dir
-  python scripts/add_gr.py --query "maternity leave"   # test a query
-  python scripts/add_gr.py --eval                      # run evaluation
+  python backend/scripts/add_gr.py path/to/file.pdf           # ingest one PDF
+  python backend/scripts/add_gr.py --dir path/to/grs/          # ingest all PDFs in a dir
+  python backend/scripts/add_gr.py --query "maternity leave"   # test a query
+  python backend/scripts/add_gr.py --eval                      # run evaluation
 """
 import argparse
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from backend.ingestion.ingest import ingest_pdf, ingest_directory
 from backend.lineage.lineage_graph import LineageGraph, apply_lineage_to_records
@@ -101,7 +101,7 @@ def main():
         print("="*60)
 
     elif args.eval:
-        from eval.evaluate import run_evaluation
+        from data.eval.evaluate import run_evaluation
         run_evaluation()
 
     else:

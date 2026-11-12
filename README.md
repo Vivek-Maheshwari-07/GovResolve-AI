@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Vivek-Maheshwari-07/GovResolve-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/Vivek-Maheshwari-07/GovResolve-AI/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB.svg)](requirements.txt)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB.svg)](requirements/base.txt)
 
 A Gujarati-English assistant for Government Resolutions (GRs), built for the Seva First Innovation Challenge, problem statement PS000230.
 It answers questions in Gujarati, English or transliterated Gujarati ("Gujlish"), quotes the source word for word, and shows whether a later order has amended or superseded the rule.
@@ -47,13 +47,15 @@ flowchart LR
 | `backend/app/` | FastAPI application, lineage engine, SQLite store, API schemas |
 | `backend/rag/` | Search index, question normalizer, answer pipeline, language-model providers |
 | `backend/ingestion/` | PDF to GR record conversion (text layer and OCR) |
-| `backend/scripts/` | Corpus, index, scorecard and smoke-test tools |
-| `backend/tests/` | Backend test suite (pytest) |
+| `backend/scripts/` | Corpus, index, dataset curation, scorecard and smoke-test tools |
+| `backend/tests/` | Backend test suite (pytest); `manual/` holds slow smoke scripts |
+| `backend/config/` | Glossaries for Gujarati and Gujlish normalization |
 | `frontend/` | React 18 and Vite web app |
-| `data/` | Processed GR records, search index, demo fixtures, Tesseract language data |
-| `eval/` | Gold questions, lineage gold set and saved scorecards |
-| `docs/` | Design documents, provider guide, requirements traceability |
-| `config/` | Glossaries for Gujarati and Gujlish normalization |
+| `data/` | Processed GR records, search index, demo fixtures, Tesseract language data, and `eval/` (gold questions, lineage gold set, saved scorecards) |
+| `docs/` | API contract, design documents, provider guide, implementation plan, notes |
+| `deploy/` | Dockerfile and Docker Compose file |
+| `requirements/` | Python dependencies: `base.txt`, `dev.txt`, `optional.txt` |
+| `.github/` | CI workflow, issue and PR templates, CONTRIBUTING and SECURITY |
 
 ## Quick start
 
@@ -79,7 +81,7 @@ Other ways to run:
 
 ```bash
 make demo           # synthetic documents only, no model needed
-make docker-up      # Docker; set GOV_ADMIN_TOKEN in .env first
+make docker-up      # Docker (files in deploy/); set GOV_ADMIN_TOKEN in .env first
 make help           # list every shortcut
 ```
 
@@ -100,7 +102,7 @@ Never commit `.env`. Details of the language-model options are in [docs/LLM_PROV
 
 ## API overview
 
-The full contract, including field meanings, is in [backend/API_CONTRACT.md](backend/API_CONTRACT.md). Public field names are frozen.
+The full contract, including field meanings, is in [docs/API_CONTRACT.md](docs/API_CONTRACT.md). Public field names are frozen.
 
 | Method and path | Purpose |
 |---|---|
@@ -131,16 +133,16 @@ make llm-check  # verify Ollama or Groq setup
 ```
 
 Frontend development server: `cd frontend && npm run dev` (port 3000, proxies API calls to port 8000).
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing lineage, citation or API behaviour, and [backend/IMPLEMENTATION_PLAN.md](backend/IMPLEMENTATION_PLAN.md) for the code map.
+Read [CONTRIBUTING.md](.github/CONTRIBUTING.md) before changing lineage, citation or API behaviour, and [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md) for the code map.
 
 ## Evaluation
 
-Saved scorecards, the gold questions and honest notes on what works and what does not are in [eval/SCORECARD_SUMMARY.md](eval/SCORECARD_SUMMARY.md).
+Saved scorecards, the gold questions and honest notes on what works and what does not are in [data/eval/SCORECARD_SUMMARY.md](data/eval/SCORECARD_SUMMARY.md).
 Known limits: Gujarati lineage detection is weak, and the gold questions have not been validated by officers.
 
 ## Documentation
 
-See [docs/README.md](docs/README.md) for the design documents and [SECURITY.md](SECURITY.md) for reporting vulnerabilities. Release notes are in [CHANGELOG.md](CHANGELOG.md).
+See [docs/README.md](docs/README.md) for the design documents and [SECURITY.md](.github/SECURITY.md) for reporting vulnerabilities. Release notes are in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 

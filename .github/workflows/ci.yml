@@ -26,8 +26,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-          cache-dependency-path: requirements*.txt
-      - run: pip install -r requirements-dev.txt
+          cache-dependency-path: requirements/*.txt
+      - run: pip install -r requirements/dev.txt
       - name: Lint
         run: ruff check backend run.py
       - name: Tests
@@ -57,8 +57,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate compose file
-        run: docker compose config -q
+        run: docker compose -f deploy/docker-compose.yml --project-directory . config -q
         env:
           GOV_ADMIN_TOKEN: ci
       - name: Build image
-        run: docker build -t govresolve-ai:ci .
+        run: docker build -f deploy/Dockerfile -t govresolve-ai:ci .

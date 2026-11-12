@@ -14,8 +14,9 @@ A FastAPI service that serves Government Resolution (GR) records, an amendment a
 | `app/security.py` | Response headers, optional admin token, per-client rate limit |
 | `rag/` | Hybrid search index, question normalizer, answer pipeline, model gateway and providers |
 | `ingestion/` | PDF to GR record conversion (text layer and OCR) |
-| `scripts/` | Corpus, index, lineage evaluation, scorecard and smoke-test tools |
-| `tests/` | pytest suite (no model needed) |
+| `scripts/` | Corpus, index, dataset curation, lineage evaluation, scorecard and smoke-test tools |
+| `tests/` | pytest suite (no model needed); `tests/manual/` has slow smoke scripts |
+| `config/` | Glossaries for Gujarati and Gujlish normalization |
 
 ## Run
 
@@ -23,7 +24,7 @@ From the repository root, `python run.py` starts everything. To run only the bac
 
 ```bash
 cd backend
-pip install -r requirements.txt
+pip install -r ../requirements/base.txt
 python -m uvicorn app.main:app --reload     # http://localhost:8000/docs
 python -m pytest -q                         # run the tests
 ```
@@ -52,7 +53,7 @@ Language-model settings (`LLM_PROVIDER`, `OLLAMA_*`, `GROQ_*`) are documented in
 
 ## Endpoints
 
-The contract endpoints are specified in [API_CONTRACT.md](API_CONTRACT.md) and must not change incompatibly.
+The contract endpoints are specified in [API_CONTRACT.md](../docs/API_CONTRACT.md) and must not change incompatibly.
 
 - **Contract:** `POST /documents`, `GET /documents`, `GET /documents/{id}`, `GET /lineage/{id}`, `GET /lineage/{id}/status`, `GET /edges`, `POST /query`.
 - **Extended:** `GET /health`, `GET /grs`, `GET /grs/{id}`, `GET /grs/{id}/pdf`, `GET /grs/{id}/pages/{n}`, `GET /grs/{id}/lineage`, `GET /clauses/{chunk_id}/status`, `POST /lineage/annotate`, `GET /lineage/as-of`, `GET /lineage/broken`, `POST /ask`, `POST /feedback`, `GET /logs`, `POST /admin/rebuild`, `GET|POST /admin/edges/overrides`.
@@ -83,12 +84,12 @@ The first question builds the pipeline; the app warms the model at startup. Sour
 
 ```bash
 python -m pytest -q                                                                      # no model needed
-python -m scripts.eval_lineage                                                           # lineage precision and recall against eval/gold_lineage.csv
+python -m scripts.eval_lineage                                                           # lineage precision and recall against data/eval/gold_lineage.csv
 python -m scripts.scorecard --corpus ../data/corpus_v2 --index ../data/index/chroma --mode retrieval   # about 1 minute, no model
-python -m scripts.scorecard --corpus ../data/corpus_v2 --index ../data/index/chroma --mode full --out ../eval/NEW.json
+python -m scripts.scorecard --corpus ../data/corpus_v2 --index ../data/index/chroma --mode full --out ../data/eval/NEW.json
 ```
 
-Results and notes: [../eval/SCORECARD_SUMMARY.md](../eval/SCORECARD_SUMMARY.md). Demo script: [DEMO.md](DEMO.md). Design history: [notes/part2_answers.md](notes/part2_answers.md).
+Results and notes: [../data/eval/SCORECARD_SUMMARY.md](../data/eval/SCORECARD_SUMMARY.md). Demo script: [DEMO.md](../docs/DEMO.md). Design history: [notes/part2_answers.md](../docs/notes/part2_answers.md).
 
 ## Known limits
 

@@ -1,5 +1,5 @@
 # Runtime dependencies for the API, the RAG pipeline and the corpus tools.
-# Python 3.10+. Install:  pip install -r requirements.txt
+# Python 3.10+. Install:  pip install -r requirements/base.txt
 
 # API
 fastapi>=0.115

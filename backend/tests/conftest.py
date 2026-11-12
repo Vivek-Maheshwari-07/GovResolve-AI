@@ -9,6 +9,9 @@ from app.main import create_app
 
 DATA = Path(__file__).parent / "data"
 
+# manual/ holds slow end-to-end smoke scripts (they load the real embedding model); run them by hand, see manual/README.md
+collect_ignore_glob = ["manual/*"]
+
 
 @pytest.fixture()
 def client(tmp_path):

@@ -25,12 +25,12 @@ Answer counts are after reading the answers: the automatic scorer misses right a
 ## Honest notes
 1. The held-out numbers are the better guide to what a new question gets: about 55-65% fully correct with this model. 16 questions is a tiny sample.
 2. Quotes are never invented (100% verbatim on both sets) and refusals are reliable (20 of 20). Errors are a wrong document or a wrong figure read from the right document, with a correct-looking quote.
-3. Amendment status comes only from explicit references. The pairs score is on English documents; Gujarati lineage is a known gap (`backend/notes/part2_answers.md`, 2.3).
+3. Amendment status comes only from explicit references. The pairs score is on English documents; Gujarati lineage is a known gap (`docs/notes/part2_answers.md`, 2.3).
 4. The corpus has no superseded document. The `superseded` status is shown on synthetic fixtures only.
 5. Latency is 45-75 s on this CPU. The 10 s target needs a hosted model or a GPU.
 6. The dev numbers rose during Part 2 (answered correctly 11 -> 24 of 35) through retrieval and evidence changes, each tuned on those 50 questions.
 
 ## Not measured
-- Hosted model (Groq `openai/gpt-oss-120b`, free tier): measured, see `backend/notes/part2_answers.md` section 2.5. The one clean run (`ANSWER_CHECK=warn`) answered 26/35 correctly (local 24/35), citations on the gold page 100%, 9-11 s per answer; the bigger-evidence runs (30-31/35) are mixed with local fallbacks after rate-limit errors, so a clean number needs a higher quota. Held-out set on the hosted model: about 6 of 11, no better than local.
+- Hosted model (Groq `openai/gpt-oss-120b`, free tier): measured, see `docs/notes/part2_answers.md` section 2.5. The one clean run (`ANSWER_CHECK=warn`) answered 26/35 correctly (local 24/35), citations on the gold page 100%, 9-11 s per answer; the bigger-evidence runs (30-31/35) are mixed with local fallbacks after rate-limit errors, so a clean number needs a higher quota. Held-out set on the hosted model: about 6 of 11, no better than local.
 - Officer validation of the gold questions and the lineage pairs (`gold_lineage_verified.csv`) is pending.
 - The final full scorecard for the submitted build has to be re-run after the UI branch (`part1-impl`) is merged.

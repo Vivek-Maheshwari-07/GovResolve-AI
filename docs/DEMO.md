@@ -1,7 +1,7 @@
 # Demo scenarios (roadmap item 2.7)
 
 Five scenarios that together show what the spec asks for: grounded answers with page and quote, amendment/supersession status, Gujarati and mixed questions,
-and an honest "I cannot tell". Every answer below was produced by the saved scorecard runs (`eval/scorecard_full_v3.json`, local `qwen3.5:4b`); nothing is invented for the demo.
+and an honest "I cannot tell". Every answer below was produced by the saved scorecard runs (`data/eval/scorecard_full_v3.json`, local `qwen3.5:4b`); nothing is invented for the demo.
 
 **Setup for the demo** (from the repo root; details in `backend/README.md`):
 ```bash
@@ -22,7 +22,7 @@ Scenario 5c uses the synthetic fixtures: stop the app and, from `backend/`, run 
 ## Say this out loud (honest limits)
 - The real corpus (`corpus_v2`) has **no superseded order**: all links in it are amendments or references. Scenario 5c uses synthetic fixture documents (`data/fixtures`, written for the tests) and says so.
 - Nothing ever says "active". A document with no later order shows `no_later_amendment_found`: that means "none in these 366 documents", not "in force".
-- On 16 questions it had never seen the system answered **6 of 11 correctly** (5 of 5 refusals correct). On the 50 development questions it was 24 of 35. See `eval/SCORECARD_SUMMARY.md`.
+- On 16 questions it had never seen the system answered **6 of 11 correctly** (5 of 5 refusals correct). On the 50 development questions it was 24 of 35. See `data/eval/SCORECARD_SUMMARY.md`.
 - Gujarati lineage barely works (4 weak links found in 134 Gujarati documents), so a Gujarati amendment is usually **not** flagged. Gold Q-050 (the 13 May 2025 relaxation of the 9 May 2025 leave circular) shows this.
 - Without a model (Ollama stopped) the system quotes one passage and warns that it is not a written answer; for an unanswerable question that passage can be unrelated.
 - Wording varies: in the first live UI test of scenario 1 the answer read "The new tariff applied from 01-10-2015 based on M/s.'s accepted offer" (the company name was dropped; the cited passage on the PDF names Vodafone West Limited). Point at the passage, not the sentence.

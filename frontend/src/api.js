@@ -1,4 +1,4 @@
-// Talks to the contract API (backend/API_CONTRACT.md) and reshapes answers into the form the UI components use.
+// Talks to the contract API (docs/API_CONTRACT.md) and reshapes answers into the form the UI components use.
 // Same origin in production (FastAPI serves the built UI); `npm run dev` proxies these paths (see vite.config.js).
 
 const NODE_STATUS = { superseded: 'Superseded', amended: 'Amended', no_later_amendment_found: 'NoLater', unknown: 'Unknown' };

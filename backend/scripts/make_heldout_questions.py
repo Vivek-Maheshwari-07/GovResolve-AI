@@ -1,11 +1,11 @@
-"""Build eval/heldout_questions.json: questions about documents NONE of the 50 gold questions use (roadmap item 2.6).
+"""Build data/eval/heldout_questions.json: questions about documents NONE of the 50 gold questions use (roadmap item 2.6).
 
 Usage (from backend/):
-    python -m scripts.make_heldout_questions --corpus D:/test/corpus_v2 [--out ../eval/heldout_questions.json]
+    python -m scripts.make_heldout_questions --corpus D:/test/corpus_v2 [--out ../data/eval/heldout_questions.json]
 
 Same rule as make_gold_questions: an answerable question is written only if every key point occurs on the cited page.
 These questions were written AFTER the Part 2 changes were frozen, so the system was never tuned on them. Score them once
-(`scripts.scorecard --gold ../eval/heldout_questions.json`) and do not change the system to fit what they show; if a fix is made
+(`scripts.scorecard --gold ../data/eval/heldout_questions.json`) and do not change the system to fit what they show; if a fix is made
 anyway, say so next to the number. Drafted by Claude from the document text; NOT officer-validated.
 """
 import argparse
@@ -55,8 +55,8 @@ QUESTIONS = [
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--corpus", type=Path, required=True)
-    ap.add_argument("--out", type=Path, default=ROOT / "eval" / "heldout_questions.json")
-    ap.add_argument("--gold", type=Path, default=ROOT / "eval" / "gold_questions.json")
+    ap.add_argument("--out", type=Path, default=ROOT / "data" / "eval" / "heldout_questions.json")
+    ap.add_argument("--gold", type=Path, default=ROOT / "data" / "eval" / "gold_questions.json")
     ap.add_argument("--allow-failures", action="store_true")
     args = ap.parse_args()
     corpus = {}

@@ -2,7 +2,7 @@
 
 Source: `docs/PS.txt` (official statement) and `docs/PS230.pdf` (project proposal, Squad 4 deliverables).
 Status key: **Met** · **Met, with caveat** · **Partial** · **Open**. “Verified” means checked in code or in a live run (demo mode, 23 fixtures);
-the real corpus, search index and language model were not available for that run, so accuracy figures are the team's own (`eval/SCORECARD_SUMMARY.md`).
+the real corpus, search index and language model were not available for that run, so accuracy figures are the team's own (`data/eval/SCORECARD_SUMMARY.md`).
 
 ## A. Minimum prototype requirements
 
@@ -38,7 +38,7 @@ the real corpus, search index and language model were not available for that run
 | Correct-document retrieval | `eval/` scorecards | 82.9% top-1 (dev), 72.7% (held-out, full pipeline) |
 | Citation and page-number accuracy | scorecard | 83.0% / 71.4% on the gold page; 100% verbatim |
 | Answer correctness | scorecard | 69% dev, 55% held-out |
-| Amendment-chain identification | `eval/gold_lineage_*.csv` | P 0.972, R 0.972 on 71 English pairs (not officer-verified) |
+| Amendment-chain identification | `data/eval/gold_lineage_*.csv` | P 0.972, R 0.972 on 71 English pairs (not officer-verified) |
 | Unanswerable questions / uncertain applicability | scorecard | 20 of 20 refused with the right reason code |
 
 ## D. Worked example from the statement

@@ -11,6 +11,6 @@
 ## Checklist
 
 - [ ] Hard rules kept: edges run newer to older, only explicit references create edges, no "active" status, quotes are verbatim
-- [ ] No public API field renamed or removed (`backend/API_CONTRACT.md`)
+- [ ] No public API field renamed or removed (`docs/API_CONTRACT.md`)
 - [ ] Docs, `.env.example` and `CHANGELOG.md` updated if behaviour or settings changed
 - [ ] No secrets, keys or private documents in the diff

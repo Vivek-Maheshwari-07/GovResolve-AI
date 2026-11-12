@@ -16,7 +16,7 @@ You can use **Ollama** (local), **Groq** (hosted), or both: one is the first cho
 | Cost | Free (your hardware) | Free tier with rate limits, then paid |
 | Best for | Offline demos, confidential documents | Live demos, quick evaluation |
 
-Reported figures come from `eval/SCORECARD_SUMMARY.md`: local `qwen3.5:4b` on an i5-1235U CPU (median 45 s, p95 66 to 76 s); Groq
+Reported figures come from `data/eval/SCORECARD_SUMMARY.md`: local `qwen3.5:4b` on an i5-1235U CPU (median 45 s, p95 66 to 76 s); Groq
 `openai/gpt-oss-120b` 9 to 11 s in one clean run on a free tier. Measure your own with `make llm-check`.
 
 ## Quick setup

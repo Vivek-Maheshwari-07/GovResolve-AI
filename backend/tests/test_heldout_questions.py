@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-EVAL = Path(__file__).resolve().parents[2] / "eval"
+EVAL = Path(__file__).resolve().parents[2] / "data" / "eval"
 
 
 def _load(name):

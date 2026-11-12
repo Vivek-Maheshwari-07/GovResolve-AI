@@ -242,13 +242,13 @@ are real amendments missing from the portal's own list, so precision is understa
 **Rule Time Machine** (in the web app, `frontend/src/lib/lineage.js`): computes the statuses as of a chosen date from the same edges, counting an acting order only if it was issued by then.
 
 **Known gap.** Gujarati lineage barely works: in 134 Gujarati documents the read list is not parsed (one long OCR paragraph), the guessed Gujarati phrases do not match
-real wording, and most cited GRs are not in the collection. The diagnosis and a fix list are in `backend/notes/part2_answers.md` (section 2.3).
+real wording, and most cited GRs are not in the collection. The diagnosis and a fix list are in `docs/notes/part2_answers.md` (section 2.3).
 
 ---
 
 ## 8. The API
 
-Base URL `http://localhost:8000`; interactive docs at `/docs`. JSON, UTF-8, pages 1-based, dates ISO. The full contract is in `backend/API_CONTRACT.md`.
+Base URL `http://localhost:8000`; interactive docs at `/docs`. JSON, UTF-8, pages 1-based, dates ISO. The full contract is in `docs/API_CONTRACT.md`.
 
 **Contract endpoints (frozen fields)**
 
@@ -328,7 +328,7 @@ motion is reduced when the system asks for it.
 git clone https://github.com/Vivek-Maheshwari-07/GovResolve-AI.git
 cd GovResolve-AI
 python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements.txt -r backend/requirements.txt
+.venv\Scripts\python -m pip install -r requirements/base.txt
 copy .env.example .env
 ollama pull qwen3.5:4b
 ollama pull bge-m3
@@ -395,8 +395,8 @@ All in `.env` (template: `.env.example`) or the environment.
 **Scorecard** (`scripts/scorecard.py`)
 ```bash
 python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --mode retrieval          # about 1 minute, no model
-python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --mode full --out ../eval/NEW.json   # about 40 minutes locally
-python -m scripts.scorecard ... --gold ../eval/heldout_questions.json      # the held-out set
+python -m scripts.scorecard --corpus D:/test/corpus_v2 --index ../data/index/chroma --mode full --out ../data/eval/NEW.json   # about 40 minutes locally
+python -m scripts.scorecard ... --gold ../data/eval/heldout_questions.json      # the held-out set
 python -m scripts.scorecard ... --pause 25                                 # wait between questions (rate-limited hosted tiers)
 ```
 It reports the five metrics of the problem statement: correct-document retrieval (first / first three), citation and page accuracy (and verbatim quotes),
@@ -407,7 +407,7 @@ plus the share of answers whose key points were in the evidence, the lineage sta
 
 ## 14. Results
 
-Local model `qwen3.5:4b` on a laptop CPU unless stated. Details and per-question files in `eval/` and `eval/SCORECARD_SUMMARY.md`.
+Local model `qwen3.5:4b` on a laptop CPU unless stated. Details and per-question files in `eval/` and `data/eval/SCORECARD_SUMMARY.md`.
 
 | Metric | Development set | Held-out set |
 |---|---|---|
@@ -452,24 +452,26 @@ so they are not counted. On the held-out set the hosted model was no better than
 ```
 GovResolve-AI/
 ├── run.py, start.bat              one-command launcher
-├── README.md                      overview and quick start
+├── README.md, CHANGELOG.md, LICENSE
 ├── AGENTS.md                      rules for AI coding tools working on the repo
 ├── .env.example                   all settings with comments (copy to .env)
-├── requirements.txt               Python packages for the RAG pipeline
-├── docs/                          problem statement (PS.txt, PS230.pdf), this document
-├── final_dataset/                 manifests and source lists in git; the GR PDFs themselves stay on disk, outside git
-├── data/fixtures/                 synthetic GRs for tests and the no-corpus mode
-├── eval/                          question sets, lineage gold, scorecards, SCORECARD_SUMMARY.md
+├── Makefile, pyproject.toml       developer shortcuts; ruff and pytest settings
+├── requirements/                  base.txt, dev.txt, optional.txt
+├── deploy/                        Dockerfile, docker-compose.yml
+├── .github/                       CI, issue/PR templates, CONTRIBUTING.md, SECURITY.md
+├── docs/                          this document, API_CONTRACT.md, IMPLEMENTATION_PLAN.md, DEMO.md, notes/, problem statement
+├── data/                          processed GRs, search index, fixtures, tessdata
+│   └── eval/                      question sets, lineage gold, scorecards, SCORECARD_SUMMARY.md
+├── final_dataset/                 source PDFs and manifests (outside git)
 ├── frontend/                      the web app (React + Vite + Tailwind)
 │   └── src/  api.js, App.jsx, components/, lib/
 └── backend/
     ├── app/                       FastAPI app: main.py, routers/, lineage/, schemas/, services/, security.py, pdf_lookup.py
     ├── rag/                       answer pipeline: search_engine.py, llm_gateway.py, Gujarati stemmer, Gujlish normaliser
-    ├── scripts/                   build_corpus, build_squad2_index, scorecard, gold/held-out builders, llm_smoke, ...
-    ├── tests/                     407 tests
-    ├── notes/                     part1_ui.md, part2_answers.md: what was built, measured and why
-    ├── API_CONTRACT.md, DEMO.md, IMPLEMENTATION_PLAN.md, README.md
-    └── ingestion/, lineage/ pipeline modules (corpus building, Squad 2 lineage graph)
+    ├── config/                    glossaries for normalization
+    ├── scripts/                   build_corpus, build_squad2_index, scorecard, curation tools, llm_smoke, ...
+    ├── tests/                     pytest suite; manual/ has slow smoke scripts
+    └── ingestion/, lineage/       pipeline modules (corpus building, earlier lineage graph)
 ```
 
 ---

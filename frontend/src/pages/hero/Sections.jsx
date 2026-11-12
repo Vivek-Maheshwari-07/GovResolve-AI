@@ -131,7 +131,7 @@ const PROMISES = [
   ['It gives no legal advice.', 'Questions asking for an opinion on what someone should do are declined and explained.'],
 ];
 
-// From eval/SCORECARD_SUMMARY.md (local qwen3.5:4b; dev 50 questions, held-out 16). Small sets, not officer-validated.
+// From data/eval/SCORECARD_SUMMARY.md (local qwen3.5:4b; dev 50 questions, held-out 16). Small sets, not officer-validated.
 const HONEST = [
   ['100%', 'quotes found verbatim on their page'],
   ['20 / 20', 'unanswerable questions refused with the right code'],

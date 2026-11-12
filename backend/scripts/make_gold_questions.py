@@ -1,7 +1,7 @@
-"""Build eval/gold_questions.json from the question definitions below and check every answerable one against the corpus text.
+"""Build data/eval/gold_questions.json from the question definitions below and check every answerable one against the corpus text.
 
 Usage (from backend/):
-    python -m scripts.make_gold_questions --corpus D:/test/corpus_v2 [--out ../eval/gold_questions.json]
+    python -m scripts.make_gold_questions --corpus D:/test/corpus_v2 [--out ../data/eval/gold_questions.json]
 
 A question is only written if each of its key points occurs (after normalising digits, case and punctuation) on the cited page(s),
 so a gold answer can never rest on a fact that is not in the document. Questions were drafted by Claude from the extracted text of
@@ -155,7 +155,7 @@ def resolve(short: str, corpus_ids: list[str]) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--corpus", type=Path, required=True)
-    ap.add_argument("--out", type=Path, default=ROOT / "eval" / "gold_questions.json")
+    ap.add_argument("--out", type=Path, default=ROOT / "data" / "eval" / "gold_questions.json")
     ap.add_argument("--allow-failures", action="store_true", help="write the file even if a key point is not on its page")
     args = ap.parse_args()
     corpus = {}

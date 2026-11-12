@@ -1,4 +1,4 @@
-// Real questions from the demo set (backend/DEMO.md). `kind` picks the colour and the badge.
+// Real questions from the demo set (docs/DEMO.md). `kind` picks the colour and the badge.
 export const SAMPLES = [
   {
     kind: 'en',

@@ -2,7 +2,7 @@
 
 Read `../AGENTS.md` and `API_CONTRACT.md` first. Code map: `app/` (document graph + contract endpoints: Member A),
 `app/lineage/` (clause-level engine, router, store: Member B), `scripts/`, `tests/`, `../data/fixtures/` (synthetic GRs),
-`../eval/gold_lineage.csv` (13 synthetic gold edges).
+`../data/eval/gold_lineage.csv` (13 synthetic gold edges).
 
 Hard rules: edge direction newer -> older; never output an "active" status; only explicit references create edges;
 quotes are verbatim; do not rename or remove API fields (frozen after Nov 2); run `python -m pytest` before finishing.
@@ -92,7 +92,7 @@ Allowances Rules, 1983, amended in 2022 and 2025). Gold edges therefore have to 
   matches the sentence (plus its neighbours, since OCR splits titles at colons) against the titles of base instruments in the corpus
   (85% of title words, at least 5), earliest GR wins, amendments and "updated" copies are never targets. Edges are PROBABLE.
   Added the phrase "further to amend" to the AMENDS patterns. 195 tests pass.
-- **Result on the families corpus:** 222 edges, 8 documents now AMENDED (was 0). `eval/gold_lineage_real.csv` holds 72 amendment -> base
+- **Result on the families corpus:** 222 edges, 8 documents now AMENDED (was 0). `data/eval/gold_lineage_real.csv` holds 72 amendment -> base
   pairs derived from the portal listing (every listed amendment of a family's base rules). Pair-level score of the engine:
   precision 0.96 (51 of 53), recall 0.71 (51 of 72). The gold is NOT yet hand-checked against the document text: a teammate must
   open each amendment and confirm, then fix the notes column.
@@ -101,7 +101,7 @@ Allowances Rules, 1983, amended in 2022 and 2025). Gold edges therefore have to 
   a consolidated copy and a clerk recruitment rule that mentions the classification rules.
 
 ### Phase 2 follow-up: the 21 missed amendments
-Full per-miss table (source PDF, page, amendment wording, reason, whether fixable): `eval/miss_analysis.csv`.
+Full per-miss table (source PDF, page, amendment wording, reason, whether fixable): `data/eval/miss_analysis.csv`.
 Causes of the 21: sentence cut at an OCR block boundary, or title straddling sentence splits (14); own header number taken as the
 target, which blocked the title match (3); relation phrase split or garbled by OCR (1); Gujarati-language scan (1); title too garbled
 by OCR (1); portal title differs from the rule's own title (1). 18 are fixed, 3 remain (the last three causes). Fixes (no API change): merge blocks that stop mid-sentence when
@@ -218,7 +218,7 @@ with the accuracy cost above.
 **Honesty note.** Everything below was checked by Claude reading the extracted document text. Nothing is officer-validated. Files carry
 `verified_by` / `validated_by` saying so; a person still has to sign off (see "Needs a human").
 
-### 3.1 The 72 gold lineage pairs (`eval/gold_lineage_review.csv`, `eval/gold_lineage_verified.csv`)
+### 3.1 The 72 gold lineage pairs (`data/eval/gold_lineage_review.csv`, `data/eval/gold_lineage_verified.csv`)
 `scripts/gold_lineage_review.py` pulls, for every pair, the sentence in the amending GR that names the base (page + verbatim quote).
 - **71 confirmed**: each amending text says "further to amend the <base title>" (or "<Amendment> Rules ... In the <base>, in rule 9 ...").
 - **1 rejected (#39)**: file `1_3491` is a Gujarati *circular* (પરિપત્ર) that only lists the 2006 rules and the 2012 notification under "વંચાણે લીધા"
@@ -256,7 +256,7 @@ Across 132 Gujarati documents the engine found **4 weak references and 139 unres
 Gold question Q-050 expects this and is reported as failing until patterns are validated on Gujarati text (roadmap "Remaining work").
 No document in `corpus_v2` has status `superseded`, so the gold set has 0 superseded questions.
 
-### 3.4 Gold questions (`eval/gold_questions.json`, built by `scripts/make_gold_questions.py`)
+### 3.4 Gold questions (`data/eval/gold_questions.json`, built by `scripts/make_gold_questions.py`)
 50 questions: 24 simple, 11 amended, 10 unanswerable, 5 vague, 0 superseded; 22 English, 16 Gujarati, 12 Gujarati-in-Latin-letters.
 Each answerable one has gold document(s) + page and key points; the builder fails unless **every key point occurs on the cited page**. Unanswerable ones
 are backed by a text search showing the corpus lacks the topic (e.g. 0 of 366 documents mention maternity leave). Many Gujarati/mixed questions ask about
@@ -264,7 +264,7 @@ English documents on purpose: that is how users will ask.
 
 ### 3.5 Scorecard (`scripts/scorecard.py`)
 `--mode retrieval` (about a minute, no model) and `--mode full` (about 40 s per question on the local model). Five official metrics + lineage status shown + latency.
-Retrieval result (`eval/scorecard_retrieval.json`), 35 answerable questions:
+Retrieval result (`data/eval/scorecard_retrieval.json`), 35 answerable questions:
 
 | Question language | top-1 | top-3 |
 |---|---|---|
@@ -282,11 +282,11 @@ vague = only a broad topic such as leave / salary / rules). They agree with all 
 false positives on 324 document titles used as questions: 0 out-of-scope, 1 vague ("Endorsement", a single word). Pinned by 34 tests.
 
 ### Needs a human
-1. Sign off `eval/gold_lineage_verified.csv` (71 rows have page + quote) and especially the rejected row #39.
+1. Sign off `data/eval/gold_lineage_verified.csv` (71 rows have page + quote) and especially the rejected row #39.
 2. Send the gold questions to the resource person; the plan calls for officer validation. `validated_by` says "not officer-validated" until then.
 3. Decide how to demo "chain": timeline of base + amendments, or find a real amendment-of-amendment.
 
-### Phase 3 result: first full scorecard (Nov 1, `eval/scorecard_full.json`, rescored in `eval/scorecard_full_rescored.json`)
+### Phase 3 result: first full scorecard (Nov 1, `data/eval/scorecard_full.json`, rescored in `data/eval/scorecard_full_rescored.json`)
 50 questions through `/query` with local `qwen3.5:4b` (36 s median, 62 s p95). Numbers are small-sample (35 answerable, 15 refusals) and the gold is not officer-validated.
 
 | Metric | Result |
@@ -349,7 +349,7 @@ What each step does and why:
 overlap cannot choose sentences, and the answer chunk is in the pool but not selected. The remedy is cross-lingual: render the question in English (one short model call, about 4 s)
 and use it for sentence choice and keywords. Not done.
 
-### Result of the evidence-building work, end to end (`eval/scorecard_full_v2.json`; first run rescored in `eval/scorecard_full_rescored.json`)
+### Result of the evidence-building work, end to end (`data/eval/scorecard_full_v2.json`; first run rescored in `data/eval/scorecard_full_rescored.json`)
 Same 50 questions, same local `qwen3.5:4b`, same scorer. The 50 questions are the dev set the changes were made against, so treat the size of the gain with care.
 
 | Metric | First run | After |

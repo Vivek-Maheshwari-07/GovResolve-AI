@@ -1,8 +1,8 @@
 """Evidence sheet for checking the gold lineage pairs against the document text.
 
 Usage (from backend/):
-    python -m scripts.gold_lineage_review --corpus D:/test/corpus_v1 --gold ../eval/gold_lineage_real.csv \
-        --out ../eval/gold_lineage_review.csv
+    python -m scripts.gold_lineage_review --corpus D:/test/corpus_v1 --gold ../data/eval/gold_lineage_real.csv \
+        --out ../data/eval/gold_lineage_review.csv
 
 For every gold pair (amending GR -> base GR) it finds the sentence in the amending GR that names the base (the engine's own
 evidence if it detected the pair, else the best text match) and writes page, verbatim quote and automatic checks. A person (or a

@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 from loguru import logger
 
 # Load GAD Glossary
-_GLOSSARY_PATH = Path(__file__).parent.parent.parent / "config" / "gad_glossary.json"
+_GLOSSARY_PATH = Path(__file__).parent.parent / "config" / "gad_glossary.json"
 
 # Core English vocabulary used for statistical language discrimination
 _COMMON_EN_WORDS = {

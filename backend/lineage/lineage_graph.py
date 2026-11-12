@@ -29,7 +29,7 @@ from backend.models import (
 # ── Phrase patterns loaded from config/glossary.yaml ──────────────
 import yaml
 
-_GLOSSARY_PATH = Path(__file__).parent.parent.parent / "config" / "glossary.yaml"
+_GLOSSARY_PATH = Path(__file__).parent.parent / "config" / "glossary.yaml"
 
 
 def load_lineage_phrases() -> dict:

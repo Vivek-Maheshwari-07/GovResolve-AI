@@ -11,7 +11,7 @@ const STEPS = [
   { icon: ShieldCheck, title: 'Verify & trace', text: 'Every quote is checked verbatim on its page, lineage is attached from explicit references, and missing proof becomes a refusal.' },
 ];
 
-// Figures copied from eval/SCORECARD_SUMMARY.md (2 Nov 2026). Dev set: 50 questions the code was tuned on.
+// Figures copied from data/eval/SCORECARD_SUMMARY.md (2 Nov 2026). Dev set: 50 questions the code was tuned on.
 // Held-out: 16 questions written after the code was frozen. Both use the local qwen3.5:4b model.
 const ROWS = [
   { metric: 'Correct document first', dev: '82.9%', held: '72.7%' },

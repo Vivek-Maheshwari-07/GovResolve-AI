@@ -1,6 +1,7 @@
 # GovResolve-AI developer shortcuts. `make help` lists them.
 PY      ?= python3
 CORPUS  ?= data/corpus_v2
+DC      ?= docker compose -f deploy/docker-compose.yml --project-directory .
 .DEFAULT_GOAL := help
 
 .PHONY: help install install-dev ui run demo llm-check index test test-backend test-frontend lint docker-build docker-up docker-up-ollama docker-down clean
@@ -9,11 +10,11 @@ help:  ## Show this help
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 install:  ## Install runtime dependencies (Python + web app)
-	$(PY) -m pip install -r requirements.txt
+	$(PY) -m pip install -r requirements/base.txt
 	cd frontend && npm ci
 
 install-dev:  ## Install development dependencies (tests, linter)
-	$(PY) -m pip install -r requirements-dev.txt
+	$(PY) -m pip install -r requirements/dev.txt
 	cd frontend && npm ci
 
 ui:  ## Build the web app into frontend/dist (served by the API)
@@ -43,17 +44,17 @@ lint:  ## Lint the Python code (pyflakes rules via ruff)
 	$(PY) -m ruff check backend run.py
 
 docker-build:  ## Build the application image
-	docker compose build
+	$(DC) build
 
 docker-up:  ## Run the API in Docker (use Groq, or an Ollama you already run). Needs GOV_ADMIN_TOKEN in .env
-	docker compose up -d
+	$(DC) up -d
 
 docker-up-ollama:  ## Run the API plus an Ollama container, and pull the models once
-	docker compose --profile ollama up -d
-	docker compose --profile init run --rm ollama-pull
+	$(DC) --profile ollama up -d
+	$(DC) --profile init run --rm ollama-pull
 
 docker-down:  ## Stop the containers
-	docker compose --profile ollama --profile init down
+	$(DC) --profile ollama --profile init down
 
 clean:  ## Remove build output and caches
 	rm -rf frontend/dist .ruff_cache .pytest_cache backend/.pytest_cache

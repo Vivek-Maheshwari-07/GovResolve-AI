@@ -32,7 +32,7 @@ Built from a design brief. A first version used a dark "Soft Obsidian" palette; 
 - **Rule Time Machine** (`lib/lineage.js`): computed in the browser from the lineage edges and the documents' issue dates. A document is amended / superseded on a date only if the acting order was issued on or before it; later documents are dimmed "Not yet issued". Explicit relations only (a reference never changes a status).
 
 Where the brief was changed on purpose (project rules, or the backend has nothing behind it):
-- No "Safe to Act", "Truth Layer Active" or "Active in Corpus", no hard-coded "Lineage Graph F1" (the badge shows live counts from `/health`; the measured pair score is in `eval/SCORECARD_SUMMARY.md`): we never output an active status. The green banner reads "No later change found" with the note that this does not prove the rule is in force.
+- No "Safe to Act", "Truth Layer Active" or "Active in Corpus", no hard-coded "Lineage Graph F1" (the badge shows live counts from `/health`; the measured pair score is in `data/eval/SCORECARD_SUMMARY.md`): we never output an active status. The green banner reads "No later change found" with the note that this does not prove the rule is in force.
 - No "Conflict" status, no scanned-vs-digital badge, no OCR confidence score: the backend does not produce them. Reason-code badges use the real codes (NO_DOCUMENT, TOO_VAGUE, OUT_OF_SCOPE ...), not the brief's names.
 - The pipeline stages move on a timer: the backend does not stream progress. They list what the pipeline does, in order.
 - "Report wrong citation" copies a ready-to-send report: `/feedback` needs a `query_id` that `/query` does not return.
@@ -52,7 +52,7 @@ Patterns borrowed as ideas (not visuals) from a well-made hackathon app: a works
 - **Rail** (`Rail.jsx`): Ask, Library, Method (+ Tour, Keys); a bottom tab bar on phones.
 - **Library** (`Library.jsx`): all GRs from `/grs`, search by GR number / subject / date, filters by language and status (with counts), open a GR to read it and see its lineage.
   `/grs` uses the lineage engine's own words; `mapGrStatus` turns `ACTIVE` into "No later change" so "active" is never shown (test in `api.test.mjs`).
-- **Method** (`Method.jsx`): the five pipeline steps, measured results (same numbers as `eval/SCORECARD_SUMMARY.md`, with their caveats), the rules it never breaks, live corpus counts.
+- **Method** (`Method.jsx`): the five pipeline steps, measured results (same numbers as `data/eval/SCORECARD_SUMMARY.md`, with their caveats), the rules it never breaks, live corpus counts.
 - **Tour** (`Tour.jsx`): five spotlight steps on `data-tour` targets; shown once (remembered in `localStorage`, safe when storage is blocked); `?` replays it.
 - **Session counters** in the header: questions, verified answers, refusals, last answer time (this browser session only).
 - **Shortcuts**: `/` ask (switches to Ask and focuses the box), `1 2 3` workspaces, `[ ]` previous/next citation, `?` tour, `Esc` close; listed in the footer and a dialog.

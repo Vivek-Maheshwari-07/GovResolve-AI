@@ -8,4 +8,4 @@
 | [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) | Everyone | Longer narrative documentation of the build |
 | [PS.txt](PS.txt), [PS230.pdf](PS230.pdf) | Everyone | The official problem statement and the project proposal |
 
-Backend run guide and corpus tools: [../backend/README.md](../backend/README.md). API contract: [../backend/API_CONTRACT.md](../backend/API_CONTRACT.md).
+Backend run guide and corpus tools: [../backend/README.md](../backend/README.md). API contract: [../docs/API_CONTRACT.md](../docs/API_CONTRACT.md).

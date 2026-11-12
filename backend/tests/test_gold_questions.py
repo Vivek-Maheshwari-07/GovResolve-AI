@@ -1,9 +1,9 @@
-"""Structure of eval/gold_questions.json (the content is checked against the corpus text by scripts.make_gold_questions)."""
+"""Structure of data/eval/gold_questions.json (the content is checked against the corpus text by scripts.make_gold_questions)."""
 import json
 from collections import Counter
 from pathlib import Path
 
-GOLD = Path(__file__).resolve().parents[2] / "eval" / "gold_questions.json"
+GOLD = Path(__file__).resolve().parents[2] / "data" / "eval" / "gold_questions.json"
 CATEGORIES = {"simple", "amended", "superseded", "unanswerable", "vague"}
 CODES = {"NO_DOCUMENT", "TOO_VAGUE", "MISSING_FACTS", "BROKEN_CHAIN", "POOR_SCAN", "OUT_OF_SCOPE"}
 QS = json.loads(GOLD.read_text(encoding="utf-8"))
