@@ -19,7 +19,7 @@ opentelemetry-exporter-otlp-proto-grpc==1.37.0   # pinned: newer releases confli
 httpx>=0.27
 
 # Language models: Ollama and Groq need no extra package (plain HTTPS). Embeddings come from Ollama (bge-m3).
-ollama>=0.4
+ollama>=0.6.3
 
 # Documents: PDF text layers and OCR (also install the Tesseract binary; Gujarati data is in data/tessdata)
 pymupdf>=1.24
