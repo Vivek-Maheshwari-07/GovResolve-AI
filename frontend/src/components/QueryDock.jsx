@@ -36,13 +36,13 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
         {hero && (
           <div className="mb-2 flex items-center justify-between px-1">
             <span className="mono-label text-[#64748B]">Official Inquiry · ગુજરાતી / English / Gujlish</span>
-            <span className="hidden items-center gap-1.5 text-[11px] text-[#64748B] sm:flex">
+            <span className="hidden items-center gap-1.5 text-[12.5px] text-[#64748B] sm:flex">
               <kbd className="kbd">/</kbd> to focus
             </span>
           </div>
         )}
 
-        <div className="flex items-start gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
           <textarea
             ref={ref}
             id="question-input"
@@ -63,7 +63,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
             }`}
           />
 
-          <div className="flex shrink-0 flex-col items-end gap-2 pt-0.5">
+          <div className="flex shrink-0 flex-row-reverse flex-wrap items-center justify-between gap-2 sm:flex-col sm:items-end sm:justify-start sm:pt-0.5">
             <div className="flex items-center gap-1.5">
               {value.trim() && !loading && (
                 <button
@@ -90,11 +90,11 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
 
             <div className="flex items-center gap-2">
               <HistoryMenu history={history} onOpen={onOpenHistory} onClear={onClearHistory} />
-              <span className="hidden text-[10.5px] text-[#64748B] sm:inline">Enter to send</span>
+              <span className="hidden text-[12.5px] text-[#64748B] sm:inline">Enter to send</span>
               <button
                 type="button"
                 onClick={() => setKb((v) => !v)}
-                className={`gu-text inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-semibold transition-all ${
+                className={`gu-text inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[12.5px] font-semibold transition-all ${
                   kb
                     ? 'border border-[#C7D2FE] bg-[#EEF2FF] text-[#4F46E5] shadow-sm'
                     : 'border border-[#E6E4DD] bg-[#F1EFEA] text-[#64748B] hover:text-[#1E293B] hover:bg-white'
@@ -133,7 +133,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
 
       {hero && (
         <div className="flex flex-wrap items-center gap-2 px-1">
-          <span className="mr-0.5 text-[11.5px] font-medium text-[#64748B]">Quick examples:</span>
+          <span className="mr-0.5 text-[12.5px] font-medium text-[#64748B]">Quick examples:</span>
           {TEMPLATES.map((t) => (
             <button
               key={t.label}

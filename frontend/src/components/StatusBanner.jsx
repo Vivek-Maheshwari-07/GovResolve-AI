@@ -40,41 +40,31 @@ export default function StatusBanner({ status, reasonCode, asOf, asOfStatus }) {
       />
       <div aria-hidden className="absolute inset-x-0 top-0 h-[3px]" style={{ background: t.edge }} />
 
-      {/* Decorative official classification stamp watermark on the right */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 select-none opacity-[0.05] font-mono text-[64px] font-black uppercase tracking-widest text-[#1E293B]"
-      >
-        {s.key}
-      </div>
 
       <div className="relative flex items-center gap-4 px-4 py-3.5 sm:px-5">
         <Seal status={s.key} size={58} stamped className="-ml-0.5 shrink-0" />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
-            <span className="mono-label text-[9px] font-bold text-[#64748B]">
-              [DOSSIER VERDICT]
-            </span>
-            <span className={`inline-flex items-center gap-1.5 rounded-full border ${t.ring} ${t.pill} px-2.5 py-0.5 text-[11px] font-bold ${t.text} shadow-sm`}>
+            <span className={`inline-flex items-center gap-1.5 rounded-full border ${t.ring} ${t.pill} px-2.5 py-0.5 text-[12.5px] font-bold ${t.text} shadow-sm`}>
               <StatusIcon className="h-3.5 w-3.5 shrink-0" />
               <span>{s.label}</span>
             </span>
             {reasonCode && (
-              <span className="rounded-full border border-[#E6E4DD] bg-[#F1EFEA] px-2 py-0.5 font-mono text-[10px] font-medium text-[#64748B]" title={REASONS[reasonCode] || ''}>
+              <span className="rounded-full border border-[#E6E4DD] bg-[#F1EFEA] px-2 py-0.5 font-mono text-[12.5px] font-medium text-[#64748B]" title={REASONS[reasonCode] || ''}>
                 {reasonCode}{REASONS[reasonCode] ? ` · ${REASONS[reasonCode]}` : ''}
               </span>
             )}
           </div>
           <div className="mt-1 flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
             <h3 className="display text-[17px] font-bold leading-snug text-[#1E293B]">{s.headline}</h3>
-            <span className="hidden text-xs text-[#64748B] sm:inline">·</span>
+            <span className="hidden text-[12.5px] text-[#64748B] sm:inline">·</span>
             <p className="truncate text-[12px] text-[#64748B]">{s.note}</p>
           </div>
         </div>
       </div>
 
       {(notIssued || asOfInfo) && (
-        <div className="relative flex items-center gap-2 border-t border-[#FDE68A] bg-[#FFFBEB] px-5 py-2 text-xs font-medium text-[#92400E]">
+        <div className="relative flex items-center gap-2 border-t border-[#FDE68A] bg-[#FFFBEB] px-5 py-2 text-[12.5px] font-medium text-[#92400E]">
           <CalendarClock className="h-3.5 w-3.5 shrink-0 text-[#F59E0B]" />
           <span>
             <strong>As of {asOf}:</strong>{' '}

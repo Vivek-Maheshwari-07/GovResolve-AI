@@ -62,11 +62,11 @@ body::before {
   .legal-text { font-family: Merriweather, 'Noto Sans Gujarati', Georgia, serif; line-height: 1.82; color: var(--legal); }
   .gu-text { font-family: 'Noto Sans Gujarati', 'Plus Jakarta Sans', sans-serif; line-height: 1.75; }
   .display { font-family: Merriweather, 'Noto Sans Gujarati', Georgia, serif; letter-spacing: -0.018em; }
-  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--mist); }
-  .mono-label { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--mist); }
+  .eyebrow { font-size: 12.5px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--mist); }
+  .mono-label { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12.5px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--mist); }
   .telemetry-tag {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 9.5px;
+    font-size: 12.5px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -117,8 +117,8 @@ body::before {
     box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
   }
   .kbd {
-    display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px;
-    font: 600 10px 'JetBrains Mono', ui-monospace, monospace; color: #1E293B;
+    display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px;
+    font: 600 12px 'JetBrains Mono', ui-monospace, monospace; color: #1E293B;
     background: #F1EFEA; border-radius: 6px; border: 1px solid #E6E4DD;
     box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
   }

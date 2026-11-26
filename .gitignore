@@ -59,3 +59,6 @@ frontend/dist/
 
 # Unwanted / archived files
 /unwanted/
+
+# partial local index builds
+data/index/chroma_bge/

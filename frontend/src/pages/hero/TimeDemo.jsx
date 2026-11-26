@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion';
 import Seal from '../../components/Seal';
 import { STATUS, TONES } from '../../lib/status';
 import { statusAsOf } from '../../lib/lineage';
@@ -26,6 +26,18 @@ const PRESETS = [['Mar 2016', '2016-03-01'], ['Jan 2020', '2020-01-15'], ['Dec 2
 export default function TimeDemo() {
   const [day, setDay] = useState(dayOf('2019-06-01'));
   const [focus, setFocus] = useState('B');
+  // plays the dates once when it first scrolls into view (2016 -> 2020 -> 2022), then hands control to the presenter
+  const box = useRef(null);
+  const seen = useInView(box, { once: true, amount: 0.5 });
+  const reduce = useReducedMotion();
+  const touched = useRef(false);
+  useEffect(() => {
+    if (!seen || reduce || touched.current) return undefined;
+    const stops = ['2016-03-01', '2020-01-15', '2022-12-01'].map(dayOf);
+    const timers = stops.map((d, i) => setTimeout(() => { if (!touched.current) setDay(d); }, 300 + i * 1100));
+    return () => timers.forEach(clearTimeout);
+  }, [seen, reduce]);
+  const pick = (d) => { touched.current = true; setDay(d); };
   const date = iso(day);
   const st = useMemo(() => statusAsOf(CHAIN, date), [date]);
   const mine = st[focus];
@@ -50,7 +62,7 @@ export default function TimeDemo() {
   const ticks = [2013, 2015, 2017, 2019, 2021, 2023];
 
   return (
-    <div className="sheet overflow-hidden rounded-[22px]">
+    <div ref={box} className="sheet overflow-hidden rounded-[22px]">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hair px-5 py-3.5">
         <div>
           <p className="eyebrow">Try it · three invented orders</p>
@@ -129,16 +141,16 @@ export default function TimeDemo() {
               max={SPAN}
               step="7"
               value={day}
-              onChange={(e) => setDay(Number(e.target.value))}
+              onChange={(e) => pick(Number(e.target.value))}
               aria-label="Date on which the officer reads the order"
               aria-valuetext={pretty(date)}
               className="time-range w-full"
             />
           </div>
           <div className="mt-3 flex flex-wrap items-center gap-1.5">
-            <span className="mr-1 text-[11.5px] text-faint">Jump to</span>
+            <span className="mr-1 text-[12.5px] text-faint">Jump to</span>
             {PRESETS.map(([l, d]) => (
-              <button key={l} type="button" onClick={() => setDay(dayOf(d))} className="rounded-full bg-ivory px-2.5 py-1 text-[11.5px] font-medium text-mist transition hover:text-iris-700" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.1), inset 0 1px 0 #fff' }}>
+              <button key={l} type="button" onClick={() => pick(dayOf(d))} className="rounded-full bg-ivory px-2.5 py-1 text-[12.5px] font-medium text-mist transition hover:text-iris-700" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.1), inset 0 1px 0 #fff' }}>
                 {l}
               </button>
             ))}
@@ -146,7 +158,7 @@ export default function TimeDemo() {
         </div>
 
         <div className="relative flex flex-col justify-center p-5 sm:p-6" style={{ background: `linear-gradient(160deg, ${tone.wash} 0%, transparent 70%)` }}>
-          <p className="mono-label text-[9px] text-mist">On {pretty(date)}, an officer holding</p>
+          <p className="mono-label text-[12.5px] text-mist">On {pretty(date)}, an officer holding</p>
           <p className="mt-0.5 font-mono text-[12.5px] font-bold text-ink">{chainNo[focus]}</p>
           <div className="mt-4 flex items-center gap-4">
             <AnimatePresence mode="wait" initial={false}>
@@ -155,7 +167,7 @@ export default function TimeDemo() {
               </motion.div>
             </AnimatePresence>
             <div className="min-w-0">
-              <span className={`rounded-full border ${tone.ring} bg-ivory/80 px-2 py-0.5 text-[10.5px] font-bold ${tone.text}`}>{!mine.issued ? 'Not yet issued' : meta.label}</span>
+              <span className={`rounded-full border ${tone.ring} bg-ivory/80 px-2 py-0.5 text-[12.5px] font-bold ${tone.text}`}>{!mine.issued ? 'Not yet issued' : meta.label}</span>
               <h3 className={`display mt-1.5 text-[17px] font-bold leading-tight ${tone.text}`}>{headline}</h3>
             </div>
           </div>

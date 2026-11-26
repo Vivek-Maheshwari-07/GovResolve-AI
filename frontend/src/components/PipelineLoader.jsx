@@ -41,7 +41,7 @@ export default function PipelineLoader({ onCancel }) {
           </div>
           <div className="text-right">
             <p className="font-mono text-[28px] font-bold leading-none tabular-nums text-ink">{mm}<span className="animate-pulse text-iris-500">:</span>{ss}</p>
-            <p className="mono-label mt-1.5 text-[9px] text-faint">elapsed</p>
+            <p className="mono-label mt-1.5 text-[12.5px] text-faint">elapsed</p>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ export default function PipelineLoader({ onCancel }) {
                 </span>
                 <div className="min-w-0">
                   <p className={`text-[13px] leading-snug ${now ? 'font-bold text-iris-800' : past ? 'font-medium text-mist' : 'text-faint'}`}>{s.label}</p>
-                  {now && <p className="mt-0.5 text-[11.5px] text-mist">{s.detail}</p>}
+                  {now && <p className="mt-0.5 text-[12.5px] text-mist">{s.detail}</p>}
                 </div>
               </li>
             );
@@ -65,7 +65,7 @@ export default function PipelineLoader({ onCancel }) {
         </ol>
 
         <div className="mt-4 flex items-center justify-between border-t border-hair pt-3">
-          <p className="text-[11px] text-faint">Stages show the usual order; the server does not report live progress.</p>
+          <p className="text-[12.5px] text-faint">Stages show the usual order; the server does not report live progress.</p>
           {onCancel && (
             <button type="button" onClick={onCancel} className="inline-flex items-center gap-1.5 rounded-lg bg-ivory px-2.5 py-1 text-[12px] font-semibold text-mist transition hover:text-[#8E1F3A]" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.12), inset 0 1px 0 #fff' }}>
               <X className="h-3.5 w-3.5" /> Cancel

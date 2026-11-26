@@ -54,7 +54,7 @@ export default function Method({ stats }) {
               <span className="relative z-10 grid h-10 w-10 place-items-center rounded-full bg-ink text-white" style={{ boxShadow: '0 0 0 4px #F8F7F4, 0 6px 14px -6px rgba(15,23,42,.6)' }}>
                 <s.icon className="h-[17px] w-[17px]" strokeWidth={1.9} />
               </span>
-              <p className="mono-label mt-4 text-[9px] text-faint">Stage {i + 1}</p>
+              <p className="mono-label mt-4 text-[12.5px] text-faint">Stage {i + 1}</p>
               <h3 className="display mt-0.5 text-[16px] font-bold text-ink">{s.title}</h3>
               <p className="mt-1.5 text-[12.5px] leading-relaxed text-mist">{s.text}</p>
             </li>
@@ -74,7 +74,7 @@ export default function Method({ stats }) {
           <div className="sheet overflow-hidden">
             <table className="w-full text-left">
               <thead>
-                <tr className="mono-label border-b border-hair bg-sand/60 text-[9px] text-faint">
+                <tr className="mono-label border-b border-hair bg-sand/60 text-[12.5px] text-faint">
                   <th className="px-4 py-2 font-medium">Metric</th>
                   <th className="px-3 py-2 text-right font-medium">Dev · 50 q</th>
                   <th className="px-4 py-2 text-right font-medium">Held-out · 16 q</th>
@@ -91,7 +91,7 @@ export default function Method({ stats }) {
               </tbody>
             </table>
           </div>
-          <p className="mt-2.5 text-[11.5px] leading-relaxed text-faint">
+          <p className="mt-2.5 text-[12.5px] leading-relaxed text-faint">
             Lineage: precision 0.972 and recall 0.972 on 71 English amendment pairs (not yet officer-verified; Gujarati lineage is a known gap). Gold questions were drafted by Claude and are not officer-validated. Hosted-model latency of 9–11 s is measured on one partial run.
           </p>
         </div>
@@ -106,7 +106,7 @@ export default function Method({ stats }) {
               </div>
             ))}
           </dl>
-          <p className="mt-4 text-[11.5px] leading-relaxed text-faint">Bilingual General Administration and Finance resolutions, read with Gujarati + English OCR.</p>
+          <p className="mt-4 text-[12.5px] leading-relaxed text-faint">Bilingual General Administration and Finance resolutions, read with Gujarati + English OCR.</p>
         </div>
       </motion.section>
 

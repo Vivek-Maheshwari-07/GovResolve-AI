@@ -10,9 +10,12 @@ import QueryDock from './components/QueryDock';
 import PipelineLoader from './components/PipelineLoader';
 import StatusBanner from './components/StatusBanner';
 import AnswerCard from './components/AnswerCard';
+import WhatChanged from './components/WhatChanged';
+import StageBar from './components/StageBar';
+import { isStage, STAGE_PINS } from './lib/stage';
 import LineageGraph from './components/LineageGraph';
 import PdfInspector from './components/PdfInspector';
-import Hero, { HeroHeader, Specimen } from './components/AskLanding';
+import Hero, { HeroHeader } from './components/AskLanding';
 import Library from './components/Library';
 import Method from './components/Method';
 import Tour from './components/Tour';
@@ -20,6 +23,7 @@ import LandingPage from './pages/Hero';
 import { SAMPLES } from './lib/samples';
 
 const TOUR_KEY = 'govresolve.tour.seen';
+const LANG_LABEL = { null: 'Auto', en: 'English', gu: 'ગુજરાતી', mixed: 'Gujlish' };
 const INTRO_KEY = 'govresolve.intro.seen';
 const HISTORY_KEY = 'govresolve.history';
 const HISTORY_MAX = 8;
@@ -95,29 +99,26 @@ function StatusBar({ onShortcuts, session }) {
   return (
     <footer className="hidden items-center justify-between gap-4 border-t border-[#E6E4DD] bg-[rgba(248,247,244,0.92)] px-4 py-1.5 backdrop-blur-md md:flex shadow-[0_-1px_2px_rgba(15,23,42,0.02)] print:hidden">
       <div className="flex items-center gap-4">
-        <button onClick={onShortcuts} className="flex items-center gap-3 text-[11px] text-[#64748B] transition-colors hover:text-[#1E293B]">
+        <button onClick={onShortcuts} className="flex items-center gap-3 text-[12.5px] text-[#64748B] transition-colors hover:text-[#1E293B]">
           {[['/', 'inquire'], ['1 2 3', 'workspaces'], ['[ ]', 'citations'], ['?', 'tour']].map(([k, v]) => (
             <span key={v} className="flex items-center gap-1.5">
-              <span className="flex gap-0.5">{k.split(' ').map((x) => <kbd key={x} className="kbd !h-[18px] !min-w-[18px] !text-[9px]">{x}</kbd>)}</span>
+              <span className="flex gap-0.5">{k.split(' ').map((x) => <kbd key={x} className="kbd !h-[18px] !min-w-[18px] !text-[12.5px]">{x}</kbd>)}</span>
               <span>{v}</span>
             </span>
           ))}
         </button>
-        <span className="telemetry-tag hidden xl:inline text-[9px] text-[#64748B]/80">
-          [MERKLE_LINEAGE: VERIFIED]
-        </span>
       </div>
 
       <div className="flex items-center gap-4">
         {session.asked > 0 && (
-          <span className="mono-label hidden items-center gap-3 text-[9.5px] text-[#64748B] lg:flex" aria-label="This session">
+          <span className="mono-label hidden items-center gap-3 text-[12.5px] text-[#64748B] lg:flex" aria-label="This session">
             <span><b className="text-[#1E293B]">{session.asked}</b> asked</span>
             <span><b className="text-[#065F46]">{session.verified}</b> verified</span>
             <span><b className="text-[#9F1239]">{session.refused}</b> refused</span>
             <span><b className="text-[#1E293B]">{session.lastSec != null ? `${session.lastSec}s` : '—'}</b> latency</span>
           </span>
         )}
-        <span className="mono-label flex items-center gap-2 text-[9.5px] text-[#64748B]">
+        <span className="mono-label flex items-center gap-2 text-[12.5px] text-[#64748B]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulseDot" />
           Indexed official resolutions only · Quoted verbatim
         </span>
@@ -181,6 +182,10 @@ export default function App() {
   const [stats, setStats] = useState(null);
   const [online, setOnline] = useState(true);
   const [language, setLanguage] = useState(null); // null = auto detect
+  const [askedLang, setAskedLang] = useState(null); // the language the open answer was asked in
+  const stageOn = useMemo(() => isStage(window.location.search), []);
+  const stageCache = useRef({});
+  const onStageCache = useCallback((c) => { stageCache.current = c; }, []);
   const [asOf, setAsOf] = useState(''); // Rule Time Machine date filter
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -245,9 +250,11 @@ export default function App() {
     const ctl = new AbortController();
     abortRef.current = ctl;
     const effectiveLang = overrideLang !== undefined ? overrideLang : language;
+    setAskedLang(effectiveLang);
     try {
       const r = await ask(q, effectiveLang, ctl.signal);
-      const sec = Math.round((performance.now() - t0) / 1000);
+      const raw = (performance.now() - t0) / 1000;
+      const sec = raw < 10 ? Math.max(0.1, Math.round(raw * 10) / 10) : Math.round(raw);
       setResponse(r);
       setOnline(true);
       setHistory((h) => [{ id: `${Date.now()}`, question: q, response: r, at: Date.now() }, ...h.filter((x) => x.question !== q)].slice(0, HISTORY_MAX));
@@ -279,9 +286,21 @@ export default function App() {
     setError(null);
     setQuery(h.question);
     setResponse(h.response);
+    setAskedLang(language);
     setActive(h.response.citations?.[0] || null);
   };
   const clearHistory = () => setHistory([]);
+  const openStagePin = (response, pin) => {
+    if (!response) return;
+    abortRef.current?.abort();
+    setWorkspace('ask');
+    setLoading(false);
+    setError(null);
+    setQuery(pin.question);
+    setResponse(response);
+    setAskedLang(language);
+    setActive(response.citations?.[0] || null);
+  };
 
   // the tour asks one sample question for the visitor, typing it first
   const typeAndAsk = useCallback(() => {
@@ -360,6 +379,10 @@ export default function App() {
       } else if (e.key === '?') {
         e.preventDefault();
         setTour(true);
+      } else if (stageOn && ['1', '2', '3'].includes(e.key)) {
+        const pin = STAGE_PINS[Number(e.key) - 1];
+        const entry = pin && stageCache.current[pin.id];
+        if (entry?.response) openStagePin(entry.response, pin);
       } else if (e.key === '1') {
         setWorkspace('ask');
       } else if (e.key === '2') {
@@ -374,7 +397,7 @@ export default function App() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [tour, stage, response, active]);
+  }, [tour, stage, response, active, stageOn, language]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const split = workspace !== 'method' && !landing;
   const cols = { '--cols': `minmax(0, ${ratio}fr) 18px minmax(0, ${1 - ratio}fr)` };
@@ -393,18 +416,13 @@ export default function App() {
         stats={stats}
         online={online}
         language={language}
-        onLanguage={(lang) => {
-          setLanguage(lang);
-          if (query && response && !loading) {
-            submit(query, false, lang);
-          }
-        }}
+        onLanguage={setLanguage /* applies to the next question; an open answer offers a manual re-run */}
         asOf={asOf}
         onAsOf={setAsOf}
         session={session}
-        onCommand={focusQuestion}
         onHome={() => setStage('hero')}
       />
+      {stageOn && <StageBar onOpen={openStagePin} onCache={onStageCache} />}
 
       <div className="flex min-h-0 flex-1">
         <Rail active={workspace} onChange={setWorkspace} onTour={() => setTour(true)} onShortcuts={() => setKeys(true)} />
@@ -418,16 +436,15 @@ export default function App() {
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.18 }}
             style={split ? cols : undefined}
-            className={`min-h-0 flex-1 overflow-y-auto p-3 sm:p-4 print:p-0 print:overflow-visible ${split ? 'grid grid-cols-1 content-start gap-4 lg:[grid-template-columns:var(--cols)] lg:gap-0 lg:overflow-hidden print:block' : ''}`}
+            className={`min-h-0 min-w-0 flex-1 overflow-y-auto p-3 sm:p-4 print:p-0 print:overflow-visible ${split ? 'grid grid-cols-1 content-start gap-4 lg:[grid-template-columns:var(--cols)] lg:gap-0 lg:overflow-hidden print:block' : ''}`}
           >
             {landing && (
               <section className="mx-auto w-full max-w-[1120px] px-1 pt-3 sm:pt-10" aria-label="Ask a question">
-                <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)]">
-                  <div className="space-y-7">
+                <div className="mx-auto grid max-w-[860px] grid-cols-1 items-center gap-12">
+                  <div className="min-w-0 space-y-7">
                     <HeroHeader />
                     <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={false} hero focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} />
                   </div>
-                  <Specimen className="hidden lg:block" />
                 </div>
                 <Hero onAsk={(t) => submit(t, true)} disabled={loading} />
               </section>
@@ -463,31 +480,26 @@ export default function App() {
                           <div className="hidden print:block mb-6 border-b-2 border-stone-800 pb-3 text-left">
                             <div className="flex justify-between items-start">
                               <div>
-                                <h1 className="text-xl font-extrabold tracking-tight text-black">GOVERNMENT OF GUJARAT</h1>
-                                <h2 className="text-xs uppercase tracking-widest text-stone-600 font-mono mt-0.5">GovResolve-AI Administrative Action Memorandum (PS000230)</h2>
+                                <h1 className="text-xl font-extrabold tracking-tight text-black">GovResolve-AI — Verification Reference Note</h1>
+                                <h2 className="text-[12.5px] uppercase tracking-widest text-stone-600 font-mono mt-0.5">Not an official Government issue · check against the original order</h2>
                               </div>
-                              <div className="text-right text-[10px] text-stone-600 font-mono">
+                              <div className="text-right text-[12.5px] text-stone-600 font-mono">
                                 <p>DATE: {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
-                                <p>STATUS: OFFICIAL VERIFIED EXTRACT</p>
+                                <p>Extract from the indexed resolutions</p>
                               </div>
                             </div>
-                            <div className="mt-3 text-xs text-stone-800 bg-stone-100 p-2.5 rounded border border-stone-300">
-                              <span className="font-bold text-black">INQUIRY SUBJECT: </span> {query}
+                            <div className="mt-3 text-[12.5px] text-stone-800 bg-stone-100 p-2.5 rounded border border-stone-300">
+                              <span className="font-bold text-black">Question: </span> {query}
                             </div>
                           </div>
 
                           <StatusBanner status={response.answer_status} reasonCode={response.reason_code} asOf={asOf} asOfStatus={asOfStatus} />
+                          <WhatChanged citation={shownFor} chain={shownChain} onOpenNewer={(n) => { const node = shownChain.find((c) => c.gr_id === n.gr_id); if (node) openNode(node); }} />
                           <AnswerCard
                             response={response}
                             active={active}
                             onSelect={setActive}
-                            language={language}
-                            onLanguageChange={(newLang) => {
-                              setLanguage(newLang);
-                              if (query && !loading) {
-                                submit(query, false, newLang);
-                              }
-                            }}
+                            rerun={askedLang !== language && query.trim() ? { label: LANG_LABEL[String(language)] || 'Auto', gu: language === 'gu', onClick: () => submit(query) } : null}
                           />
                           <LineageGraph chain={shownChain} forGr={shownFor?.gr_number} asOf={asOf} onAsOf={setAsOf} activeId={active?.gr_id} onSelectNode={openNode} />
                         </motion.div>

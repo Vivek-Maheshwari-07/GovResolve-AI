@@ -33,7 +33,9 @@ sys.path.insert(0, str(ROOT / "backend"))
 
 
 def find_corpus() -> Path | None:
-    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "processed", ROOT / "data" / "corpus_v2"):
+    # corpus_v2 (366 GRs) is the collection the search index and the official test queries were built for;
+    # data/processed (150 GRs, tracked in git) is the fallback when corpus_v2 is not on this machine
+    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "corpus_v2", ROOT / "data" / "processed"):
         if c and Path(c).is_dir() and any(Path(c).glob("*.json")):
             return Path(c)
     return None

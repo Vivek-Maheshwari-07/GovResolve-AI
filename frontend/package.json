@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "node --test src/api.test.mjs src/lib.test.mjs",
+    "test": "node --test src/api.test.mjs src/lib.test.mjs src/stage.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -137,7 +137,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
                 onClick={() => setEdgeId(on ? null : e.id)}
                 aria-pressed={on}
                 title={`${e.link_type} ${e.to_gr_number}: read the clause`}
-                className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-2.5 py-1 text-[10.5px] font-bold transition-all ${t.text}`}
+                className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-2.5 py-1 text-[12.5px] font-bold transition-all ${t.text}`}
                 style={{
                   left: e.mx,
                   top: e.my,
@@ -186,16 +186,16 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
               >
                 <div className="flex items-center justify-between gap-1.5">
                   <Seal status={sealKey} size={28} />
-                  <span className={`inline-flex items-center gap-1 rounded-full border ${tone.ring} ${tone.pill} px-2 py-0.5 text-[8.5px] font-bold ${tone.text}`}>
+                  <span className={`inline-flex items-center gap-1 rounded-full border ${tone.ring} ${tone.pill} px-2 py-0.5 text-[12.5px] font-bold ${tone.text}`}>
                     <span className={`h-1.5 w-1.5 rounded-full ${tone.dot}`} />
                     <span className="truncate">{external ? 'Not in corpus' : !st.issued ? 'Not yet issued' : NODE_LABEL[st.status] || 'No later change'}</span>
                   </span>
                 </div>
                 <p className="mt-2 truncate font-mono text-[12.5px] font-bold text-[#1E293B]" title={c.gr_number}>{c.gr_number}</p>
-                <p className="font-mono text-[11px] text-[#64748B]">{c.date || 'Undated'}</p>
-                {c.subject && <p className="gu-text mt-0.5 line-clamp-2 text-[11.5px] leading-snug text-[#1E293B]">{c.subject}</p>}
-                {first && !c.subject && <p className="mt-1 truncate text-[11px] text-[#64748B]">{first.link_type} {first.to_gr_number}</p>}
-                {selected && <span className="mono-label absolute -top-2 right-3 rounded bg-[#4F46E5] px-1.5 py-0.5 text-[8.5px] font-bold text-white shadow-sm">Open</span>}
+                <p className="font-mono text-[12.5px] text-[#64748B]">{c.date || 'Undated'}</p>
+                {c.subject && <p className="gu-text mt-0.5 line-clamp-2 text-[12.5px] leading-snug text-[#1E293B]">{c.subject}</p>}
+                {first && !c.subject && <p className="mt-1 truncate text-[12.5px] text-[#64748B]">{first.link_type} {first.to_gr_number}</p>}
+                {selected && <span className="mono-label absolute -top-2 right-3 rounded bg-[#4F46E5] px-1.5 py-0.5 text-[12.5px] font-bold text-white shadow-sm">Open</span>}
               </motion.button>
             );
           })}
@@ -243,7 +243,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
                   <span className="h-2 w-2 rounded-full bg-[#4F46E5]" />
                 </motion.div>
                 <motion.span
-                  className="mono-label pointer-events-none absolute -top-0.5 -translate-x-1/2 whitespace-nowrap rounded bg-[#1E293B] px-1.5 py-0.5 text-[9px] text-white"
+                  className="mono-label pointer-events-none absolute -top-0.5 -translate-x-1/2 whitespace-nowrap rounded bg-[#1E293B] px-1.5 py-0.5 text-[12.5px] text-white"
                   animate={{ left: xOfP(pOf) }}
                   transition={drag ? { duration: 0 } : { type: 'spring', stiffness: 380, damping: 32 }}
                 >
@@ -267,7 +267,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
               <button
                 type="button"
                 onClick={() => onSelectNode({ ...fromNode, edges_out: [sel, ...(fromNode.edges_out || []).filter((x) => x !== sel)] })}
-                className="inline-flex items-center gap-1 text-[11.5px] font-semibold text-[#4F46E5] hover:text-[#4338CA]"
+                className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-[#4F46E5] hover:text-[#4338CA]"
               >
                 Open page {sel.page} <ArrowUpRight className="h-3 w-3" />
               </button>
@@ -275,10 +275,10 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
             {sel.quote ? (
               <p className="legal-text mt-2 border-l-[3px] border-[#F59E0B] bg-[#FFFBEB]/50 pl-3 py-1 text-[13px] text-[#1E293B]">“{sel.quote}”</p>
             ) : (
-              <p className="mt-2 text-xs text-[#64748B]">No verbatim sentence was stored for this link.</p>
+              <p className="mt-2 text-[12.5px] text-[#64748B]">No verbatim sentence was stored for this link.</p>
             )}
             {sel.warnings?.length > 0 && (
-              <p className="mt-2 text-[11.5px] font-medium text-[#92400E]">⚠ {sel.warnings.join(' · ')} (drawn dashed)</p>
+              <p className="mt-2 text-[12.5px] font-medium text-[#92400E]">⚠ {sel.warnings.join(' · ')} (drawn dashed)</p>
             )}
           </motion.div>
         ) : (
@@ -287,7 +287,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
               No amendment, supersession or cancellation links were found for this document in the indexed collection.
             </motion.p>
           ) : (
-            <motion.p key="hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-2 text-[11.5px] text-[#64748B]">
+            <motion.p key="hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-2 text-[12.5px] text-[#64748B]">
               Select a link to read the exact clause that created it.{canScrub ? ' Drag the handle to see the chain on any date.' : ''}
             </motion.p>
           )
@@ -307,9 +307,9 @@ function Ledger({ chain, onSelectNode }) {
         return (
           <li key={`${c.gr_id}-${e.to_gr_id}-${k}`} className="py-2.5">
             <button type="button" onClick={() => onSelectNode({ ...c, edges_out: [e] })} className="group block w-full text-left">
-              <p className="flex flex-wrap items-center gap-x-2 font-mono text-[11.5px]">
+              <p className="flex flex-wrap items-center gap-x-2 font-mono text-[12.5px]">
                 <span className="font-bold text-[#1E293B]">{c.gr_number}</span>
-                <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${t.text}`} style={{ background: t.wash, boxShadow: `0 0 0 1px ${t.edge}55` }}>{e.link_type}</span>
+                <span className={`rounded-full px-2 py-0.5 text-[12.5px] font-bold ${t.text}`} style={{ background: t.wash, boxShadow: `0 0 0 1px ${t.edge}55` }}>{e.link_type}</span>
                 <span className="font-bold text-[#1E293B]">{byId[e.to_gr_id]?.gr_number || e.to_gr_number}</span>
                 <span className="text-[#64748B]">{c.date} · p.{e.page}</span>
               </p>
@@ -318,7 +318,7 @@ function Ledger({ chain, onSelectNode }) {
           </li>
         );
       })}
-      {rows.length === 0 && <li className="py-3 text-xs text-[#64748B]">No amendment links in this chain.</li>}
+      {rows.length === 0 && <li className="py-3 text-[12.5px] text-[#64748B]">No amendment links in this chain.</li>}
     </ul>
   );
 }
@@ -339,19 +339,19 @@ export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNo
           </span>
           <div>
             <h2 className="display text-[17px] font-bold leading-tight text-[#1E293B]">Amendment lineage</h2>
-            <p className="mono-label mt-1 text-[9.5px] text-[#64748B]">{counts.total} {counts.total === 1 ? 'order' : 'orders'} · newer → older{forGr ? ` · chain of ${forGr}` : ''}</p>
+            <p className="mono-label mt-1 text-[12.5px] text-[#64748B]">{counts.total} {counts.total === 1 ? 'order' : 'orders'} · newer → older{forGr ? ` · chain of ${forGr}` : ''}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {asOf && (
-            <button type="button" onClick={() => onAsOf?.('')} className="inline-flex items-center gap-1.5 rounded-full bg-[#FFFBEB] px-2.5 py-1 font-mono text-[10.5px] font-semibold text-[#92400E] ring-1 ring-[#FDE68A] hover:bg-[#FEF3C7]" title="Back to today">
+            <button type="button" onClick={() => onAsOf?.('')} className="inline-flex items-center gap-1.5 rounded-full bg-[#FFFBEB] px-2.5 py-1 font-mono text-[12.5px] font-semibold text-[#92400E] ring-1 ring-[#FDE68A] hover:bg-[#FEF3C7]" title="Back to today">
               as of {asOf} · {counts.issued}/{counts.total} issued <RotateCcw className="h-3 w-3" />
             </button>
           )}
           <div className="well flex p-0.5 print:hidden" role="group" aria-label="Lineage view">
             {[['map', 'Map', Waypoints], ['ledger', 'Ledger', Rows3]].map(([k, label, Icon]) => (
-              <button key={k} type="button" aria-pressed={view === k} onClick={() => setView(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[11.5px] font-semibold transition ${view === k ? 'bg-[rgba(255,255,255,0.88)] text-[#1E293B] shadow-card' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
+              <button key={k} type="button" aria-pressed={view === k} onClick={() => setView(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[12.5px] font-semibold transition ${view === k ? 'bg-[rgba(255,255,255,0.88)] text-[#1E293B] shadow-card' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
                 <Icon className="h-3.5 w-3.5" /> {label}
               </button>
             ))}

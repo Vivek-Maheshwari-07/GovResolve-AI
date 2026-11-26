@@ -47,57 +47,6 @@ export function HeroHeader() {
   );
 }
 
-/** Illustrative dossier (invented GR numbers, labelled as such): shows what an answer looks like before the first question. */
-export function Specimen({ className = '' }) {
-  const nodes = [
-    { x: 48, label: 'GR/EX/2014', tone: '#F59E0B' },
-    { x: 160, label: 'GR/EX/2018', tone: '#F59E0B' },
-    { x: 272, label: 'GR/EX/2022', tone: '#10B981' },
-  ];
-  const arc = (a, b) => `M${b.x} 94 C${b.x} 40, ${a.x} 40, ${a.x} 90`;
-  return (
-    <div className={`relative ${className}`} aria-label="Illustrative example of an answer">
-      {/* paper stack */}
-      <div aria-hidden className="sheet absolute inset-x-3 top-5 h-full -rotate-[5deg] opacity-80" />
-      <div aria-hidden className="sheet absolute inset-x-1.5 top-2.5 h-full rotate-[2.5deg] opacity-95" />
-
-      <motion.div initial={{ opacity: 0, y: 24, rotate: 1 }} animate={{ opacity: 1, y: 0, rotate: -0.6 }} transition={{ type: 'spring', stiffness: 150, damping: 20, delay: 0.35 }} className="sheet relative overflow-hidden p-5">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <span className="mono-label rounded border border-[#E6E4DD] bg-[#F1EFEA] px-1.5 py-0.5 text-[#64748B]">Example · illustrative</span>
-            <p className="display mt-3 text-[15px] font-bold leading-snug text-[#1E293B]">Recruitment rules: age relaxation</p>
-            <p className="mt-1 font-mono text-[10.5px] text-[#64748B]">DOSSIER № EX-0007 · 3 ORDERS IN CHAIN</p>
-          </div>
-          <Seal status="amended" size={78} stamped delay={1.0} />
-        </div>
-
-        <svg viewBox="0 0 320 120" className="mt-3 w-full" role="img" aria-label="Three orders, each amending the one before">
-          {[0, 1].map((i) => (
-            <g key={i}>
-              <motion.path d={arc(nodes[i + 1], nodes[i])} fill="none" stroke={nodes[i + 1].tone} strokeWidth="1.7" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 1.1 + i * 0.25, duration: 0.8, ease: 'easeOut' }} />
-              <polygon points={`${nodes[i].x - 4},86 ${nodes[i].x + 4},86 ${nodes[i].x},94`} fill={nodes[i + 1].tone} />
-            </g>
-          ))}
-          <line x1="20" x2="300" y1="98" y2="98" stroke="#E6E4DD" strokeDasharray="2 4" />
-          {nodes.map((n) => (
-            <g key={n.label}>
-              <circle cx={n.x} cy="98" r="5" fill="#FAF9F5" stroke={n.tone} strokeWidth="2.2" />
-              <text x={n.x} y="114" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="8.5" fontWeight="600" fill="#1E293B">{n.label}</text>
-            </g>
-          ))}
-          <text x="104" y="52" textAnchor="middle" fontFamily="Plus Jakarta Sans, sans-serif" fontSize="8.5" fontWeight="700" fill="#92400E">AMENDS</text>
-          <text x="216" y="52" textAnchor="middle" fontFamily="Plus Jakarta Sans, sans-serif" fontSize="8.5" fontWeight="700" fill="#92400E">AMENDS</text>
-        </svg>
-
-        <blockquote className="legal-text mt-3 border-l-[3px] border-[#D97706] bg-[#FFFBEB] py-2 pl-3 pr-2 text-[12.5px] text-[#1E293B]">
-          “…the upper age limit shall stand relaxed by one year…”
-          <footer className="mono-label mt-1 text-[9.5px] text-[#92400E]">p.2 · verbatim · illustrative text</footer>
-        </blockquote>
-      </motion.div>
-    </div>
-  );
-}
-
 /** Case files, capabilities and the five seals, shown below the masthead. */
 export default function Hero({ onAsk, disabled }) {
   return (
@@ -120,7 +69,7 @@ export default function Hero({ onAsk, disabled }) {
                 className="group relative grid w-full grid-cols-[2.4rem_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-[#EEF2FF]/60 disabled:opacity-50"
               >
                 <span aria-hidden className="absolute inset-y-0 left-0 w-[3px] origin-top scale-y-0 bg-[#4F46E5] transition-transform duration-300 group-hover:scale-y-100" />
-                <span className="font-mono text-[11px] font-semibold text-[#64748B]">{String(i + 1).padStart(2, '0')}</span>
+                <span className="font-mono text-[12.5px] font-semibold text-[#64748B]">{String(i + 1).padStart(2, '0')}</span>
                 <span className="min-w-0">
                   <span className={`block truncate text-[14.5px] font-semibold text-[#1E293B] ${s.kind === 'gu' ? 'gu-text' : ''}`}>{s.label}</span>
                   <span className="mt-0.5 flex items-center gap-1.5 text-[12px] text-[#64748B]">
@@ -155,7 +104,7 @@ export default function Hero({ onAsk, disabled }) {
                 <Seal status={s.key} size={62} />
                 <div>
                   <p className={`text-[12.5px] font-bold leading-tight ${t.text}`}>{s.label}</p>
-                  {s.reserved && <p className="mono-label mt-1 text-[9px] text-[#64748B]">Reserved · not emitted yet</p>}
+                  {s.reserved && <p className="mono-label mt-1 text-[12.5px] text-[#64748B]">Reserved · not emitted yet</p>}
                 </div>
               </div>
             );

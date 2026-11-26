@@ -47,3 +47,32 @@ test('court citation keeps the verbatim quote, page and date', () => {
   assert.match(t, /2026-11-02/);
   assert.match(reportText({ gr_id: 'g', page: 3, passage: 'q' }, 'my question'), /my question/);
 });
+
+test('GR numbers: clean ones are shown, OCR fragments fall back to the stable id', async () => {
+  const { displayNumber } = await import('./lib/grnumber.js');
+  assert.equal(displayNumber({ gr_id: 'GAD-1', gr_number: 'પરચ-૧૦ર૦૦૫-૧૫૧૯-પાર્ટ-૧-ક' }), 'પરચ-૧૦ર૦૦૫-૧૫૧૯-પાર્ટ-૧-ક');
+  assert.equal(displayNumber({ gr_id: 'GAD-1', gr_number: 'CRR/102017/1245/G' }), 'CRR/102017/1245/G');
+  assert.equal(displayNumber({ gr_id: 'GAD-1', gr_number: 'EXE- 1155 dated the 10th /' }), 'GAD-1');
+  assert.equal(displayNumber({ gr_id: 'GAD-1', gr_number: null }), 'GAD-1');
+});
+
+test('what changed: the latest explicit amending order and its verbatim sentence, nothing without a link', async () => {
+  const { whatChanged } = await import('./lib/whatChanged.js');
+  const cit = { gr_id: 'old', gr_number: 'GAD/2014/07', page: 1, passage: 'Rs. 350 per day', issue_date: '2014-05-12' };
+  const chain = [
+    { gr_id: 'base', gr_number: 'GAD/2010/01', date: '2010-04-01', edges_out: [] },
+    { gr_id: 'old', gr_number: 'GAD/2014/07', date: '2014-05-12', edges_out: [{ to_gr_id: 'base', relation: 'amends', page: 1, quote: 'x' }] },
+    { gr_id: 'mid', gr_number: 'GAD/2016/03', date: '2016-01-01', edges_out: [{ to_gr_id: 'old', relation: 'amends', page: 2, quote: 'first change' }] },
+    { gr_id: 'new', gr_number: 'GAD/2019/22', date: '2019-09-30', edges_out: [{ to_gr_id: 'old', relation: 'supersedes', page: 1, quote: 'In supersession of GR GAD/2014/07' }] },
+  ];
+  const w = whatChanged(cit, chain);
+  assert.equal(w.newer.gr_number, 'GAD/2019/22');
+  assert.equal(w.newer.quote, 'In supersession of GR GAD/2014/07');
+  assert.equal(w.label, 'Superseded by');
+  assert.equal(w.older.quote, 'Rs. 350 per day');
+  assert.equal(w.others, 1);
+  // references never count as a change, and the cited order's own outgoing links are not about it
+  assert.equal(whatChanged(cit, [{ gr_id: 'r', date: '2020-01-01', edges_out: [{ to_gr_id: 'old', relation: 'refers_to', quote: 'see' }] }]), null);
+  assert.equal(whatChanged({ gr_id: 'base' }, chain.slice(0, 1)), null);
+  assert.equal(whatChanged(null, chain), null);
+});
