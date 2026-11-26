@@ -1,7 +1,7 @@
 # Project instructions for AI coding tools
 
 Project: Gujarati-English assistant for Government Resolutions (PS000230), Seva First Innovation Challenge.
-Layout: `backend/` (FastAPI service, RAG pipeline, lineage engine), `frontend/` (React app), `docs/`, `data/` (corpus, index, `data/eval/` scorecards), `deploy/`. See `README.md`.
+Layout: `backend/` (FastAPI service, RAG pipeline, lineage engine), `frontend/` (React app), `docs/`, `eval/`. See `README.md`.
 
 Before changing anything, read `.github/CONTRIBUTING.md` and `docs/IMPLEMENTATION_PLAN.md` (context, code map, rules).
 API contract: `docs/API_CONTRACT.md`. Language-model providers (Ollama, Groq): `docs/LLM_PROVIDERS.md`, code in `backend/rag/providers/`.

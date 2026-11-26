@@ -1,0 +1,540 @@
+{
+  "gr_id": "FD-2001-b3077d",
+  "gr_number": "UNKNOWN",
+  "department": "Finance Department",
+  "issue_date": "2001-05-10",
+  "effective_date": null,
+  "subject": "Central  Clvll  Servlccas  (LTC)  Rub,  1988-  Suspendon  regardng  . Sachlvalaya,  Gand  himgar,",
+  "language": "en",
+  "source_type": "digital",
+  "file_path": "C:\\Users\\Anisha\\Desktop\\Aayush\\24CS051\\SFIC\\GovResolve-AI-main\\GovResolve-AI-main\\final_dataset\\01_core_gad_searchable\\government-resolutions\\1_728_1_CENTRAL-CIVIL-SERVICE-(LTC)RULES 1988-(10.5.2001).pdf",
+  "pages": [
+    {
+      "page_number": 1,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 666.239990234375,
+      "height": 1037.52001953125,
+      "blocks": [
+        {
+          "block_id": "p1_b0",
+          "text": "Central  Clvll  Servlccas  (LTC)  Rub,  1988-  Suspendon  regardng  .",
+          "text_clean": "Central  Clvll  Servlccas  (LTC)  Rub,  1988-  Suspendon  regardng  .",
+          "bbox": {
+            "x0": 365.2504577636719,
+            "y0": 107.37163543701172,
+            "x1": 523.1904907226562,
+            "y1": 156.93594360351562,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b1",
+          "text": "GOVERNMENT  OF  QUJARAT,  Gersral  Admlnlstratlon  Oepsrtment,  Resotutlon  No.  AIS/42-2001/2177/G,",
+          "text_clean": "GOVERNMENT  OF  QUJARAT,  Gersral  Admlnlstratlon  Oepsrtment,  Resotutlon  No.  AIS/42-2001/2177/G,",
+          "bbox": {
+            "x0": 196.53427124023438,
+            "y0": 161.93167114257812,
+            "x1": 407.98809814453125,
+            "y1": 206.5408935546875,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b2",
+          "text": "Sachlvalaya,  Gand  himgar,",
+          "text_clean": "Sachlvalaya,  Gand  himgar,",
+          "bbox": {
+            "x0": 225.8097686767578,
+            "y0": 199.30511474609375,
+            "x1": 381.73114013671875,
+            "y1": 221.18011474609375,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b3",
+          "text": "Dated  the  1   0   ~  May,  ZOO1",
+          "text_clean": "Dated  the  1   0   ~  May,  ZOO1",
+          "bbox": {
+            "x0": 228.69497680664062,
+            "y0": 213.1902313232422,
+            "x1": 377.6172790527344,
+            "y1": 234.12347412109375,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b4",
+          "text": "Read:-  (1)  Govt.  of  Indla,  Mlnistry  of  Publk  Grievances  &  Pensions  (l3.0.P.T.)'~",
+          "text_clean": "Read:-  (1)  Govt.  of  Indla,  Mlnistry  of  Publk  Grievances  &  Pensions  (l3.0.P.T.)'~",
+          "bbox": {
+            "x0": 70.05647277832031,
+            "y0": 239.50296020507812,
+            "x1": 529.3525390625,
+            "y1": 260.387451171875,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b5",
+          "text": "letter  No.  llQ22/1/2001/AIS  (11)  dated  13.4.2001.",
+          "text_clean": "letter  No.  llQ22/1/2001/AIS  (11)  dated  13.4.2001.",
+          "bbox": {
+            "x0": 136.77456665039062,
+            "y0": 253.47894287109375,
+            "x1": 432.9947204589844,
+            "y1": 273.7789306640625,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b6",
+          "text": "(2)  Govt.  of  India,  Mldstry  of  Public  Orlsvanws  8t  Penslone  (D.O.  P.T.)'s",
+          "text_clean": "(2)  Govt.  of  India,  Mldstry  of  Public  Orlsvanws  8t  Penslone  (D.O.  P.T.)'s",
+          "bbox": {
+            "x0": 109.40917205810547,
+            "y0": 280.0864562988281,
+            "x1": 518.702392578125,
+            "y1": 299.7767028808594,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b7",
+          "text": "O.M.  No.  31013/3/2M)  IlEST  (A)  dated  2.3.2001.",
+          "text_clean": "O.M.  No.  31013/3/2M)  IlEST  (A)  dated  2.3.2001.",
+          "bbox": {
+            "x0": 137.01637268066406,
+            "y0": 293.021728515625,
+            "x1": 427.8951416015625,
+            "y1": 313.8091125488281,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b8",
+          "text": "/  (3)  Govt.  of  Gujarat,  Flnanca  Department  Vernacular  Rcsolutlon  No.)c&w/",
+          "text_clean": "/  (3)  Govt.  of  Gujarat,  Flnanca  Department  Vernacular  Rcsolutlon  No.)c&w/",
+          "bbox": {
+            "x0": 106.76976776123047,
+            "y0": 309.10211181640625,
+            "x1": 530.6992797851562,
+            "y1": 339.3379211425781,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b9",
+          "text": "10-2001/368/CH  dated  1.5.2001.",
+          "text_clean": "10-2001/368/CH  dated  1.5.2001.",
+          "bbox": {
+            "x0": 130.53286743164062,
+            "y0": 334.380859375,
+            "x1": 325.9347229003906,
+            "y1": 353.1424560546875,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b10",
+          "text": "The  Central  Government  have  declded  to  suspend  the  Wllties  of  both  Home  Town  LTC  and  All  India  LTC  available  to  the  offlccrs/empkyees  of  the  Central  Civil  Services  including  the  AIS  W~cers  on  deputation  to  the  Govt,  of  Indla,  for  a  perlod  of  two  years  wkh  immediate  ePEact  Mlnlstry  of  Personnel,  PuMk  Grievances  &  Penslon  (Department  of  Petsonnel  &  Tralnlng)'~  O.M.  dated  2.3.2001,  Thus,  In  so  far  as  the  All  Indb  Servlce  Omcars  borne  on  the  Gujarat  Cadre  who  am  on  deputaUon  to  Govt,  of  Indla  ere  conanrcd,  they  will  be  abk  to  avail  either  Home  Town  LTC  or  Ail  Indla  LTC  In  terms  of  the  above  mentioned  orders  of  Govt.  of  India.",
+          "text_clean": "The  Central  Government  have  declded  to  suspend  the  Wllties  of  both  Home  Town  LTC  and  All  India  LTC  available  to  the  offlccrs/empkyees  of  the  Central  Civil  Services  including  the  AIS  W~cers  on  deputation  to  the  Govt,  of  Indla,  for  a  perlod  of  two  years  wkh  immediate  ePEact  Mlnlstry  of  Personnel,  PuMk  Grievances  &  Penslon  (Department  of  Petsonnel  &  Tralnlng)'~  O.M.  dated  2.3.2001,  Thus,  In  so  far  as  the  All  Indb  Servlce  Omcars  borne  on  the  Gujarat  Cadre  who  am  on  deputaUon  to  Govt,  of  Indla  ere  conanrcd,  they  will  be  abk  to  avail  either  Home  Town  LTC  or  Ail  Indla  LTC  In  terms  of  the  above  mentioned  orders  of  Govt.  of  India.",
+          "bbox": {
+            "x0": 69.09667205810547,
+            "y0": 386.4710388183594,
+            "x1": 545.9468383789062,
+            "y1": 513.511474609375,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b11",
+          "text": "2.  On  l*  May,  ZOO1  (as  uMndd  on  8.5.2001),  tha  Rnanaa  Depanmant  of  the  State  Govt,  has  also  Issued  orders  suspendl~g  the  fecllity  of Home  town",
+          "text_clean": "2.  On  l*  May,  ZOO1  (as  uMndd  on  8.5.2001),  tha  Rnanaa  Depanmant  of  the  State  Govt,  has  also  Issued  orders  suspendl~g  the  fecllity  of Home  town",
+          "bbox": {
+            "x0": 69.0959701538086,
+            "y0": 521.3926391601562,
+            "x1": 539.8945922851562,
+            "y1": 555.0404663085938,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b12",
+          "text": "L.T.C.  and  All  India  L.T.C.  avallable  to  the  State  Govt.  offlcero/employees  for  a  -+-...-  perbd  of  two  years  with  immsdlzrte  efkxt.  The  Home  Town  LTC/  Alt  Indla  LTC  of  a  member  of  the  All  India  Service  servlng  111  contwctlon  with  the  affairs  of  ttie  State  is  to  be  regulated  in  the  same  manner  and  subject  to  the  same  conditions  as  are  applicable  to  the  ofQIcers  of  the  State  Clvll  Servlce,  Class-I  and  therebre,  the  All  India  Service  Officers  borne  on  the  State  cadre  atM  working  In  contwtlon  with  the  affairs  of  the  State,  wlll  be  governed  by  the  same  provlslons  as  are  appllcab  to  the  oftlcen  of  the  State  CJvil  Service,  Class-I.  As  such,  the  G.R.,",
+          "text_clean": "L.T.C.  and  All  India  L.T.C.  avallable  to  the  State  Govt.  offlcero/employees  for  a  -+-...-  perbd  of  two  years  with  immsdlzrte  efkxt.  The  Home  Town  LTC/  Alt  Indla  LTC  of  a  member  of  the  All  India  Service  servlng  111  contwctlon  with  the  affairs  of  ttie  State  is  to  be  regulated  in  the  same  manner  and  subject  to  the  same  conditions  as  are  applicable  to  the  ofQIcers  of  the  State  Clvll  Servlce,  Class-I  and  therebre,  the  All  India  Service  Officers  borne  on  the  State  cadre  atM  working  In  contwtlon  with  the  affairs  of  the  State,  wlll  be  governed  by  the  same  provlslons  as  are  appllcab  to  the  oftlcen  of  the  State  CJvil  Service,  Class-I.  As  such,  the  G.R.,",
+          "bbox": {
+            "x0": 29.029071807861328,
+            "y0": 547.3803100585938,
+            "x1": 541.6204833984375,
+            "y1": 661.4296264648438,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b13",
+          "text": "Finance  Department  dated  1st  May,  2001  is  sutomatlcaliy  applicable  to  the  All  ~ndh  Servtce  Offloers  of  the  Gujamt  State  also,  with  effect  from  I*  May,  2001.  Accordingly,  the facility  of  Home  Town  LTCIAII  Itxfia  LTC  available  to  the  AIs",
+          "text_clean": "Finance  Department  dated  1st  May,  2001  is  sutomatlcaliy  applicable  to  the  All  ~ndh  Servtce  Offloers  of  the  Gujamt  State  also,  with  effect  from  I*  May,  2001.  Accordingly,  the facility  of  Home  Town  LTCIAII  Itxfia  LTC  available  to  the  AIs",
+          "bbox": {
+            "x0": 69.33106994628906,
+            "y0": 653.506591796875,
+            "x1": 539.3528442382812,
+            "y1": 702.1757202148438,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b14",
+          "text": "Offkers  born  on  the  State  cadre  and  working  In  connection  with  the  affairs  of  the  State  stands  suspended  for  a  perlod  of  two  years  with  effect  from  1.5.2001.  It  is  further clarified  that-",
+          "text_clean": "Offkers  born  on  the  State  cadre  and  working  In  connection  with  the  affairs  of  the  State  stands  suspended  for  a  perlod  of  two  years  with  effect  from  1.5.2001.  It  is  further clarified  that-",
+          "bbox": {
+            "x0": 69.81497192382812,
+            "y0": 694.7920532226562,
+            "x1": 540.5286865234375,
+            "y1": 742.1826171875,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b15",
+          "text": "(1)  These  orders  will  be  applicable  to  the  curmnt  Block  Period",
+          "text_clean": "(1)  These  orders  will  be  applicable  to  the  curmnt  Block  Period",
+          "bbox": {
+            "x0": 70.76917266845703,
+            "y0": 749.1099243164062,
+            "x1": 460.1072692871094,
+            "y1": 771.4443969726562,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b16",
+          "text": "1998-2001.",
+          "text_clean": "1998-2001.",
+          "bbox": {
+            "x0": 126.45657348632812,
+            "y0": 763.8673706054688,
+            "x1": 205.87413024902344,
+            "y1": 783.2923583984375,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b17",
+          "text": "(iu  The  officers  who  have  less  than  2  years  of  service  before  retirement  as  on  date  of  issue  of  thk  Resolution,  wlll  be  exempted  from  the  operation  of  the  LTC  suspension  order;  provided  they  have  mavalled  the  facility",
+          "text_clean": "(iu  The  officers  who  have  less  than  2  years  of  service  before  retirement  as  on  date  of  issue  of  thk  Resolution,  wlll  be  exempted  from  the  operation  of  the  LTC  suspension  order;  provided  they  have  mavalled  the  facility",
+          "bbox": {
+            "x0": 71.24987030029297,
+            "y0": 789.375244140625,
+            "x1": 541.0845947265625,
+            "y1": 835.6583251953125,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b18",
+          "text": "In  the  current  Black,",
+          "text_clean": "In  the  current  Black,",
+          "bbox": {
+            "x0": 125.97726440429688,
+            "y0": 829.501708984375,
+            "x1": 243.8729248046875,
+            "y1": 848.2633056640625,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b19",
+          "text": "(111)  In  case  of  ttrose  offlcers  who  twve  already  booked  the  tlckets,  the  cadlation  charges  will  be  relmbursad  by  the  Covemmnt",
+          "text_clean": "(111)  In  case  of  ttrose  offlcers  who  twve  already  booked  the  tlckets,  the  cadlation  charges  will  be  relmbursad  by  the  Covemmnt",
+          "bbox": {
+            "x0": 71.7305679321289,
+            "y0": 854.0579833984375,
+            "x1": 502.8435363769531,
+            "y1": 887.4973754882812,
+            "page": 1
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p1_b20",
+          "text": "(iv)  LTC  Advances  already  drawn,  if  any,  may  ba  refunded  immediately  without  any  Interest.",
+          "text_clean": "(iv)  LTC  Advances  already  drawn,  if  any,  may  ba  refunded  immediately  without  any  Interest.",
+          "bbox": {
+            "x0": 72.45087432861328,
+            "y0": 893.7886962890625,
+            "x1": 513.3538818359375,
+            "y1": 929.3222045898438,
+            "page": 1
+          },
+          "ocr_confidence": null
+        }
+      ]
+    },
+    {
+      "page_number": 2,
+      "source_type": "digital",
+      "ocr_confidence": null,
+      "width": 614.879150390625,
+      "height": 1007.760009765625,
+      "blocks": [
+        {
+          "block_id": "p2_b0",
+          "text": "(v)  The  offfwrs,  wlw  have  commef~ced  their  outward  journey  on  LTC  prior",
+          "text_clean": "(v)  The  offfwrs,  wlw  have  commef~ced  their  outward  journey  on  LTC  prior",
+          "bbox": {
+            "x0": 65.49447631835938,
+            "y0": 104.32312774658203,
+            "x1": 534.7979125976562,
+            "y1": 127.45636749267578,
+            "page": 2
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p2_b1",
+          "text": "to  the  date  of  Issue  of  these  Ina;tructions,  will  have  to  complete thelr  inward  journey  as  pmvided  in  the  Rules  providing  for  LTC  Witty.",
+          "text_clean": "to  the  date  of  Issue  of  these  Ina;tructions,  will  have  to  complete thelr  inward  journey  as  pmvided  in  the  Rules  providing  for  LTC  Witty.",
+          "bbox": {
+            "x0": 115.42278289794922,
+            "y0": 119.71509552001953,
+            "x1": 534.6478881835938,
+            "y1": 151.7058563232422,
+            "page": 2
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p2_b2",
+          "text": "By  order  and  in  the  name  of  the Governor of Gujarat,",
+          "text_clean": "By  order  and  in  the  name  of  the Governor of Gujarat,",
+          "bbox": {
+            "x0": 101.97688293457031,
+            "y0": 159.554931640625,
+            "x1": 410.4639587402344,
+            "y1": 178.14443969726562,
+            "page": 2
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p2_b3",
+          "text": "s  /",
+          "text_clean": "s  /",
+          "bbox": {
+            "x0": 452.1541748046875,
+            "y0": 173.36740112304688,
+            "x1": 469.9335021972656,
+            "y1": 180.92440795898438,
+            "page": 2
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p2_b4",
+          "text": "Deputy  h   t   a   r   y  to  Qovt.  of  Qujarat,",
+          "text_clean": "Deputy  h   t   a   r   y  to  Qovt.  of  Qujarat,",
+          "bbox": {
+            "x0": 290.85546875,
+            "y0": 222.86279296875,
+            "x1": 533.5276489257812,
+            "y1": 246.2346649169922,
+            "page": 2
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p2_b5",
+          "text": "Oisneral  AdmlnlrPtratian  Department.",
+          "text_clean": "Oisneral  AdmlnlrPtratian  Department.",
+          "bbox": {
+            "x0": 292.5386657714844,
+            "y0": 239.17942810058594,
+            "x1": 529.0009155273438,
+            "y1": 258.4574279785156,
+            "page": 2
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p2_b6",
+          "text": "The General  Admlntstratlon  Department  (  G  .r  Cell)/Cas  h-I,  I1  Bn.  The  Home  Department  (6  Br.)  The  Forests  &  Envimnment  Department.  The  Rnance  Department  The  Accountant  Genemi  (I),  Gujarat  State,  Ahmedabad.  The  Amntant  General (11)'  Gujamt  State,  fbjkot.  The  Pay  and  kcounts  Officer,  Gandhkragar/Ahmadabad.  The  Resldent Audit  Officer,  Gandhlnragar/~hmed%bad.  All  Dlstrlct  Treasury  Officers.  The  Director  ~ e n e d *  &  Inspector  General  of  Police,  Ahdabad  The  Prlnclpal  Chlef  Comwatar  of  Forests,  Gandhinagar.  All  Members  of  the  State  IAS  Cadre.  All  Members  of  the  State  IPS  Cadm  (Thrwg  h  IG  &  DGP).  All  Members  of  the  State  IFS  Cadre  (lhmugh  the  PCCF).  All  Departmcjt~ts  sf  tile  Sachlvalaya.  The  Hon.  Secretary,  IPS  Assocletian,  Gujamt  Br.,",
+          "text_clean": "The General  Admlntstratlon  Department  (  G  .r  Cell)/Cas  h-I,  I1  Bn.  The  Home  Department  (6  Br.)  The  Forests  &  Envimnment  Department.  The  Rnance  Department  The  Accountant  Genemi  (I),  Gujarat  State,  Ahmedabad.  The  Amntant  General (11)'  Gujamt  State,  fbjkot.  The  Pay  and  kcounts  Officer,  Gandhkragar/Ahmadabad.  The  Resldent Audit  Officer,  Gandhlnragar/~hmed%bad.  All  Dlstrlct  Treasury  Officers.  The  Director  ~ e n e d *  &  Inspector  General  of  Police,  Ahdabad  The  Prlnclpal  Chlef  Comwatar  of  Forests,  Gandhinagar.  All  Members  of  the  State  IAS  Cadre.  All  Members  of  the  State  IPS  Cadm  (Thrwg  h  IG  &  DGP).  All  Members  of  the  State  IFS  Cadre  (lhmugh  the  PCCF).  All  Departmcjt~ts  sf  tile  Sachlvalaya.  The  Hon.  Secretary,  IPS  Assocletian,  Gujamt  Br.,",
+          "bbox": {
+            "x0": 64.54017639160156,
+            "y0": 281.1958312988281,
+            "x1": 456.63885498046875,
+            "y1": 512.8671875,
+            "page": 2
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p2_b7",
+          "text": "C/o  The  IG  &  DGP,  Gufamt  Stab.  Ahmedabad.  The  Hon.  Secmbry,  IFS  dWaciatbn,  Gujarat  Br.,",
+          "text_clean": "C/o  The  IG  &  DGP,  Gufamt  Stab.  Ahmedabad.  The  Hon.  Secmbry,  IFS  dWaciatbn,  Gujarat  Br.,",
+          "bbox": {
+            "x0": 65.2602767944336,
+            "y0": 507.3746032714844,
+            "x1": 362.8381652832031,
+            "y1": 539.5846557617188,
+            "page": 2
+          },
+          "ocr_confidence": null
+        },
+        {
+          "block_id": "p2_b8",
+          "text": "C/o  the  PCCF  Gujarat  State,  Gandhlnapr.  The  Select  file.",
+          "text_clean": "C/o  the  PCCF  Gujarat  State,  Gandhlnapr.  The  Select  file.",
+          "bbox": {
+            "x0": 65.2602767944336,
+            "y0": 534.5404663085938,
+            "x1": 334.78521728515625,
+            "y1": 566.502197265625,
+            "page": 2
+          },
+          "ocr_confidence": null
+        }
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "FD-2001-b3077d_p1_c000",
+      "gr_id": "FD-2001-b3077d",
+      "text": "Central  Clvll  Servlccas  (LTC)  Rub,  1988-  Suspendon  regardng  .\nGOVERNMENT  OF  QUJARAT,  Gersral  Admlnlstratlon  Oepsrtment,  Resotutlon  No.  AIS/42-2001/2177/G,\nSachlvalaya,  Gand  himgar,\nDated  the  1   0   ~  May,  ZOO1\nRead:-  (1)  Govt.  of  Indla,  Mlnistry  of  Publk  Grievances  &  Pensions  (l3.0.P.T.)'~\nletter  No.  llQ22/1/2001/AIS  (11)  dated  13.4.2001.\n(2)  Govt.  of  India,  Mldstry  of  Public  Orlsvanws  8t  Penslone  (D.O.  P.T.)'s\nO.M.  No.  31013/3/2M)  IlEST  (A)  dated  2.3.2001.\n/  (3)  Govt.  of  Gujarat,  Flnanca  Department  Vernacular  Rcsolutlon  No.)c&w/\n10-2001/368/CH  dated  1.5.2001.\nThe  Central  Government  have  declded  to  suspend  the  Wllties  of  both  Home  Town  LTC  and  All  India  LTC  available  to  the  offlccrs/empkyees  of  the  Central  Civil  Services  including  the  AIS  W~cers  on  deputation  to  the  Govt,  of  Indla,  for  a  perlod  of  two  years  wkh  immediate  ePEact  Mlnlstry  of  Personnel,  PuMk  Grievances  &  Penslon  (Department  of  Petsonnel  &  Tralnlng)'~  O.M.  dated  2.3.2001,  Thus,  In  so  far  as  the  All  Indb  Servlce  Omcars  borne  on  the  Gujarat  Cadre  who  am  on  deputaUon  to  Govt,  of  Indla  ere  conanrcd,  they  will  be  abk  to  avail  either  Home  Town  LTC  or  Ail  Indla  LTC  In  terms  of  the  above  mentioned  orders  of  Govt.  of  India.",
+      "text_clean": "Central  Clvll  Servlccas  (LTC)  Rub,  1988-  Suspendon  regardng  .\nGOVERNMENT  OF  QUJARAT,  Gersral  Admlnlstratlon  Oepsrtment,  Resotutlon  No.  AIS/42-2001/2177/G,\nSachlvalaya,  Gand  himgar,\nDated  the  1   0   ~  May,  ZOO1\nRead:-  (1)  Govt.  of  Indla,  Mlnistry  of  Publk  Grievances  &  Pensions  (l3.0.P.T.)'~\nletter  No.  llQ22/1/2001/AIS  (11)  dated  13.4.2001.\n(2)  Govt.  of  India,  Mldstry  of  Public  Orlsvanws  8t  Penslone  (D.O.  P.T.)'s\nO.M.  No.  31013/3/2M)  IlEST  (A)  dated  2.3.2001.\n/  (3)  Govt.  of  Gujarat,  Flnanca  Department  Vernacular  Rcsolutlon  No.)c&w/\n10-2001/368/CH  dated  1.5.2001.\nThe  Central  Government  have  declded  to  suspend  the  Wllties  of  both  Home  Town  LTC  and  All  India  LTC  available  to  the  offlccrs/empkyees  of  the  Central  Civil  Services  including  the  AIS  W~cers  on  deputation  to  the  Govt,  of  Indla,  for  a  perlod  of  two  years  wkh  immediate  ePEact  Mlnlstry  of  Personnel,  PuMk  Grievances  &  Penslon  (Department  of  Petsonnel  &  Tralnlng)'~  O.M.  dated  2.3.2001,  Thus,  In  so  far  as  the  All  Indb  Servlce  Omcars  borne  on  the  Gujarat  Cadre  who  am  on  deputaUon  to  Govt,  of  Indla  ere  conanrcd,  they  will  be  abk  to  avail  either  Home  Town  LTC  or  Ail  Indla  LTC  In  terms  of  the  above  mentioned  orders  of  Govt.  of  India.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 365.2504577636719,
+          "y0": 107.37163543701172,
+          "x1": 523.1904907226562,
+          "y1": 156.93594360351562,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Unknown"
+    },
+    {
+      "chunk_id": "FD-2001-b3077d_p1_c001",
+      "gr_id": "FD-2001-b3077d",
+      "text": "On  l*  May,  ZOO1  (as  uMndd  on  8.5.2001),  tha  Rnanaa  Depanmant  of  the  State  Govt,  has  also  Issued  orders  suspendl~g  the  fecllity  of Home  town",
+      "text_clean": "On  l*  May,  ZOO1  (as  uMndd  on  8.5.2001),  tha  Rnanaa  Depanmant  of  the  State  Govt,  has  also  Issued  orders  suspendl~g  the  fecllity  of Home  town",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 365.2504577636719,
+          "y0": 107.37163543701172,
+          "x1": 523.1904907226562,
+          "y1": 156.93594360351562,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": "2.",
+      "ocr_confidence": null,
+      "clause_status": "Unknown"
+    },
+    {
+      "chunk_id": "FD-2001-b3077d_p1_c002",
+      "gr_id": "FD-2001-b3077d",
+      "text": "T.C.  and  All  India  L.T.C.  avallable  to  the  State  Govt.  offlcero/employees  for  a  -+-...-  perbd  of  two  years  with  immsdlzrte  efkxt.  The  Home  Town  LTC/  Alt  Indla  LTC  of  a  member  of  the  All  India  Service  servlng  111  contwctlon  with  the  affairs  of  ttie  State  is  to  be  regulated  in  the  same  manner  and  subject  to  the  same  conditions  as  are  applicable  to  the  ofQIcers  of  the  State  Clvll  Servlce,  Class-I  and  therebre,  the  All  India  Service  Officers  borne  on  the  State  cadre  atM  working  In  contwtlon  with  the  affairs  of  the  State,  wlll  be  governed  by  the  same  provlslons  as  are  appllcab  to  the  oftlcen  of  the  State  CJvil  Service,  Class-I.  As  such,  the  G.R.,\nFinance  Department  dated  1st  May,  2001  is  sutomatlcaliy  applicable  to  the  All  ~ndh  Servtce  Offloers  of  the  Gujamt  State  also,  with  effect  from  I*  May,  2001.  Accordingly,  the facility  of  Home  Town  LTCIAII  Itxfia  LTC  available  to  the  AIs\nOffkers  born  on  the  State  cadre  and  working  In  connection  with  the  affairs  of  the  State  stands  suspended  for  a  perlod  of  two  years  with  effect  from  1.5.2001.  It  is  further clarified  that-\n(1)  These  orders  will  be  applicable  to  the  curmnt  Block  Period\n1998-2001.\n(iu  The  officers  who  have  less  than  2  years  of  service  before  retirement  as  on  date  of  issue  of  thk  Resolution,  wlll  be  exempted  from  the  operation  of  the  LTC  suspension  order;  provided  they  have  mavalled  the  facility\nIn  the  current  Black,\n(111)  In  case  of  ttrose  offlcers  who  twve  already  booked  the  tlckets,  the  cadlation  charges  will  be  relmbursad  by  the  Covemmnt",
+      "text_clean": "T.C.  and  All  India  L.T.C.  avallable  to  the  State  Govt.  offlcero/employees  for  a  -+-...-  perbd  of  two  years  with  immsdlzrte  efkxt.  The  Home  Town  LTC/  Alt  Indla  LTC  of  a  member  of  the  All  India  Service  servlng  111  contwctlon  with  the  affairs  of  ttie  State  is  to  be  regulated  in  the  same  manner  and  subject  to  the  same  conditions  as  are  applicable  to  the  ofQIcers  of  the  State  Clvll  Servlce,  Class-I  and  therebre,  the  All  India  Service  Officers  borne  on  the  State  cadre  atM  working  In  contwtlon  with  the  affairs  of  the  State,  wlll  be  governed  by  the  same  provlslons  as  are  appllcab  to  the  oftlcen  of  the  State  CJvil  Service,  Class-I.  As  such,  the  G.R.,\nFinance  Department  dated  1st  May,  2001  is  sutomatlcaliy  applicable  to  the  All  ~ndh  Servtce  Offloers  of  the  Gujamt  State  also,  with  effect  from  I*  May,  2001.  Accordingly,  the facility  of  Home  Town  LTCIAII  Itxfia  LTC  available  to  the  AIs\nOffkers  born  on  the  State  cadre  and  working  In  connection  with  the  affairs  of  the  State  stands  suspended  for  a  perlod  of  two  years  with  effect  from  1.5.2001.  It  is  further clarified  that-\n(1)  These  orders  will  be  applicable  to  the  curmnt  Block  Period\n1998-2001.\n(iu  The  officers  who  have  less  than  2  years  of  service  before  retirement  as  on  date  of  issue  of  thk  Resolution,  wlll  be  exempted  from  the  operation  of  the  LTC  suspension  order;  provided  they  have  mavalled  the  facility\nIn  the  current  Black,\n(111)  In  case  of  ttrose  offlcers  who  twve  already  booked  the  tlckets,  the  cadlation  charges  will  be  relmbursad  by  the  Covemmnt",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 365.2504577636719,
+          "y0": 107.37163543701172,
+          "x1": 523.1904907226562,
+          "y1": 156.93594360351562,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": "L.",
+      "ocr_confidence": null,
+      "clause_status": "Unknown"
+    },
+    {
+      "chunk_id": "FD-2001-b3077d_p1_c003",
+      "gr_id": "FD-2001-b3077d",
+      "text": "LTC  Advances  already  drawn,  if  any,  may  ba  refunded  immediately  without  any  Interest.",
+      "text_clean": "LTC  Advances  already  drawn,  if  any,  may  ba  refunded  immediately  without  any  Interest.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 365.2504577636719,
+          "y0": 107.37163543701172,
+          "x1": 523.1904907226562,
+          "y1": 156.93594360351562,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": "(iv)",
+      "ocr_confidence": null,
+      "clause_status": "Unknown"
+    },
+    {
+      "chunk_id": "FD-2001-b3077d_p2_c004",
+      "gr_id": "FD-2001-b3077d",
+      "text": "The  offfwrs,  wlw  have  commef~ced  their  outward  journey  on  LTC  prior\nto  the  date  of  Issue  of  these  Ina;tructions,  will  have  to  complete thelr  inward  journey  as  pmvided  in  the  Rules  providing  for  LTC  Witty.\nBy  order  and  in  the  name  of  the Governor of Gujarat,\ns  /\nDeputy  h   t   a   r   y  to  Qovt.  of  Qujarat,\nOisneral  AdmlnlrPtratian  Department.\nThe General  Admlntstratlon  Department  (  G  .r  Cell)/Cas  h-I,  I1  Bn.  The  Home  Department  (6  Br.)  The  Forests  &  Envimnment  Department.  The  Rnance  Department  The  Accountant  Genemi  (I),  Gujarat  State,  Ahmedabad.  The  Amntant  General (11)'  Gujamt  State,  fbjkot.  The  Pay  and  kcounts  Officer,  Gandhkragar/Ahmadabad.  The  Resldent Audit  Officer,  Gandhlnragar/~hmed%bad.  All  Dlstrlct  Treasury  Officers.  The  Director  ~ e n e d *  &  Inspector  General  of  Police,  Ahdabad  The  Prlnclpal  Chlef  Comwatar  of  Forests,  Gandhinagar.  All  Members  of  the  State  IAS  Cadre.  All  Members  of  the  State  IPS  Cadm  (Thrwg  h  IG  &  DGP).  All  Members  of  the  State  IFS  Cadre  (lhmugh  the  PCCF).  All  Departmcjt~ts  sf  tile  Sachlvalaya.  The  Hon.  Secretary,  IPS  Assocletian,  Gujamt  Br.,\nC/o  The  IG  &  DGP,  Gufamt  Stab.  Ahmedabad.  The  Hon.  Secmbry,  IFS  dWaciatbn,  Gujarat  Br.,\nC/o  the  PCCF  Gujarat  State,  Gandhlnapr.  The  Select  file.",
+      "text_clean": "The  offfwrs,  wlw  have  commef~ced  their  outward  journey  on  LTC  prior\nto  the  date  of  Issue  of  these  Ina;tructions,  will  have  to  complete thelr  inward  journey  as  pmvided  in  the  Rules  providing  for  LTC  Witty.\nBy  order  and  in  the  name  of  the Governor of Gujarat,\ns  /\nDeputy  h   t   a   r   y  to  Qovt.  of  Qujarat,\nOisneral  AdmlnlrPtratian  Department.\nThe General  Admlntstratlon  Department  (  G  .r  Cell)/Cas  h-I,  I1  Bn.  The  Home  Department  (6  Br.)  The  Forests  &  Envimnment  Department.  The  Rnance  Department  The  Accountant  Genemi  (I),  Gujarat  State,  Ahmedabad.  The  Amntant  General (11)'  Gujamt  State,  fbjkot.  The  Pay  and  kcounts  Officer,  Gandhkragar/Ahmadabad.  The  Resldent Audit  Officer,  Gandhlnragar/~hmed%bad.  All  Dlstrlct  Treasury  Officers.  The  Director  ~ e n e d *  &  Inspector  General  of  Police,  Ahdabad  The  Prlnclpal  Chlef  Comwatar  of  Forests,  Gandhinagar.  All  Members  of  the  State  IAS  Cadre.  All  Members  of  the  State  IPS  Cadm  (Thrwg  h  IG  &  DGP).  All  Members  of  the  State  IFS  Cadre  (lhmugh  the  PCCF).  All  Departmcjt~ts  sf  tile  Sachlvalaya.  The  Hon.  Secretary,  IPS  Assocletian,  Gujamt  Br.,\nC/o  The  IG  &  DGP,  Gufamt  Stab.  Ahmedabad.  The  Hon.  Secmbry,  IFS  dWaciatbn,  Gujarat  Br.,\nC/o  the  PCCF  Gujarat  State,  Gandhlnapr.  The  Select  file.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 65.49447631835938,
+          "y0": 104.32312774658203,
+          "x1": 534.7979125976562,
+          "y1": 127.45636749267578,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": "(v)",
+      "ocr_confidence": null,
+      "clause_status": "Unknown"
+    }
+  ],
+  "references": [],
+  "metadata_confidence": 0.3,
+  "raw_text": "Central  Clvll  Servlccas  (LTC)  Rub,  1988-  Suspendon  regardng  .\nGOVERNMENT  OF  QUJARAT,  Gersral  Admlnlstratlon  Oepsrtment,  Resotutlon  No.  AIS/42-2001/2177/G,\nSachlvalaya,  Gand  himgar,\nDated  the  1   0   ~  May,  ZOO1\nRead:-  (1)  Govt.  of  Indla,  Mlnistry  of  Publk  Grievances  &  Pensions  (l3.0.P.T.)'~\nletter  No.  llQ22/1/2001/AIS  (11)  dated  13.4.2001.\n(2)  Govt.  of  India,  Mldstry  of  Public  Orlsvanws  8t  Penslone  (D.O.  P.T.)'s\nO.M.  No.  31013/3/2M)  IlEST  (A)  dated  2.3.2001.\n/  (3)  Govt.  of  Gujarat,  Flnanca  Department  Vernacular  Rcsolutlon  No.)c&w/\n10-2001/368/CH  dated  1.5.2001.\nThe  Central  Government  have  declded  to  suspend  the  Wllties  of  both  Home  Town  LTC  and  All  India  LTC  available  to  the  offlccrs/empkyees  of  the  Central  Civil  Services  including  the  AIS  W~cers  on  deputation  to  the  Govt,  of  Indla,  for  a  perlod  of  two  years  wkh  immediate  ePEact  Mlnlstry  of  Personnel,  PuMk  Grievances  &  Penslon  (Department  of  Petsonnel  &  Tralnlng)'~  O.M.  dated  2.3.2001,  Thus,  In  so  far  as  the  All  Indb  Servlce  Omcars  borne  on  the  Gujarat  Cadre  who  am  on  deputaUon  to  Govt,  of  Indla  ere  conanrcd,  they  will  be  abk  to  avail  either  Home  Town  LTC  or  Ail  Indla  LTC  In  terms  of  the  above  mentioned  orders  of  Govt.  of  India.\n2.  On  l*  May,  ZOO1  (as  uMndd  on  8.5.2001),  tha  Rnanaa  Depanmant  of  the  State  Govt,  has  also  Issued  orders  suspendl~g  the  fecllity  of Home  town\nL.T.C.  and  All  India  L.T.C.  avallable  to  the  State  Govt.  offlcero/employees  for  a  -+-...-  perbd  of  two  years  with  immsdlzrte  efkxt.  The  Home  Town  LTC/  Alt  Indla  LTC  of  a  member  of  the  All  India  Service  servlng  111  contwctlon  with  the  affairs  of  ttie  State  is  to  be  regulated  in  the  same  manner  and  subject  to  the  same  conditions  as  are  applicable  to  the  ofQIcers  of  the  State  Clvll  Servlce,  Class-I  and  therebre,  the  All  India  Service  Officers  borne  on  the  State  cadre  atM  working  In  contwtlon  with  the  affairs  of  the  State,  wlll  be  governed  by  the  same  provlslons  as  are  appllcab  to  the  oftlcen  of  the  State  CJvil  Service,  Class-I.  As  such,  the  G.R.,\nFinance  Department  dated  1st  May,  2001  is  sutomatlcaliy  applicable  to  the  All  ~ndh  Servtce  Offloers  of  the  Gujamt  State  also,  with  effect  from  I*  May,  2001.  Accordingly,  the facility  of  Home  Town  LTCIAII  Itxfia  LTC  available  to  the  AIs\nOffkers  born  on  the  State  cadre  and  working  In  connection  with  the  affairs  of  the  State  stands  suspended  for  a  perlod  of  two  years  with  effect  from  1.5.2001.  It  is  further clarified  that-\n(1)  These  orders  will  be  applicable  to  the  curmnt  Block  Period\n1998-2001.\n(iu  The  officers  who  have  less  than  2  years  of  service  before  retirement  as  on  date  of  issue  of  thk  Resolution,  wlll  be  exempted  from  the  operation  of  the  LTC  suspension  order;  provided  they  have  mavalled  the  facility\nIn  the  current  Black,\n(111)  In  case  of  ttrose  offlcers  who  twve  already  booked  the  tlckets,  the  cadlation  charges  will  be  relmbursad  by  the  Covemmnt\n(iv)  LTC  Advances  already  drawn,  if  any,  may  ba  refunded  immediately  without  any  Interest.\n\n(v)  The  offfwrs,  wlw  have  commef~ced  their  outward  journey  on  LTC  prior\nto  the  date  of  Issue  of  these  Ina;tructions,  will  have  to  complete thelr  inward  journey  as  pmvided  in  the  Rules  providing  for  LTC  Witty.\nBy  order  and  in  the  name  of  the Governor of Gujarat,\ns  /\nDeputy  h   t   a   r   y  to  Qovt.  of  Qujarat,\nOisneral  AdmlnlrPtratian  Department.\nThe General  Admlntstratlon  Department  (  G  .r  Cell)/Cas  h-I,  I1  Bn.  The  Home  Department  (6  Br.)  The  Forests  &  Envimnment  Department.  The  Rnance  Department  The  Accountant  Genemi  (I),  Gujarat  State,  Ahmedabad.  The  Amntant  General (11)'  Gujamt  State,  fbjkot.  The  Pay  and  kcounts  Officer,  Gandhkragar/Ahmadabad.  The  Resldent Audit  Officer,  Gandhlnragar/~hmed%bad.  All  Dlstrlct  Treasury  Officers.  The  Director  ~ e n e d *  &  Inspector  General  of  Police,  Ahdabad  The  Prlnclpal  Chlef  Comwatar  of  Forests,  Gandhinagar.  All  Members  of  the  State  IAS  Cadre.  All  Members  of  the  State  IPS  Cadm  (Thrwg  h  IG  &  DGP).  All  Members  of  the  State  IFS  Cadre  (lhmugh  the  PCCF).  All  Departmcjt~ts  sf  tile  Sachlvalaya.  The  Hon.  Secretary,  IPS  Assocletian,  Gujamt  Br.,\nC/o  The  IG  &  DGP,  Gufamt  Stab.  Ahmedabad.  The  Hon.  Secmbry,  IFS  dWaciatbn,  Gujarat  Br.,\nC/o  the  PCCF  Gujarat  State,  Gandhlnapr.  The  Select  file.",
+  "metadata_sources": {
+    "issue_date": "file_name"
+  },
+  "source_url": "https://gad.gujarat.gov.in/Personnel/Portal/Document/1_728_1_CENTRAL-CIVIL-SERVICE-(LTC)RULES%201988-(10.5.2001).pdf"
+}

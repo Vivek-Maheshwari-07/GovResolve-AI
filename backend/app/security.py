@@ -19,7 +19,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-_QUESTION_PATHS = {"/query", "/api/query", "/ask"}
+_QUESTION_PATHS = {"/query", "/api/query", "/query/stream", "/ask"}
 _LOOPBACK = {"127.0.0.1", "::1", "localhost", "testclient"}   # "testclient" is Starlette's TestClient
 
 

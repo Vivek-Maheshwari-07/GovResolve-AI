@@ -1,32 +1,52 @@
-# Demo scenarios (roadmap item 2.7)
+# Demo script (finale, 27 Nov 2026)
 
-Five scenarios that together show what the spec asks for: grounded answers with page and quote, amendment/supersession status, Gujarati and mixed questions,
-and an honest "I cannot tell". Every answer below was produced by the saved scorecard runs (`data/eval/scorecard_full_v3.json`, local `qwen3.5:4b`); nothing is invented for the demo.
+Every question below was asked live on 26 Nov 2026 against the bundled collection (`data/processed`, 156 GRs, bge-m3 index of 1,265
+passages) with Groq `openai/gpt-oss-120b`. The times are end to end, from pressing Ask to the verified answer. Nothing here is staged:
+if you ask the same question the answer comes from the same pipeline (a repeated question is served from the answer cache in about 0.2 s).
 
-**Setup for the demo** (from the repo root; details in `backend/README.md`):
-```bash
-python run.py        # or double-click start.bat
-```
-It finds the real corpus and index, answers through the RAG pipeline and opens http://localhost:8000 (the web UI: answer, citation chips, the PDF page with the cited paragraph boxed, lineage tab).
-Ollama must be running (`qwen3.5:4b`, `bge-m3`). Allow **40-70 s per answer** on this CPU; ask the first question before the audience arrives (it loads the model).
-Scenario 5c uses the synthetic fixtures: stop the app and, from `backend/`, run `python -m uvicorn app.main:app --port 8001` (default settings = fixtures, search without a model) and open http://localhost:8001.
+## Setup (10 minutes before)
+1. `.env`: `LLM_PROVIDER=groq`, a working `GROQ_API_KEY`, and the hosted evidence budget
+   (`TOP_K_RERANK=5`, `EVIDENCE_CHARS_PER_CHUNK=1200`, `EVIDENCE_MAX_CHARS=4500`). Check with `python -m backend.scripts.llm_smoke`
+   (Groq must say `OK ping`).
+2. `final_dataset/` (the PDFs) in the repo root, so citations open the real page.
+3. `python run.py` (or `start.bat`). Ask the first question once before the judges arrive: the first one loads the index (about 7 s).
+4. Run `python -m backend.scripts.preflight` (or `make preflight`) with the app running: it checks `.env`, Groq, the index (1,265
+   passages), the PDFs and the UI, then asks every question below once so they are instant on stage. It must end with
+   `READY FOR THE DEMO`. Delete `data/index/answers.json` to start fresh.
+5. Internet is needed for Groq and for the Speak button (browser speech recognition, Chrome or Edge).
 
-| # | What it shows | Question (ask it as written) | What the system says | Where to look |
+## The questions, in order
+
+| # | Shows | Ask exactly | Expected answer | Time |
 |---|---|---|---|---|
-| 1 | Plain English question, quote and page (gold Q-009) | "From which date did the new mobile phone tariff for government use apply, and whose offer was accepted?" | "The new tariff applied from 1st October 2015. Vodafone West Limited's offer was accepted." | Citation: GR of 15 Oct 2015, page 1, verbatim sentence, box on the PDF page |
-| 2 | An explicit amendment is found (Q-019) | "By how much was the upper age limit relaxed for direct selection under the Gujarat Civil Services Classification and Recruitment (General) Rules, 1967, in 2022?" | "relaxed by one year", cited to the 29 Sep 2022 notification (new rule 16H) | Statement label `established`; open the lineage of the 1967 rules: base + its amendments in date order (a timeline, not a chain: every amendment here amends the base directly) |
-| 3 | Gujarati question about a Gujarati document (Q-044) | "૨૬ નવેમ્બર ૨૦૨૦ના રોજ બંધારણના આમુખના વાંચનનો રાજ્ય સરકારનો કાર્યક્રમ સચિવાલયમાં ક્યાં યોજાશે?" | Answer in Gujarati: Narmada Hall, Swarnim Sankul-1 | Slowest (66 s in the saved run). The same question in English (Q-045) is **refused** in the saved run: do not show that one live |
-| 4 | Mixed-language question (Q-010) | "Government na mobile phone mate navo tariff kya divas thi lagu thayo ane kai company ni offer swikari?" | "Vodafone West Limited ... Tariff 1st October, 2015 se lagu thayo." | The answer follows the question's language and is cited to the same GR as scenario 1 |
-| 5 | Refusals and a superseded order | (a) "How many days of maternity leave are allowed to women government employees?" (b) "Can I sue the department for wrongly denying my promotion and will I win?" (c) with the **fixtures**: the question "ખેડૂતોને પાક નુકસાન સહાય" | (a) refuses, `NO_DOCUMENT`, "the provided sentences do not mention maternity leave" (0 of 366 documents mention it). (b) refuses at once, `OUT_OF_SCOPE`, no model call. (c) answers, with the warning "AGR-2012-03 is superseded (Superseded by AGR-2018-11 dated 2018-05-12); this passage may no longer apply." | (c) shows status `superseded` on the 2012 order and the superseding order named as the one to read |
+| 1 | **Explicit amendment found and explained** (the problem statement's core) | What is the upper age limit for direct selection of a Multi Purpose Health Worker (Male), and was it changed by any amendment? | 33 years; the 12 Apr 2022 amendment (KP/22 of 2022) added a proviso exempting contract / ad-hoc workers but did not change the limit. Base rules badge **Amended**; both orders cited with page; lineage tab shows the link. | 1.5 s (7 s if first) |
+| 2 | Same in **Gujarati** | મલ્ટી પર્પઝ હેલ્થ વર્કર (પુરુષ)ની સીધી ભરતી માટે ઉપલી વય મર્યાદા કેટલી છે અને તેમાં કોઈ સુધારો થયો છે? | Same facts, written in Gujarati, citing the English notifications | 1.7 s |
+| 3 | **The problem statement's own example** (leave) | Which documents or applications are required for leave and LTC, and where must they be submitted? | Leave, LTC, LTC advance and leave encashment applications must be made online in the Karmayogi application (GAD circular of 25 Oct 2024) | 1.8 s |
+| 4 | **Gujlish** | Leave ane LTC ni arji kaya application ma karvani farjiyat che? | Online, in the Karmayogi application (circulars of 2 Mar 2024 / 25 Oct 2024) | 1.6 s |
+| 5 | **Amendment timeline**, Gujarati question, English documents | ગુજરાત પંચાયત સેવા (વર્ગ-૩) ભરતી (પરીક્ષા) નિયમો, ૨૦૨૧માં કયા સુધારા કરવામાં આવ્યા? | The 15 May 2025 amendment (replaced Annexures A and B) and the 19 Sep 2025 Second Amendment. Open the lineage tab: base rules of 2021 plus two amendments in date order | 1.8 s |
+| 6 | Old **scanned/OCR** order | What did the 2001 resolution decide about Home Town LTC and All India LTC under the Central Civil Services (LTC) Rules? | Both suspended for two years (GAD resolution of 10 May 2001) | 1.6 s |
+| 7 | **Honest refusal** | How many days of maternity leave are allowed to women government employees? | Refused, `NO_DOCUMENT`: no maternity-leave GR is in the collection | 1.4 s |
+| 8 | **Guardrail** | Can I sue the department for wrongly denying my promotion and will I win? | Refused at once, `OUT_OF_SCOPE`, no model call | 0.0 s |
+
+While an answer is being written, point at the **live pipeline panel**: every step (language bridge, hybrid search over 1,265 passages,
+lineage check, evidence chosen, model, quote verification) is reported by the server as it happens, with its time.
 
 ## Say this out loud (honest limits)
-- The real corpus (`corpus_v2`) has **no superseded order**: all links in it are amendments or references. Scenario 5c uses synthetic fixture documents (`data/fixtures`, written for the tests) and says so.
-- Nothing ever says "active". A document with no later order shows `no_later_amendment_found`: that means "none in these 366 documents", not "in force".
-- On 16 questions it had never seen the system answered **6 of 11 correctly** (5 of 5 refusals correct). On the 50 development questions it was 24 of 35. See `data/eval/SCORECARD_SUMMARY.md`.
-- Gujarati lineage barely works (4 weak links found in 134 Gujarati documents), so a Gujarati amendment is usually **not** flagged. Gold Q-050 (the 13 May 2025 relaxation of the 9 May 2025 leave circular) shows this.
-- Without a model (Ollama stopped) the system quotes one passage and warns that it is not a written answer; for an unanswerable question that passage can be unrelated.
-- Wording varies: in the first live UI test of scenario 1 the answer read "The new tariff applied from 01-10-2015 based on M/s.'s accepted offer" (the company name was dropped; the cited passage on the PDF names Vodafone West Limited). Point at the passage, not the sentence.
-- A wrong-document answer is possible and looks convincing (held-out H-008 named other GPSC members). Always read the cited quote.
+- No document ever gets the status "active". "No later amendment found" means none in these 156 documents, not "in force".
+- Statuses come only from explicit references in the text; the model cannot create or deny one. If the model's answer says "no
+  amendment" for a document the graph records as amended, that sentence is removed and a warning names the amending order.
+- Quotes are verbatim from the stored page text. Some Gujarati PDFs use legacy fonts, so their stored text (and quote) looks garbled;
+  the PDF panel shows the real page. OCR (Tesseract) of those files is the fix and is not installed on the demo laptops.
+- The collection is a 156-document sample of GAD and Panchayat orders. Missing dates, GR numbers and subjects were repaired from the
+  document text, the portal file name and the dataset manifest (`backend/scripts/enrich_metadata.py`, source recorded per field);
+  13 dates are still unknown.
+- With a hosted model the question and the evidence passages go to Groq. Offline, the app falls back to the local model (slow on a CPU)
+  and then to quoting the best passage with a warning.
 
-## Not for the live demo
-Q-021 (Gujarati, rules in force from which date: gives the notification date), Q-023 (April 2007 amendment's dates for the September 2007 question), Q-016, Q-050: genuinely wrong. Q-045 and Q-001: wrongly refused.
+## Do not ask live
+- "What is the standard for passing the Gujarat Panchayat Services (Class-III) Departmental Examination, and has it been amended?"
+  (refused in the test run although the documents are present).
+- "LTC ni arji kya karvani che ane offline manjur kareli arji gani shakay?" (the second half of the answer could not be confirmed
+  against the circular).
+- Questions about documents of the full 366-document `corpus_v2` (mobile tariff, Stenographer Grade III, Section Officer rules):
+  they are not in the bundled collection.

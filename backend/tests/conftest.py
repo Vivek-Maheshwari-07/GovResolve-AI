@@ -28,6 +28,8 @@ def no_translation_call_in_tests(monkeypatch):
     """The pipeline renders non-English questions in English with a model call. Tests never make it (and never write the translation
     cache); the cross-lingual tests switch the real function back on and patch the gateway's model call themselves."""
     monkeypatch.setenv("TRANSLATION_CACHE", "")
+    monkeypatch.setenv("ANSWER_CACHE", "")              # answers remembered in memory per pipeline only, never on disk
+    monkeypatch.setenv("GU_QUERY_TRANSLATION", "off")   # no hidden model call for English questions
     monkeypatch.setenv("GOV_ENGINE", "retrieval")
     try:
         import backend.rag.search_engine as se

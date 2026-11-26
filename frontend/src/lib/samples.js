@@ -1,28 +1,28 @@
-// Real questions from the demo set (docs/DEMO.md). `kind` picks the colour and the badge.
+// Real questions, each checked live against the bundled collection (docs/DEMO.md). `kind` picks the colour and the badge.
 export const SAMPLES = [
-  {
-    kind: 'en',
-    badge: 'English',
-    label: 'Mobile tariff date',
-    text: 'From which date did the new mobile phone tariff for government use apply, and whose offer was accepted?',
-  },
   {
     kind: 'amended',
     badge: 'Amended rule',
-    label: 'Age limit relaxed in 2022',
-    text: 'By how much was the upper age limit relaxed for direct selection under the Gujarat Civil Services Classification and Recruitment (General) Rules, 1967, in 2022?',
+    label: 'Health Worker age limit + 2022 amendment',
+    text: 'What is the upper age limit for direct selection of a Multi Purpose Health Worker (Male), and was it changed by any amendment?',
+  },
+  {
+    kind: 'en',
+    badge: 'English',
+    label: 'Where to apply for Leave / LTC',
+    text: 'Which documents or applications are required for leave and LTC, and where must they be submitted?',
   },
   {
     kind: 'gu',
     badge: 'ગુજરાતી',
-    label: 'બંધારણ આમુખ વાંચન ક્યાં?',
-    text: '૨૬ નવેમ્બર ૨૦૨૦ના રોજ બંધારણના આમુખના વાંચનનો રાજ્ય સરકારનો કાર્યક્રમ સચિવાલયમાં ક્યાં યોજાશે?',
+    label: 'ભરતી (પરીક્ષા) નિયમો ૨૦૨૧ના સુધારા',
+    text: 'ગુજરાત પંચાયત સેવા (વર્ગ-૩) ભરતી (પરીક્ષા) નિયમો, ૨૦૨૧માં કયા સુધારા કરવામાં આવ્યા?',
   },
   {
     kind: 'mixed',
     badge: 'Gujlish',
-    label: 'Navo mobile tariff kyare thi?',
-    text: 'Government na mobile phone mate navo tariff kya divas thi lagu thayo ane kai company ni offer swikari?',
+    label: 'Leave ane LTC ni arji kya?',
+    text: 'Leave ane LTC ni arji kaya application ma karvani farjiyat che?',
   },
   {
     kind: 'refusal',
@@ -31,10 +31,10 @@ export const SAMPLES = [
     text: 'How many days of maternity leave are allowed to women government employees?',
   },
   {
-    kind: 'amended',
-    badge: 'Rule Timeline Demo',
-    label: 'Section Officer Rules (1983-2026)',
-    text: 'Which Act replaced the entry at serial no. 5 of Paper II (Service Matters-2) by the May 2026 amendment of the Section Officer, Class-II Departmental Examination Rules?',
+    kind: 'en',
+    badge: 'Scanned order, 2001',
+    label: 'LTC suspension (2001)',
+    text: 'What did the 2001 resolution decide about Home Town LTC and All India LTC under the Central Civil Services (LTC) Rules?',
   },
 ];
 

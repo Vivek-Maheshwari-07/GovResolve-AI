@@ -33,7 +33,8 @@ sys.path.insert(0, str(ROOT / "backend"))
 
 
 def find_corpus() -> Path | None:
-    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "processed", ROOT / "data" / "corpus_v2"):
+    # corpus_v2 (366 GRs, portal metadata, the amendment families) is the evaluated collection; data/processed is a smaller fallback
+    for c in (os.environ.get("GOV_CORPUS_DIR"), ROOT / "data" / "corpus_v2", ROOT / "data" / "processed"):
         if c and Path(c).is_dir() and any(Path(c).glob("*.json")):
             return Path(c)
     return None

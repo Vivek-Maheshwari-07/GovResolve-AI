@@ -47,3 +47,20 @@ test('court citation keeps the verbatim quote, page and date', () => {
   assert.match(t, /2026-11-02/);
   assert.match(reportText({ gr_id: 'g', page: 3, passage: 'q' }, 'my question'), /my question/);
 });
+
+import { displayQuote, looksGarbled } from './lib/quote.js';
+
+test('quotes hide control characters but keep every visible character', () => {
+  const raw = 'અિધકારી \u0013ીઓ / કમ \u0016ચારી\u0013ીઓની   ર \u0019 (Leave)';
+  const shown = displayQuote(raw);
+  assert.ok(!/[\u0000-\u001F]/.test(shown));
+  assert.equal(shown.replace(/\s/g, ''), raw.replace(/[\u0000-\u001F\s]/g, ''));
+});
+
+test('legacy-font Gujarati is flagged, clean Gujarati and English are not', () => {
+  assert.ok(looksGarbled('ઓનલાઈન  Leave  /  LTC  ની અર ĥ Ȥુજરાત'));
+  assert.ok(looksGarbled('ર   !વાસ   રાહત  (LTC)'));
+  assert.ok(looksGarbled('કમ \u0016ચારી'));
+  assert.ok(!looksGarbled('“કમમયોગી” એપ્લિકેશનમાં રજા (Leave) તથા રજા પ્રવાસ રાહત (LTC)'));
+  assert.ok(!looksGarbled('To be eligible for appointment by direct selection, a candidate shall not be more than 33 years of age.'));
+});

@@ -75,7 +75,9 @@ python run.py                      # Windows: double-click start.bat
 `run.py` builds the web UI on first run, then serves the app and API at <http://localhost:8000> (API docs at `/docs`).
 It uses the bundled records in `data/processed` and the index in `data/index/chroma`. If either is missing it starts with synthetic demo documents and says so.
 
-On a CPU, expect 40 to 70 seconds per answer with the local model. Groq answers in about 10 seconds but sends the question and evidence passages to a hosted service.
+On a CPU, expect 40 to 70 seconds per answer with the local model. With Groq (`LLM_PROVIDER=groq`) an answer takes about 2 seconds
+(measured 26 Nov 2026, see [docs/DEMO.md](docs/DEMO.md)), but the question and evidence passages are sent to a hosted service.
+A question asked before is answered from the answer cache at once.
 
 Other ways to run:
 
@@ -107,6 +109,7 @@ The full contract, including field meanings, is in [docs/API_CONTRACT.md](docs/A
 | Method and path | Purpose |
 |---|---|
 | `POST /query` | Ask a question; returns `verdict`, `answer`, `citations`, `statements`, `warnings` |
+| `POST /query/stream` | Same answer as newline-delimited JSON: one line per pipeline step (with its time), then the `/query` response |
 | `GET /documents`, `GET /documents/{id}` | List documents and read one with its lineage status |
 | `GET /lineage/{id}` | Lineage graph around a document |
 | `GET /grs`, `GET /grs/{id}/pdf` | Library listing and the source PDF |

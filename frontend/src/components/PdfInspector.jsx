@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { pdfUrl, pageBlocks } from '../api';
 import { courtCitation, reportText } from '../lib/lineage';
+import { displayQuote, looksGarbled } from '../lib/quote';
 
 // Bundled worker for offline resilience
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
@@ -310,10 +311,10 @@ export default function PdfInspector({ citation, question }) {
               VERBATIM PASSAGE LOCKED · PAGE {citation.page}
             </p>
             <span className="telemetry-tag text-[9px] font-bold text-[#D97706]">
-              MATCH: EXACT_VERBATIM
+              {looksGarbled(citation.passage) ? 'TEXT LAYER: LEGACY FONT, READ THE PAGE' : 'MATCH: EXACT_VERBATIM'}
             </span>
           </div>
-          <p className="legal-text line-clamp-2 text-[12.5px] text-[#1E293B]">“{citation.passage}”</p>
+          <p className="legal-text line-clamp-2 text-[12.5px] text-[#1E293B]">“{displayQuote(citation.passage)}”</p>
         </div>
       )}
 

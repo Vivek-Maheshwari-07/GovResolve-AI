@@ -184,6 +184,7 @@ export default function App() {
   const [asOf, setAsOf] = useState(''); // Rule Time Machine date filter
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [stages, setStages] = useState([]);   // live pipeline steps from /query/stream
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
   const [active, setActive] = useState(null); // Active citation in Inquiry view
@@ -240,13 +241,16 @@ export default function App() {
     setError(null);
     setResponse(null);
     setActive(null);
+    setStages([]);
     const t0 = performance.now();
     abortRef.current?.abort();
     const ctl = new AbortController();
     abortRef.current = ctl;
     const effectiveLang = overrideLang !== undefined ? overrideLang : language;
     try {
-      const r = await ask(q, effectiveLang, ctl.signal);
+      const r = await ask(q, effectiveLang, ctl.signal, (ev) => {
+        if (abortRef.current === ctl) setStages((st) => [...st, ev]);
+      });
       const sec = Math.round((performance.now() - t0) / 1000);
       setResponse(r);
       setOnline(true);
@@ -440,7 +444,7 @@ export default function App() {
 
                   <div data-tour="answer" className="space-y-3.5 print:space-y-4">
                     <AnimatePresence mode="wait">
-                      {loading && <PipelineLoader key="loading" onCancel={cancel} />}
+                      {loading && <PipelineLoader key="loading" onCancel={cancel} live={stages} />}
 
                       {error && !loading && (
                         <motion.div key="error" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="sheet flex gap-3.5 border border-[#FECDD3] border-l-[3px] border-l-[#F43F5E] bg-[#FFF1F2] p-4" role="alert">

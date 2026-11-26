@@ -11,6 +11,8 @@ from .normalize import gr_key, normalize_text
 _STOP = {"the", "of", "for", "and", "to", "in", "on", "a", "an", "by", "with", "at", "ના", "નો", "ની", "માટે", "અંગે", "અને"}
 _TITLE_STOP = {"the", "and", "for", "these", "may", "called"}
 TITLE_COVERAGE = 0.85
+SAME_DAY_WINDOW_DAYS = 14  # see Resolver._by_date
+_OCR_DIGIT_PAIRS = {frozenset(p) for p in ("56", "38", "08", "68", "17", "09")}  # digits OCR mistakes for each other
 BLANKET_THRESHOLD = 0.5
 BLANKET_LIMIT = 5
 
@@ -90,7 +92,19 @@ def _named_year_conflicts(sentence: str, subject: str | None) -> bool:
     named = _years_after_rules(sentence)
     if not years or not named:
         return False  # no year to compare: fall back on the title words alone
-    return not any(sum(a != b for a, b in zip(n, years[-1])) <= 1 for n in named)
+
+    def agrees(n: str) -> bool:
+        diffs = [(a, b) for a, b in zip(n, years[-1]) if a != b]
+        if not diffs:
+            return True
+        if len(diffs) > 1:
+            return False
+        # One differing character. A damaged year ('4967', '2O15') may slip anywhere; a clean year only by a digit OCR confuses
+        # ('1957' for 1967), so 'Rules, 2022' is not 'Rules, 2021' (a different instrument, often one year apart).
+        if re.fullmatch(r"(?:19|20)\d{2}", n):
+            return frozenset(diffs[0]) in _OCR_DIGIT_PAIRS
+        return True
+    return not any(agrees(n) for n in named)
 
 
 _QUOTED = re.compile('"[^"]{6,}?"|“[^”]{6,}?”')
@@ -161,6 +175,10 @@ class Resolver:
         pool = hinted or cands
         if len(hinted) == 1:
             return Target(hinted[0].gr_id, Confidence.EXPLICIT, d.isoformat(), "date+department")
+        # A date alone within two weeks of the source's own date is almost always the source's own dating line ("Sachivalaya,
+        # Gandhinagar, 24th March, 2022") or a sibling notification signed the same day, not a citation of it.
+        if source.issue_date and abs((d - source.issue_date).days) <= SAME_DAY_WINDOW_DAYS:
+            return None
         best = max(pool, key=lambda g: subject_similarity(g.subject, source.subject))
         note = "date only" if len(pool) == 1 else f"date matches {len(pool)} GRs, closest subject"
         return Target(best.gr_id, Confidence.PROBABLE, d.isoformat(), note)

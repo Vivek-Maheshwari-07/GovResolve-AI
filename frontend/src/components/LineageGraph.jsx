@@ -4,6 +4,7 @@ import { GitBranch, Rows3, Waypoints, ArrowUpRight, RotateCcw } from 'lucide-rea
 import Seal from './Seal';
 import { STATUS, TONES } from '../lib/status';
 import { statusAsOf, issuedCount } from '../lib/lineage';
+import { displayQuote } from '../lib/quote';
 
 // Evolution map: orders sit left (oldest) to right (newest). Every link is an arc drawn from the NEWER order to the OLDER
 // one it acts on, so the arrowhead lands on the order that was changed. Clicking a link opens the verbatim clause behind it.
@@ -273,7 +274,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
               </button>
             </div>
             {sel.quote ? (
-              <p className="legal-text mt-2 border-l-[3px] border-[#F59E0B] bg-[#FFFBEB]/50 pl-3 py-1 text-[13px] text-[#1E293B]">“{sel.quote}”</p>
+              <p className="legal-text mt-2 border-l-[3px] border-[#F59E0B] bg-[#FFFBEB]/50 pl-3 py-1 text-[13px] text-[#1E293B]">“{displayQuote(sel.quote)}”</p>
             ) : (
               <p className="mt-2 text-xs text-[#64748B]">No verbatim sentence was stored for this link.</p>
             )}
@@ -313,7 +314,7 @@ function Ledger({ chain, onSelectNode }) {
                 <span className="font-bold text-[#1E293B]">{byId[e.to_gr_id]?.gr_number || e.to_gr_number}</span>
                 <span className="text-[#64748B]">{c.date} · p.{e.page}</span>
               </p>
-              {e.quote && <p className="legal-text mt-1 line-clamp-2 text-[12.5px] text-[#64748B] group-hover:text-[#1E293B]">“{e.quote}”</p>}
+              {e.quote && <p className="legal-text mt-1 line-clamp-2 text-[12.5px] text-[#64748B] group-hover:text-[#1E293B]">“{displayQuote(e.quote)}”</p>}
             </button>
           </li>
         );

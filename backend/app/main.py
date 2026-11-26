@@ -1,6 +1,11 @@
 from __future__ import annotations
 
+import json
 import os
+import queue
+import re
+import threading
+import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -8,7 +13,7 @@ from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from .config import Settings, settings as default_settings
@@ -40,6 +45,7 @@ from .squad2_runtime import LazySquad2Engine
 from .state import AppState
 
 
+NL = chr(10)  # line separator of the /query/stream NDJSON
 MAX_UPLOAD_BYTES = int(os.getenv("GOV_MAX_UPLOAD_MB", "50")) * 1_000_000
 
 
@@ -209,10 +215,52 @@ def create_app(
         @app.post("/api/query", response_model=QueryResponse, include_in_schema=False)
         def query(req: QueryRequest) -> QueryResponse:
             language = req.language or detect_language(req.question)
-            result = engine.answer(req.question, language)
+            return respond(engine.answer(req.question, language), language)
 
+        @app.post("/query/stream")
+        def query_stream(req: QueryRequest):
+            """Same answer as `POST /query`, streamed as newline-delimited JSON so the UI can show each step as it happens:
+            `{"type": "stage", "stage": ..., "detail": ..., "t": seconds}` lines, then one `{"type": "result", "response": {...},
+            "t": seconds}` line whose `response` is exactly what `/query` returns."""
+            language = req.language or detect_language(req.question)
+            events: queue.Queue = queue.Queue()
+            t0 = time.perf_counter()
+
+            def progress(ev: dict) -> None:
+                events.put({"type": "stage", **ev, "t": round(time.perf_counter() - t0, 2)})
+
+            def work() -> None:
+                try:
+                    if getattr(engine, "supports_progress", False):
+                        result = engine.answer(req.question, language, progress=progress)
+                    else:
+                        result = engine.answer(req.question, language)
+                    resp = respond(result, language)
+                    events.put({"type": "result", "response": resp.model_dump(mode="json"), "t": round(time.perf_counter() - t0, 2)})
+                except Exception as exc:  # never leave the client waiting
+                    events.put({"type": "error", "reason": f"{type(exc).__name__}: {exc}", "t": round(time.perf_counter() - t0, 2)})
+
+            threading.Thread(target=work, name="query-stream", daemon=True).start()
+
+            def lines():
+                while True:
+                    try:
+                        ev = events.get(timeout=15)
+                    except queue.Empty:  # keep proxies and browsers from closing an idle connection on a slow local model
+                        yield json.dumps({"type": "ping", "t": round(time.perf_counter() - t0, 2)}) + NL
+                        continue
+                    yield json.dumps(ev, ensure_ascii=False) + NL
+                    if ev["type"] in ("result", "error"):
+                        return
+
+            return StreamingResponse(lines(), media_type="application/x-ndjson", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+        def respond(result, language: str) -> QueryResponse:
             citations: list[Citation] = []
             warnings: list[str] = list(result.warnings)
+            vector_off = getattr(engine, "vector_warning", lambda: None)()
+            if vector_off:
+                warnings.append(vector_off)
             kept: dict[int, int] = {}  # engine citation index -> response citation index
             for i, raw in enumerate(result.citations):
                 meta = graph.get_meta(raw.doc_id)
@@ -264,6 +312,7 @@ def create_app(
                     language=language,
                 )
 
+            warnings = list(dict.fromkeys(warnings))   # one citation per quote, one warning per fact
             if not result.answer or not citations:
                 return QueryResponse(
                     verdict=Verdict.INSUFFICIENT_EVIDENCE,
@@ -273,13 +322,26 @@ def create_app(
                     warnings=warnings,
                     language=language,
                 )
+            statements = [_remap_statement(st, kept) for st in result.statements]
+            answer = _strip_sentence_ids(result.answer)
+            # Lineage is decided by explicit references, never by the model: a statement denying an amendment that the graph
+            # records for a cited GR is removed, and the amending order is named instead.
+            changed = {c.doc_id: c.lineage for c in citations if c.lineage.status in (LineageStatus.AMENDED, LineageStatus.SUPERSEDED)}
+            if changed and statements:
+                denying = [st for st in statements if _DENIES_CHANGE.search(st.text)]
+                if denying and len(denying) < len(statements):
+                    statements = [st for st in statements if st not in denying]
+                    answer = " ".join(st.text for st in statements)
+                    for doc_id, lin in changed.items():
+                        warnings.append(f"A sentence saying no amendment was made was removed: {doc_id} has been "
+                                        f"{lin.status.value} ({lin.summary}). Read the amending order.")
             return QueryResponse(
                 verdict=Verdict.ANSWERED,
-                answer=result.answer,
+                answer=answer,
                 citations=citations,
                 warnings=warnings,
                 language=language,
-                statements=[_remap_statement(st, kept) for st in result.statements],
+                statements=statements,
             )
 
         if cfg is None and os.environ.get("SFIC_SEED") == "1" and not graph.list_documents():
@@ -293,13 +355,27 @@ def create_app(
     return app
 
 
+_SENTENCE_ID = re.compile(r"\s*[\[(]\s*S\d+(?:\s*,\s*S\d+)*\s*[\])]")
+# "No amendment has changed ...", "it has not been amended", "કોઈ સુધારો થયો નથી" (no amendment was made)
+_DENIES_CHANGE = re.compile(
+    r"\bno (?:later |subsequent )?(?:amendment|change|modification)s?\b(?! (?:to|in) the (?:\d|age|limit))"
+    r"|\b(?:has|have|was|were) not been (?:amended|modified|superseded|changed by)"
+    r"|\bnot (?:been )?amended\b"
+    r"|કોઈ\s+સુધારો\s+(?:થયો|કરવામાં\s+આવ્યો)\s+નથી|સુધારો\s+થયો\s+નથી", re.I)
+
+
+def _strip_sentence_ids(text: str | None) -> str | None:
+    """The model sometimes leaves evidence ids in its prose ("... (S1) ..."): they mean nothing to a reader."""
+    return _SENTENCE_ID.sub("", text).strip() if text else text
+
+
 def _remap_statement(st: Statement, kept: dict[int, int]) -> Statement:
     """Point a statement at the citations that survived; an "established" one left with none is only inferred."""
     cites = [kept[i] for i in st.citations if i in kept]
     label = st.label
     if label is StatementLabel.ESTABLISHED and not cites:
         label = StatementLabel.INFERRED
-    return Statement(text=st.text, label=label, citations=cites)
+    return Statement(text=_strip_sentence_ids(st.text), label=label, citations=cites)
 
 
 app = create_app()

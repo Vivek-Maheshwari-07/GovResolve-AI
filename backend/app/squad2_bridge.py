@@ -80,9 +80,13 @@ class Squad2Engine:
     def __init__(self, pipeline: Any):
         self.pipeline = pipeline
 
-    def answer(self, question: str, language: str) -> EngineResult:
+    supports_progress = True
+
+    def answer(self, question: str, language: str, progress=None) -> EngineResult:
         try:
-            return to_engine_result(self.pipeline.answer(question, None, target_language=language))
+            if progress is None:
+                return to_engine_result(self.pipeline.answer(question, None, target_language=language))
+            return to_engine_result(self.pipeline.answer(question, None, target_language=language, progress=progress))
         except Exception as exc:  # their pipeline must never take /query down
             return EngineResult(insufficient_reason=f"Answer engine error: {type(exc).__name__}")
 

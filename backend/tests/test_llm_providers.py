@@ -123,6 +123,7 @@ def test_ollama_warm_up_loads_the_model_then_primes_the_prompt(monkeypatch, serv
 def groq(monkeypatch, server, **env):
     monkeypatch.setenv("GROQ_API_KEY", KEY)
     monkeypatch.setenv("GROQ_BASE_URL", server.url + "/openai/v1")
+    monkeypatch.setenv("GROQ_FALLBACK_MODELS", "")   # one model, unless a test sets the rotation itself
     for k, v in env.items():
         monkeypatch.setenv(k, v)
     return GroqProvider()
@@ -144,13 +145,38 @@ def test_groq_request_carries_key_model_and_a_user_agent(monkeypatch, server):
     assert req["headers"]["authorization"] == f"Bearer {KEY}" and req["headers"]["user-agent"].startswith("GovResolve-AI")
     body = req["json"]
     assert body["model"] == "openai/gpt-oss-120b" and body["temperature"] == 0.0
-    assert "response_format" not in body and "reasoning_effort" not in body
+    assert "response_format" not in body and body["reasoning_effort"] == "low"   # gpt-oss: lowest reasoning effort = fastest
 
 
 def test_groq_model_and_reasoning_effort_are_configurable(monkeypatch, server):
-    groq(monkeypatch, server, GROQ_MODEL="llama-3.3-70b-versatile", GROQ_REASONING_EFFORT="low", GROQ_MAX_TOKENS="900").generate("s", "u")
+    groq(monkeypatch, server, GROQ_MODEL="openai/gpt-oss-20b", GROQ_REASONING_EFFORT="medium", GROQ_MAX_TOKENS="900").generate("s", "u")
     body = server.chat_requests()[0]["json"]
-    assert body["model"] == "llama-3.3-70b-versatile" and body["reasoning_effort"] == "low" and body["max_tokens"] == 900
+    assert body["model"] == "openai/gpt-oss-20b" and body["reasoning_effort"] == "medium" and body["max_tokens"] == 900
+
+
+def test_reasoning_effort_is_never_sent_to_a_model_that_rejects_it(monkeypatch, server):
+    groq(monkeypatch, server, GROQ_MODEL="llama-3.3-70b-versatile", GROQ_REASONING_EFFORT="low").generate("s", "u")
+    assert "reasoning_effort" not in server.chat_requests()[0]["json"]
+
+
+def test_a_reasoning_model_gets_room_to_think_before_a_tiny_reply(monkeypatch, server):
+    groq(monkeypatch, server).generate("s", "u", max_tokens=3)          # the answer check asks for one word
+    assert server.chat_requests()[0]["json"]["max_tokens"] >= 256
+
+
+def test_a_rate_limited_groq_model_hands_over_to_the_next_model_at_once(monkeypatch, server, no_sleep):
+    server.reply(429, {"error": "rate limit"}, {"Retry-After": "30"})
+    p = groq(monkeypatch, server, GROQ_FALLBACK_MODELS="llama-3.3-70b-versatile, openai/gpt-oss-20b")
+    assert p.generate("s", "u") == "OK"
+    models = [r["json"]["model"] for r in server.chat_requests()]
+    assert models == ["openai/gpt-oss-120b", "llama-3.3-70b-versatile"] and no_sleep == []   # no waiting on the first model
+    assert p.model == "openai/gpt-oss-120b" and p.answered_by == "llama-3.3-70b-versatile"
+
+
+def test_a_rejected_key_does_not_try_every_model(monkeypatch, server, no_sleep):
+    server.reply(401, {"error": "invalid key"})
+    p = groq(monkeypatch, server, GROQ_FALLBACK_MODELS="llama-3.3-70b-versatile")
+    assert p.generate("s", "u") is None and len(server.chat_requests()) == 1
 
 
 def test_groq_retries_a_rate_limit_and_honours_retry_after(monkeypatch, server, no_sleep):

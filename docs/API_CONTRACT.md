@@ -204,6 +204,17 @@ UI rules: show each statement's label next to it (spec AI-16). Choose refusal co
 Squad 2 engine: `EngineResult` gains the matching optional `reason_code` and `statements` (citation indexes point into
 `EngineResult.citations`). `app/squad2_bridge.py` fills both from `QueryResponse.insufficient_reason` and `.statements`.
 
+### `POST /query/stream` (added 26 Nov 2026; `/query` unchanged)
+Same request as `/query`. The response is `application/x-ndjson`, one JSON object per line:
+- `{"type": "stage", "stage": "search", "detail": "Searching 1,265 passages (keywords + bge-m3 vectors)", "t": 0.61}`: a pipeline
+  step as it starts. `stage` is one of `startup`, `cache`, `read`, `guard`, `translate`, `search`, `found`, `lineage`, `evidence`,
+  `generate`, `fallback`, `verify`, `check`; `t` is seconds since the request; extra keys (`chunks`, `documents`, `provider`, ...) may appear.
+- `{"type": "ping", "t": 15.0}`: keep-alive every 15 s while a slow model is working. Ignore it.
+- `{"type": "result", "response": {...}, "t": 1.42}`: the last line; `response` is exactly what `/query` would return.
+- `{"type": "error", "reason": "...", "t": ...}`: the engine failed; no `result` follows.
+
+Clients without streaming support keep using `/query`. Both count against the same rate limit.
+
 ### Other
 - `GET /edges`: every edge in the graph (debugging).
 - `GET /health`: `{"status": "ok", "documents": 4}`.
