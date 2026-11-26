@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { statusAsOf, issuedCount, courtCitation, reportText } from './lib/lineage.js';
 import { STATUS } from './lib/status.js';
+import { HISTORY_MAX, loadHistory, saveHistory } from './lib/history.js';
 
 const base = { gr_id: 'base', gr_number: 'B', date: '2010-01-01', edges_out: [] };
 const am1 = { gr_id: 'a1', gr_number: 'A1', date: '2015-05-01', edges_out: [{ to_gr_id: 'base', relation: 'amends', page: 1 }] };
@@ -46,4 +47,26 @@ test('court citation keeps the verbatim quote, page and date', () => {
   assert.match(t, /“relaxed by one year”/);
   assert.match(t, /2026-11-02/);
   assert.match(reportText({ gr_id: 'g', page: 3, passage: 'q' }, 'my question'), /my question/);
+});
+
+test('saved chat history persists, migrates this session, and keeps only the newest entries', () => {
+  const makeStorage = (initial = {}) => ({
+    values: { ...initial },
+    getItem(key) { return this.values[key] ?? null; },
+    setItem(key, value) { this.values[key] = value; },
+  });
+  const legacyEntry = { id: 'legacy', question: 'Old question', response: { verdict: 'answered' }, at: 1 };
+  const legacyStorage = makeStorage({ 'govresolve.history': JSON.stringify([legacyEntry]) });
+  const primaryStorage = makeStorage();
+
+  assert.deepEqual(loadHistory(primaryStorage, legacyStorage), [legacyEntry]);
+
+  const entries = Array.from({ length: HISTORY_MAX + 2 }, (_, index) => ({
+    id: `${index}`,
+    question: `Question ${index}`,
+    response: { verdict: 'answered' },
+    at: index,
+  }));
+  saveHistory(entries, primaryStorage);
+  assert.deepEqual(loadHistory(primaryStorage, legacyStorage), entries.slice(0, HISTORY_MAX));
 });

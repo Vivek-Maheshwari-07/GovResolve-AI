@@ -83,6 +83,10 @@ def section_for_marker(marker: str) -> str:
 
 
 _LEAVE_CANCELLED = re.compile(r"\b(?:રજા|રજાઓ)\s+રદ\b", re.I)
+_PERSONNEL_RESTORED = re.compile(
+    r"(?:કર્મચારી|અધિકારી).{0,100}પુન[ઃ:]?સ્થાપિત|પુન[ઃ:]?સ્થાપિત.{0,100}(?:કર્મચારી|અધિકારી)",
+    re.I,
+)
 _GR_NOUN_OR_REF = re.compile(
     r"(?:ઠરાવ|પરિપત્ર|આદેશ|હુકમ|સૂચના|હુકમો|પરિપત્રો|ઠરાવો|વંચાણે|વંચાણમાં|સંદર્ભ|ક્રમાંક|નિયમ)\b",
     re.I,
@@ -97,6 +101,9 @@ def match_relation(sentence: str) -> tuple[RelType, str, str] | None:
             if m:
                 # Guard against false positive "leave cancelled" (રજા રદ) matching RelType.CANCELS
                 if rel == RelType.CANCELS and _LEAVE_CANCELLED.search(sentence) and not _GR_NOUN_OR_REF.search(sentence):
+                    continue
+                # Reinstating an employee is not restoring a GR or rule.
+                if rel == RelType.RESTORES and _PERSONNEL_RESTORED.search(sentence):
                     continue
                 return rel, m.group(0), ph.lang
     return None

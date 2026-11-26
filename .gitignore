@@ -25,6 +25,7 @@ frontend/dist/
 
 # Data (raw PDFs ignored to keep repo lightweight; processed records and index tracked)
 final_dataset/
+/final_dataset.rar
 data/govresolve.sqlite
 data/vector/
 data/edges_detected.csv

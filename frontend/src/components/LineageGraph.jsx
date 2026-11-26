@@ -4,6 +4,7 @@ import { GitBranch, Rows3, Waypoints, ArrowUpRight, RotateCcw } from 'lucide-rea
 import Seal from './Seal';
 import { STATUS, TONES } from '../lib/status';
 import { statusAsOf, issuedCount } from '../lib/lineage';
+import { useUiLanguage } from '../lib/i18n';
 
 // Evolution map: orders sit left (oldest) to right (newest). Every link is an arc drawn from the NEWER order to the OLDER
 // one it acts on, so the arrowhead lands on the order that was changed. Clicking a link opens the verbatim clause behind it.
@@ -12,10 +13,12 @@ const NODE_MIN = 148;
 const NODE_H = 138;
 const PAD_X = 26;
 const ARC_H = 132;
+const ARC_LANE_GAP = 34;
 
 const REL_TONE = { supersedes: 'rose', replaces: 'rose', cancels: 'rose', amends: 'amber', refers_to: 'iris' };
-const NODE_LABEL = { no_change: 'No later change', amended: 'Amended', superseded: 'Superseded' };
+const REL_KEYS = { supersedes: 'relSupersedes', replaces: 'relReplaces', cancels: 'relCancels', amends: 'relAmends', refers_to: 'relRefersTo' };
 const SEAL_OF = { no_change: 'no_change', amended: 'amended', superseded: 'superseded' };
+const relationLabel = (t, relation) => REL_KEYS[relation] ? t(REL_KEYS[relation]) : relation;
 
 const dayBefore = (iso) => {
   const d = new Date(`${iso}T00:00:00Z`);
@@ -23,7 +26,8 @@ const dayBefore = (iso) => {
   return d.toISOString().slice(0, 10);
 };
 
-function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
+function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact = false }) {
+  const { t } = useUiLanguage();
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
   const trackRef = useRef(null);
   const [edgeId, setEdgeId] = useState(null);
@@ -43,12 +47,28 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
   // cards shrink to fit the pane (down to NODE_MIN), then the map scrolls sideways
   const GAP = n > 2 ? 44 : 60;
   const NODE_W = Math.max(NODE_MIN, Math.min(NODE_MAX, Math.floor((wrapW - PAD_X * 2 - (n - 1) * GAP) / n)));
+  const nodeHeight = compact ? 128 : NODE_H;
+  const baseArcHeight = compact ? 100 : ARC_H;
   const idx = useMemo(() => Object.fromEntries(chain.map((c, i) => [c.gr_id, i])), [chain]);
   const left = (i) => PAD_X + i * (NODE_W + GAP);
   const cx = (i) => left(i) + NODE_W / 2;
   const totalW = PAD_X * 2 + n * NODE_W + (n - 1) * GAP;
   const hasLinks = chain.some((c) => (c.edges_out || []).some((e) => idx[e.to_gr_id] != null && e.to_gr_id !== c.gr_id));
-  const AH = hasLinks ? ARC_H : 6;
+  const maxLane = useMemo(() => {
+    const lanes = {};
+    let maximum = 0;
+    chain.forEach((node) => {
+      (node.edges_out || []).forEach((edge) => {
+        if (idx[edge.to_gr_id] == null || edge.to_gr_id === node.gr_id) return;
+        const span = Math.abs(idx[node.gr_id] - idx[edge.to_gr_id]);
+        const lane = lanes[span] || 0;
+        lanes[span] = lane + 1;
+        maximum = Math.max(maximum, lane);
+      });
+    });
+    return maximum;
+  }, [chain, idx]);
+  const AH = hasLinks ? baseArcHeight + maxLane * ARC_LANE_GAP : 6;
   const Y = AH - 1;
 
   const edges = useMemo(() => {
@@ -59,7 +79,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
         .map((e, k) => {
           const span = Math.abs(idx[node.gr_id] - idx[e.to_gr_id]);
           const lane = (lanes[span] = (lanes[span] ?? -1) + 1);
-          const h = Math.min(AH - 22, 40 + span * 24) + lane * 12;
+          const h = Math.min(AH - 22 - lane * ARC_LANE_GAP, 40 + span * 24) + lane * ARC_LANE_GAP;
           const sx = cx(idx[node.gr_id]);
           const tx = cx(idx[e.to_gr_id]);
           const d = `M${sx} ${Y} C${sx} ${Y - h * 1.28}, ${tx} ${Y - h * 1.28}, ${tx} ${Y + 0}`;
@@ -67,7 +87,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
         }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chain, idx]);
+  }, [chain, idx, AH]);
 
   const sel = edges.find((e) => e.id === edgeId) || null;
   const fromNode = sel ? chain[idx[sel.from]] : null;
@@ -90,7 +110,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
   return (
     <div>
       <div ref={wrapRef} className="overflow-x-auto pb-1 print:overflow-x-visible">
-        <div className="relative mx-auto" style={{ width: totalW, height: AH + NODE_H + (canScrub ? 62 : 8) }}>
+        <div className="relative mx-auto" style={{ width: totalW, height: AH + nodeHeight + (canScrub ? (compact ? 50 : 62) : 8) }}>
           <svg className="absolute left-0 top-0" width={totalW} height={AH + 4} aria-hidden="true">
             <defs>
               {Object.entries(TONES).map(([k, t]) => (
@@ -180,7 +200,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
                   left: left(i),
                   top: AH,
                   width: NODE_W,
-                  height: NODE_H,
+                  height: nodeHeight,
                   ...(selected ? { boxShadow: '0 0 0 2px #4F46E5, 0 14px 28px -12px rgba(79,70,229,.35)' } : null),
                 }}
               >
@@ -188,21 +208,21 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
                   <Seal status={sealKey} size={28} />
                   <span className={`inline-flex items-center gap-1 rounded-full border ${tone.ring} ${tone.pill} px-2 py-0.5 text-[8.5px] font-bold ${tone.text}`}>
                     <span className={`h-1.5 w-1.5 rounded-full ${tone.dot}`} />
-                    <span className="truncate">{external ? 'Not in corpus' : !st.issued ? 'Not yet issued' : NODE_LABEL[st.status] || 'No later change'}</span>
+                    <span className="truncate">{external ? t('noCorpus') : !st.issued ? t('notYetIssued') : t(st.status === 'no_change' ? 'noLaterChange' : st.status || 'noLaterChange')}</span>
                   </span>
                 </div>
                 <p className="mt-2 truncate font-mono text-[12.5px] font-bold text-[#1E293B]" title={c.gr_number}>{c.gr_number}</p>
                 <p className="font-mono text-[11px] text-[#64748B]">{c.date || 'Undated'}</p>
                 {c.subject && <p className="gu-text mt-0.5 line-clamp-2 text-[11.5px] leading-snug text-[#1E293B]">{c.subject}</p>}
                 {first && !c.subject && <p className="mt-1 truncate text-[11px] text-[#64748B]">{first.link_type} {first.to_gr_number}</p>}
-                {selected && <span className="mono-label absolute -top-2 right-3 rounded bg-[#4F46E5] px-1.5 py-0.5 text-[8.5px] font-bold text-white shadow-sm">Open</span>}
+                {selected && <span className="mono-label absolute -top-2 right-3 rounded bg-[#4F46E5] px-1.5 py-0.5 text-[8.5px] font-bold text-white shadow-sm">{t('open')}</span>}
               </motion.button>
             );
           })}
 
           {/* time scrubber */}
           {canScrub && (
-            <div className="absolute inset-x-0 print:hidden" style={{ top: AH + NODE_H + 8 }}>
+            <div className="absolute inset-x-0 print:hidden" style={{ top: AH + nodeHeight + 8 }}>
               <div
                 ref={trackRef}
                 className="relative h-10 touch-none select-none"
@@ -224,11 +244,11 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
                 <motion.div
                   role="slider"
                   tabIndex={0}
-                  aria-label="Rules as of date"
+                  aria-label={t('checkDate')}
                   aria-valuemin={0}
                   aria-valuemax={m}
                   aria-valuenow={pOf}
-                  aria-valuetext={asOf ? `As of ${asOf}` : 'Today'}
+                  aria-valuetext={asOf ? t('asOfDate', { date: asOf }) : t('today')}
                   onKeyDown={(ev) => {
                     if (ev.key === 'ArrowLeft') { ev.preventDefault(); setP(pOf - 1); }
                     if (ev.key === 'ArrowRight') { ev.preventDefault(); setP(pOf + 1); }
@@ -247,7 +267,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
                   animate={{ left: xOfP(pOf) }}
                   transition={drag ? { duration: 0 } : { type: 'spring', stiffness: 380, damping: 32 }}
                 >
-                  {asOf ? `as of ${asOf}` : 'today'}
+                  {asOf ? t('asOfDate', { date: asOf }) : t('todayLower')}
                 </motion.span>
               </div>
             </div>
@@ -261,7 +281,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
           <motion.div key={sel.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="well mt-3 p-3.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="mono-label text-[#64748B]">
-                <span className="font-bold text-[#1E293B]">{fromNode.gr_number}</span> <span className={TONES[REL_TONE[sel.relation] || 'iris'].text}>— {sel.link_type} →</span>{' '}
+                <span className="font-bold text-[#1E293B]">{fromNode.gr_number}</span> <span className={TONES[REL_TONE[sel.relation] || 'iris'].text}>— {relationLabel(t, sel.relation)} →</span>{' '}
                 <span className="font-bold text-[#1E293B]">{toNode.gr_number}</span>
               </p>
               <button
@@ -269,13 +289,13 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
                 onClick={() => onSelectNode({ ...fromNode, edges_out: [sel, ...(fromNode.edges_out || []).filter((x) => x !== sel)] })}
                 className="inline-flex items-center gap-1 text-[11.5px] font-semibold text-[#4F46E5] hover:text-[#4338CA]"
               >
-                Open page {sel.page} <ArrowUpRight className="h-3 w-3" />
+                {t('openPage', { page: sel.page })} <ArrowUpRight className="h-3 w-3" />
               </button>
             </div>
             {sel.quote ? (
               <p className="legal-text mt-2 border-l-[3px] border-[#F59E0B] bg-[#FFFBEB]/50 pl-3 py-1 text-[13px] text-[#1E293B]">“{sel.quote}”</p>
             ) : (
-              <p className="mt-2 text-xs text-[#64748B]">No verbatim sentence was stored for this link.</p>
+              <p className="mt-2 text-xs text-[#64748B]">{t('noVerbatimLink')}</p>
             )}
             {sel.warnings?.length > 0 && (
               <p className="mt-2 text-[11.5px] font-medium text-[#92400E]">⚠ {sel.warnings.join(' · ')} (drawn dashed)</p>
@@ -284,11 +304,11 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
         ) : (
           edges.length === 0 ? (
             <motion.p key="none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-1 text-[12px] leading-relaxed text-[#64748B]">
-              No amendment, supersession or cancellation links were found for this document in the indexed collection.
+              {t('amendmentChainEmpty')}
             </motion.p>
           ) : (
             <motion.p key="hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-2 text-[11.5px] text-[#64748B]">
-              Select a link to read the exact clause that created it.{canScrub ? ' Drag the handle to see the chain on any date.' : ''}
+              {t('selectLinkHint')}{canScrub ? t('dragDateHint') : ''}
             </motion.p>
           )
         )}
@@ -298,32 +318,34 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode }) {
 }
 
 function Ledger({ chain, onSelectNode }) {
+  const { t } = useUiLanguage();
   const byId = Object.fromEntries(chain.map((c) => [c.gr_id, c]));
   const rows = chain.flatMap((c) => (c.edges_out || []).map((e, k) => ({ c, e, k })));
   return (
-    <ul className="ledger" aria-label="Lineage links">
+    <ul className="ledger" aria-label={t('lineageLinks')}>
       {rows.map(({ c, e, k }) => {
-        const t = TONES[REL_TONE[e.relation] || 'iris'] || TONES.iris;
+        const tone = TONES[REL_TONE[e.relation] || 'iris'] || TONES.iris;
         return (
           <li key={`${c.gr_id}-${e.to_gr_id}-${k}`} className="py-2.5">
             <button type="button" onClick={() => onSelectNode({ ...c, edges_out: [e] })} className="group block w-full text-left">
               <p className="flex flex-wrap items-center gap-x-2 font-mono text-[11.5px]">
                 <span className="font-bold text-[#1E293B]">{c.gr_number}</span>
-                <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${t.text}`} style={{ background: t.wash, boxShadow: `0 0 0 1px ${t.edge}55` }}>{e.link_type}</span>
+                <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${tone.text}`} style={{ background: tone.wash, boxShadow: `0 0 0 1px ${tone.edge}55` }}>{relationLabel(t, e.relation)}</span>
                 <span className="font-bold text-[#1E293B]">{byId[e.to_gr_id]?.gr_number || e.to_gr_number}</span>
-                <span className="text-[#64748B]">{c.date} · p.{e.page}</span>
+                <span className="text-[#64748B]">{c.date || t('undated')} · p.{e.page}</span>
               </p>
               {e.quote && <p className="legal-text mt-1 line-clamp-2 text-[12.5px] text-[#64748B] group-hover:text-[#1E293B]">“{e.quote}”</p>}
             </button>
           </li>
         );
       })}
-      {rows.length === 0 && <li className="py-3 text-xs text-[#64748B]">No amendment links in this chain.</li>}
+      {rows.length === 0 && <li className="py-3 text-xs text-[#64748B]">{t('noAmendmentLinks')}</li>}
     </ul>
   );
 }
 
-export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNode, forGr }) {
+export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNode, forGr, compact = false }) {
+  const { t } = useUiLanguage();
   const [view, setView] = useState('map');
   const status = useMemo(() => statusAsOf(chain, asOf), [chain, asOf]);
   const counts = useMemo(() => issuedCount(chain, asOf), [chain, asOf]);
@@ -331,26 +353,26 @@ export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNo
   if (!chain || !chain.length) return null;
 
   return (
-    <section data-tour="lineage" className="sheet p-4 sm:p-5" aria-label="Amendment lineage">
+    <section data-tour="lineage" className={`sheet ${compact ? 'p-3.5' : 'p-4 sm:p-5'}`} aria-label={t('amendmentLineage')}>
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#EEF2FF] text-[#4F46E5] ring-1 ring-[#C7D2FE]">
             <GitBranch className="h-[18px] w-[18px]" />
           </span>
           <div>
-            <h2 className="display text-[17px] font-bold leading-tight text-[#1E293B]">Amendment lineage</h2>
+            <h2 className="display text-[17px] font-bold leading-tight text-[#1E293B]">{t('amendmentLineage')}</h2>
             <p className="mono-label mt-1 text-[9.5px] text-[#64748B]">{counts.total} {counts.total === 1 ? 'order' : 'orders'} · newer → older{forGr ? ` · chain of ${forGr}` : ''}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {asOf && (
-            <button type="button" onClick={() => onAsOf?.('')} className="inline-flex items-center gap-1.5 rounded-full bg-[#FFFBEB] px-2.5 py-1 font-mono text-[10.5px] font-semibold text-[#92400E] ring-1 ring-[#FDE68A] hover:bg-[#FEF3C7]" title="Back to today">
-              as of {asOf} · {counts.issued}/{counts.total} issued <RotateCcw className="h-3 w-3" />
+            <button type="button" onClick={() => onAsOf?.('')} className="inline-flex items-center gap-1.5 rounded-full bg-[#FFFBEB] px-2.5 py-1 font-mono text-[10.5px] font-semibold text-[#92400E] ring-1 ring-[#FDE68A] hover:bg-[#FEF3C7]" title={t('backToToday')}>
+              {t('asOfDate', { date: asOf })} · {counts.issued}/{counts.total} {t('issued')} <RotateCcw className="h-3 w-3" />
             </button>
           )}
-          <div className="well flex p-0.5 print:hidden" role="group" aria-label="Lineage view">
-            {[['map', 'Map', Waypoints], ['ledger', 'Ledger', Rows3]].map(([k, label, Icon]) => (
+          <div className="well flex p-0.5 print:hidden" role="group" aria-label={t('lineageView')}>
+            {[['map', t('map'), Waypoints], ['ledger', t('ledger'), Rows3]].map(([k, label, Icon]) => (
               <button key={k} type="button" aria-pressed={view === k} onClick={() => setView(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[11.5px] font-semibold transition ${view === k ? 'bg-[rgba(255,255,255,0.88)] text-[#1E293B] shadow-card' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
                 <Icon className="h-3.5 w-3.5" /> {label}
               </button>
@@ -361,7 +383,7 @@ export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNo
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.div key={view} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
-          {view === 'map' ? <MapView chain={chain} status={status} asOf={asOf} onAsOf={onAsOf} activeId={activeId} onSelectNode={onSelectNode} /> : <Ledger chain={chain} onSelectNode={onSelectNode} />}
+          {view === 'map' ? <MapView chain={chain} status={status} asOf={asOf} onAsOf={onAsOf} activeId={activeId} onSelectNode={onSelectNode} compact={compact} /> : <Ledger chain={chain} onSelectNode={onSelectNode} />}
         </motion.div>
       </AnimatePresence>
     </section>

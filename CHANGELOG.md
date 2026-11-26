@@ -8,6 +8,7 @@ All notable changes to this project are documented here. The format follows [Kee
 - `tests/test_pipeline.py`, a manual smoke script superseded by the pytest suite in `backend/tests/`; lint no longer lists `tests`.
 
 ### Added
+- Responsive multilingual composer, persistent saved chat history, and corrected/compact Library and lineage views.
 - **LLM provider layer** (`backend/rag/providers/`): Ollama and Groq are first-class providers, with a generic OpenAI-compatible
   provider and optional Gemini. `LLM_PROVIDER=ollama|groq|openai|gemini|auto`; the others act as fallbacks.
 - Groq: retries after rate limits and server errors (honours `Retry-After`), optional `GROQ_REASONING_EFFORT`, key redacted from logs.
@@ -27,6 +28,9 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Fixed
 - PDF lookup is case-insensitive, so files named `*.PDF` are found on Linux and macOS.
+- Date-only `Read (n)` references are no longer reported as missing GR numbers in broken-chain warnings.
+- Bilingual evidence selection now considers the full bounded retrieval set; generic "disposal" queries no longer
+  expand into unrelated dead-stock terms.
 - Removed dead code and unused imports; the dead `BM25_WEIGHT` / `VECTOR_WEIGHT` / `TEMPERATURE` settings were dropped from `.env.example`.
 
 ### Removed

@@ -29,6 +29,9 @@ def load_corpus(corpus: Path) -> list[GRRecord]:
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="backslashreplace")
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--corpus", type=Path, required=True)
     ap.add_argument("--index", type=Path, default=ROOT / "data" / "index" / "chroma")
@@ -48,7 +51,7 @@ def main() -> int:
     t = time.time()
     index = GRIndex(str(args.index))
     if index.collection is not None:  # chunks of documents that were re-read (new OCR) have new ids: drop the old ones first
-        current = {c.chunk_id: c.text_clean.strip() for r in records for c in r.chunks}
+        current = {c.chunk_id: c.text_clean.strip()[:1000] for r in records for c in r.chunks}
         stored = index.collection.get(include=["documents"])
         # a re-read document keeps its chunk ids but has new text, so compare the text, not just the ids
         stale = [i for i, doc in zip(stored["ids"], stored["documents"]) if current.get(i) != doc]

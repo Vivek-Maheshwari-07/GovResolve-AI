@@ -2,12 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Scale, Clock3, X, Search, Activity, Cpu } from 'lucide-react';
 import CountUp from './CountUp';
+import { useUiLanguage } from '../lib/i18n';
 
 const LANGS = [
-  { id: null, label: 'Auto' },
-  { id: 'en', label: 'English' },
-  { id: 'gu', label: 'ગુજરાતી' },
-  { id: 'mixed', label: 'Gujlish' },
+  { id: null, labelKey: 'auto' },
+  { id: 'en', labelKey: 'english' },
+  { id: 'gu', labelKey: 'gujarati' },
+  { id: 'gujlish', labelKey: 'gujlish' },
 ];
 
 function Readout({ label, children, tone = 'text-[#1E293B]', title }) {
@@ -20,6 +21,7 @@ function Readout({ label, children, tone = 'text-[#1E293B]', title }) {
 }
 
 export default function TopBar({ stats, online, language, onLanguage, asOf, onAsOf, session, onCommand, onHome }) {
+  const { t } = useUiLanguage();
   return (
     <header className="sticky top-0 z-30 border-b border-[#E6E4DD] bg-[#F8F7F4]/90 backdrop-blur-xl shadow-[0_1px_3px_rgba(15,23,42,0.02)] print:hidden">
       <div aria-hidden className="h-[2px] bg-gradient-to-r from-[#4F46E5] via-[#818CF8] to-transparent" />
@@ -52,10 +54,10 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
           type="button"
           onClick={onCommand}
           className="group hidden min-w-[13rem] items-center gap-2.5 rounded-xl border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-3 py-1.5 text-left text-[12px] text-[#64748B] transition hover:border-[#C7D2FE] hover:bg-white md:flex shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
-          aria-label="Focus the question box"
+          aria-label={t('focusQuestion')}
         >
           <Search className="h-3.5 w-3.5 text-[#64748B] transition group-hover:text-[#4F46E5]" />
-          <span className="flex-1 font-medium">Ask about a resolution…</span>
+          <span className="flex-1 font-medium">{t('askAnyResolution')}</span>
           <kbd className="kbd">/</kbd>
         </button>
 
@@ -78,9 +80,9 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
 
         {/* Telemetry Readouts */}
         <div className="ml-auto hidden items-center gap-4 xl:flex" aria-label="Collection and session">
-          <span className="flex items-center gap-1.5" title={online ? 'Backend reachable' : 'Backend not reachable'}>
+          <span className="flex items-center gap-1.5" title={online ? t('backendReachable') : t('backendUnavailable')}>
             <span className={`h-1.5 w-1.5 rounded-full ${online ? 'bg-[#10B981] animate-pulseDot' : 'bg-[#F43F5E]'}`} />
-            <span className="mono-label text-[9.5px] text-[#64748B]">{online ? 'System Live' : 'Offline'}</span>
+            <span className="mono-label text-[9.5px] text-[#64748B]">{online ? t('systemLive') : t('offline')}</span>
           </span>
           <Readout label="GRs">{online ? <CountUp value={stats?.total_grs} /> : '—'}</Readout>
           <Readout label="passages">{online ? <CountUp value={stats?.chunks} /> : '—'}</Readout>
@@ -90,8 +92,8 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
         {/* Controls */}
         <div className="ml-auto flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="mono-label hidden text-[10px] text-[#64748B] sm:inline" title="Target language for the answer / પરિણામ ભાષા">
-              Answer:
+            <span className="mono-label hidden text-[10px] text-[#64748B] sm:inline" title={t('answerLanguage')}>
+              {t('answerLanguage')}
             </span>
             <div role="tablist" aria-label="Answer language" className="relative flex rounded-xl border border-[#E6E4DD] bg-[#F1EFEA] p-0.5">
               {LANGS.map((l) => {
@@ -111,7 +113,7 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
                         transition={{ type: 'spring', stiffness: 420, damping: 34 }}
                       />
                     )}
-                    <span className="relative z-10">{l.label}</span>
+                    <span className="relative z-10">{t(l.labelKey)}</span>
                   </button>
                 );
               })}
@@ -128,16 +130,16 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
             title="Rule Time Machine: see which amendments existed on a given day (uses the documents' issue dates)"
           >
             <Clock3 className={`h-3.5 w-3.5 shrink-0 ${asOf ? 'text-[#F59E0B]' : 'text-[#4F46E5]'}`} />
-            <span className="hidden font-medium sm:inline">Rules as of</span>
+            <span className="hidden font-medium sm:inline">{t('rulesAsOf')}</span>
             <input
               type="date"
               value={asOf || ''}
               onChange={(e) => onAsOf(e.target.value || '')}
               className="w-[6.8rem] cursor-pointer bg-transparent font-mono text-[11px] font-semibold text-[#1E293B] outline-none"
-              aria-label="View rules as of this date"
+              aria-label={t('viewRulesAsOf')}
             />
             {asOf ? (
-              <button onClick={() => onAsOf('')} aria-label="Clear date" title="Back to today" className="rounded p-0.5 text-[#92400E] hover:bg-[#FDE68A]">
+              <button onClick={() => onAsOf('')} aria-label={t('clearDate')} title={t('clearDate')} className="rounded p-0.5 text-[#92400E] hover:bg-[#FDE68A]">
                 <X className="h-3.5 w-3.5" />
               </button>
             ) : null}

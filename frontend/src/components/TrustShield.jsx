@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check, Minus } from 'lucide-react';
+import { useUiLanguage } from '../lib/i18n';
 
 // The "Trust Shield" from the brief: a plain account of what stands behind an answer, computed only from the response itself.
 function Row({ ok = true, children, sub }) {
@@ -27,19 +28,20 @@ function ShieldMark() {
 }
 
 export default function TrustShield({ response }) {
+  const { t } = useUiLanguage();
   const answered = response.verdict === 'answered';
   const cits = response.citations || [];
 
   if (!answered) {
     return (
-      <div className="mt-4 flex items-center gap-3 rounded-xl border border-[#E6E4DD] bg-[#F1EFEA]/60 px-3.5 py-3" aria-label="Trust Shield">
+      <div className="mt-4 flex items-center gap-3 rounded-xl border border-[#E6E4DD] bg-[#F1EFEA]/60 px-3.5 py-3" aria-label={t('trustShield')}>
         <svg viewBox="0 0 40 46" className="h-10 w-9 shrink-0" aria-hidden>
           <path d="M20 2 L36 8 V22 C36 33 29 40 20 44 C11 40 4 33 4 22 V8 Z" fill="#FFF1F2" stroke="#F43F5E" strokeWidth="1.8" strokeDasharray="4 3" strokeLinejoin="round" />
           <text x="20" y="29" textAnchor="middle" fontSize="18" fontWeight="700" fontFamily="Merriweather, serif" fill="#9F1239">?</text>
         </svg>
         <div>
-          <p className="eyebrow text-[#64748B]">Trust Shield</p>
-          <p className="mt-0.5 text-[12.5px] leading-snug text-[#1E293B]"><b className="text-[#1E293B]">Nothing was guessed.</b> No passage met the evidence bar, so no answer was written and no quote was shown.</p>
+          <p className="eyebrow text-[#64748B]">{t('trustShield')}</p>
+          <p className="mt-0.5 text-[12.5px] leading-snug text-[#1E293B]"><b className="text-[#1E293B]">{t('nothingGuessed')}</b> {t('noEvidenceRefusal')}</p>
         </div>
       </div>
     );
@@ -56,15 +58,15 @@ export default function TrustShield({ response }) {
   const span = dates.length ? (dates[0] === dates[dates.length - 1] ? dates[0] : `${dates[0]} to ${dates[dates.length - 1]}`) : null;
 
   return (
-    <div className="mt-4 flex items-start gap-3.5 rounded-xl border border-[#A7F3D0] bg-[#ECFDF5] px-3.5 py-3" aria-label="Trust Shield">
+    <div className="mt-4 flex items-start gap-3.5 rounded-xl border border-[#A7F3D0] bg-[#ECFDF5] px-3.5 py-3" aria-label={t('trustShield')}>
       <ShieldMark />
       <div className="min-w-0 flex-1">
-        <p className="eyebrow !text-[#065F46]">Trust Shield</p>
+        <p className="eyebrow !text-[#065F46]">{t('trustShield')}</p>
         <ul className="mt-1.5 grid gap-x-5 gap-y-1.5 sm:grid-cols-2">
-          <Row ok={cits.length > 0} sub="copied from the source page, with page and date">{cits.length} verbatim {cits.length === 1 ? 'quote' : 'quotes'}</Row>
-          <Row ok={docs > 0} sub={span ? `issued ${span}` : null}>{docs} {docs === 1 ? 'resolution' : 'resolutions'} cited</Row>
-          <Row ok={unk === 0} sub={sup || amd ? `${sup} superseded · ${amd} amended: read the warning` : unk ? `${unk} could not be placed in a chain` : 'no later amendment found in the collection'}>Lineage checked for each source</Row>
-          {st.length > 0 && <Row ok={inf === 0} sub={inf ? 'inferred statements are reasoned, not stated in the text' : 'every statement is stated in a cited passage'}>{est} established · {inf} inferred</Row>}
+          <Row ok={cits.length > 0} sub={t('quoteDetails')}>{t('quoteCount', { count: cits.length })}</Row>
+          <Row ok={docs > 0} sub={span ? t('issuedDateRange', { dates: span }) : null}>{t('resolutionCount', { count: docs })}</Row>
+          <Row ok={unk === 0} sub={sup || amd ? t('lineageWarning', { superseded: sup, amended: amd }) : unk ? t('lineageUnknown', { count: unk }) : t('noLaterAmendment')}>{t('lineageChecked')}</Row>
+          {st.length > 0 && <Row ok={inf === 0} sub={inf ? t('inferredDetails') : t('establishedDetails')}>{t('statementCounts', { established: est, inferred: inf })}</Row>}
         </ul>
       </div>
     </div>

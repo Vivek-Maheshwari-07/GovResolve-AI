@@ -38,16 +38,26 @@ def ask(graph, *doc_ids):
 
 @pytest.mark.parametrize("ref,ok", [("GS/83/45/CH", True), ("US/84/42", True), ("GS-85-23", True), ("૧૨૩/૪૫૬/ગ", True),
                                     ("1991-07-05", False), ("05/07/1991", False), ("નિયમ-9", False), ("Rule 9", False),
-                                    ("", False)])
+                                    ("Read (1): 2000-11-02", False), ("Read (2): 16/07/2004", False), ("", False)])
 def test_what_counts_as_a_gr_number(ref, ok):
     assert looks_like_gr_number(ref) is ok
 
 
 def test_broken_links_lists_only_changing_links_to_missing_gr_numbers():
     g = graph_with("a", links=[("a", Relation.AMENDS, "GS/83/45/CH"), ("a", Relation.SUPERSEDES, "US/84/42"),
-                               ("a", Relation.REFERS_TO, "XX/11/222"), ("a", Relation.AMENDS, "1991-07-05")])
+                               ("a", Relation.REFERS_TO, "XX/11/222"), ("a", Relation.AMENDS, "1991-07-05"),
+                               ("a", Relation.AMENDS, "Read (1): 2000-11-02")])
     assert g.broken_links("a") == [(Relation.AMENDS, "GS/83/45/CH"), (Relation.SUPERSEDES, "US/84/42")]
     assert g.broken_links("nobody") == []
+
+
+def test_date_only_read_pointer_does_not_create_a_broken_chain_warning():
+    g = graph_with("a", links=[("a", Relation.AMENDS, "Read (1): 2000-11-02")])
+
+    res = ask(g, "a")
+
+    assert res["verdict"] == "answered"
+    assert not any(w.startswith("BROKEN_CHAIN:") for w in res["warnings"])
 
 
 def test_answer_resting_only_on_an_amendment_of_a_missing_gr_is_refused_when_that_is_switched_on(monkeypatch):
@@ -76,6 +86,13 @@ def test_a_gr_that_supersedes_a_missing_one_still_answers_but_warns():
 def test_no_broken_link_no_warning():
     res = ask(graph_with("a"), "a")
     assert res["verdict"] == "answered" and not any("BROKEN_CHAIN" in w for w in res["warnings"])
+
+
+def test_duplicate_citations_do_not_duplicate_broken_chain_warnings():
+    g = graph_with("a", links=[("a", Relation.AMENDS, "GS/83/45/CH")])
+    res = ask(g, "a", "a")
+    broken = [w for w in res["warnings"] if w.startswith("BROKEN_CHAIN:")]
+    assert len(broken) == 1
 
 
 def test_by_default_the_amendment_answers_with_a_warning_because_it_may_answer_by_itself():

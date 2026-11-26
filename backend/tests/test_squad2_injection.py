@@ -45,7 +45,7 @@ class OneChunkIndex:
 def test_attack_sentence_never_reaches_the_prompt_or_the_citations(monkeypatch):
     seen = {}
 
-    def fake_llm(system_prompt, user_prompt):
+    def fake_llm(system_prompt, user_prompt, **kwargs):
         seen["system"], seen["user"] = system_prompt, user_prompt
         return '{"summary": "180 days", "statements": [{"explanation": "180 days.", "label": "Established", ' \
                '"cited_sentence_ids": ["S1", "S2"]}], "answer_status": "Found, no later change"}', "fake"
@@ -58,14 +58,138 @@ def test_attack_sentence_never_reaches_the_prompt_or_the_citations(monkeypatch):
     assert [c.passage for c in resp.citations] == ["The leave shall be admissible for a maximum period of 180 days."]
 
 
+def test_local_fast_mode_bounds_evidence_and_answer_tokens(monkeypatch):
+    seen = {}
+
+    def fake_llm(system_prompt, user_prompt, **kwargs):
+        seen["user"] = user_prompt
+        seen["max_tokens"] = kwargs.get("max_tokens")
+        return '{"statements": [], "insufficient_reason": "No matching evidence."}', "fake"
+
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+    monkeypatch.setattr(se, "LOCAL_FAST_EVIDENCE_MAX_CHARS", 80)
+    monkeypatch.setattr(se, "EVIDENCE_MAX_CHARS", 2000)
+    monkeypatch.setattr(se, "execute_llm_generation", fake_llm)
+
+    RAGPipeline(OneChunkIndex("The leave rule applies to all government officers and employees."), []).answer(
+        "Which leave rule applies to government officers?"
+    )
+
+    assert seen["max_tokens"] == 256
+    assert "The leave rule applies to all government officers and employees." in seen["user"]
+
+
 # ── prompt size and reply handling (latency work) ──
 
 def test_fragments_are_not_sent_as_evidence():
     from backend.rag.search_engine import is_substantive
     assert not is_substantive("Sachivalaya, Gandhinagar.")
     assert not is_substantive("| | . 12-3-4 / 5 - 6 ; 7 : 8 , 9 .")
+    assert not is_substantive("સરકારી અધિકારીઓની રજા રદ કરવા બાબત.")
+    assert not is_substantive("તા.૧૩/૦૫/૨૦૨૫ વંચાણે લીધા: તા.૦૯/૦૫/૨૦૨૫નો સમાનાંકી પરિપત્ર.")
     assert is_substantive("The leave shall be admissible for a maximum period of 180 days.")
     assert is_substantive("કર્મચારીને મહત્તમ ૧૮૦ દિવસની રજા મળવાપાત્ર રહેશે.")
+
+
+def test_unsupported_claim_is_omitted_but_supported_claim_is_retained(monkeypatch):
+    text = "The maximum casual leave period is 180 days."
+    reply = (
+        '{"statements": ['
+        '{"explanation": "The maximum casual leave period is 180 days.", "label": "Established", "cited_sentence_ids": ["S1"]},'
+        '{"explanation": "Gazette notifications dispose of leave references.", "label": "Established", "cited_sentence_ids": ["S1"]}'
+        '], "answer_status": "Found, no later change"}'
+    )
+    resp = _answer(monkeypatch, reply, text=text)
+
+    assert resp.answer_status.value == "Found, no later change"
+    assert resp.summary == "The maximum casual leave period is 180 days."
+    assert len(resp.statements) == 1 and len(resp.citations) == 1
+    assert any("Unsupported statements were omitted" in warning for warning in resp.warnings)
+
+
+def test_adjacent_but_irrelevant_claim_is_not_supported_by_shared_citation(monkeypatch):
+    reply = (
+        '{"statements": [{"explanation": "Employees must report to duty immediately.", '
+        '"label": "Established", "cited_sentence_ids": ["S1"]}], '
+        '"answer_status": "Found, no later change"}'
+    )
+    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up, **kwargs: (reply, "fake"))
+    text = "All leaves may be cancelled in unavoidable circumstances, and employees must report to duty immediately."
+
+    resp = RAGPipeline(OneChunkIndex(text), []).answer("Are all leaves currently cancelled?")
+
+    assert resp.answer_status.value == "Insufficient Evidence"
+    assert resp.citations == []
+
+
+def test_english_answer_can_be_grounded_in_gujarati_evidence(monkeypatch):
+    reply = (
+        '{"statements": [{"explanation": "Leave is available for 180 days.", '
+        '"label": "Established", "cited_sentence_ids": ["S1"]}], '
+        '"answer_status": "Found, no later change"}'
+    )
+    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up, **kwargs: (reply, "fake"))
+
+    resp = RAGPipeline(
+        OneChunkIndex("કર્મચારીને ૧૮૦ દિવસની રજા મળવાપાત્ર રહેશે."), []
+    ).answer("How many leave days are available?")
+
+    assert resp.answer_status.value == "Found, no later change"
+    assert resp.summary == "Leave is available for 180 days."
+    assert len(resp.citations) == 1
+
+
+def test_gujlish_answer_can_be_grounded_in_gujarati_evidence(monkeypatch):
+    seen = {}
+    reply = (
+        '{"statements": [{"explanation": "Leave mate 180 divas male chhe.", '
+        '"label": "Established", "cited_sentence_ids": ["S1"]}], '
+        '"answer_status": "Found, no later change"}'
+    )
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+    monkeypatch.setattr(se, "translate_to_english", lambda _: "How many leave days are available?")
+
+    def fake_llm(system_prompt, user_prompt, **kwargs):
+        seen.update(system=system_prompt, user=user_prompt, max_tokens=kwargs.get("max_tokens"))
+        return reply, "fake"
+
+    monkeypatch.setattr(se, "execute_llm_generation", fake_llm)
+
+    resp = RAGPipeline(
+        OneChunkIndex("કર્મચારીને ૧૮૦ દિવસની રજા મળવાપાત્ર રહેશે."), []
+    ).answer(
+        "Gujarat government na employees ni leave ketla divas ni chhe?",
+        target_language="gujlish",
+    )
+
+    assert resp.answer_status.value == "Found, no later change"
+    assert resp.summary == "Leave mate 180 divas male chhe."
+    assert len(resp.citations) == 1
+    assert seen["max_tokens"] == 256
+    assert "Never use Gujarati script or Hindi" in seen["system"]
+    assert "exactly one short answer statement" in seen["system"]
+
+
+def test_gujlish_age_terms_ground_against_english_citation(monkeypatch):
+    reply = (
+        '{"statements": [{"explanation": "Umar ni maryada 20 thi 40 varsh chhe.", '
+        '"label": "Established", "cited_sentence_ids": ["S1"]}], '
+        '"answer_status": "Found, no later change"}'
+    )
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+    monkeypatch.setattr(se, "translate_to_english", lambda _: "What is the age range for direct selection?")
+    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up, **kwargs: (reply, "fake"))
+
+    resp = RAGPipeline(
+        OneChunkIndex("The age range is 20 to 40 years."), []
+    ).answer(
+        "Gujarati stenographer Grade 3 ni sidhi pasandagi mate umar ni maryada ketli chhe?",
+        target_language="gujlish",
+    )
+
+    assert resp.answer_status.value == "Found, no later change"
+    assert resp.summary == "Umar ni maryada 20 thi 40 varsh chhe."
+    assert len(resp.citations) == 1
 
 
 @pytest.mark.parametrize("raw,status", [
@@ -82,7 +206,7 @@ def test_model_reply_never_raises(raw, status):
 
 
 def _answer(monkeypatch, reply, text="The leave shall be admissible for a maximum period of 180 days."):
-    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up: (reply, "fake"))
+    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up, **kwargs: (reply, "fake"))
     return RAGPipeline(OneChunkIndex(text), []).answer("What is the maximum casual leave period for state employees?")
 
 
@@ -90,6 +214,25 @@ def test_answer_text_is_built_from_the_statements(monkeypatch):
     resp = _answer(monkeypatch, '{"statements": [{"explanation": "Up to 180 days.", "label": "Established", '
                                 '"cited_sentence_ids": ["S1"]}], "answer_status": "Found, no later change"}')
     assert resp.summary == "Up to 180 days." and len(resp.citations) == 1
+
+
+def test_gujlish_answer_is_requested_in_latin_script_without_extra_translation(monkeypatch):
+    seen = {}
+
+    def fake_llm(system_prompt, user_prompt, **kwargs):
+        seen["user"] = user_prompt
+        return ('{"statements": [{"explanation": "Maternity leave mate 180 divas male chhe.", '
+                '"label": "Established", "cited_sentence_ids": ["S1"]}]}', "fake")
+
+    monkeypatch.setattr(se, "execute_llm_generation", fake_llm)
+    monkeypatch.setattr(se, "translate_to_english", lambda _: None)
+    monkeypatch.setattr(se, "translate_to_gujarati", lambda _: None)
+    resp = RAGPipeline(OneChunkIndex("Maternity leave shall be granted for 180 days."), []).answer(
+        "Maternity leave mate ketla divas male?", target_language="gujlish")
+
+    assert "Gujarati written with Latin/Roman letters" in seen["user"]
+    assert "Never use Gujarati script or Hindi" in seen["user"]
+    assert resp.summary == "Maternity leave mate 180 divas male chhe."
 
 
 def test_model_saying_insufficient_gives_its_reason_and_a_reason_code(monkeypatch):
@@ -101,7 +244,7 @@ def test_model_saying_insufficient_gives_its_reason_and_a_reason_code(monkeypatc
 
 def test_evidence_is_capped_and_the_system_prompt_is_the_same_for_every_language(monkeypatch):
     seen = []
-    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up: (seen.append((sp, up)) or '{"statements": []}', "fake"))
+    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up, **kwargs: (seen.append((sp, up)) or '{"statements": []}', "fake"))
     monkeypatch.setattr(se, "EVIDENCE_MAX_CHARS", 300)
     monkeypatch.setattr(se, "EVIDENCE_CHARS_PER_CHUNK", 300)
     text = " ".join(f"Rule number {i} says that the officer shall maintain the register of leave." for i in range(30))
@@ -137,9 +280,9 @@ def test_string_statements_still_produce_a_cited_answer(monkeypatch):
 
 def test_compact_reply_format_is_understood(monkeypatch):
     resp = _answer(monkeypatch, '{"statements": [{"t": "Up to 180 days.", "k": "E", "ids": ["S1"]}, '
-                                '{"t": "Maybe more for illness.", "k": "I", "ids": []}]}')
-    assert resp.summary == "Up to 180 days. Maybe more for illness."
-    assert [(s.label.value, len(s.citations)) for s in resp.statements] == [("Established", 1), ("Inferred", 0)]
+                                '{"t": "The rules set a 180-day maximum.", "k": "E", "ids": ["S1"]}]}')
+    assert resp.summary == "Up to 180 days. The rules set a 180-day maximum."
+    assert [(s.label.value, len(s.citations)) for s in resp.statements] == [("Established", 1), ("Established", 1)]
     assert resp.answer_status.value == "Found, no later change"
 
 
@@ -202,6 +345,122 @@ def test_with_no_word_in_common_the_top_chunk_is_read_in_order():
              _it("A sentence of a lower ranked chunk.", 3)]
     assert select_sentences(items, {"zzz"}, budget=1000, chunk_cap=1000) == [0, 1]
     assert select_sentences([], {"x"}, 100, 100) == []
+
+
+def test_top_cross_language_chunk_is_kept_when_only_lower_ranked_text_overlaps():
+    from backend.rag.search_engine import select_sentences
+    items = [
+        _it("ગુજરાત સરકારનો કાર્યક્રમ નર્મદા હોલ ખાતે યોજાશે.", 0),
+        _it("આ કાર્યક્રમમાં અધિકારીઓ અને કર્મચારીઓ હાજર રહેશે.", 0),
+        _it("The Constitution and Preamble are included in the syllabus.", 1),
+    ]
+
+    selected = select_sentences(items, {"constitution", "preamble"}, budget=500, chunk_cap=100)
+
+    assert 0 in selected and 1 in selected
+
+
+def test_numeric_question_prioritises_the_answer_clause_over_retrieval_headers():
+    from backend.rag.search_engine import select_sentences
+    items = [
+        _it("Appointment to the Gujarati Stenographer post shall be by direct selection.", 0, rank=0),
+        _it("These rules may be called the Gujarati Stenographer Recruitment Rules, 2019.", 1, rank=0.1),
+        _it("(a) not be less than 20 years and more than 40 years of age.", 2, rank=0.5),
+    ]
+
+    selected = select_sentences(
+        items,
+        {"age", "range", "direct", "selection", "stenographer", "grade"},
+        budget=100,
+        chunk_cap=500,
+    )
+
+    assert 2 in selected
+
+
+def test_current_question_prioritises_the_latest_retrieved_document():
+    from backend.rag.search_engine import select_sentences
+    items = [
+        {"text": "All leaves for government officers are cancelled.", "chunk": 0, "rank": 0,
+         "document": "GR-OLD", "issue_date": "2025-05-09"},
+        {"text": "Currently, leaves are not all cancelled; the competent authority may cancel them in emergencies.",
+         "chunk": 1, "rank": 1, "document": "GR-NEW", "issue_date": "2025-05-13"},
+    ]
+
+    selected = select_sentences(items, {"currently", "leaves", "officers", "cancelled"}, budget=250, chunk_cap=250)
+
+    assert 1 in selected
+
+
+def test_current_question_uses_latest_version_of_the_same_gr_number():
+    class Index:
+        bm25_docs = []
+        bm25 = None
+
+    passages = [
+        {"chunk_id": "old:1", "text": "All leaves for government employees are cancelled.",
+         "rrf_score": 1.0, "metadata": {"gr_id": "old", "gr_number": "X/2025/1",
+                                         "issue_date": "2025-05-09", "pages": "[1]"}},
+        {"chunk_id": "new:1", "text": "The competent authority may grant leave and cancel it in unavoidable circumstances.",
+         "rrf_score": 0.9, "metadata": {"gr_id": "new", "gr_number": "X/2025/1",
+                                         "issue_date": "2025-05-13", "pages": "[1]"}},
+    ]
+
+    evidence, _, _ = RAGPipeline(Index(), []).build_evidence("Are all leaves currently cancelled?", passages)
+
+    assert "competent authority may grant leave" in evidence
+    assert "All leaves for government employees are cancelled." not in evidence
+
+
+def test_evidence_expands_answer_chunks_from_a_retrieved_document():
+    import numpy as np
+
+    class Index:
+        bm25_docs = [
+            {"chunk_id": "GR-1:1", "gr_id": "GR-1", "text": "Appointment to the post shall be by direct selection.",
+             "gr_number": "X/1", "issue_date": "2019-01-01", "pages": [1], "clause_status": "Unknown"},
+            {"chunk_id": "GR-1:2", "gr_id": "GR-1", "text": "The age range is not less than 20 years and not more than 40 years.",
+             "gr_number": "X/1", "issue_date": "2019-01-01", "pages": [1], "clause_status": "Unknown"},
+        ]
+        bm25 = object()
+
+        def _bm25_scores(self, query):
+            return np.array([0.0, 5.0])
+
+    passage = {"chunk_id": "GR-1:1", "text": Index.bm25_docs[0]["text"], "rrf_score": 1.0,
+               "metadata": {"gr_id": "GR-1", "gr_number": "X/1", "issue_date": "2019-01-01", "pages": "[1]"}}
+
+    evidence, _, _ = RAGPipeline(Index(), []).build_evidence(
+        "What is the age range for direct selection?", [passage]
+    )
+
+    assert "20 years" in evidence and "40 years" in evidence
+
+
+def test_evidence_considers_all_retrieved_documents_not_only_the_first_candidate_slice():
+    class Index:
+        bm25_docs = []
+        bm25 = None
+
+    passages = []
+    for i in range(10):
+        gr_id = "GR-A" if i < 6 else "GR-B"
+        passages.append({
+            "chunk_id": f"{gr_id}:{i}",
+            "text": f"Government service provision number {i} applies to officers and employees.",
+            "rrf_score": 1.0 / (i + 1),
+            "metadata": {"gr_id": gr_id, "gr_number": f"X/{i}", "issue_date": "", "pages": "[1]"},
+        })
+    passages.append({
+        "chunk_id": "GR-C:1",
+        "text": "The minimum age for direct selection is 20 years.",
+        "rrf_score": 0.01,
+        "metadata": {"gr_id": "GR-C", "gr_number": "X/20", "issue_date": "", "pages": "[1]"},
+    })
+
+    evidence, _, _ = RAGPipeline(Index(), []).build_evidence("What is the minimum age?", passages)
+
+    assert "20 years" in evidence
 
 
 def test_sentence_coverage_counts_a_question_word_found_nowhere_against_every_sentence():

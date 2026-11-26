@@ -2,6 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ask, lineageChain, pdfUrl } from './api.js';
+import { loadSpeechVoices, speechLocale, speechVoiceForLocale } from './lib/speech.js';
 
 function fakeFetch(routes) {
   globalThis.fetch = async (url, init) => {
@@ -44,6 +45,7 @@ test('answer: amended and no-later-change statuses never say active', async () =
     'GET /documents/a': meta('a', 'GR-A', '2020-01-01'),
     'GET /lineage/a': { nodes: [], edges: [], timeline: [] },
   });
+
   assert.equal((await ask('q')).answer_status, 'amended');
   fakeFetch({
     'POST /query': { verdict: 'answered', answer: 'A', citations: [cit('a', 'unknown')], statements: [] },
@@ -53,6 +55,51 @@ test('answer: amended and no-later-change statuses never say active', async () =
   const r = await ask('q');
   assert.equal(r.answer_status, 'no_change');
   assert.ok(!/active/i.test(r.answer_status));
+});
+
+test('answer includes detected language for speech playback', async () => {
+  fakeFetch({
+    'POST /query': { verdict: 'answered', answer: 'Tame arji kari shako.', language: 'gujlish', citations: [], statements: [] },
+  });
+  assert.equal((await ask('arji kyare karvi?')).language, 'gujlish');
+});
+
+test('speech locale uses Gujarati voice for Gujarati script and Indian English for English or Gujlish', () => {
+  assert.equal(speechLocale('gu', 'રજા'), 'gu-IN');
+  assert.equal(speechLocale('gujlish', 'raja mate arji'), 'en-IN');
+  assert.equal(speechLocale('gujlish', 'ગુજરાતી લખાણ'), 'gu-IN');
+  assert.equal(speechLocale('en', 'Leave rules'), 'en-IN');
+  assert.equal(speechLocale(null, 'રજા'), 'gu-IN');
+  assert.equal(speechLocale('mixed', 'રજા'), 'gu-IN');
+});
+
+test('speech chooses an exact language voice before falling back to the same language', () => {
+  const guVoice = { lang: 'gu', name: 'Gujarati' };
+  const guInVoice = { lang: 'gu-IN', name: 'Gujarati India' };
+  const enVoice = { lang: 'en-US', name: 'English US' };
+  const voices = [guVoice, enVoice, guInVoice];
+
+  assert.equal(speechVoiceForLocale(voices, 'gu-IN'), guInVoice);
+  assert.equal(speechVoiceForLocale([guVoice], 'gu-IN'), guVoice);
+  assert.equal(speechVoiceForLocale(voices, 'en-IN'), enVoice);
+  assert.equal(speechVoiceForLocale(voices, 'hi-IN'), undefined);
+});
+
+test('speech waits for browser voices to load before resolving the voice list', async () => {
+  let voices = [];
+  let listener;
+  const synthesis = {
+    getVoices: () => voices,
+    addEventListener: (event, callback) => { if (event === 'voiceschanged') listener = callback; },
+    removeEventListener: (event, callback) => {
+      if (event === 'voiceschanged' && listener === callback) listener = undefined;
+    },
+  };
+  const pending = loadSpeechVoices(synthesis, 100);
+  voices = [{ lang: 'gu-IN', name: 'Gujarati India' }];
+  listener();
+  assert.deepEqual(await pending, voices);
+  assert.equal(listener, undefined);
 });
 
 test('refusal: no answer, reason kept, no lineage call', async () => {

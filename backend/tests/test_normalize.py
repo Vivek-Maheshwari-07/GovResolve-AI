@@ -35,4 +35,6 @@ def test_detect_language():
     assert detect_language("maternity leave rule") == "en"
     assert detect_language("પ્રસૂતિ રજા નિયમ") == "gu"
     assert detect_language("maternity leave નો નિયમ શું છે") == "mixed"
+    assert detect_language("maternity leave mate kya joie") == "gujlish"
+    assert detect_language("refund leva mate su karvu pade?") == "gujlish"
     assert detect_language("1234") == "unknown"

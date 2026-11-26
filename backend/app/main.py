@@ -246,11 +246,15 @@ def create_app(
             # missing base is opt-in (GOV_BROKEN_CHAIN_REFUSES=1): the scorecard showed it refuses questions the amendment
             # answers by itself (e.g. "from which date is this amendment in force?"), so by default we answer with the warning.
             fragments: list[str] = []
+            reported_broken_warnings: set[str] = set()
             for cit in citations:
                 broken = graph.broken_links(cit.doc_id)
                 for rel, ref in broken:
-                    warnings.append(f"BROKEN_CHAIN: {cit.doc_id} {rel.value} {ref}, which is not in the collection; "
-                                    "the text it changes cannot be checked.")
+                    warning = (f"BROKEN_CHAIN: {cit.doc_id} {rel.value} {ref}, which is not in the collection; "
+                               "the text it changes cannot be checked.")
+                    if warning not in reported_broken_warnings:
+                        warnings.append(warning)
+                        reported_broken_warnings.add(warning)
                 if any(rel is Relation.AMENDS for rel, _ in broken):
                     fragments.append(cit.doc_id)
             if (os.environ.get("GOV_BROKEN_CHAIN_REFUSES") == "1" and result.answer and citations

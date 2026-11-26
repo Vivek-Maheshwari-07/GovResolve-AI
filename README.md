@@ -22,7 +22,8 @@ It answers questions in Gujarati, English or transliterated Gujarati ("Gujlish")
 - **Hybrid search.** Dense vectors (bge-m3 through Ollama) and BM25 with a Gujarati stemmer are combined by reciprocal rank fusion.
 - **OCR for scans.** PyMuPDF reads text layers; Tesseract (`guj+eng`) handles scanned pages and records bounding boxes so the cited passage can be boxed on the PDF page.
 - **Pluggable language model.** Local Ollama by default, Groq or any OpenAI-compatible service as an option. With no model reachable, the app returns one verbatim passage with a warning.
-- **Web interface.** A React app with the answer, citations, the original PDF with the cited passage highlighted, and a lineage view.
+- **Web interface.** A React app with the answer, citations, the original PDF with the cited passage highlighted, and a lineage view. Choose English, Gujarati or Gujlish as the answer language; that choice also changes the interface and is saved in this browser. Official source quotations remain verbatim. The Listen control uses browser speech voices (Gujlish uses an Indian-English voice, so pronunciation varies by device). The question box supports browser speech-to-text where Web Speech Recognition is available; dictation offers English, Gujarati and Gujlish modes. Gujlish dictation uses Gujarati speech recognition and may produce Gujarati script rather than Latin transliteration. Browser/device support, microphone permission and internet requirements vary.
+- **Local CPU speed option.** Set `LOCAL_FAST_MODE=1` in `.env` to skip an extra Gujarati translation for English and Gujlish questions. Multilingual vector search remains enabled, but cross-language keyword recall can be lower; local CPU response time is still hardware- and question-dependent, not guaranteed under 30 seconds.
 
 ## How it works
 
@@ -72,8 +73,22 @@ cp .env.example .env               # edit to choose Ollama or Groq
 python run.py                      # Windows: double-click start.bat
 ```
 
-`run.py` builds the web UI on first run, then serves the app and API at <http://localhost:8000> (API docs at `/docs`).
-It uses the bundled records in `data/processed` and the index in `data/index/chroma`. If either is missing it starts with synthetic demo documents and says so.
+`run.py` loads `.env` before selecting the corpus and index, builds the web UI on first run, then serves the app and API at <http://localhost:8000> (API docs at `/docs`).
+It uses `GOV_CORPUS_DIR` and `GOV_SQUAD2_INDEX_DIR` when configured; otherwise it prefers `data/corpus_v2` and then `data/processed`, with `data/index/chroma` as the default index. If either is missing it starts with synthetic demo documents and says so.
+
+### Build the supplied dataset
+
+If `final_dataset.rar` is in the repository root, extract it there (`tar -xf final_dataset.rar` on Windows). From `backend/`, run:
+
+```powershell
+$env:TESSDATA_PREFIX = (Resolve-Path ..\data\tessdata).Path
+python -m scripts.ocr_to_gr_json --families ..\final_dataset\rule_families.csv --pdf-root ..\final_dataset --out ..\data\.cache\gr_json_families --workers 6
+python -m scripts.build_corpus --manifest ..\final_dataset\manifest.csv --root ..\final_dataset --sources ..\final_dataset\SOURCES_full_per_file_urls.txt --families-json ..\data\.cache\gr_json_families --out ..\data\corpus_v2 --workers 6
+ollama pull bge-m3
+python -m scripts.build_squad2_index --corpus ..\data\corpus_v2 --index ..\data\.cache\chroma_final_dataset
+```
+
+Set `GOV_CORPUS_DIR=./data/corpus_v2`, `GOV_SQUAD2_INDEX_DIR=./data/.cache/chroma_final_dataset`, `CHROMA_PERSIST_DIR=./data/.cache/chroma_final_dataset`, and `EMBEDDING_MODEL=ollama:bge-m3` in `.env` to use that index. The generated corpus and index are local data and should not be committed.
 
 On a CPU, expect 40 to 70 seconds per answer with the local model. Groq answers in about 10 seconds but sends the question and evidence passages to a hosted service.
 

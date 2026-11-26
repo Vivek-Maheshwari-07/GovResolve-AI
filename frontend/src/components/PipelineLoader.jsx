@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { useUiLanguage } from '../lib/i18n';
 
 // The server does not report progress, so these stages are an estimate of the usual order, not a live status.
 const STAGES = [
-  { label: 'Reading the question', detail: 'Detecting language, expanding legal synonyms', after: 0 },
-  { label: 'Searching the collection', detail: 'Fusing keyword hits with bge-m3 embeddings', after: 2 },
-  { label: 'Tracing amendment lineage', detail: 'Following explicit amend / supersede references', after: 6 },
-  { label: 'Checking quotes against the page', detail: 'Every quote must appear verbatim in the source text', after: 12 },
+  { key: 'readingQuestion', after: 0 },
+  { key: 'searchingCollection', after: 2 },
+  { key: 'tracingLineage', after: 6 },
+  { key: 'checkingQuotes', after: 12 },
 ];
 
 export default function PipelineLoader({ onCancel }) {
+  const { t } = useUiLanguage();
   const [sec, setSec] = useState(0);
 
   useEffect(() => {
@@ -34,14 +36,14 @@ export default function PipelineLoader({ onCancel }) {
           <div>
             <p className="mono-label flex items-center gap-2 text-iris-700">
               <span className="relative flex h-2 w-2"><span className="absolute inset-0 animate-pingSoft rounded-full bg-iris-500" /><span className="relative h-2 w-2 rounded-full bg-iris-600" /></span>
-              Working
+              {t('working')}
             </p>
-            <h3 className="display mt-1.5 text-[19px] font-bold text-ink">Investigating the resolutions</h3>
-            <p className="mt-1 text-[12.5px] text-mist">Local models can take up to a minute. Nothing is shown until every quote is verified.</p>
+            <h3 className="display mt-1.5 text-[19px] font-bold text-ink">{t('investigating')}</h3>
+            <p className="mt-1 text-[12.5px] text-mist">{t('localModelsMayTake')}</p>
           </div>
           <div className="text-right">
             <p className="font-mono text-[28px] font-bold leading-none tabular-nums text-ink">{mm}<span className="animate-pulse text-iris-500">:</span>{ss}</p>
-            <p className="mono-label mt-1.5 text-[9px] text-faint">elapsed</p>
+            <p className="mono-label mt-1.5 text-[9px] text-faint">{t('elapsed')}</p>
           </div>
         </div>
 
@@ -56,8 +58,7 @@ export default function PipelineLoader({ onCancel }) {
                   {i < STAGES.length - 1 && <span aria-hidden className="absolute left-1/2 top-3.5 h-5 w-px -translate-x-1/2 bg-stone" />}
                 </span>
                 <div className="min-w-0">
-                  <p className={`text-[13px] leading-snug ${now ? 'font-bold text-iris-800' : past ? 'font-medium text-mist' : 'text-faint'}`}>{s.label}</p>
-                  {now && <p className="mt-0.5 text-[11.5px] text-mist">{s.detail}</p>}
+                  <p className={`text-[13px] leading-snug ${now ? 'font-bold text-iris-800' : past ? 'font-medium text-mist' : 'text-faint'}`}>{t(s.key)}</p>
                 </div>
               </li>
             );
@@ -65,10 +66,10 @@ export default function PipelineLoader({ onCancel }) {
         </ol>
 
         <div className="mt-4 flex items-center justify-between border-t border-hair pt-3">
-          <p className="text-[11px] text-faint">Stages show the usual order; the server does not report live progress.</p>
+          <p className="text-[11px] text-faint">{t('stagesUsualOrder')}</p>
           {onCancel && (
             <button type="button" onClick={onCancel} className="inline-flex items-center gap-1.5 rounded-lg bg-ivory px-2.5 py-1 text-[12px] font-semibold text-mist transition hover:text-[#8E1F3A]" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.12), inset 0 1px 0 #fff' }}>
-              <X className="h-3.5 w-3.5" /> Cancel
+              <X className="h-3.5 w-3.5" /> {t('cancel')}
             </button>
           )}
         </div>
