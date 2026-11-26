@@ -443,6 +443,7 @@ def _doc_in(gr) -> DocumentIn | None:
         return None
     return DocumentIn(
         doc_id=gr.gr_id, gr_number=gr.gr_number, department=gr.department, subject=gr.subject,
+        subject_en=getattr(gr, "subject_en", None), subject_gu=getattr(gr, "subject_gu", None),
         issue_date=gr.issue_date, language=gr.language, pdf_url=f"/grs/{gr.gr_id}/pdf",
         pages=[PageText(page=p, text="\n".join(t)) for p, t in sorted(pages.items())],
     )

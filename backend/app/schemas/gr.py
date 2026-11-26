@@ -30,6 +30,8 @@ class GRRecord(BaseModel):
     issue_date: date | None = None
     effective_date: date | None = None  # "w.e.f." if stated
     subject: str | None = None
+    subject_en: str | None = None
+    subject_gu: str | None = None
     language: Literal["gu", "en", "mixed"] = "en"
     source_pdf: str | None = None  # path under data/raw
     page_count: int = 1
@@ -43,5 +45,7 @@ class GRSummary(BaseModel):
     department: str | None
     issue_date: date | None
     subject: str | None
+    subject_en: str | None = None
+    subject_gu: str | None = None
     language: str
     status: str

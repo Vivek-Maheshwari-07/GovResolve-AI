@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 
+from app.config import Settings
 from app.engine import EngineResult
 from app.graph import LineageGraph
 from app.main import create_app
@@ -138,3 +139,51 @@ def test_upload_pdf_rejects_non_pdf():
     res = client.post("/api/upload", files={"file": ("test.txt", b"plain text", "text/plain")})
     assert res.status_code == 400
     assert "Only PDF files are supported" in res.json()["detail"]
+
+
+def test_translate_endpoint_uses_gateway_and_handles_unavailable(client, monkeypatch):
+    try:
+        import backend.rag.llm_gateway as gw
+    except ImportError:
+        import rag.llm_gateway as gw
+
+    seen: list[tuple[str, str]] = []
+    monkeypatch.setattr(gw, "translate_answer_text", lambda text, tgt: (seen.append((text, tgt)) or f"{tgt}:{text}"))
+
+    res = client.post("/translate", json={"text": "Major Head 4515", "target_language": "gujarati"})
+    assert res.status_code == 200
+    assert res.json() == {"translated": "gu:Major Head 4515", "target_language": "gu"}
+    assert seen == [("Major Head 4515", "gu")]
+
+    assert client.post("/translate", json={"text": "મુખ્ય સદર", "target_language": "en"}).json()["target_language"] == "en"
+    assert client.post("/translate", json={"text": "x", "target_language": "fr"}).status_code == 422
+
+    monkeypatch.setattr(gw, "translate_answer_text", lambda text, tgt: None)
+    assert client.post("/translate", json={"text": "hello", "target_language": "gu"}).status_code == 503
+
+
+def test_list_grs_searches_and_returns_bilingual_subjects(tmp_path):
+    corpus_dir = tmp_path / "corpus"
+    corpus_dir.mkdir()
+    (corpus_dir / "GR-1.json").write_text(
+        '{"gr_id":"GR-1","gr_number":"FD/2023/1","department":"Finance Department",'
+        '"issue_date":"2023-08-14","subject":"Panchvati Yojana gardens",'
+        '"subject_en":"Panchvati Yojana gardens","subject_gu":"પંચવટી યોજના બગીચા",'
+        '"language":"en","pages":[{"page":1,"text":"x"}],"chunks":[{"chunk_id":"GR-1_p1","pages":[1],"text":"x"}]}',
+        encoding="utf-8",
+    )
+    cfg = Settings(
+        db_path=tmp_path / "t.sqlite",
+        vector_dir=tmp_path / "vec",
+        embed_model="hash",
+        corpus_dir=corpus_dir,
+        lineage_engine="stub",
+        engine="retrieval",
+    )
+    with TestClient(create_app(cfg, persist_vectors=True)) as client:
+        all_rows = client.get("/grs").json()
+        assert len(all_rows) == 1
+        assert all_rows[0]["subject_en"] == "Panchvati Yojana gardens"
+        assert all_rows[0]["subject_gu"] == "પંચવટી યોજના બગીચા"
+        assert len(client.get("/grs", params={"q": "પંચવટી"}).json()) == 1
+        assert len(client.get("/grs", params={"q": "Panchvati"}).json()) == 1

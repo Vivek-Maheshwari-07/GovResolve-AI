@@ -46,3 +46,33 @@ class EdgeOverrideIn(BaseModel):
     removed: list[str] = Field(default_factory=list)  # edge_ids
     author: str
     note: str | None = None
+
+
+class VoiceQueryRequest(BaseModel):
+    question: str | None = Field(default=None, max_length=2000)
+    query: str | None = Field(default=None, max_length=2000)
+    text: str | None = Field(default=None, max_length=2000)
+    language: str | None = None
+    lang: str | None = None
+    call_id: str | None = None
+    caller: str | None = None
+    max_sentences: int = Field(default=3, ge=1, le=6)
+
+
+class VoiceCitationSummary(BaseModel):
+    doc_id: str
+    gr_number: str | None = None
+    issue_date: str | None = None
+    page: int
+    status: str
+
+
+class VoiceQueryResponse(BaseModel):
+    verdict: str
+    spoken_answer: str
+    answer: str | None = None
+    language: str
+    reason_code: str | None = None
+    citations: list[VoiceCitationSummary] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
+    latency_ms: int = 0

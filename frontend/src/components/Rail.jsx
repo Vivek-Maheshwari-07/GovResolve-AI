@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MessagesSquare, Library, FlaskConical, Lightbulb, Keyboard } from 'lucide-react';
+import { useT } from '../lib/LanguageContext';
 
-const WORKSPACES = [
-  { id: 'ask', label: 'Inquiry', icon: MessagesSquare, key: '1' },
-  { id: 'library', label: 'Library', icon: Library, key: '2' },
-  { id: 'method', label: 'Method', icon: FlaskConical, key: '3' },
+const WORKSPACE_DEFS = [
+  { id: 'ask', tk: 'rail.inquiry', icon: MessagesSquare, key: '1' },
+  { id: 'library', tk: 'rail.library', icon: Library, key: '2' },
+  { id: 'method', tk: 'rail.method', icon: FlaskConical, key: '3' },
 ];
 
 function RailButton({ active, onClick, icon: Icon, label, hint, keyHint }) {
@@ -35,16 +36,18 @@ function RailButton({ active, onClick, icon: Icon, label, hint, keyHint }) {
 }
 
 export default function Rail({ active, onChange, onTour, onShortcuts }) {
+  const t = useT();
+  const workspaces = WORKSPACE_DEFS.map((w) => ({ ...w, label: t(w.tk) }));
   return (
-    <nav aria-label="Workspaces" data-tour="rail" className="hidden w-[76px] shrink-0 flex-col justify-between border-r border-[#E6E4DD] bg-[#F8F7F4]/80 px-2.5 py-4 backdrop-blur-md md:flex print:hidden">
+    <nav aria-label={t('rail.workspaces_aria')} data-tour="rail" className="hidden w-[76px] shrink-0 flex-col justify-between border-r border-[#E6E4DD] bg-[#F8F7F4]/80 px-2.5 py-4 backdrop-blur-md md:flex print:hidden">
       <div className="space-y-1.5">
-        {WORKSPACES.map((w) => (
-          <RailButton key={w.id} active={active === w.id} onClick={() => onChange(w.id)} icon={w.icon} label={w.label} keyHint={w.key} hint={`${w.label} workspace (${w.key})`} />
+        {workspaces.map((w) => (
+          <RailButton key={w.id} active={active === w.id} onClick={() => onChange(w.id)} icon={w.icon} label={w.label} keyHint={w.key} hint={`${w.label} (${w.key})`} />
         ))}
       </div>
       <div className="space-y-1 border-t border-[#E6E4DD] pt-3">
-        <RailButton onClick={onTour} icon={Lightbulb} label="Tour" keyHint="?" hint="Interactive guided tour (?)" />
-        <RailButton onClick={onShortcuts} icon={Keyboard} label="Keys" hint="Keyboard shortcuts" />
+        <RailButton onClick={onTour} icon={Lightbulb} label={t('rail.tour')} keyHint="?" hint={t('rail.tour_hint')} />
+        <RailButton onClick={onShortcuts} icon={Keyboard} label={t('rail.keys')} hint={t('rail.keys_hint')} />
       </div>
     </nav>
   );
@@ -52,9 +55,11 @@ export default function Rail({ active, onChange, onTour, onShortcuts }) {
 
 /** Same workspaces as a bottom bar on narrow mobile viewports. */
 export function MobileTabs({ active, onChange }) {
+  const t = useT();
+  const workspaces = WORKSPACE_DEFS.map((w) => ({ ...w, label: t(w.tk) }));
   return (
-    <nav aria-label="Workspaces" className="flex border-t border-[#E6E4DD] bg-[#F8F7F4]/95 px-2 py-1 backdrop-blur-md md:hidden print:hidden">
-      {WORKSPACES.map((w) => {
+    <nav aria-label={t('rail.workspaces_aria')} className="flex border-t border-[#E6E4DD] bg-[#F8F7F4]/95 px-2 py-1 backdrop-blur-md md:hidden print:hidden">
+      {workspaces.map((w) => {
         const on = active === w.id;
         return (
           <button key={w.id} type="button" onClick={() => onChange(w.id)} className={`flex flex-1 flex-col items-center gap-0.5 py-1.5 text-[10.5px] font-semibold transition-colors ${on ? 'text-[#4F46E5]' : 'text-[#64748B] hover:text-[#1E293B]'}`}>

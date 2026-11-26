@@ -4,15 +4,18 @@ import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.js?url';
 import {
   ChevronLeft, ChevronRight, ZoomIn, ZoomOut, ExternalLink,
-  ClipboardCheck, Flag, ScanLine, AlignLeft, Check, FileX2, Crosshair,
+  ClipboardCheck, Flag, ScanLine, AlignLeft, Check, Info, Languages, Loader2,
 } from 'lucide-react';
-import { pdfUrl, pageBlocks } from '../api';
+import { pdfUrl, pageBlocks, translateText } from '../api';
 import { courtCitation, reportText } from '../lib/lineage';
+import { pickSubject } from '../lib/i18n';
+import { useLanguage, useT } from '../lib/LanguageContext';
 
 // Bundled worker for offline resilience
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 
 const norm = (s) => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
+const hasGujarati = (s) => /[\u0A80-\u0AFF]/.test(s || '');
 
 function MetaField({ label, children, mono }) {
   return (
@@ -25,21 +28,22 @@ function MetaField({ label, children, mono }) {
 
 const KEYCAP = { boxShadow: '0 0 0 1px #E6E4DD, 0 1px 2px rgba(15,23,42,.04), inset 0 1px 0 #fff' };
 
-function ToolbarBtn({ onClick, title, active, disabled, children, href }) {
-  const cls = `grid h-8 w-8 place-items-center rounded-lg bg-[rgba(255,255,255,0.92)] text-[#64748B] transition active:scale-95 hover:text-[#4F46E5] hover:bg-[#EEF2FF] disabled:cursor-not-allowed disabled:opacity-35 ${active ? '!bg-[#EEF2FF] !text-[#4F46E5] !border-[#4F46E5]' : ''}`;
+function ToolbarBtn({ onClick, title, active, disabled, children, href, label }) {
+  const cls = `inline-flex h-8 items-center justify-center gap-1 rounded-lg bg-[rgba(255,255,255,0.92)] ${label ? 'px-2 text-[11px] font-semibold' : 'w-8'} text-[#64748B] transition active:scale-95 hover:text-[#4F46E5] hover:bg-[#EEF2FF] disabled:cursor-not-allowed disabled:opacity-35 ${active ? '!bg-[#EEF2FF] !text-[#4F46E5] !border-[#4F46E5]' : ''}`;
   return href ? (
     <a href={href} target="_blank" rel="noreferrer" title={title} aria-label={title} className={cls} style={KEYCAP}>
       {children}
+      {label && <span className="hidden sm:inline">{label}</span>}
     </a>
   ) : (
     <motion.button whileTap={{ scale: 0.95 }} type="button" onClick={onClick} title={title} aria-label={title} aria-pressed={active} disabled={disabled} className={cls} style={KEYCAP}>
       {children}
+      {label && <span className="hidden sm:inline">{label}</span>}
     </motion.button>
   );
 }
 
 function Bracket({ pos, delay }) {
-  // four corner optical brackets that converge onto the locked paragraph with precision markings
   const base = { top: pos.includes('t'), left: pos.includes('l') };
   const from = { x: base.left ? -8 : 8, y: base.top ? -8 : 8 };
   return (
@@ -61,6 +65,8 @@ function Bracket({ pos, delay }) {
 }
 
 export default function PdfInspector({ citation, question }) {
+  const { lang: uiLang } = useLanguage();
+  const t = useT();
   const wrapRef = useRef(null);
   const canvasRef = useRef(null);
   const boxRef = useRef(null);
@@ -71,11 +77,12 @@ export default function PdfInspector({ citation, question }) {
   const [zoom, setZoom] = useState(1);
   const [dims, setDims] = useState(null);
   const [exactBbox, setExactBbox] = useState(null);
-  const [error, setError] = useState(null);
+  const [pdfMissing, setPdfMissing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState('pdf'); // 'pdf' | 'text'
   const [blocks, setBlocks] = useState([]);
   const [note, setNote] = useState('');
+  const [blockTr, setBlockTr] = useState({}); // blockKey -> { open, loading, text }
 
   const grId = citation?.gr_id;
 
@@ -88,12 +95,13 @@ export default function PdfInspector({ citation, question }) {
     return () => ro.disconnect();
   }, [grId]);
 
-  // Load the PDF
+  // Load the PDF; if original PDF isn't stored locally, cleanly fall back to Text view automatically
   useEffect(() => {
     if (!grId) return undefined;
     let alive = true;
     setDoc(null);
-    setError(null);
+    setNumPages(0);
+    setPdfMissing(false);
     setLoading(true);
     setDims(null);
     const task = pdfjsLib.getDocument(pdfUrl(grId));
@@ -107,7 +115,8 @@ export default function PdfInspector({ citation, question }) {
       })
       .catch(() => {
         if (alive) {
-          setError('The original PDF document is not cached locally. The verified OCR quote is displayed below.');
+          setPdfMissing(true);
+          setMode('text');
           setLoading(false);
         }
       });
@@ -121,12 +130,13 @@ export default function PdfInspector({ citation, question }) {
   useEffect(() => {
     if (citation) {
       setPage(citation.page || 1);
-      setMode('pdf');
       setExactBbox(null);
+      setBlockTr({});
+      if (!pdfMissing) setMode('pdf');
     }
-  }, [grId, citation?.page, citation?.passage]);
+  }, [grId, citation?.page, citation?.passage, pdfMissing]);
 
-  // Render canvas page
+  // Render canvas page when PDF is loaded
   useEffect(() => {
     if (!doc || mode !== 'pdf' || !canvasRef.current) return undefined;
     let task;
@@ -152,7 +162,6 @@ export default function PdfInspector({ citation, question }) {
         })
         .catch(() => {});
 
-      // Sub-line exact bounding box search via PDF text layer
       p.getTextContent().then((tc) => {
         if (!alive || !citation?.passage) return;
         const target = norm(citation.passage);
@@ -197,7 +206,7 @@ export default function PdfInspector({ citation, question }) {
     }
   }, [showBox, grId, citation?.passage, dims?.cssW, exactBbox]);
 
-  // Load OCR blocks for text mode
+  // Load OCR / document text blocks for text mode
   useEffect(() => {
     if (mode !== 'text' || !grId) return undefined;
     let alive = true;
@@ -225,7 +234,23 @@ export default function PdfInspector({ citation, question }) {
       await navigator.clipboard.writeText(text);
       flash(msg);
     } catch {
-      flash('Clipboard action not permitted');
+      flash(t('pdf.clipboard_error'));
+    }
+  };
+
+  const toggleBlockMeaning = async (key, text, targetLang) => {
+    const cur = blockTr[key];
+    if (cur?.text) {
+      setBlockTr((p) => ({ ...p, [key]: { ...cur, open: !cur.open } }));
+      return;
+    }
+    if (cur?.loading) return;
+    setBlockTr((p) => ({ ...p, [key]: { open: true, loading: true, text: '' } }));
+    try {
+      const tr = await translateText(text, targetLang);
+      setBlockTr((p) => ({ ...p, [key]: { open: true, loading: false, text: tr } }));
+    } catch {
+      setBlockTr((p) => ({ ...p, [key]: { open: false, loading: false, text: '' } }));
     }
   };
 
@@ -234,11 +259,10 @@ export default function PdfInspector({ citation, question }) {
       <div className="sheet relative grid h-full place-items-center overflow-hidden p-8 text-center">
         <div aria-hidden className="dotgrid absolute inset-0 opacity-60" />
         <div className="relative max-w-sm">
-          {/* optical scanner reticle */}
           <div className="relative mx-auto h-36 w-28 animate-floatY">
             <span aria-hidden className="absolute inset-0 translate-x-2 -rotate-6 rounded-md bg-[rgba(255,255,255,0.90)]" style={{ boxShadow: '0 0 0 1px #E6E4DD' }} />
             <span aria-hidden className="absolute inset-0 rotate-3 rounded-md bg-[rgba(255,255,255,0.90)]" style={{ boxShadow: '0 0 0 1px #E6E4DD, 0 10px 20px -10px rgba(15,23,42,.15)' }} />
-            <div className="absolute inset-0 space-y-2 rounded-md bg-[rgba(255,255,255,0.92)] p-3.5 backdrop-blur-md" style={{ boxShadow: '0 0 0 1px #E6E4DD, 0 18px 30px -14px rgba(15,23,42,.16)' }}>
+            <div className="absolute inset-0 space-y-2 rounded-md bg-[rgba(255,255,255,0.96)] p-3.5" style={{ boxShadow: '0 0 0 1px #E6E4DD, 0 18px 30px -14px rgba(15,23,42,.16)' }}>
               {[70, 100, 88, 100, 54].map((w, i) => (
                 <span key={i} className="block h-1.5 rounded-full bg-[#E6E4DD]" style={{ width: `${w}%` }} />
               ))}
@@ -249,12 +273,12 @@ export default function PdfInspector({ citation, question }) {
               <span className="absolute inset-x-0 h-8 animate-sweep bg-gradient-to-b from-transparent via-[#4F46E5]/20 to-transparent [animation-iteration-count:infinite] [animation-duration:2.6s]" />
             </span>
           </div>
-          <h3 className="display mt-7 text-[18px] font-bold text-[#1E293B]">Optical Evidence Inspector</h3>
+          <h3 className="display mt-7 text-[18px] font-bold text-[#1E293B]">{t('pdf.empty_title')}</h3>
           <p className="mt-2 text-[13px] leading-relaxed text-[#64748B]">
-            Select any citation chip to lock the source resolution page into the optical scanner with exact paragraph bounding.
+            {t('pdf.empty_desc')}
           </p>
           <p className="mt-4 flex items-center justify-center gap-2 text-[11px] text-[#64748B]">
-            <kbd className="kbd">[</kbd><kbd className="kbd">]</kbd> step through cited passages
+            <kbd className="kbd">[</kbd><kbd className="kbd">]</kbd> {t('pdf.empty_keys')}
           </p>
         </div>
       </div>
@@ -262,10 +286,11 @@ export default function PdfInspector({ citation, question }) {
   }
 
   const labelInside = showBox && (activeBox[1] / dims.h) * dims.cssH < 26;
+  const displaySubject = pickSubject(citation, uiLang);
 
   return (
     <div className="sheet flex h-full min-h-0 flex-col overflow-hidden">
-      {/* Specimen header (High-Tech Scanner HUD) */}
+      {/* Document metadata header */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={grId}
@@ -276,70 +301,81 @@ export default function PdfInspector({ citation, question }) {
           className="border-b border-[#E6E4DD] bg-[#F1EFEA]/90 px-4 pb-3 pt-3"
         >
           <div className="flex items-start justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="telemetry-tag flex items-center gap-1 text-[9px] text-[#4F46E5]">
-                  <Crosshair className="h-3 w-3" />
-                  OPTICAL_SCANNER_HUD
-                </span>
-                <span className="telemetry-tag text-[9px] text-[#64748B]">
-                  [DOC_ID: {citation.gr_id}]
-                </span>
-              </div>
-              <h3 className="gu-text line-clamp-1 text-[13.5px] font-semibold text-[#1E293B]">{citation.subject || citation.gr_number}</h3>
-            </div>
+            <h3 className="gu-text line-clamp-2 text-[13.5px] font-semibold text-[#1E293B]">{displaySubject}</h3>
             <span className="mono-label shrink-0 rounded border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2 py-0.5 text-[9.5px] font-bold text-[#64748B]">
-              {citation.language === 'gu' ? 'ગુજરાતી' : citation.language === 'en' ? 'English' : citation.language || 'Official GR'}
+              {citation.language === 'gu' ? 'ગુજરાતી' : citation.language === 'en' ? 'English' : citation.language || t('pdf.official_gr')}
             </span>
           </div>
           <dl className="mt-2.5 grid grid-cols-3 gap-2.5">
-            <MetaField label="GR Number" mono>{citation.gr_number}</MetaField>
-            <MetaField label="Issue Date" mono>{citation.issue_date}</MetaField>
-            <MetaField label="Department">{citation.department}</MetaField>
+            <MetaField label={t('pdf.gr_number')} mono>{citation.gr_number}</MetaField>
+            <MetaField label={t('pdf.issue_date')} mono>{citation.issue_date}</MetaField>
+            <MetaField label={t('pdf.department')}>{citation.department}</MetaField>
           </dl>
         </motion.div>
       </AnimatePresence>
 
-      {/* Verbatim optical lock strip */}
+      {/* Cited quote strip */}
       {citation.passage && (
         <div className="relative border-b border-[#FDE68A] bg-[#FFFBEB] py-2.5 pl-4 pr-3.5 shadow-xs">
           <span aria-hidden className="absolute inset-y-0 left-0 w-[4px] bg-[#D97706]" />
-          <div className="mb-1 flex items-center justify-between">
+          <div className="mb-1 flex items-center justify-between gap-2">
             <p className="mono-label flex items-center gap-1.5 text-[9.5px] font-bold text-[#92400E]">
               <span className="h-2 w-2 rounded-full bg-[#F59E0B] animate-pulse" />
-              VERBATIM PASSAGE LOCKED · PAGE {citation.page}
+              {t('pdf.locked_strip', { page: citation.page })}
             </p>
-            <span className="telemetry-tag text-[9px] font-bold text-[#D97706]">
-              MATCH: EXACT_VERBATIM
-            </span>
+            {((uiLang === 'gu' && !hasGujarati(citation.passage)) || (uiLang === 'en' && hasGujarati(citation.passage))) && (
+              <button
+                type="button"
+                onClick={() => toggleBlockMeaning(`strip:${grId}:${citation.page}`, citation.passage, uiLang)}
+                className="inline-flex items-center gap-1 rounded-md border border-[#FDE68A] bg-white px-2 py-0.5 text-[10.5px] font-semibold text-[#4338CA] hover:bg-[#EEF2FF]"
+              >
+                {blockTr[`strip:${grId}:${citation.page}`]?.loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Languages className="h-3 w-3" />}
+                <span>
+                  {blockTr[`strip:${grId}:${citation.page}`]?.open && !blockTr[`strip:${grId}:${citation.page}`]?.loading
+                    ? t('answer.hide_translation')
+                    : uiLang === 'gu' ? t('answer.translate_gu') : t('answer.translate_en')}
+                </span>
+              </button>
+            )}
           </div>
           <p className="legal-text line-clamp-2 text-[12.5px] text-[#1E293B]">“{citation.passage}”</p>
+          {blockTr[`strip:${grId}:${citation.page}`]?.open && (
+            <p className={`${uiLang === 'gu' ? 'gu-text' : ''} mt-1.5 rounded bg-white/80 px-2.5 py-1 text-[12px] leading-snug text-[#1E293B]`}>
+              {blockTr[`strip:${grId}:${citation.page}`]?.loading ? t('answer.translating') : blockTr[`strip:${grId}:${citation.page}`]?.text}
+            </p>
+          )}
         </div>
       )}
 
-      {/* Instrument toolbar */}
+      {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-[#E6E4DD] bg-[#F1EFEA]/70 px-3 py-2">
         <div className="flex items-center gap-1.5">
-          <ToolbarBtn title="Previous page" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}><ChevronLeft className="h-4 w-4" /></ToolbarBtn>
-          <span className="min-w-[3.6rem] text-center font-mono text-[11.5px] font-bold tabular-nums text-[#1E293B]">{page} / {numPages || '–'}</span>
-          <ToolbarBtn title="Next page" disabled={!numPages || page >= numPages} onClick={() => setPage((p) => Math.min(numPages, p + 1))}><ChevronRight className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title={t('pdf.prev_page')} disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}><ChevronLeft className="h-4 w-4" /></ToolbarBtn>
+          <span className="min-w-[3.2rem] text-center font-mono text-[11.5px] font-bold tabular-nums text-[#1E293B]">
+            {numPages ? `${page} / ${numPages}` : `p.${page}`}
+          </span>
+          <ToolbarBtn title={t('pdf.next_page')} disabled={pdfMissing ? false : (!numPages || page >= numPages)} onClick={() => setPage((p) => (numPages ? Math.min(numPages, p + 1) : p + 1))}><ChevronRight className="h-4 w-4" /></ToolbarBtn>
         </div>
 
-        <div className="flex items-center gap-1.5">
-          <ToolbarBtn title="Zoom out" onClick={() => setZoom((z) => Math.max(0.6, +(z - 0.15).toFixed(2)))}><ZoomOut className="h-4 w-4" /></ToolbarBtn>
-          <button type="button" onClick={() => setZoom(1)} title="Reset zoom to 100%" className="min-w-[3.1rem] rounded-lg bg-[rgba(255,255,255,0.92)] px-2 py-1.5 font-mono text-[10.5px] font-bold tabular-nums text-[#64748B] hover:text-[#1E293B]" style={KEYCAP}>
-            {Math.round(zoom * 100)}%
-          </button>
-          <ToolbarBtn title="Zoom in" onClick={() => setZoom((z) => Math.min(2.4, +(z + 0.15).toFixed(2)))}><ZoomIn className="h-4 w-4" /></ToolbarBtn>
-        </div>
+        {!pdfMissing && (
+          <>
+            <div className="flex items-center gap-1.5">
+              <ToolbarBtn title={t('pdf.zoom_out')} onClick={() => setZoom((z) => Math.max(0.6, +(z - 0.15).toFixed(2)))}><ZoomOut className="h-4 w-4" /></ToolbarBtn>
+              <button type="button" onClick={() => setZoom(1)} title={t('pdf.zoom_reset')} className="min-w-[3.1rem] rounded-lg bg-[rgba(255,255,255,0.92)] px-2 py-1.5 font-mono text-[10.5px] font-bold tabular-nums text-[#64748B] hover:text-[#1E293B]" style={KEYCAP}>
+                {Math.round(zoom * 100)}%
+              </button>
+              <ToolbarBtn title={t('pdf.zoom_in')} onClick={() => setZoom((z) => Math.min(2.4, +(z + 0.15).toFixed(2)))}><ZoomIn className="h-4 w-4" /></ToolbarBtn>
+            </div>
 
-        <div className="well flex p-0.5" role="group" aria-label="View">
-          {[['pdf', 'Scan', ScanLine, 'Scanned PDF view'], ['text', 'Text', AlignLeft, 'Raw OCR text view']].map(([k, label, Icon, title]) => (
-            <button key={k} type="button" title={title} aria-pressed={mode === k} onClick={() => setMode(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[11px] font-semibold transition ${mode === k ? 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] text-[#4F46E5] shadow-sm' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
-              <Icon className="h-3.5 w-3.5" /> {label}
-            </button>
-          ))}
-        </div>
+            <div className="well flex p-0.5" role="group" aria-label="View">
+              {[['pdf', t('pdf.view_scan'), ScanLine, t('pdf.view_scan_title')], ['text', t('pdf.view_text'), AlignLeft, t('pdf.view_text_title')]].map(([k, label, Icon, title]) => (
+                <button key={k} type="button" title={title} aria-pressed={mode === k} onClick={() => setMode(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[11px] font-semibold transition ${mode === k ? 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] text-[#4F46E5] shadow-sm' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
+                  <Icon className="h-3.5 w-3.5" /> {label}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
 
         <div className="ml-auto flex items-center gap-1.5">
           <AnimatePresence>
@@ -349,37 +385,24 @@ export default function PdfInspector({ citation, question }) {
               </motion.span>
             )}
           </AnimatePresence>
-          <ToolbarBtn title="Copy court-ready citation" onClick={() => copy(courtCitation(citation), 'Court citation copied')}><ClipboardCheck className="h-4 w-4" /></ToolbarBtn>
-          <ToolbarBtn title="Report wrong citation to engineers" onClick={() => copy(reportText(citation, question), 'Audit report copied')}><Flag className="h-4 w-4" /></ToolbarBtn>
-          <ToolbarBtn title="Open raw PDF in new browser tab" href={pdfUrl(grId)}><ExternalLink className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title={t('pdf.copy_citation')} label={t('pdf.cite_btn')} onClick={() => copy(courtCitation(citation), t('pdf.copied_citation'))}><ClipboardCheck className="h-3.5 w-3.5" /></ToolbarBtn>
+          <ToolbarBtn title={t('pdf.report_wrong')} label={t('pdf.report_btn')} onClick={() => copy(reportText(citation, question), t('pdf.copied_report'))}><Flag className="h-3.5 w-3.5" /></ToolbarBtn>
+          {!pdfMissing && <ToolbarBtn title={t('pdf.open_raw')} label={t('pdf.raw_btn')} href={pdfUrl(grId)}><ExternalLink className="h-3.5 w-3.5" /></ToolbarBtn>}
         </div>
       </div>
 
-      {/* Scanner tray */}
+      {/* Document pane */}
       <div ref={wrapRef} className="dotgrid relative min-h-0 flex-1 overflow-auto p-5" style={{ boxShadow: 'inset 0 4px 12px -6px rgba(15,23,42,.1)' }}>
         {loading && mode === 'pdf' && <div className="skeleton mx-auto h-80 max-w-md animate-shimmer rounded-lg" aria-label="Loading document" />}
 
-        {error && mode === 'pdf' && (
-          <div className="sheet mx-auto mt-6 max-w-sm space-y-3 p-6 text-center">
-            <FileX2 className="mx-auto h-7 w-7 text-[#D97706]" />
-            <p className="display text-[15px] font-bold text-[#1E293B]">Source scan unavailable</p>
-            <p className="text-[12.5px] leading-relaxed text-[#64748B]">{error}</p>
-            <button type="button" onClick={() => setMode('text')} className="btn-primary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white">
-              <AlignLeft className="h-3.5 w-3.5" /> Read the OCR text
-            </button>
-          </div>
-        )}
-
-        {mode === 'pdf' && !error && (
+        {mode === 'pdf' && !pdfMissing && (
           <div className="relative mx-auto w-max" style={{ display: doc ? 'block' : 'none' }}>
-            {/* optical registration crop marks */}
             {['-left-3 -top-3 border-l-2 border-t-2', '-right-3 -top-3 border-r-2 border-t-2', '-bottom-3 -left-3 border-b-2 border-l-2', '-bottom-3 -right-3 border-b-2 border-r-2'].map((c) => (
               <span key={c} aria-hidden className={`absolute h-3 w-3 ${c}`} style={{ borderColor: '#D97706', opacity: 0.75 }} />
             ))}
             <div className="relative overflow-hidden rounded-[4px] border border-[#E6E4DD]" style={{ boxShadow: '0 8px 30px rgba(15,23,42,0.14)' }}>
               <canvas ref={canvasRef} className="block bg-[#FAF9F5]" />
 
-              {/* scan sweep beam once per page render */}
               {dims && <div key={`sweep-${grId}-${page}-${mode}`} aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-full"><div className="h-14 animate-sweep bg-gradient-to-b from-transparent via-[#4F46E5]/18 to-transparent" style={{ height: '18%' }} /></div>}
 
               <AnimatePresence>
@@ -408,7 +431,7 @@ export default function PdfInspector({ citation, question }) {
                     <Bracket pos="bl" delay={0.55} />
                     <Bracket pos="br" delay={0.6} />
                     <span className={`mono-label absolute right-0 whitespace-nowrap rounded bg-[#D97706] px-1.5 py-0.5 text-[8.5px] font-bold text-white shadow-sm ${labelInside ? 'top-0' : '-top-[20px]'}`} style={{ mixBlendMode: 'normal' }}>
-                      LOCK · p.{citation.page}{exactBbox ? ' · EXACT' : ''}
+                      {t('pdf.lock_label', { page: citation.page })}
                     </span>
                   </motion.div>
                 )}
@@ -419,17 +442,52 @@ export default function PdfInspector({ citation, question }) {
 
         {mode === 'text' && (
           <div className="mx-auto max-w-prose space-y-2.5 py-1">
+            {pdfMissing && (
+              <p className="flex items-center gap-2 rounded-lg border border-[#E6E4DD] bg-[#F8F7F4] px-3 py-2 text-[11.5px] text-[#64748B]">
+                <Info className="h-3.5 w-3.5 shrink-0 text-[#4F46E5]" />
+                <span className="gu-text">{t('pdf.text_fallback_note')}</span>
+              </p>
+            )}
             <div className="flex items-center justify-between border-b border-[#E6E4DD] pb-1.5">
-              <p className="mono-label text-[9.5px] text-[#64748B]">Raw OCR text · page {page}</p>
-              <span className="mono-label text-[9px] text-[#64748B]">{blocks.length} blocks</span>
+              <p className="mono-label text-[9.5px] text-[#64748B]">{t('pdf.raw_ocr_page', { page })}</p>
+              <span className="mono-label text-[9px] text-[#64748B]">{t('pdf.blocks', { n: blocks.length })}</span>
             </div>
-            {blocks.length === 0 && <p className="py-4 text-center text-xs text-[#64748B]">No OCR blocks found for this page.</p>}
+            {blocks.length === 0 && <p className="py-4 text-center text-xs text-[#64748B]">{t('pdf.no_blocks')}</p>}
             {blocks.map((b) => {
               const hit = quote && norm(b.text).includes(quote);
+              const bKey = `blk:${grId}:${page}:${b.id}`;
+              const blkIsGu = hasGujarati(b.text);
+              const canTr = hit && ((uiLang === 'gu' && !blkIsGu) || (uiLang === 'en' && blkIsGu));
+              const trState = blockTr[bKey];
               return (
-                <p key={b.id} className={`legal-text rounded-xl p-3 text-[12.5px] leading-relaxed transition-colors ${hit ? 'border-l-[4px] border-l-[#D97706] border border-[#FDE68A] bg-[#FFFBEB] font-medium text-[#1E293B]' : 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] text-[#64748B]'}`} style={{ boxShadow: hit ? '0 0 0 1px #FDE68A' : '0 2px 8px -2px rgba(15,23,42,.04)' }}>
-                  {b.text}
-                </p>
+                <div
+                  key={b.id}
+                  className={`rounded-xl p-3 text-[12.5px] leading-relaxed transition-colors ${hit ? 'border-l-[4px] border-l-[#D97706] border border-[#FDE68A] bg-[#FFFBEB] font-medium text-[#1E293B]' : 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] text-[#64748B]'}`}
+                  style={{ boxShadow: hit ? '0 0 0 1px #FDE68A' : '0 2px 8px -2px rgba(15,23,42,.04)' }}
+                >
+                  <p className="legal-text">{b.text}</p>
+                  {canTr && (
+                    <div className="mt-2 border-t border-[#FDE68A] pt-1.5">
+                      <button
+                        type="button"
+                        onClick={() => toggleBlockMeaning(bKey, b.text, uiLang)}
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#4338CA] hover:underline"
+                      >
+                        {trState?.loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Languages className="h-3 w-3" />}
+                        <span>
+                          {trState?.open && !trState?.loading
+                            ? t('answer.hide_translation')
+                            : uiLang === 'gu' ? t('answer.translate_gu') : t('answer.translate_en')}
+                        </span>
+                      </button>
+                      {trState?.open && (
+                        <p className={`${uiLang === 'gu' ? 'gu-text' : ''} mt-1 text-[12px] text-[#1E293B]`}>
+                          {trState.loading ? t('answer.translating') : trState.text}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>

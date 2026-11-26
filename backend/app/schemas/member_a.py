@@ -41,6 +41,8 @@ class DocumentMeta(BaseModel):
     gr_number: str | None = None
     department: str | None = None
     subject: str | None = None
+    subject_en: str | None = None
+    subject_gu: str | None = None
     issue_date: date | None = None
     language: str | None = None
     pdf_url: str | None = None

@@ -1,10 +1,10 @@
 {
   "gr_id": "GAD-0000-cd3c50",
-  "gr_number": "UNKNOWN",
-  "department": "General Administration Department",
-  "issue_date": null,
+  "gr_number": "KP/28 of 2025/PRHRDD/KRT/E-FILE/14/2023/0347/KH",
+  "department": "Panchayat, Rural Housing and Rural Development Department",
+  "issue_date": "2025-05-15",
   "effective_date": null,
-  "subject": "Unknown Subject",
+  "subject": "under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT",
   "language": "en",
   "source_type": "digital",
   "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\notifications\\The-Gujarat-Panchayat-Recruitment-Examination-Rules-2025.pdf",
@@ -190,8 +190,8 @@
     {
       "chunk_id": "GAD-0000-cd3c50_p1_c000",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
-      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text": "વિષય / Subject: under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT\nવિભાગ / Department: Panchayat, Rural Housing and Rural Development Department\nઠરાવ ક્રમાંક / GR No.: KP/28 of 2025/PRHRDD/KRT/E-FILE/14/2023/0347/KH\nતારીખ / Date: 2025-05-15",
+      "text_clean": "વિષય / Subject: under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT\nવિભાગ / Department: Panchayat, Rural Housing and Rural Development Department\nઠરાવ ક્રમાંક / GR No.: KP/28 of 2025/PRHRDD/KRT/E-FILE/14/2023/0347/KH\nતારીખ / Date: 2025-05-15",
       "pages": [
         1
       ],
@@ -199,7 +199,7 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
+          "x1": 595.0,
           "y1": 200.0,
           "page": 1
         }
@@ -212,17 +212,17 @@
     {
       "chunk_id": "GAD-0000-cd3c50_p1_c001",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "I-A Ex.-51 51-1 Extra No. 51 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXVI ] THURSDAY, MAY 15, 2025 / VAISHAKHA 25, 1947 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 15th May, 2025 GUJARAT PANCHAYATS ACT, 1993. No.KP/28 of 2025/PRHRDD/KRT/E-FILE/14/2023/0347/KH:- In exercise of the powers conferred by sub-section (5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021, namely :-",
-      "text_clean": "I-A Ex.-51 51-1 Extra No. 51 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXVI ] THURSDAY, MAY 15, 2025 / VAISHAKHA 25, 1947 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 15th May, 2025 GUJARAT PANCHAYATS ACT, 1993. No.KP/28 of 2025/PRHRDD/KRT/E-FILE/14/2023/0347/KH:- In exercise of the powers conferred by sub-section (5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of Gujarat hereby makes the following rules further to amend the Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021, namely :-",
+      "text": "I-A Ex.-51 \n51-1 \nExtra No. 51 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXVI ] \n        THURSDAY,  MAY  15,  2025 / VAISHAKHA  25,  1947 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n \n \n \n \n \n \n \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 15th May, 2025 \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/28 of 2025/PRHRDD/KRT/E-FILE/14/2023/0347/KH:- In exercise of the powers conferred by sub-section",
+      "text_clean": "I-A Ex.-51 \n51-1 \nExtra No. 51 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXVI ] \n        THURSDAY,  MAY  15,  2025 / VAISHAKHA  25,  1947 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n \n \n \n \n \n \n \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 15th May, 2025 \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/28 of 2025/PRHRDD/KRT/E-FILE/14/2023/0347/KH:- In exercise of the powers conferred by sub-section",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 1
         }
       ],
@@ -234,17 +234,17 @@
     {
       "chunk_id": "GAD-0000-cd3c50_p1_c002",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "1. (1) These rules may be called the Gujarat Panchayat Services (Class III) Recruitment (Examination) (Amendment) Rules, 2025. (2) They shall come into force on the date of their publication in the Official Gazette.",
-      "text_clean": "1. (1) These rules may be called the Gujarat Panchayat Services (Class III) Recruitment (Examination) (Amendment) Rules, 2025. (2) They shall come into force on the date of their publication in the Official Gazette.",
+      "text": "(5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of \nGujarat hereby makes the following rules further to amend the Gujarat Panchayat Services (Class III) Recruitment \n(Examination) Rules, 2021, namely :-",
+      "text_clean": "(5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of \nGujarat hereby makes the following rules further to amend the Gujarat Panchayat Services (Class III) Recruitment \n(Examination) Rules, 2021, namely :-",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 1
         }
       ],
@@ -256,17 +256,17 @@
     {
       "chunk_id": "GAD-0000-cd3c50_p1_c003",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "2. In the Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021, for “Annexure – A” and “Annexure – B”, the following Annexure – A and Annexure – B respectively shall be substituted, namely :-",
-      "text_clean": "2. In the Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021, for “Annexure – A” and “Annexure – B”, the following Annexure – A and Annexure – B respectively shall be substituted, namely :-",
+      "text": "1.\n(1)  \nThese rules may be called the Gujarat Panchayat Services (Class III) Recruitment (Examination) \n(Amendment) Rules, 2025.",
+      "text_clean": "1.\n(1)  \nThese rules may be called the Gujarat Panchayat Services (Class III) Recruitment (Examination) \n(Amendment) Rules, 2025.",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 1
         }
       ],
@@ -276,10 +276,54 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-cd3c50_p2_c004",
+      "chunk_id": "GAD-0000-cd3c50_p1_c004",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "51-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n“Annexure – A \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n1 \nJunior Clerk \n1. General \nAwareness \n and \nGeneral \n Knowledge * \n70 \nGujarati \nTwo Hour \n2.    Gujarati Grammar \n20 \nGujarati \n3.    English Language  and Grammar \n20 \nEnglish \n4.    General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n2 \nVillage \nPanchayat \nSecretary \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n70 \nGujarati \nTwo Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n3 \nGram Sevak \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n4 \nFemale Health \nWorker \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nMulti Purpose \nHealth Worker \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish",
-      "text_clean": "51-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n“Annexure – A \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n1 \nJunior Clerk \n1. General \nAwareness \n and \nGeneral \n Knowledge * \n70 \nGujarati \nTwo Hour \n2.    Gujarati Grammar \n20 \nGujarati \n3.    English Language  and Grammar \n20 \nEnglish \n4.    General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n2 \nVillage \nPanchayat \nSecretary \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n70 \nGujarati \nTwo Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n3 \nGram Sevak \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n4 \nFemale Health \nWorker \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nMulti Purpose \nHealth Worker \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish",
+      "text": "(2)  \nThey shall come into force on the date of their publication in the Official Gazette.",
+      "text_clean": "(2)  \nThey shall come into force on the date of their publication in the Official Gazette.",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p1_c005",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "2.  \nIn the Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021, for “Annexure – A” and \n“Annexure – B”, the following Annexure – A and Annexure – B respectively shall be substituted, namely :-",
+      "text_clean": "2.  \nIn the Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021, for “Annexure – A” and \n“Annexure – B”, the following Annexure – A and Annexure – B respectively shall be substituted, namely :-",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c006",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "51-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n“Annexure – A \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n1 \nJunior Clerk",
+      "text_clean": "51-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n“Annexure – A \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n1 \nJunior Clerk",
       "pages": [
         2
       ],
@@ -287,8 +331,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 2
         }
       ],
@@ -298,10 +342,252 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-cd3c50_p3_c005",
+      "chunk_id": "GAD-0000-cd3c50_p2_c007",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-3 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nLive stock \nInspector \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nTracer \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n8 \nWork Assistant \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n* “General Awareness and General Knowledge” include questions related to –  \n1.  \nGeneral Mental Ability and General Intelligence. \n2.  \nHistory of India and History of Gujarat.",
-      "text_clean": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-3 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nLive stock \nInspector \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nTracer \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n8 \nWork Assistant \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n* “General Awareness and General Knowledge” include questions related to –  \n1.  \nGeneral Mental Ability and General Intelligence. \n2.  \nHistory of India and History of Gujarat.",
+      "text": "1. General \nAwareness \n and \nGeneral \n Knowledge * \n70 \nGujarati \nTwo Hour\n2.    Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General \nAwareness \n and \nGeneral \n Knowledge * \n70 \nGujarati \nTwo Hour\n2.    Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c008",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3.    English Language  and Grammar \n20 \nEnglish\n4.    General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n2 \nVillage \nPanchayat \nSecretary",
+      "text_clean": "3.    English Language  and Grammar \n20 \nEnglish\n4.    General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n2 \nVillage \nPanchayat \nSecretary",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c009",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n70 \nGujarati \nTwo Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n70 \nGujarati \nTwo Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c010",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n3 \nGram Sevak",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n3 \nGram Sevak",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c011",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c012",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c013",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n4 \nFemale Health \nWorker",
+      "text_clean": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n4 \nFemale Health \nWorker",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c014",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c015",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c016",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nMulti Purpose \nHealth Worker",
+      "text_clean": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nMulti Purpose \nHealth Worker",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p2_c017",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati\n3. English Language  and Grammar \n20 \nEnglish",
+      "text_clean": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati\n3. English Language  and Grammar \n20 \nEnglish",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c018",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-3 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration",
+      "text_clean": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-3 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration",
       "pages": [
         3
       ],
@@ -309,8 +595,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 3
         }
       ],
@@ -320,10 +606,252 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-cd3c50_p4_c006",
+      "chunk_id": "GAD-0000-cd3c50_p3_c019",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "51-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n3.  \nCultural heritage of India and Gujarat. \n4.  \nGeography of India and Geography of Gujarat. \n5.  \nSports. \n6.  \nIndian Polity and the Constitution of India. \n7.  \nPanchayati Raj.  \n8.  \nWelfare schemes of Gujarat State and Union Government. \n9.  \nIndian Economy and Planning. \n10.  General Science, Environment and Information & Communication Technology. \n11.   Current affairs of Regional, National and International Importance. \nNOTE: The question papers shall be of objective type MCQs (multiple choice questions). \nAnnexure-B \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n1 \nJunior Pharmacist \n(Compounder) \n \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n2 \nMukhya Sevika \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n3 \nExtension Officer \n(Agriculture) \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200",
-      "text_clean": "51-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n3.  \nCultural heritage of India and Gujarat. \n4.  \nGeography of India and Geography of Gujarat. \n5.  \nSports. \n6.  \nIndian Polity and the Constitution of India. \n7.  \nPanchayati Raj.  \n8.  \nWelfare schemes of Gujarat State and Union Government. \n9.  \nIndian Economy and Planning. \n10.  General Science, Environment and Information & Communication Technology. \n11.   Current affairs of Regional, National and International Importance. \nNOTE: The question papers shall be of objective type MCQs (multiple choice questions). \nAnnexure-B \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n1 \nJunior Pharmacist \n(Compounder) \n \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n2 \nMukhya Sevika \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n3 \nExtension Officer \n(Agriculture) \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200",
+      "text": "4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati\n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nLive stock \nInspector",
+      "text_clean": "4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati\n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nLive stock \nInspector",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c020",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c021",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c022",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nTracer",
+      "text_clean": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nTracer",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c023",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c024",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c025",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n8 \nWork Assistant",
+      "text_clean": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n8 \nWork Assistant",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c026",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c027",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c028",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n* “General Awareness and General Knowledge” include questions related to –",
+      "text_clean": "5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n* “General Awareness and General Knowledge” include questions related to –",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p3_c029",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1.  \nGeneral Mental Ability and General Intelligence.\n2.  \nHistory of India and History of Gujarat.",
+      "text_clean": "1.  \nGeneral Mental Ability and General Intelligence.\n2.  \nHistory of India and History of Gujarat.",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c030",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "51-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A\n3.  \nCultural heritage of India and Gujarat.",
+      "text_clean": "51-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A\n3.  \nCultural heritage of India and Gujarat.",
       "pages": [
         4
       ],
@@ -331,8 +859,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 4
         }
       ],
@@ -342,10 +870,274 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-cd3c50_p5_c007",
+      "chunk_id": "GAD-0000-cd3c50_p4_c031",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-5 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4 \nStaff Nurse \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nLaboratory Technician \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nStatistical Assistant \n \n \n \n \n \n \n \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nResearch Assistant \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n8 \n(1). Accountant/ \nDivisional Accountant \n(2). Deputy Accountant \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish",
-      "text_clean": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-5 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4 \nStaff Nurse \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nLaboratory Technician \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nStatistical Assistant \n \n \n \n \n \n \n \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nResearch Assistant \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n8 \n(1). Accountant/ \nDivisional Accountant \n(2). Deputy Accountant \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish",
+      "text": "4.  \nGeography of India and Geography of Gujarat.\n5.  \nSports.\n6.  \nIndian Polity and the Constitution of India.",
+      "text_clean": "4.  \nGeography of India and Geography of Gujarat.\n5.  \nSports.\n6.  \nIndian Polity and the Constitution of India.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c032",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "7.  \nPanchayati Raj.\n8.  \nWelfare schemes of Gujarat State and Union Government.\n9.  \nIndian Economy and Planning.",
+      "text_clean": "7.  \nPanchayati Raj.\n8.  \nWelfare schemes of Gujarat State and Union Government.\n9.  \nIndian Economy and Planning.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c033",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "10.  General Science, Environment and Information & Communication Technology.\n11.   Current affairs of Regional, National and International Importance. \nNOTE: The question papers shall be of objective type MCQs (multiple choice questions). \nAnnexure-B \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n1 \nJunior Pharmacist \n(Compounder)",
+      "text_clean": "10.  General Science, Environment and Information & Communication Technology.\n11.   Current affairs of Regional, National and International Importance. \nNOTE: The question papers shall be of objective type MCQs (multiple choice questions). \nAnnexure-B \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n1 \nJunior Pharmacist \n(Compounder)",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c034",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c035",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c036",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n2 \nMukhya Sevika",
+      "text_clean": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n2 \nMukhya Sevika",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c037",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c038",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c039",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n3 \nExtension Officer \n(Agriculture)",
+      "text_clean": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n3 \nExtension Officer \n(Agriculture)",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c040",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c041",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p4_c042",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200",
+      "text_clean": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c043",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-5 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4 \nStaff Nurse",
+      "text_clean": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-5 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4 \nStaff Nurse",
       "pages": [
         5
       ],
@@ -353,8 +1145,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 5
         }
       ],
@@ -364,10 +1156,296 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-cd3c50_p6_c008",
+      "chunk_id": "GAD-0000-cd3c50_p5_c044",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "51-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n9 \nAdditional Assistant \nEngineer  \n(Civil) \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n10 \nDraftsman \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n \n11 \nExtension Officer \n(Co- operation) \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n12 \nSocial Welfare Inspector \n(Junior Grade) \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n13 \nDeputy Chitnis \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati",
-      "text_clean": "51-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n9 \nAdditional Assistant \nEngineer  \n(Civil) \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n10 \nDraftsman \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n \n11 \nExtension Officer \n(Co- operation) \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n12 \nSocial Welfare Inspector \n(Junior Grade) \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n13 \nDeputy Chitnis \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c045",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c046",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nLaboratory Technician",
+      "text_clean": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nLaboratory Technician",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c047",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c048",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c049",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nStatistical Assistant",
+      "text_clean": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nStatistical Assistant",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c050",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c051",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c052",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nResearch Assistant",
+      "text_clean": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nResearch Assistant",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c053",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c054",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c055",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n8 \n(1). Accountant/ \nDivisional Accountant \n(2). Deputy Accountant",
+      "text_clean": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n8 \n(1). Accountant/ \nDivisional Accountant \n(2). Deputy Accountant",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p5_c056",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati\n3. English Language  and Grammar \n20 \nEnglish",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati\n3. English Language  and Grammar \n20 \nEnglish",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c057",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "51-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration",
+      "text_clean": "51-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration",
       "pages": [
         6
       ],
@@ -375,8 +1453,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 6
         }
       ],
@@ -386,10 +1464,274 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-cd3c50_p7_c009",
+      "chunk_id": "GAD-0000-cd3c50_p6_c058",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-7 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n14 \nEnglish Stenographer \n(Grade II),  \nGujarati Stenographer \n(Grade II),  \nEnglish Stenographer \n(Grade III),  \nGujarati Stenographer \n(Grade III). \nPaper- 1 \n1. General \nAwareness \n and \nGeneral Knowledge * \n \n40 \n \nGujarati \nOne Hour \n2. Gujarati \nLanguage \nand \nGrammar \n30 \nGujarati \n3. English \nLanguage \n and \nGrammar \n30 \nEnglish \nTotal \n100 \n \nPaper- II \n1. The Candidate shall be required \nto take dictation of two passages \nin English Shorthand, each of \nfour minutes duration, dictated \nat the speed of 100 words per \nminute and transcribe the same \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade II) and to \ntake dictation of two passages in \nEnglish Shorthand each of four \nminutes duration dictated at the \nspeed of 80 words per minute \nand \ntranscribe \nthe \nsame \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade III). \n2.  The Candidate shall be required \nto take dictation of two passages \nin Gujarati shorthand each of \nfour minutes duration dictated \nat the speed of 75 words per \nminute and transcribe the same \npassages on computer within 60 \nminutes, for the post of Gujarati \nStenographer (Grade II) and to \ntake dictation of two passages in \nGujarati Shorthand at the speed \nof 60 words per minute and \ntranscribe the same passages on \ncomputer within 50 minutes, for \nthe \npost \nof \nGujarati \nStenographer (Grade III): \nProvided \nthat, \nonly \nthose \ncandidate who obtain such minimum \nqualifying marks in objective type paper, \nas may be fixed by the Board shall be \nentitled to appear in the paper II (Short \nhand Type Writing Test on computer) ; \nProvided \nfurther \nthat, \nthe \nselection \nof \nthe \ncandidates \nfor \nappointment to the posts of English \nStenographer \n(Grade \nII), \nGujarati \n100 \n \nOne Hour",
-      "text_clean": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-7 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n14 \nEnglish Stenographer \n(Grade II),  \nGujarati Stenographer \n(Grade II),  \nEnglish Stenographer \n(Grade III),  \nGujarati Stenographer \n(Grade III). \nPaper- 1 \n1. General \nAwareness \n and \nGeneral Knowledge * \n \n40 \n \nGujarati \nOne Hour \n2. Gujarati \nLanguage \nand \nGrammar \n30 \nGujarati \n3. English \nLanguage \n and \nGrammar \n30 \nEnglish \nTotal \n100 \n \nPaper- II \n1. The Candidate shall be required \nto take dictation of two passages \nin English Shorthand, each of \nfour minutes duration, dictated \nat the speed of 100 words per \nminute and transcribe the same \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade II) and to \ntake dictation of two passages in \nEnglish Shorthand each of four \nminutes duration dictated at the \nspeed of 80 words per minute \nand \ntranscribe \nthe \nsame \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade III). \n2.  The Candidate shall be required \nto take dictation of two passages \nin Gujarati shorthand each of \nfour minutes duration dictated \nat the speed of 75 words per \nminute and transcribe the same \npassages on computer within 60 \nminutes, for the post of Gujarati \nStenographer (Grade II) and to \ntake dictation of two passages in \nGujarati Shorthand at the speed \nof 60 words per minute and \ntranscribe the same passages on \ncomputer within 50 minutes, for \nthe \npost \nof \nGujarati \nStenographer (Grade III): \nProvided \nthat, \nonly \nthose \ncandidate who obtain such minimum \nqualifying marks in objective type paper, \nas may be fixed by the Board shall be \nentitled to appear in the paper II (Short \nhand Type Writing Test on computer) ; \nProvided \nfurther \nthat, \nthe \nselection \nof \nthe \ncandidates \nfor \nappointment to the posts of English \nStenographer \n(Grade \nII), \nGujarati \n100 \n \nOne Hour",
+      "text": "4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati\n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n9 \nAdditional Assistant \nEngineer  \n(Civil)",
+      "text_clean": "4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati\n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n9 \nAdditional Assistant \nEngineer  \n(Civil)",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c059",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c060",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c061",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n10 \nDraftsman",
+      "text_clean": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n10 \nDraftsman",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c062",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour\n2. Gujarati Grammar \n20 \nGujarati",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c063",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "text_clean": "3. English Language  and Grammar \n20 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c064",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n \n11 \nExtension Officer \n(Co- operation)",
+      "text_clean": "5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n \n11 \nExtension Officer \n(Co- operation)",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c065",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n25 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n25 \nGujarati",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c066",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n25 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n12 \nSocial Welfare Inspector \n(Junior Grade)",
+      "text_clean": "3. English Language  and Grammar \n25 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n12 \nSocial Welfare Inspector \n(Junior Grade)",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c067",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n25 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n25 \nGujarati",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c068",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English Language  and Grammar \n25 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n13 \nDeputy Chitnis",
+      "text_clean": "3. English Language  and Grammar \n25 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n13 \nDeputy Chitnis",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p6_c069",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n25 \nGujarati",
+      "text_clean": "1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour\n2. Gujarati Grammar \n25 \nGujarati",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p7_c070",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-7 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration",
+      "text_clean": "CENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-7 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration",
       "pages": [
         7
       ],
@@ -397,8 +1739,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 7
         }
       ],
@@ -408,10 +1750,98 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-cd3c50_p8_c010",
+      "chunk_id": "GAD-0000-cd3c50_p7_c071",
       "gr_id": "GAD-0000-cd3c50",
-      "text": "Government Central Press, Gandhinagar.\n51-8 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \nStenographer \n(Grade \nII), \nEnglish \nStenographer \n(Grade \nIII), \nGujarati \nStenographer (Grade III), shall be on the \nbasis of the aggregate marks obtained in \nthe Paper- I (Objective type) and Paper II \n(Shorthand and type writing Test on \nComputer). \nTotal \n200 \n \n \n* “General Awareness and General Knowledge” include questions related to –  \n1.     General Mental Ability and General Intelligence. \n2.     History of India and History of Gujarat. \n3.     Cultural heritage of India and Gujarat. \n4.     Geography of India and Geography of Gujarat. \n5.     Sports. \n6.     Indian Polity and the Constitution of India. \n7.     Panchayati Raj.  \n8.     Welfare schemes of Gujarat State and Union Government. \n9.     Indian Economy and Planning. \n 10.   General Science, Environment and Information & Communication Technology. \n 11.   Current affairs of Regional, National and International Importance. \n NOTE: The question papers shall be of objective type MCQs (multiple choice questions)”. \nBy order and in the name of the Governor of Gujarat, \nNARENDRA VAGHELA, \nDeputy Secretary to Government. \n---------- \nSigned by:BHOLUSINGH G THAKUR\nDate: 2025.05.22 16:48:20 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
-      "text_clean": "Government Central Press, Gandhinagar.\n51-8 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \nStenographer \n(Grade \nII), \nEnglish \nStenographer \n(Grade \nIII), \nGujarati \nStenographer (Grade III), shall be on the \nbasis of the aggregate marks obtained in \nthe Paper- I (Objective type) and Paper II \n(Shorthand and type writing Test on \nComputer). \nTotal \n200 \n \n \n* “General Awareness and General Knowledge” include questions related to –  \n1.     General Mental Ability and General Intelligence. \n2.     History of India and History of Gujarat. \n3.     Cultural heritage of India and Gujarat. \n4.     Geography of India and Geography of Gujarat. \n5.     Sports. \n6.     Indian Polity and the Constitution of India. \n7.     Panchayati Raj.  \n8.     Welfare schemes of Gujarat State and Union Government. \n9.     Indian Economy and Planning. \n 10.   General Science, Environment and Information & Communication Technology. \n 11.   Current affairs of Regional, National and International Importance. \n NOTE: The question papers shall be of objective type MCQs (multiple choice questions)”. \nBy order and in the name of the Governor of Gujarat, \nNARENDRA VAGHELA, \nDeputy Secretary to Government. \n---------- \nSigned by:BHOLUSINGH G THAKUR\nDate: 2025.05.22 16:48:20 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+      "text": "3. English Language  and Grammar \n25 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n14 \nEnglish Stenographer \n(Grade II),  \nGujarati Stenographer \n(Grade II),  \nEnglish Stenographer \n(Grade III),  \nGujarati Stenographer \n(Grade III). \nPaper- 1",
+      "text_clean": "3. English Language  and Grammar \n25 \nEnglish\n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n14 \nEnglish Stenographer \n(Grade II),  \nGujarati Stenographer \n(Grade II),  \nEnglish Stenographer \n(Grade III),  \nGujarati Stenographer \n(Grade III). \nPaper- 1",
+      "pages": [
+        7
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 7
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p7_c072",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1. General \nAwareness \n and \nGeneral Knowledge * \n \n40 \n \nGujarati \nOne Hour\n2. Gujarati \nLanguage \nand \nGrammar \n30 \nGujarati",
+      "text_clean": "1. General \nAwareness \n and \nGeneral Knowledge * \n \n40 \n \nGujarati \nOne Hour\n2. Gujarati \nLanguage \nand \nGrammar \n30 \nGujarati",
+      "pages": [
+        7
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 7
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p7_c073",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3. English \nLanguage \n and \nGrammar \n30 \nEnglish \nTotal \n100 \n \nPaper- II\n1. The Candidate shall be required \nto take dictation of two passages \nin English Shorthand, each of \nfour minutes duration, dictated \nat the speed of 100 words per \nminute and transcribe the same \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade II) and to \ntake dictation of two passages in \nEnglish Shorthand each of four \nminutes duration dictated at the \nspeed of 80 words per minute \nand \ntranscribe \nthe \nsame \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade III).",
+      "text_clean": "3. English \nLanguage \n and \nGrammar \n30 \nEnglish \nTotal \n100 \n \nPaper- II\n1. The Candidate shall be required \nto take dictation of two passages \nin English Shorthand, each of \nfour minutes duration, dictated \nat the speed of 100 words per \nminute and transcribe the same \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade II) and to \ntake dictation of two passages in \nEnglish Shorthand each of four \nminutes duration dictated at the \nspeed of 80 words per minute \nand \ntranscribe \nthe \nsame \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade III).",
+      "pages": [
+        7
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 7
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p7_c074",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "2.  The Candidate shall be required \nto take dictation of two passages \nin Gujarati shorthand each of \nfour minutes duration dictated \nat the speed of 75 words per \nminute and transcribe the same \npassages on computer within 60 \nminutes, for the post of Gujarati \nStenographer (Grade II) and to \ntake dictation of two passages in \nGujarati Shorthand at the speed \nof 60 words per minute and \ntranscribe the same passages on \ncomputer within 50 minutes, for \nthe \npost \nof \nGujarati \nStenographer (Grade III): \nProvided \nthat, \nonly \nthose \ncandidate who obtain such minimum \nqualifying marks in objective type paper, \nas may be fixed by the Board shall be \nentitled to appear in the paper II (Short \nhand Type Writing Test on computer) ; \nProvided \nfurther \nthat, \nthe \nselection \nof \nthe \ncandidates \nfor \nappointment to the posts of English \nStenographer \n(Grade \nII), \nGujarati \n100 \n \nOne Hour",
+      "text_clean": "2.  The Candidate shall be required \nto take dictation of two passages \nin Gujarati shorthand each of \nfour minutes duration dictated \nat the speed of 75 words per \nminute and transcribe the same \npassages on computer within 60 \nminutes, for the post of Gujarati \nStenographer (Grade II) and to \ntake dictation of two passages in \nGujarati Shorthand at the speed \nof 60 words per minute and \ntranscribe the same passages on \ncomputer within 50 minutes, for \nthe \npost \nof \nGujarati \nStenographer (Grade III): \nProvided \nthat, \nonly \nthose \ncandidate who obtain such minimum \nqualifying marks in objective type paper, \nas may be fixed by the Board shall be \nentitled to appear in the paper II (Short \nhand Type Writing Test on computer) ; \nProvided \nfurther \nthat, \nthe \nselection \nof \nthe \ncandidates \nfor \nappointment to the posts of English \nStenographer \n(Grade \nII), \nGujarati \n100 \n \nOne Hour",
+      "pages": [
+        7
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 7
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p8_c075",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "Government Central Press, Gandhinagar.\n51-8 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \nStenographer \n(Grade \nII), \nEnglish \nStenographer \n(Grade \nIII), \nGujarati \nStenographer (Grade III), shall be on the \nbasis of the aggregate marks obtained in \nthe Paper- I (Objective type) and Paper II \n(Shorthand and type writing Test on \nComputer). \nTotal \n200 \n \n \n* “General Awareness and General Knowledge” include questions related to –",
+      "text_clean": "Government Central Press, Gandhinagar.\n51-8 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \nStenographer \n(Grade \nII), \nEnglish \nStenographer \n(Grade \nIII), \nGujarati \nStenographer (Grade III), shall be on the \nbasis of the aggregate marks obtained in \nthe Paper- I (Objective type) and Paper II \n(Shorthand and type writing Test on \nComputer). \nTotal \n200 \n \n \n* “General Awareness and General Knowledge” include questions related to –",
       "pages": [
         8
       ],
@@ -419,8 +1849,118 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 8
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p8_c076",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "1.     General Mental Ability and General Intelligence.\n2.     History of India and History of Gujarat.",
+      "text_clean": "1.     General Mental Ability and General Intelligence.\n2.     History of India and History of Gujarat.",
+      "pages": [
+        8
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 8
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p8_c077",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "3.     Cultural heritage of India and Gujarat.\n4.     Geography of India and Geography of Gujarat.",
+      "text_clean": "3.     Cultural heritage of India and Gujarat.\n4.     Geography of India and Geography of Gujarat.",
+      "pages": [
+        8
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 8
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p8_c078",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "5.     Sports.\n6.     Indian Polity and the Constitution of India.\n7.     Panchayati Raj.\n8.     Welfare schemes of Gujarat State and Union Government.",
+      "text_clean": "5.     Sports.\n6.     Indian Polity and the Constitution of India.\n7.     Panchayati Raj.\n8.     Welfare schemes of Gujarat State and Union Government.",
+      "pages": [
+        8
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 8
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p8_c079",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "9.     Indian Economy and Planning.\n10.   General Science, Environment and Information & Communication Technology.",
+      "text_clean": "9.     Indian Economy and Planning.\n10.   General Science, Environment and Information & Communication Technology.",
+      "pages": [
+        8
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 8
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-cd3c50_p8_c080",
+      "gr_id": "GAD-0000-cd3c50",
+      "text": "11.   Current affairs of Regional, National and International Importance. \n NOTE: The question papers shall be of objective type MCQs (multiple choice questions)”. \nBy order and in the name of the Governor of Gujarat, \nNARENDRA VAGHELA, \nDeputy Secretary to Government. \n---------- \nSigned by:BHOLUSINGH G THAKUR\nDate: 2025.05.22 16:48:20 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+      "text_clean": "11.   Current affairs of Regional, National and International Importance. \n NOTE: The question papers shall be of objective type MCQs (multiple choice questions)”. \nBy order and in the name of the Governor of Gujarat, \nNARENDRA VAGHELA, \nDeputy Secretary to Government. \n---------- \nSigned by:BHOLUSINGH G THAKUR\nDate: 2025.05.22 16:48:20 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+      "pages": [
+        8
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 8
         }
       ],
@@ -431,6 +1971,8 @@
     }
   ],
   "references": [],
-  "metadata_confidence": 0.88,
-  "raw_text": "I-A Ex.-51 \n51-1 \nExtra No. 51 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXVI ] \n        THURSDAY,  MAY  15,  2025 / VAISHAKHA  25,  1947 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n \n \n \n \n \n \n \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 15th May, 2025 \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/28 of 2025/PRHRDD/KRT/E-FILE/14/2023/0347/KH:- In exercise of the powers conferred by sub-section \n(5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of \nGujarat hereby makes the following rules further to amend the Gujarat Panchayat Services (Class III) Recruitment \n(Examination) Rules, 2021, namely :-  \n1.  \n(1)  \nThese rules may be called the Gujarat Panchayat Services (Class III) Recruitment (Examination) \n(Amendment) Rules, 2025. \n   \n(2)  \nThey shall come into force on the date of their publication in the Official Gazette. \n2.  \nIn the Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021, for “Annexure – A” and \n“Annexure – B”, the following Annexure – A and Annexure – B respectively shall be substituted, namely :-\n\n51-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n“Annexure – A \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n1 \nJunior Clerk \n1. General \nAwareness \n and \nGeneral \n Knowledge * \n70 \nGujarati \nTwo Hour \n2.    Gujarati Grammar \n20 \nGujarati \n3.    English Language  and Grammar \n20 \nEnglish \n4.    General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n2 \nVillage \nPanchayat \nSecretary \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n70 \nGujarati \nTwo Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n3 \nGram Sevak \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n4 \nFemale Health \nWorker \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nMulti Purpose \nHealth Worker \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish\n\nCENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-3 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nLive stock \nInspector \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nTracer \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n8 \nWork Assistant \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n* “General Awareness and General Knowledge” include questions related to –  \n1.  \nGeneral Mental Ability and General Intelligence. \n2.  \nHistory of India and History of Gujarat.\n\n51-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n3.  \nCultural heritage of India and Gujarat. \n4.  \nGeography of India and Geography of Gujarat. \n5.  \nSports. \n6.  \nIndian Polity and the Constitution of India. \n7.  \nPanchayati Raj.  \n8.  \nWelfare schemes of Gujarat State and Union Government. \n9.  \nIndian Economy and Planning. \n10.  General Science, Environment and Information & Communication Technology. \n11.   Current affairs of Regional, National and International Importance. \nNOTE: The question papers shall be of objective type MCQs (multiple choice questions). \nAnnexure-B \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n1 \nJunior Pharmacist \n(Compounder) \n \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n2 \nMukhya Sevika \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n3 \nExtension Officer \n(Agriculture) \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200\n\nCENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-5 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4 \nStaff Nurse \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nLaboratory Technician \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nStatistical Assistant \n \n \n \n \n \n \n \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nResearch Assistant \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n8 \n(1). Accountant/ \nDivisional Accountant \n(2). Deputy Accountant \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish\n\n51-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n9 \nAdditional Assistant \nEngineer  \n(Civil) \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n10 \nDraftsman \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n \n11 \nExtension Officer \n(Co- operation) \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n12 \nSocial Welfare Inspector \n(Junior Grade) \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n13 \nDeputy Chitnis \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati\n\nCENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-7 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n14 \nEnglish Stenographer \n(Grade II),  \nGujarati Stenographer \n(Grade II),  \nEnglish Stenographer \n(Grade III),  \nGujarati Stenographer \n(Grade III). \nPaper- 1 \n1. General \nAwareness \n and \nGeneral Knowledge * \n \n40 \n \nGujarati \nOne Hour \n2. Gujarati \nLanguage \nand \nGrammar \n30 \nGujarati \n3. English \nLanguage \n and \nGrammar \n30 \nEnglish \nTotal \n100 \n \nPaper- II \n1. The Candidate shall be required \nto take dictation of two passages \nin English Shorthand, each of \nfour minutes duration, dictated \nat the speed of 100 words per \nminute and transcribe the same \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade II) and to \ntake dictation of two passages in \nEnglish Shorthand each of four \nminutes duration dictated at the \nspeed of 80 words per minute \nand \ntranscribe \nthe \nsame \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade III). \n2.  The Candidate shall be required \nto take dictation of two passages \nin Gujarati shorthand each of \nfour minutes duration dictated \nat the speed of 75 words per \nminute and transcribe the same \npassages on computer within 60 \nminutes, for the post of Gujarati \nStenographer (Grade II) and to \ntake dictation of two passages in \nGujarati Shorthand at the speed \nof 60 words per minute and \ntranscribe the same passages on \ncomputer within 50 minutes, for \nthe \npost \nof \nGujarati \nStenographer (Grade III): \nProvided \nthat, \nonly \nthose \ncandidate who obtain such minimum \nqualifying marks in objective type paper, \nas may be fixed by the Board shall be \nentitled to appear in the paper II (Short \nhand Type Writing Test on computer) ; \nProvided \nfurther \nthat, \nthe \nselection \nof \nthe \ncandidates \nfor \nappointment to the posts of English \nStenographer \n(Grade \nII), \nGujarati \n100 \n \nOne Hour\n\nGovernment Central Press, Gandhinagar.\n51-8 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \nStenographer \n(Grade \nII), \nEnglish \nStenographer \n(Grade \nIII), \nGujarati \nStenographer (Grade III), shall be on the \nbasis of the aggregate marks obtained in \nthe Paper- I (Objective type) and Paper II \n(Shorthand and type writing Test on \nComputer). \nTotal \n200 \n \n \n* “General Awareness and General Knowledge” include questions related to –  \n1.     General Mental Ability and General Intelligence. \n2.     History of India and History of Gujarat. \n3.     Cultural heritage of India and Gujarat. \n4.     Geography of India and Geography of Gujarat. \n5.     Sports. \n6.     Indian Polity and the Constitution of India. \n7.     Panchayati Raj.  \n8.     Welfare schemes of Gujarat State and Union Government. \n9.     Indian Economy and Planning. \n 10.   General Science, Environment and Information & Communication Technology. \n 11.   Current affairs of Regional, National and International Importance. \n NOTE: The question papers shall be of objective type MCQs (multiple choice questions)”. \nBy order and in the name of the Governor of Gujarat, \nNARENDRA VAGHELA, \nDeputy Secretary to Government. \n---------- \nSigned by:BHOLUSINGH G THAKUR\nDate: 2025.05.22 16:48:20 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified"
+  "metadata_confidence": 0.92,
+  "raw_text": "I-A Ex.-51 \n51-1 \nExtra No. 51 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXVI ] \n        THURSDAY,  MAY  15,  2025 / VAISHAKHA  25,  1947 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n \n \n \n \n \n \n \n \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 15th May, 2025 \nGUJARAT PANCHAYATS ACT, 1993. \nNo.KP/28 of 2025/PRHRDD/KRT/E-FILE/14/2023/0347/KH:- In exercise of the powers conferred by sub-section \n(5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj.18 of 1993), the Government of \nGujarat hereby makes the following rules further to amend the Gujarat Panchayat Services (Class III) Recruitment \n(Examination) Rules, 2021, namely :-  \n1.  \n(1)  \nThese rules may be called the Gujarat Panchayat Services (Class III) Recruitment (Examination) \n(Amendment) Rules, 2025. \n   \n(2)  \nThey shall come into force on the date of their publication in the Official Gazette. \n2.  \nIn the Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021, for “Annexure – A” and \n“Annexure – B”, the following Annexure – A and Annexure – B respectively shall be substituted, namely :-\n\n51-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n“Annexure – A \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n1 \nJunior Clerk \n1. General \nAwareness \n and \nGeneral \n Knowledge * \n70 \nGujarati \nTwo Hour \n2.    Gujarati Grammar \n20 \nGujarati \n3.    English Language  and Grammar \n20 \nEnglish \n4.    General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n2 \nVillage \nPanchayat \nSecretary \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n70 \nGujarati \nTwo Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n40 \nGujarati \nTotal \n150 \n \n3 \nGram Sevak \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n4 \nFemale Health \nWorker \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nMulti Purpose \nHealth Worker \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish\n\nCENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-3 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium of \nExam \nDuration \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nLive stock \nInspector \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nTracer \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n8 \nWork Assistant \n1. General \nAwareness \n and \nGeneral \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & Data \nInterpretation \n25 \nGujarati \n5. Questions \nassessing \nthe \nrequisite \nknowledge for the job and technical \nknowledge with regard to the educational \nqualification. \n100 \nGujarati \nTotal \n200 \n \n* “General Awareness and General Knowledge” include questions related to –  \n1.  \nGeneral Mental Ability and General Intelligence. \n2.  \nHistory of India and History of Gujarat.\n\n51-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \n3.  \nCultural heritage of India and Gujarat. \n4.  \nGeography of India and Geography of Gujarat. \n5.  \nSports. \n6.  \nIndian Polity and the Constitution of India. \n7.  \nPanchayati Raj.  \n8.  \nWelfare schemes of Gujarat State and Union Government. \n9.  \nIndian Economy and Planning. \n10.  General Science, Environment and Information & Communication Technology. \n11.   Current affairs of Regional, National and International Importance. \nNOTE: The question papers shall be of objective type MCQs (multiple choice questions). \nAnnexure-B \n(see rule 7) \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n1 \nJunior Pharmacist \n(Compounder) \n \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n2 \nMukhya Sevika \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n3 \nExtension Officer \n(Agriculture) \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200\n\nCENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-5 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4 \nStaff Nurse \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n5 \nLaboratory Technician \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n6 \nStatistical Assistant \n \n \n \n \n \n \n \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n7 \nResearch Assistant \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n8 \n(1). Accountant/ \nDivisional Accountant \n(2). Deputy Accountant \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish\n\n51-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n9 \nAdditional Assistant \nEngineer  \n(Civil) \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n10 \nDraftsman \n1. General Awareness  and General \nKnowledge * \n35 \nGujarati \nThree Hour \n2. Gujarati Grammar \n20 \nGujarati \n3. English Language  and Grammar \n20 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n25 \nGujarati \n5. Questions assessing the requisite \nknowledge for the job and technical \nknowledge with regard to the \neducational qualification. \n100 \nGujarati \nTotal \n200 \n \n \n11 \nExtension Officer \n(Co- operation) \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n12 \nSocial Welfare Inspector \n(Junior Grade) \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n13 \nDeputy Chitnis \n1. General Awareness  and General \nKnowledge * \n100 \nGujarati \nThree \nHour \n2. Gujarati Grammar \n25 \nGujarati\n\nCENTRAL SECTION ] \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025         \n          51-7 \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \n3. English Language  and Grammar \n25 \nEnglish \n4. General Mathematics, Reasoning & \nData Interpretation \n50 \nGujarati \nTotal \n200 \n \n14 \nEnglish Stenographer \n(Grade II),  \nGujarati Stenographer \n(Grade II),  \nEnglish Stenographer \n(Grade III),  \nGujarati Stenographer \n(Grade III). \nPaper- 1 \n1. General \nAwareness \n and \nGeneral Knowledge * \n \n40 \n \nGujarati \nOne Hour \n2. Gujarati \nLanguage \nand \nGrammar \n30 \nGujarati \n3. English \nLanguage \n and \nGrammar \n30 \nEnglish \nTotal \n100 \n \nPaper- II \n1. The Candidate shall be required \nto take dictation of two passages \nin English Shorthand, each of \nfour minutes duration, dictated \nat the speed of 100 words per \nminute and transcribe the same \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade II) and to \ntake dictation of two passages in \nEnglish Shorthand each of four \nminutes duration dictated at the \nspeed of 80 words per minute \nand \ntranscribe \nthe \nsame \npassages on computer within 40 \nminutes, for the post of English \nStenographer (Grade III). \n2.  The Candidate shall be required \nto take dictation of two passages \nin Gujarati shorthand each of \nfour minutes duration dictated \nat the speed of 75 words per \nminute and transcribe the same \npassages on computer within 60 \nminutes, for the post of Gujarati \nStenographer (Grade II) and to \ntake dictation of two passages in \nGujarati Shorthand at the speed \nof 60 words per minute and \ntranscribe the same passages on \ncomputer within 50 minutes, for \nthe \npost \nof \nGujarati \nStenographer (Grade III): \nProvided \nthat, \nonly \nthose \ncandidate who obtain such minimum \nqualifying marks in objective type paper, \nas may be fixed by the Board shall be \nentitled to appear in the paper II (Short \nhand Type Writing Test on computer) ; \nProvided \nfurther \nthat, \nthe \nselection \nof \nthe \ncandidates \nfor \nappointment to the posts of English \nStenographer \n(Grade \nII), \nGujarati \n100 \n \nOne Hour\n\nGovernment Central Press, Gandhinagar.\n51-8 \nGUJARAT GOVERNMENT GAZETTE, EX., 15-05-2025 \n [ PART  I-A \nSr. \nNo. \nName of post \nSyllabus \nMarks \nMedium \nof Exam \nDuration \nStenographer \n(Grade \nII), \nEnglish \nStenographer \n(Grade \nIII), \nGujarati \nStenographer (Grade III), shall be on the \nbasis of the aggregate marks obtained in \nthe Paper- I (Objective type) and Paper II \n(Shorthand and type writing Test on \nComputer). \nTotal \n200 \n \n \n* “General Awareness and General Knowledge” include questions related to –  \n1.     General Mental Ability and General Intelligence. \n2.     History of India and History of Gujarat. \n3.     Cultural heritage of India and Gujarat. \n4.     Geography of India and Geography of Gujarat. \n5.     Sports. \n6.     Indian Polity and the Constitution of India. \n7.     Panchayati Raj.  \n8.     Welfare schemes of Gujarat State and Union Government. \n9.     Indian Economy and Planning. \n 10.   General Science, Environment and Information & Communication Technology. \n 11.   Current affairs of Regional, National and International Importance. \n NOTE: The question papers shall be of objective type MCQs (multiple choice questions)”. \nBy order and in the name of the Governor of Gujarat, \nNARENDRA VAGHELA, \nDeputy Secretary to Government. \n---------- \nSigned by:BHOLUSINGH G THAKUR\nDate: 2025.05.22 16:48:20 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+  "subject_en": "Amendment Rules, 2025, to Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021",
+  "subject_gu": "ગુજરાત પંચાયત સેવાઓ (ધોરણ III) ભરતી (પરીક્ષા) (સુધારા) નિયમો, ૨૦૨૫"
 }

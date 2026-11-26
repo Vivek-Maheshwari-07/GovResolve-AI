@@ -14,10 +14,10 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from .config import Settings, settings as default_settings
 from .engine import AnswerEngine, NullEngine, RetrievalEngine
 from .graph import LineageGraph, load_corpus
-from .normalize import detect_language
+from .query_eval import evaluate_query
 from .routers.api import router as member_b_router
+from .routers.voice import router as voice_router
 from .security import HardeningMiddleware
-from .schemas.member_a import Citation
 from .schemas import (
     DocumentDetail,
     DocumentIn,
@@ -26,14 +26,8 @@ from .schemas import (
     IngestResult,
     LineageGraphResponse,
     LineageInfo,
-    LineageStatus,
     QueryRequest,
     QueryResponse,
-    ReasonCode,
-    Relation,
-    Statement,
-    StatementLabel,
-    Verdict,
 )
 from .seed import load_demo
 from .squad2_runtime import LazySquad2Engine
@@ -95,11 +89,14 @@ def create_app(
         version=cfg.version if cfg else "0.1.0",
         lifespan=lifespan,
     )
+    app.state.contract_graph = graph
+    app.state.engine = engine
     cors_origins = cfg.cors_origins if cfg else ["*"]
     app.add_middleware(CORSMiddleware, allow_origins=cors_origins, allow_methods=["*"], allow_headers=["*"])
     if cfg is not None:
         app.add_middleware(HardeningMiddleware)
 
+    app.include_router(voice_router)
     if cfg is not None:
         app.include_router(member_b_router)
 
@@ -208,79 +205,7 @@ def create_app(
         @app.post("/query", response_model=QueryResponse)
         @app.post("/api/query", response_model=QueryResponse, include_in_schema=False)
         def query(req: QueryRequest) -> QueryResponse:
-            language = req.language or detect_language(req.question)
-            result = engine.answer(req.question, language)
-
-            citations: list[Citation] = []
-            warnings: list[str] = list(result.warnings)
-            kept: dict[int, int] = {}  # engine citation index -> response citation index
-            for i, raw in enumerate(result.citations):
-                meta = graph.get_meta(raw.doc_id)
-                if meta is None:
-                    warnings.append(f"Dropped citation to unknown document {raw.doc_id!r}.")
-                    continue
-                kept[i] = len(citations)
-                lineage = graph.status_of(raw.doc_id)
-                citations.append(
-                    Citation(
-                        doc_id=raw.doc_id,
-                        page=raw.page,
-                        quote=raw.quote,
-                        issue_date=meta.issue_date,
-                        bbox=raw.bbox,
-                        lineage=lineage,
-                    )
-                )
-                if lineage.status is LineageStatus.SUPERSEDED:
-                    warnings.append(
-                        f"{raw.doc_id} is superseded ({lineage.summary}); this passage may no longer apply."
-                    )
-                elif lineage.status is LineageStatus.AMENDED:
-                    warnings.append(
-                        f"{raw.doc_id} has been amended ({lineage.summary}); read the passage together with the amendment."
-                    )
-                elif lineage.status is LineageStatus.UNKNOWN:
-                    warnings.append(f"Current applicability of {raw.doc_id} cannot be established.")
-
-            # A cited GR that changes a GR we do not hold: say so. Refusing when every citation is only an amendment of a
-            # missing base is opt-in (GOV_BROKEN_CHAIN_REFUSES=1): the scorecard showed it refuses questions the amendment
-            # answers by itself (e.g. "from which date is this amendment in force?"), so by default we answer with the warning.
-            fragments: list[str] = []
-            for cit in citations:
-                broken = graph.broken_links(cit.doc_id)
-                for rel, ref in broken:
-                    warnings.append(f"BROKEN_CHAIN: {cit.doc_id} {rel.value} {ref}, which is not in the collection; "
-                                    "the text it changes cannot be checked.")
-                if any(rel is Relation.AMENDS for rel, _ in broken):
-                    fragments.append(cit.doc_id)
-            if (os.environ.get("GOV_BROKEN_CHAIN_REFUSES") == "1" and result.answer and citations
-                    and len(set(fragments)) == len({c.doc_id for c in citations})):
-                return QueryResponse(
-                    verdict=Verdict.INSUFFICIENT_EVIDENCE,
-                    reason="Every document found only amends a GR that is not in the collection, so the full rule "
-                           "cannot be established: " + ", ".join(sorted(set(fragments))) + ".",
-                    reason_code=ReasonCode.BROKEN_CHAIN,
-                    warnings=warnings,
-                    language=language,
-                )
-
-            if not result.answer or not citations:
-                return QueryResponse(
-                    verdict=Verdict.INSUFFICIENT_EVIDENCE,
-                    reason=result.insufficient_reason
-                    or "The available documents do not support an answer.",
-                    reason_code=result.reason_code or ReasonCode.NO_DOCUMENT,
-                    warnings=warnings,
-                    language=language,
-                )
-            return QueryResponse(
-                verdict=Verdict.ANSWERED,
-                answer=result.answer,
-                citations=citations,
-                warnings=warnings,
-                language=language,
-                statements=[_remap_statement(st, kept) for st in result.statements],
-            )
+            return evaluate_query(req.question, req.language, graph, engine)
 
         if cfg is None and os.environ.get("SFIC_SEED") == "1" and not graph.list_documents():
             load_demo(graph)
@@ -291,15 +216,6 @@ def create_app(
         app.mount("/", StaticFiles(directory=cfg.frontend_dir, html=True), name="ui")
 
     return app
-
-
-def _remap_statement(st: Statement, kept: dict[int, int]) -> Statement:
-    """Point a statement at the citations that survived; an "established" one left with none is only inferred."""
-    cites = [kept[i] for i in st.citations if i in kept]
-    label = st.label
-    if label is StatementLabel.ESTABLISHED and not cites:
-        label = StatementLabel.INFERRED
-    return Statement(text=st.text, label=label, citations=cites)
 
 
 app = create_app()

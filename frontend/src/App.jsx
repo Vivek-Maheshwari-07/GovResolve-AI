@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ServerCrash, X, RotateCcw } from 'lucide-react';
-import { ask, fetchStats, lineageChain } from './api';
+import { ask, fetchStats, lineageChain, translateResponseFields } from './api';
+import { detectChatLanguage } from './lib/chat';
 import { statusAsOf } from './lib/lineage';
 import { citeKey } from './components/AnswerCard';
+import { LanguageProvider, useLanguage, useT } from './lib/LanguageContext';
 import TopBar from './components/TopBar';
 import Rail, { MobileTabs } from './components/Rail';
 import QueryDock from './components/QueryDock';
@@ -16,6 +18,7 @@ import Hero, { HeroHeader, Specimen } from './components/AskLanding';
 import Library from './components/Library';
 import Method from './components/Method';
 import Tour from './components/Tour';
+import ChatHelpline from './components/ChatHelpline';
 import LandingPage from './pages/Hero';
 import { SAMPLES } from './lib/samples';
 
@@ -23,12 +26,14 @@ const TOUR_KEY = 'govresolve.tour.seen';
 const INTRO_KEY = 'govresolve.intro.seen';
 const HISTORY_KEY = 'govresolve.history';
 const HISTORY_MAX = 8;
-const SHORTCUTS = [
-  ['/', 'Focus inquiry input'],
-  ['1  2  3', 'Inquiry · Library · Method'],
-  ['[  ]', 'Previous / next verified citation'],
-  ['?', 'Interactive guided tour'],
-  ['Esc', 'Close the open dialog'],
+
+// Shortcut key-bindings (labels are translated at render time via useT)
+const SHORTCUT_KEYS = [
+  { keys: '/', tk: 'shortcut.inquire' },
+  { keys: '1  2  3', tk: 'shortcut.workspaces' },
+  { keys: '[  ]', tk: 'shortcut.citations' },
+  { keys: '?', tk: 'shortcut.tour' },
+  { keys: 'Esc', tk: 'shortcut.close' },
 ];
 
 const typing = (el) => el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
@@ -49,6 +54,7 @@ function loadHistory() {
 }
 
 function ShortcutsDialog({ open, onClose }) {
+  const t = useT();
   return (
     <AnimatePresence>
       {open && (
@@ -60,7 +66,7 @@ function ShortcutsDialog({ open, onClose }) {
           onClick={onClose}
           role="dialog"
           aria-modal="true"
-          aria-label="Keyboard shortcuts"
+          aria-label={t('shortcuts.title')}
         >
           <motion.div
             initial={{ scale: 0.95, y: 12 }}
@@ -71,15 +77,15 @@ function ShortcutsDialog({ open, onClose }) {
             className="sheet w-full max-w-sm border border-[#E6E4DD] p-5 shadow-float"
           >
             <div className="mb-3 flex items-center justify-between border-b border-[#E6E4DD] pb-3">
-              <h3 className="display text-[17px] font-bold text-[#1E293B]">Keyboard shortcuts</h3>
-              <button onClick={onClose} aria-label="Close" className="rounded-lg p-1 text-[#64748B] hover:bg-[#F1EFEA] hover:text-[#1E293B]">
+              <h3 className="display text-[17px] font-bold text-[#1E293B]">{t('shortcuts.title')}</h3>
+              <button onClick={onClose} aria-label={t('shortcuts.close')} className="rounded-lg p-1 text-[#64748B] hover:bg-[#F1EFEA] hover:text-[#1E293B]">
                 <X className="h-4 w-4" />
               </button>
             </div>
             <ul className="space-y-2.5">
-              {SHORTCUTS.map(([k, v]) => (
+              {SHORTCUT_KEYS.map(({ keys: k, tk }) => (
                 <li key={k} className="flex items-center justify-between text-[13px] text-[#1E293B]">
-                  <span>{v}</span>
+                  <span>{t(tk)}</span>
                   <span className="flex gap-1">{k.split(/\s+/).map((x) => <kbd key={x} className="kbd">{x}</kbd>)}</span>
                 </li>
               ))}
@@ -92,34 +98,38 @@ function ShortcutsDialog({ open, onClose }) {
 }
 
 function StatusBar({ onShortcuts, session }) {
+  const t = useT();
+  const footerHints = [
+    ['/', t('statusbar.inquire')],
+    ['1 2 3', t('statusbar.workspaces')],
+    ['[ ]', t('statusbar.citations')],
+    ['?', t('statusbar.tour')],
+  ];
   return (
-    <footer className="hidden items-center justify-between gap-4 border-t border-[#E6E4DD] bg-[rgba(248,247,244,0.92)] px-4 py-1.5 backdrop-blur-md md:flex shadow-[0_-1px_2px_rgba(15,23,42,0.02)] print:hidden">
+    <footer className="hidden items-center justify-between gap-4 border-t border-[#E6E4DD] bg-[#F8F7F4] px-4 py-1.5 md:flex shadow-[0_-1px_2px_rgba(15,23,42,0.02)] print:hidden">
       <div className="flex items-center gap-4">
         <button onClick={onShortcuts} className="flex items-center gap-3 text-[11px] text-[#64748B] transition-colors hover:text-[#1E293B]">
-          {[['/', 'inquire'], ['1 2 3', 'workspaces'], ['[ ]', 'citations'], ['?', 'tour']].map(([k, v]) => (
-            <span key={v} className="flex items-center gap-1.5">
+          {footerHints.map(([k, v]) => (
+            <span key={k} className="flex items-center gap-1.5">
               <span className="flex gap-0.5">{k.split(' ').map((x) => <kbd key={x} className="kbd !h-[18px] !min-w-[18px] !text-[9px]">{x}</kbd>)}</span>
               <span>{v}</span>
             </span>
           ))}
         </button>
-        <span className="telemetry-tag hidden xl:inline text-[9px] text-[#64748B]/80">
-          [MERKLE_LINEAGE: VERIFIED]
-        </span>
       </div>
 
       <div className="flex items-center gap-4">
         {session.asked > 0 && (
           <span className="mono-label hidden items-center gap-3 text-[9.5px] text-[#64748B] lg:flex" aria-label="This session">
-            <span><b className="text-[#1E293B]">{session.asked}</b> asked</span>
-            <span><b className="text-[#065F46]">{session.verified}</b> verified</span>
-            <span><b className="text-[#9F1239]">{session.refused}</b> refused</span>
-            <span><b className="text-[#1E293B]">{session.lastSec != null ? `${session.lastSec}s` : '—'}</b> latency</span>
+            <span><b className="text-[#1E293B]">{session.asked}</b> {t('statusbar.asked')}</span>
+            <span><b className="text-[#065F46]">{session.verified}</b> {t('statusbar.verified')}</span>
+            <span><b className="text-[#9F1239]">{session.refused}</b> {t('statusbar.refused')}</span>
+            <span><b className="text-[#1E293B]">{session.lastSec != null ? `${session.lastSec}s` : '—'}</b> {t('statusbar.latency')}</span>
           </span>
         )}
         <span className="mono-label flex items-center gap-2 text-[9.5px] text-[#64748B]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulseDot" />
-          Indexed official resolutions only · Quoted verbatim
+          {t('statusbar.footer_note')}
         </span>
       </div>
     </footer>
@@ -145,6 +155,7 @@ function useSplit() {
 }
 
 function SplitHandle({ ratio, onChange, containerRef }) {
+  const t = useT();
   const [drag, setDrag] = useState(false);
   const move = (x) => {
     const b = containerRef.current?.getBoundingClientRect();
@@ -159,7 +170,7 @@ function SplitHandle({ ratio, onChange, containerRef }) {
       aria-valuemax={68}
       aria-valuenow={Math.round(ratio * 100)}
       tabIndex={0}
-      title="Drag to resize · double-click to reset"
+      title={t('app.resize_title')}
       className="group hidden cursor-col-resize touch-none select-none items-center justify-center lg:flex print:hidden"
       onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); setDrag(true); move(e.clientX); }}
       onPointerMove={(e) => drag && move(e.clientX)}
@@ -177,14 +188,25 @@ function SplitHandle({ ratio, onChange, containerRef }) {
 }
 
 export default function App() {
+  return (
+    <LanguageProvider>
+      <AppInner />
+    </LanguageProvider>
+  );
+}
+
+function AppInner() {
+  const t = useT();
+  const { mode: uiMode, lang: uiLang, setDetectedLang } = useLanguage();
   const [workspace, setWorkspace] = useState('ask');
   const [stats, setStats] = useState(null);
   const [online, setOnline] = useState(true);
-  const [language, setLanguage] = useState(null); // null = auto detect
   const [asOf, setAsOf] = useState(''); // Rule Time Machine date filter
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [baseResponse, setBaseResponse] = useState(null);
   const [response, setResponse] = useState(null);
+  const [translatingAnswer, setTranslatingAnswer] = useState(false);
   const [error, setError] = useState(null);
   const [active, setActive] = useState(null); // Active citation in Inquiry view
   const [libActive, setLibActive] = useState(null); // Active citation in Library view
@@ -194,12 +216,65 @@ export default function App() {
   const [history, setHistory] = useState(loadHistory);
   const [chains, setChains] = useState({}); // lineage chains of other cited documents, fetched when selected
   const [keys, setKeys] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const [focusAsk, setFocusAsk] = useState(0);
   const [ratio, setRatio] = useSplit();
   const mainRef = useRef(null);
   const abortRef = useRef(null);
   const typeTimer = useRef(null);
   const submitRef = useRef(null);
+  const viewCacheRef = useRef(new WeakMap());
+
+  const registerAndShowResponse = useCallback((r) => {
+    if (!r) {
+      setBaseResponse(null);
+      setResponse(null);
+      return;
+    }
+    const hasGu = /[\u0A80-\u0AFF]/.test(`${r.summary || ''} ${r.insufficient_reason || ''}`);
+    const origLang = hasGu ? 'gu' : 'en';
+    if (!viewCacheRef.current.has(r)) {
+      viewCacheRef.current.set(r, { [origLang]: r });
+    }
+    setBaseResponse(r);
+    setResponse(viewCacheRef.current.get(r)[uiLang] || r);
+  }, [uiLang]);
+
+  // Translate currently displayed answer in place when switching platform language (no /query doc re-processing).
+  useEffect(() => {
+    if (!baseResponse) {
+      setResponse(null);
+      setTranslatingAnswer(false);
+      return undefined;
+    }
+    const target = uiLang === 'gu' ? 'gu' : 'en';
+    const bucket = viewCacheRef.current.get(baseResponse) || {};
+    if (bucket[target]) {
+      setResponse(bucket[target]);
+      setTranslatingAnswer(false);
+      return undefined;
+    }
+    let cancelled = false;
+    const ctl = new AbortController();
+    setTranslatingAnswer(true);
+    translateResponseFields(baseResponse, target, { signal: ctl.signal })
+      .then((translated) => {
+        if (cancelled) return;
+        const nextBucket = { ...(viewCacheRef.current.get(baseResponse) || {}), [target]: translated };
+        viewCacheRef.current.set(baseResponse, nextBucket);
+        setResponse(translated);
+      })
+      .catch(() => {
+        // Keep currently displayed grounded response on transient translation errors
+      })
+      .finally(() => {
+        if (!cancelled) setTranslatingAnswer(false);
+      });
+    return () => {
+      cancelled = true;
+      ctl.abort();
+    };
+  }, [baseResponse, uiLang]);
 
   useEffect(() => {
     fetchStats()
@@ -231,24 +306,30 @@ export default function App() {
     }
   }, []);
 
-  const submit = async (text, fromSample = false, overrideLang = undefined) => {
+  const submit = async (text, fromSample = false) => {
     const q = text.trim();
     if (!q || loading) return;
     if (fromSample) setQuery(q);
     setWorkspace('ask');
     setLoading(true);
     setError(null);
+    setBaseResponse(null);
     setResponse(null);
     setActive(null);
     const t0 = performance.now();
     abortRef.current?.abort();
     const ctl = new AbortController();
     abortRef.current = ctl;
-    const effectiveLang = overrideLang !== undefined ? overrideLang : language;
+    const effectiveLang = uiMode === 'auto' ? null : uiMode;
     try {
       const r = await ask(q, effectiveLang, ctl.signal);
       const sec = Math.round((performance.now() - t0) / 1000);
-      setResponse(r);
+      registerAndShowResponse(r);
+      const replyHasGu = /[\u0A80-\u0AFF]/.test(`${r.summary || ''} ${r.insufficient_reason || ''}`);
+      const qDetected = detectChatLanguage(q);
+      const inferredReply = (replyHasGu || r.language === 'gu' || r.language === 'mixed') ? 'gu' : 'en';
+      const qLang = (qDetected === 'gu' || qDetected === 'gujlish') ? 'gu' : 'en';
+      setDetectedLang(uiMode === 'auto' ? inferredReply : qLang);
       setOnline(true);
       setHistory((h) => [{ id: `${Date.now()}`, question: q, response: r, at: Date.now() }, ...h.filter((x) => x.question !== q)].slice(0, HISTORY_MAX));
       if (r.citations && r.citations[0]) {
@@ -278,8 +359,36 @@ export default function App() {
     setLoading(false);
     setError(null);
     setQuery(h.question);
-    setResponse(h.response);
+    registerAndShowResponse(h.response);
     setActive(h.response.citations?.[0] || null);
+  };
+  const inspectFromChat = (q, res, cit) => {
+    if (!res) return;
+    abortRef.current?.abort();
+    setWorkspace('ask');
+    setLoading(false);
+    setError(null);
+    setQuery(q);
+    registerAndShowResponse(res);
+    const chosen = cit || res.citations?.[0] || null;
+    setActive(chosen);
+    setChatOpen(false);
+    if (res.verdict === 'answered' && !res.lineage_chain?.length && chosen?.gr_id) {
+      lineageChain(chosen.gr_id)
+        .then((c) => {
+          const enriched = { ...res, lineage_chain: c };
+          const prevBucket = viewCacheRef.current.get(res);
+          if (prevBucket) {
+            const updatedBucket = {};
+            for (const [k, v] of Object.entries(prevBucket)) {
+              updatedBucket[k] = { ...v, lineage_chain: c };
+            }
+            viewCacheRef.current.set(enriched, updatedBucket);
+          }
+          setBaseResponse((cur) => (cur === res ? enriched : cur));
+        })
+        .catch(() => {});
+    }
   };
   const clearHistory = () => setHistory([]);
 
@@ -340,6 +449,8 @@ export default function App() {
       issue_date: n.date,
       department: n.department,
       subject: n.subject,
+      subject_en: n.subject_en,
+      subject_gu: n.subject_gu,
       language: n.language,
     });
   };
@@ -392,13 +503,6 @@ export default function App() {
       <TopBar
         stats={stats}
         online={online}
-        language={language}
-        onLanguage={(lang) => {
-          setLanguage(lang);
-          if (query && response && !loading) {
-            submit(query, false, lang);
-          }
-        }}
         asOf={asOf}
         onAsOf={setAsOf}
         session={session}
@@ -425,7 +529,7 @@ export default function App() {
                 <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)]">
                   <div className="space-y-7">
                     <HeroHeader />
-                    <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={false} hero focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} />
+                    <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={false} hero focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} onOpenChat={() => setChatOpen(true)} />
                   </div>
                   <Specimen className="hidden lg:block" />
                 </div>
@@ -446,11 +550,11 @@ export default function App() {
                         <motion.div key="error" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="sheet flex gap-3.5 border border-[#FECDD3] border-l-[3px] border-l-[#F43F5E] bg-[#FFF1F2] p-4" role="alert">
                           <ServerCrash className="mt-0.5 h-5 w-5 shrink-0 text-[#F43F5E]" />
                           <div className="min-w-0 flex-1">
-                            <p className="display text-[15px] font-bold text-[#9F1239]">The inquiry could not be completed</p>
+                            <p className="display text-[15px] font-bold text-[#9F1239]">{t('app.error_title')}</p>
                             <p className="mt-1 text-[12.5px] leading-relaxed text-[#64748B]">{error}</p>
                             {query.trim() && (
                               <button type="button" onClick={() => submit(query)} className="mt-2.5 inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.88)] px-2.5 py-1 text-[12px] font-semibold text-[#4F46E5] hover:text-[#4338CA] hover:bg-[#EEF2FF]" style={{ boxShadow: '0 1px 2px rgba(15,23,42,.04)' }}>
-                                <RotateCcw className="h-3 w-3" /> Try again
+                                <RotateCcw className="h-3 w-3" /> {t('app.try_again')}
                               </button>
                             )}
                           </div>
@@ -481,13 +585,7 @@ export default function App() {
                             response={response}
                             active={active}
                             onSelect={setActive}
-                            language={language}
-                            onLanguageChange={(newLang) => {
-                              setLanguage(newLang);
-                              if (query && !loading) {
-                                submit(query, false, newLang);
-                              }
-                            }}
+                            translating={translatingAnswer}
                           />
                           <LineageGraph chain={shownChain} forGr={shownFor?.gr_number} asOf={asOf} onAsOf={setAsOf} activeId={active?.gr_id} onSelectNode={openNode} />
                         </motion.div>
@@ -536,6 +634,9 @@ export default function App() {
         }}
       />
       <ShortcutsDialog open={keys} onClose={() => setKeys(false)} />
+      {stage !== 'hero' && (
+        <ChatHelpline open={chatOpen} onOpenChange={setChatOpen} onInspect={inspectFromChat} />
+      )}
     </div>
     </>
   );

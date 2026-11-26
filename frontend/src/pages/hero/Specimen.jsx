@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Seal from '../../components/Seal';
+import { statusText } from '../../lib/i18n';
+import { useLanguage, useT } from '../../lib/LanguageContext';
 
 // An invented resolution page, drawn in CSS. It plays one short scene: the clause the answer relies on gets highlighted and
 // locked, then the seal for the order's status is stamped on. Everything here is labelled as a specimen.
@@ -25,6 +27,8 @@ function Bracket({ pos, delay }) {
 }
 
 export default function Specimen({ className = '' }) {
+  const { lang } = useLanguage();
+  const t = useT();
   const ref = useRef(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -58,8 +62,8 @@ export default function Specimen({ className = '' }) {
         <div aria-hidden className="absolute inset-0 rounded-[6px]" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.10), 0 2px 3px rgba(30,41,59,.06), 0 38px 60px -28px rgba(30,41,59,.45)' }} />
 
         <div className="relative flex items-start justify-between">
-          <span className="mono-label rounded-[3px] border border-dashed border-[#9A9484] px-1.5 py-0.5 text-[8px] text-[#6B6657]">Specimen · invented for illustration</span>
-          <span className="font-mono text-[9px] text-faint">p. 2 of 3</span>
+          <span className="mono-label rounded-[3px] border border-dashed border-[#9A9484] px-1.5 py-0.5 text-[8px] text-[#6B6657]">{t('specimen.badge')}</span>
+          <span className="font-mono text-[9px] text-faint">{t('specimen.page')}</span>
         </div>
 
         <div className="relative mt-5 text-center">
@@ -69,7 +73,7 @@ export default function Specimen({ className = '' }) {
           <div className="mx-auto mt-2 h-px w-24 bg-[#CFC9B8]" />
         </div>
 
-        <p className="legal-text relative mt-4 text-center text-[13px] font-bold text-ink" style={{ lineHeight: 1.45 }}>Leave: documents required<br />with an application</p>
+        <p className="legal-text relative mt-4 text-center text-[13px] font-bold text-ink" style={{ lineHeight: 1.45 }}>{t('specimen.title')}</p>
 
         <div className="legal-text relative mt-4 space-y-2.5 text-[10.5px] text-[#3A4356]" style={{ lineHeight: 1.7 }}>
           <p>
@@ -100,7 +104,7 @@ export default function Specimen({ className = '' }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2.15 }}
             >
-              Verbatim lock · p.2
+              {t('specimen.lock')}
             </motion.span>
           </div>
 
@@ -120,7 +124,7 @@ export default function Specimen({ className = '' }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 3.1 }}
         >
-          Replaced by GR/EX/2021/130<br />dated 2 Aug 2021
+          {t('specimen.replaced')}
         </motion.p>
       </motion.div>
 
@@ -131,11 +135,11 @@ export default function Specimen({ className = '' }) {
         transition={{ type: 'spring', stiffness: 160, damping: 20, delay: 3.0 }}
         className="sheet absolute -bottom-9 -left-6 z-10 w-[17.5rem] p-3.5 sm:-left-12"
       >
-        <p className="eyebrow !text-iris-700">Answer</p>
-        <p className="display mt-1 text-[13.5px] leading-snug text-ink">A medical certificate must be submitted with the leave application.</p>
+        <p className="eyebrow !text-iris-700">{t('specimen.answer_eyebrow')}</p>
+        <p className="display mt-1 text-[13.5px] leading-snug text-ink">{t('specimen.answer_text')}</p>
         <div className="mt-2 flex items-center gap-2">
-          <span className="rounded-full border border-[#F0C4CF] bg-[#FDF0F3] px-2 py-0.5 text-[9.5px] font-bold text-[#8E1F3A]">Found + Superseded</span>
-          <span className="font-mono text-[9px] text-faint">do not act on this order</span>
+          <span className="rounded-full border border-[#F0C4CF] bg-[#FDF0F3] px-2 py-0.5 text-[9.5px] font-bold text-[#8E1F3A]">{statusText('superseded', lang).label}</span>
+          <span className="font-mono text-[9px] text-faint">{t('specimen.do_not_act')}</span>
         </div>
       </motion.div>
     </div>

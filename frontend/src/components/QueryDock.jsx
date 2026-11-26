@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CornerDownLeft, X, Keyboard, Loader2 } from 'lucide-react';
+import { CornerDownLeft, X, Keyboard, Loader2, Mic } from 'lucide-react';
 import GujaratiKeyboard from './GujaratiKeyboard';
 import HistoryMenu from './HistoryMenu';
+import { useT } from '../lib/LanguageContext';
 
 const TEMPLATES = [
-  { label: 'GR No. search', text: 'GR No. ' },
-  { label: 'Leave rules', text: 'Leave rules: ' },
-  { label: 'Pay & allowances', text: 'Pay fixation: ' },
+  { tk: 'query.tpl_gr', text: 'GR No. ' },
+  { tk: 'query.tpl_leave', text: 'Leave rules: ' },
+  { tk: 'query.tpl_pay', text: 'Pay fixation: ' },
 ];
 
-export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal, hero = false, history = [], onOpenHistory, onClearHistory }) {
+export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal, hero = false, history = [], onOpenHistory, onClearHistory, onOpenChat }) {
+  const t = useT();
   const [kb, setKb] = useState(false);
   const ref = useRef(null);
 
@@ -35,9 +37,9 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
       >
         {hero && (
           <div className="mb-2 flex items-center justify-between px-1">
-            <span className="mono-label text-[#64748B]">Official Inquiry · ગુજરાતી / English / Gujlish</span>
+            <span className="mono-label text-[#64748B]">{t('query.official_inquiry')}</span>
             <span className="hidden items-center gap-1.5 text-[11px] text-[#64748B] sm:flex">
-              <kbd className="kbd">/</kbd> to focus
+              <kbd className="kbd">/</kbd> {t('query.to_focus')}
             </span>
           </div>
         )}
@@ -55,8 +57,8 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
                 submit();
               }
             }}
-            placeholder={hero ? 'Ask about any government resolution, in any language…' : 'Ask a follow-up or a new administrative question…'}
-            aria-label="Your question"
+            placeholder={hero ? t('query.placeholder_hero') : t('query.placeholder_followup')}
+            aria-label={t('query.your_question')}
             maxLength={2000}
             className={`gu-text max-h-48 flex-1 resize-none bg-transparent px-1.5 py-1 text-[15px] font-normal leading-relaxed text-[#1E293B] outline-none placeholder:text-[#64748B]/60 ${
               hero ? 'min-h-[4.2rem] text-[17px]' : 'min-h-[3rem]'
@@ -69,8 +71,8 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
                 <button
                   type="button"
                   onClick={clear}
-                  aria-label="Clear question"
-                  title="Clear input"
+                  aria-label={t('query.clear')}
+                  title={t('query.clear_input')}
                   className="rounded-lg p-1.5 text-[#64748B] transition hover:bg-[#F1EFEA] hover:text-[#1E293B]"
                 >
                   <X className="h-4 w-4" />
@@ -84,13 +86,13 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
                 className="btn-primary inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-semibold text-white shadow-sm transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none"
               >
                 {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CornerDownLeft className="h-3.5 w-3.5" />}
-                <span>{loading ? 'Searching…' : 'Ask'}</span>
+                <span>{loading ? t('query.searching') : t('query.ask')}</span>
               </motion.button>
             </div>
 
             <div className="flex items-center gap-2">
               <HistoryMenu history={history} onOpen={onOpenHistory} onClear={onClearHistory} />
-              <span className="hidden text-[10.5px] text-[#64748B] sm:inline">Enter to send</span>
+              <span className="hidden text-[10.5px] text-[#64748B] sm:inline">{t('query.enter_to_send')}</span>
               <button
                 type="button"
                 onClick={() => setKb((v) => !v)}
@@ -102,7 +104,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
                 aria-pressed={kb}
               >
                 <Keyboard className="h-3 w-3 text-[#4F46E5]" />
-                <span>ગુજરાતી</span>
+                <span>{t('query.gujarati_keyboard')}</span>
               </button>
             </div>
           </div>
@@ -133,20 +135,30 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
 
       {hero && (
         <div className="flex flex-wrap items-center gap-2 px-1">
-          <span className="mr-0.5 text-[11.5px] font-medium text-[#64748B]">Quick examples:</span>
-          {TEMPLATES.map((t) => (
+          <span className="mr-0.5 text-[11.5px] font-medium text-[#64748B]">{t('query.quick_examples')}</span>
+          {TEMPLATES.map((tpl) => (
             <button
-              key={t.label}
+              key={tpl.tk}
               type="button"
               onClick={() => {
-                onChange(t.text);
+                onChange(tpl.text);
                 ref.current?.focus();
               }}
               className="rounded-full border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] px-3.5 py-1 text-[12px] font-medium text-[#64748B] transition-all hover:border-[#C7D2FE] hover:bg-[#EEF2FF] hover:text-[#4F46E5] shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
             >
-              {t.label}
+              {t(tpl.tk)}
             </button>
           ))}
+          {onOpenChat && (
+            <button
+              type="button"
+              onClick={onOpenChat}
+              className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-3.5 py-1 text-[12px] font-semibold text-[#4338CA] transition-all hover:bg-[#E0E7FF]"
+            >
+              <Mic className="h-3.5 w-3.5" />
+              <span>{t('query.voice_assistant')}</span>
+            </button>
+          )}
         </div>
       )}
     </div>

@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FileText, TriangleAlert, ShieldCheck, MessageSquareWarning,
   ArrowRight, ChevronDown, ChevronUp, Quote, Layers,
-  Printer,
+  Printer, Languages, Loader2,
 } from 'lucide-react';
 import Seal from './Seal';
 import TrustShield from './TrustShield';
+import { translateText } from '../api';
+import { statusText, pickSubject } from '../lib/i18n';
+import { useLanguage, useT } from '../lib/LanguageContext';
 
 export const citeKey = (c) => (c ? `${c.gr_id}|${c.page}|${c.passage || ''}` : '');
 
 const LABELS = {
-  Established: { cls: 'badge-safe', dot: 'bg-[#10B981]', note: 'Directly supported by a cited passage' },
-  Inferred: { cls: 'badge-caution', dot: 'bg-[#F59E0B]', note: 'Reasoned from the passages, not stated in them' },
-  Unverified: { cls: 'badge-danger', dot: 'bg-[#F43F5E]', note: 'Not found in the documents' },
+  Established: { cls: 'badge-safe', dot: 'bg-[#10B981]', tk: 'answer.label_established', nk: 'answer.label_established_note' },
+  Inferred: { cls: 'badge-caution', dot: 'bg-[#F59E0B]', tk: 'answer.label_inferred', nk: 'answer.label_inferred_note' },
+  Unverified: { cls: 'badge-danger', dot: 'bg-[#F43F5E]', tk: 'answer.label_unverified', nk: 'answer.label_unverified_note' },
 };
 const labelOf = (l) => (l === 'Not found' ? 'Unverified' : l);
 const sealOf = (c) => (c?.lineage?.status === 'superseded' ? 'superseded' : c?.lineage?.status === 'amended' ? 'amended' : 'no_change');
+const hasGujaratiScript = (s) => /[\u0A80-\u0AFF]/.test(s || '');
 
-function CitationChip({ cit, active, onSelect }) {
+function CitationChip({ cit, active, onSelect, uiLang }) {
   return (
     <motion.button
       type="button"
@@ -26,7 +30,7 @@ function CitationChip({ cit, active, onSelect }) {
       whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(cit)}
       aria-pressed={active}
-      title={cit.subject || cit.gr_number}
+      title={pickSubject(cit, uiLang) || cit.gr_number}
       className={`inline-flex max-w-full items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11.5px] font-medium transition-all ${
         active
           ? 'bg-[#EEF2FF] text-[#4F46E5] ring-1.5 ring-[#4F46E5] shadow-[0_2px_8px_-2px_rgba(79,70,229,0.25)]'
@@ -44,15 +48,42 @@ function CitationChip({ cit, active, onSelect }) {
   );
 }
 
-export default function AnswerCard({ response, active, onSelect, language, onLanguageChange }) {
+export default function AnswerCard({ response, active, onSelect, translating = false }) {
+  const { lang: uiLang } = useLanguage();
+  const t = useT();
   const answered = response.verdict === 'answered';
   const warnings = response.warnings || [];
-  const isGu = /[઀-૿]/.test(response.summary || response.insufficient_reason || '');
+  const isGu = hasGujaratiScript(response.summary || response.insufficient_reason || '');
   const citations = response.citations || [];
   const statements = response.statements || [];
 
   const [activeTab, setActiveTab] = useState('passages');
   const [drawerOpen, setDrawerOpen] = useState(true);
+  const [quoteHelp, setQuoteHelp] = useState({}); // key -> { open, loading, text, error }
+
+  useEffect(() => {
+    setQuoteHelp({});
+  }, [response]);
+
+  const toggleQuoteTranslation = async (e, c, targetLang) => {
+    e.stopPropagation();
+    const k = `${citeKey(c)}:${targetLang}`;
+    const cur = quoteHelp[k];
+    if (cur?.text) {
+      setQuoteHelp((p) => ({ ...p, [k]: { ...cur, open: !cur.open } }));
+      return;
+    }
+    if (cur?.loading) return;
+    setQuoteHelp((p) => ({ ...p, [k]: { open: true, loading: true, text: '' } }));
+    try {
+      const tr = await translateText(c.passage, targetLang);
+      setQuoteHelp((p) => ({ ...p, [k]: { open: true, loading: false, text: tr } }));
+    } catch {
+      setQuoteHelp((p) => ({ ...p, [k]: { open: false, loading: false, text: '' } }));
+    }
+  };
+
+  const findingTitle = answered ? t('answer.finding') : t('answer.no_finding');
 
   return (
     <div className="space-y-3">
@@ -79,58 +110,30 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
           <div className="flex items-center gap-2">
             <h2 className={`eyebrow flex items-center gap-1.5 ${answered ? '!text-[#4F46E5]' : '!text-[#64748B]'}`}>
               {answered ? <span className="h-2 w-2 rounded-full bg-[#4F46E5]" /> : <MessageSquareWarning className="h-3.5 w-3.5 text-[#64748B]" />}
-              {answered ? (isGu ? 'વહીવટી તારણ / Finding' : 'Administrative Finding') : (isGu ? 'જવાબ કેમ નથી / Why No Finding' : 'Why No Finding')}
+              {findingTitle}
             </h2>
-            {onLanguageChange && (
-              <div
-                role="group"
-                aria-label="Result language toggle"
-                className="inline-flex items-center rounded-lg bg-[#F1EFEA] p-0.5 text-[11px]"
-                style={{ boxShadow: 'inset 0 1px 2px rgba(30,41,59,.07)' }}
-              >
-                <button
-                  type="button"
-                  onClick={() => onLanguageChange('en')}
-                  className={`rounded-md px-2 py-0.5 font-semibold transition-all ${
-                    (language === 'en' || (!language && !isGu))
-                      ? 'bg-white text-[#4F46E5] shadow-sm ring-1 ring-black/5'
-                      : 'text-[#64748B] hover:text-[#1E293B]'
-                  }`}
-                  title="Show answer in English"
-                >
-                  English
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onLanguageChange('gu')}
-                  className={`gu-text rounded-md px-2 py-0.5 font-semibold transition-all ${
-                    (language === 'gu' || (!language && isGu))
-                      ? 'bg-white text-[#4F46E5] shadow-sm ring-1 ring-black/5'
-                      : 'text-[#64748B] hover:text-[#1E293B]'
-                  }`}
-                  title="પરિણામ ગુજરાતીમાં જુઓ (Show answer in Gujarati)"
-                >
-                  ગુજરાતી
-                </button>
-              </div>
+            {translating && (
+              <span className="inline-flex items-center gap-1 rounded-md border border-[#C7D2FE] bg-[#EEF2FF] px-2 py-0.5 text-[10.5px] font-semibold text-[#4338CA]">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                <span>{t('answer.translating')}</span>
+              </span>
             )}
-            <span className="telemetry-tag hidden sm:inline text-[9px] text-[#64748B]">· [LEGAL_EXTRACT]</span>
           </div>
           <div className="flex items-center gap-2">
             {answered && (
               <span className="inline-flex items-center gap-1.5 rounded-full badge-safe px-2.5 py-0.5 text-[11px] font-semibold shadow-sm">
-                <ShieldCheck className="h-3.5 w-3.5 text-[#10B981]" /> Verified from official text
+                <ShieldCheck className="h-3.5 w-3.5 text-[#10B981]" /> {t('answer.verified_badge')}
               </span>
             )}
             <button
               type="button"
               onClick={() => window.print()}
-              title="Export official Secretariat Action Memorandum"
-              aria-label="Export Action Memo"
+              title={t('answer.export_memo_title')}
+              aria-label={t('answer.export_memo')}
               className="print:hidden inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[11.5px] font-semibold text-[#1E293B] shadow-sm hover:border-[#4F46E5] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition-all"
             >
               <Printer className="h-3.5 w-3.5 text-[#4F46E5]" />
-              <span>Export Action Memo</span>
+              <span>{t('answer.export_memo')}</span>
             </button>
           </div>
         </div>
@@ -146,7 +149,7 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
           {/* Drawer control bar */}
           <div className="flex items-center justify-between border-b border-[#E6E4DD] bg-[#F1EFEA]/80 px-4 py-2 sm:px-5">
             <div className="flex items-center gap-2">
-              <div className="well flex p-0.5" role="tablist" aria-label="Evidence views">
+              <div className="well flex p-0.5" role="tablist" aria-label={t('answer.evidence_views_aria')}>
                 <button
                   type="button"
                   role="tab"
@@ -159,7 +162,7 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
                   }`}
                 >
                   <Quote className="h-3.5 w-3.5" />
-                  <span>{isGu ? 'સત્તાવાર લખાણ' : 'Verbatim Passages'}</span>
+                  <span>{t('answer.verbatim_passages')}</span>
                   <span className="rounded-full bg-[#EEF2FF] px-1.5 py-0.2 text-[9.5px] font-bold text-[#4F46E5]">
                     {citations.length}
                   </span>
@@ -178,7 +181,7 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
                     }`}
                   >
                     <Layers className="h-3.5 w-3.5" />
-                    <span>{isGu ? 'વિધાનો' : 'Statements'}</span>
+                    <span>{t('answer.statements')}</span>
                     <span className="rounded-full bg-[#F1EFEA] px-1.5 py-0.2 text-[9.5px] font-bold text-[#64748B]">
                       {statements.length}
                     </span>
@@ -187,20 +190,15 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="telemetry-tag hidden sm:inline text-[9px] text-[#64748B]">
-                [EVIDENCE_VAULT]
-              </span>
-              <button
-                type="button"
-                onClick={() => setDrawerOpen((v) => !v)}
-                aria-expanded={drawerOpen}
-                className="inline-flex items-center gap-1 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] px-2.5 py-1 text-[11px] font-semibold text-[#64748B] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition shadow-xs"
-              >
-                <span>{drawerOpen ? 'Collapse' : 'Expand'}</span>
-                {drawerOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setDrawerOpen((v) => !v)}
+              aria-expanded={drawerOpen}
+              className="inline-flex items-center gap-1 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] px-2.5 py-1 text-[11px] font-semibold text-[#64748B] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition shadow-xs"
+            >
+              <span>{drawerOpen ? t('answer.collapse') : t('answer.expand')}</span>
+              {drawerOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+            </button>
           </div>
 
           {/* Drawer content */}
@@ -218,17 +216,29 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
                   <div className="space-y-3 p-3.5 sm:p-5">
                     {citations.map((c, i) => {
                       const on = citeKey(c) === citeKey(active);
+                      const subj = pickSubject(c, uiLang);
+                      const quoteIsGu = hasGujaratiScript(c.passage);
+                      const canTranslate = (uiLang === 'gu' && !quoteIsGu) || (uiLang === 'en' && quoteIsGu);
+                      const trTarget = uiLang === 'gu' ? 'gu' : 'en';
+                      const helpState = quoteHelp[`${citeKey(c)}:${trTarget}`];
+
                       return (
-                        <motion.button
+                        <motion.div
                           key={i}
-                          type="button"
-                          whileTap={{ scale: 0.99 }}
+                          role="button"
+                          tabIndex={0}
                           onClick={() => onSelect(c)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              onSelect(c);
+                            }
+                          }}
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.04 }}
                           aria-pressed={on}
-                          className={`legal-quote-block group relative block w-full overflow-hidden p-4 pl-5 text-left transition-all ${
+                          className={`legal-quote-block group relative block w-full cursor-pointer overflow-hidden p-4 pl-5 text-left transition-all ${
                             on
                               ? 'border-l-[4px] border-l-[#D97706] border-[#FDE68A] bg-[#FFFBEB]/70 ring-1 ring-[#D97706]/30'
                               : 'border-l-[4px] border-l-[#4F46E5]/40 hover:border-l-[#4F46E5] hover:bg-white hover:border-[#C7D2FE]'
@@ -245,9 +255,24 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
                           <p className="legal-text relative pl-0.5 text-[14px] leading-relaxed text-[#1E293B]">
                             “{c.passage}”
                           </p>
-                          {(c.subject || c.department) && (
+
+                          {helpState?.open && (
+                            <div
+                              onClick={(e) => e.stopPropagation()}
+                              className="mt-2.5 rounded-lg border border-[#C7D2FE] bg-[#EEF2FF]/70 px-3 py-2 text-[12.5px] leading-relaxed text-[#1E293B]"
+                            >
+                              <p className="text-[10.5px] font-semibold text-[#4338CA]">
+                                {trTarget === 'gu' ? t('answer.translation_helper_gu') : t('answer.translation_helper_en')}
+                              </p>
+                              <p className={`${trTarget === 'gu' ? 'gu-text' : ''} mt-0.5`}>
+                                {helpState.loading ? t('answer.translating') : helpState.text}
+                              </p>
+                            </div>
+                          )}
+
+                          {(subj || c.department) && (
                             <p className="gu-text relative mt-2 text-[11.5px] leading-snug text-[#64748B]">
-                              {c.subject}{c.subject && c.department ? ' · ' : ''}{c.department}
+                              {subj}{subj && c.department ? ' · ' : ''}{c.department}
                             </p>
                           )}
 
@@ -257,24 +282,48 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
                               <span className="font-bold text-[#1E293B]">{c.gr_number || c.gr_id}</span>
                               {c.issue_date && <span>{c.issue_date}</span>}
                               <span className="rounded bg-[#F1EFEA] px-1.5 py-0.5 font-bold text-[#1E293B]">p.{c.page}</span>
-                              {c.lineage?.status === 'superseded' && <span className="font-bold text-[#9F1239]">superseded</span>}
-                              {c.lineage?.status === 'amended' && <span className="font-bold text-[#92400E]">amended</span>}
-                            </div>
-                            <span className={`inline-flex items-center gap-1.5 text-[11px] font-semibold ${on ? 'text-[#D97706]' : 'text-[#4F46E5] group-hover:translate-x-0.5 transition-transform'}`}>
-                              {on ? (
-                                <>
-                                  <span className="relative flex h-1.5 w-1.5">
-                                    <span className="absolute inset-0 animate-pingSoft rounded-full bg-[#D97706]" />
-                                    <span className="relative h-1.5 w-1.5 rounded-full bg-[#D97706]" />
-                                  </span>
-                                  {isGu ? 'પૃષ્ઠ પર ચિહ્નિત' : 'Locked on page'}
-                                </>
-                              ) : (
-                                <>{isGu ? 'પૃષ્ઠ પર જુઓ' : 'Lock on page'} <ArrowRight className="h-3 w-3" /></>
+                              {c.lineage?.status === 'superseded' && (
+                                <span className="font-bold text-[#9F1239]">{statusText('superseded', uiLang).short}</span>
                               )}
-                            </span>
+                              {c.lineage?.status === 'amended' && (
+                                <span className="font-bold text-[#92400E]">{statusText('amended', uiLang).short}</span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {canTranslate && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => toggleQuoteTranslation(e, c, trTarget)}
+                                  className="inline-flex items-center gap-1 rounded-md border border-[#E6E4DD] bg-white px-2 py-0.5 text-[10.5px] font-semibold text-[#4338CA] hover:border-[#C7D2FE] hover:bg-[#EEF2FF]"
+                                >
+                                  {helpState?.loading ? (
+                                    <Loader2 className="h-3 w-3 animate-spin" />
+                                  ) : (
+                                    <Languages className="h-3 w-3" />
+                                  )}
+                                  <span>
+                                    {helpState?.open && !helpState?.loading
+                                      ? t('answer.hide_translation')
+                                      : trTarget === 'gu' ? t('answer.translate_gu') : t('answer.translate_en')}
+                                  </span>
+                                </button>
+                              )}
+                              <span className={`inline-flex items-center gap-1.5 text-[11px] font-semibold ${on ? 'text-[#D97706]' : 'text-[#4F46E5] group-hover:translate-x-0.5 transition-transform'}`}>
+                                {on ? (
+                                  <>
+                                    <span className="relative flex h-1.5 w-1.5">
+                                      <span className="absolute inset-0 animate-pingSoft rounded-full bg-[#D97706]" />
+                                      <span className="relative h-1.5 w-1.5 rounded-full bg-[#D97706]" />
+                                    </span>
+                                    {t('answer.locked_on_page')}
+                                  </>
+                                ) : (
+                                  <>{t('answer.lock_on_page')} <ArrowRight className="h-3 w-3" /></>
+                                )}
+                              </span>
+                            </div>
                           </div>
-                        </motion.button>
+                        </motion.div>
                       );
                     })}
                   </div>
@@ -299,16 +348,16 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
                             <div className="space-y-2">
                               <div className="flex items-start justify-between gap-3">
                                 <p className="gu-text text-[14px] leading-relaxed text-[#1E293B]">{st.text}</p>
-                                <span title={L.note} className={`mt-0.5 inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10.5px] font-bold ${L.cls}`}>
+                                <span title={t(L.nk)} className={`mt-0.5 inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10.5px] font-bold ${L.cls}`}>
                                   <span className={`h-1.5 w-1.5 rounded-full ${L.dot}`} />
-                                  {label}
+                                  {t(L.tk)}
                                 </span>
                               </div>
                               {st.citations.length > 0 && (
                                 <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                                  <span className="mr-0.5 text-[11px] text-[#64748B]">{isGu ? 'માં સંદર્ભિત' : 'Cited in'}</span>
+                                  <span className="mr-0.5 text-[11px] text-[#64748B]">{t('answer.cited_in')}</span>
                                   {st.citations.map((c, j) => (
-                                    <CitationChip key={j} cit={c} active={citeKey(c) === citeKey(active)} onSelect={onSelect} />
+                                    <CitationChip key={j} cit={c} active={citeKey(c) === citeKey(active)} onSelect={onSelect} uiLang={uiLang} />
                                   ))}
                                 </div>
                               )}

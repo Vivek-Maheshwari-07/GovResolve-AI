@@ -81,6 +81,56 @@ def parse_date(text: str) -> date | None:
     return found[0][2] if found else None
 
 
+_GUJLISH_ADMIN_WORDS = {
+    "yojana", "yojna", "panchvati", "panchwati", "tharav", "paripatra", "niyam", "niyamo",
+    "karmchari", "karmachari", "karmchario", "adhikari", "adhikario", "sarkar", "rajya",
+    "raja", "rajao", "pagar", "bhathu", "bhadu", "ganvesh", "kapad", "nikal", "binjaruri",
+    "badli", "badhti", "bharti", "sahay", "updan", "aadesh", "hukam", "arji", "tapas",
+    "samiti", "kamgiri", "faraj", "vahan", "vasulat", "spashtata", "jagyae", "vanchvanu",
+    "darakhast", "manjuri", "karyavahi", "karyavidhi", "karyapadhati", "aheval", "sarpanch",
+    "talati", "pariksha",
+}
+_GUJLISH_FUNC_WORDS = {
+    "su", "shu", "che", "chhe", "nathi", "ketla", "ketli", "ketlu", "kyare", "kone", "kon",
+    "kaun", "kevi", "kevo", "kevu", "kem", "mate", "mateni", "matena", "joie", "joye",
+    "joyee", "karvu", "karva", "batao", "janavo", "samjavo", "kaho", "aapo", "apo",
+    "malse", "malshe", "male", "lagu", "pade", "padse", "hethal", "mujab", "anusar",
+    "pachi", "pahela", "sudhi", "vishe", "babat", "babate",
+}
+_ENGLISH_CUES = {
+    "what", "how", "when", "where", "which", "who", "why", "is", "are", "was", "were",
+    "the", "a", "an", "for", "under", "does", "do", "did", "can", "could", "should",
+    "rules", "rule", "explain", "translate", "list", "show", "give",
+}
+_REQ_GU = re.compile(
+    r"(?:\b(?:in|into|to|explain\s+in|answer\s+in|reply\s+in|speak\s+in|translate\s+(?:this\s+|it\s+)?(?:in|into|to))\s+gujarati\b"
+    r"|\bgujarati\s+(?:ma|maa|me|mein|please)\b"
+    r"|ગુજરાતી\s*માં|ગુજરાતી\s*ભાષા)",
+    re.I,
+)
+_REQ_EN = re.compile(
+    r"(?:\b(?:in|into|to|explain\s+in|answer\s+in|reply\s+in|speak\s+in|translate\s+(?:this\s+|it\s+)?(?:in|into|to))\s+english\b"
+    r"|\benglish\s+(?:ma|maa|me|mein|please)\b"
+    r"|અંગ્રેજી\s*માં|ઇંગ્લિશ\s*માં)",
+    re.I,
+)
+
+
+def detect_requested_language(text: str) -> str | None:
+    """Detect an explicit reply-language switch request inside a question or follow-up."""
+    if not text:
+        return None
+    gu_matches = list(_REQ_GU.finditer(text))
+    en_matches = list(_REQ_EN.finditer(text))
+    if gu_matches and en_matches:
+        return "gu" if gu_matches[-1].start() > en_matches[-1].start() else "en"
+    if gu_matches:
+        return "gu"
+    if en_matches:
+        return "en"
+    return None
+
+
 def detect_language(text: str) -> str:
     gujarati = sum(1 for c in text if "઀" <= c <= "૿")
     latin = sum(1 for c in text if c.isascii() and c.isalpha())
@@ -90,6 +140,13 @@ def detect_language(text: str) -> str:
     ratio = gujarati / total
     if ratio > 0.9:
         return "gu"
-    if ratio < 0.1:
-        return "en"
-    return "mixed"
+    if ratio >= 0.1:
+        return "mixed"
+    words = re.findall(r"[a-zA-Z]+", text.lower())
+    if words:
+        gu_hits = sum(1 for w in words if w in _GUJLISH_ADMIN_WORDS or w in _GUJLISH_FUNC_WORDS)
+        en_hits = sum(1 for w in words if w in _ENGLISH_CUES)
+        has_gu_func = any(w in _GUJLISH_FUNC_WORDS for w in words)
+        if has_gu_func or (gu_hits >= 2 and en_hits == 0) or (gu_hits > en_hits and gu_hits >= 1):
+            return "mixed"
+    return "en"

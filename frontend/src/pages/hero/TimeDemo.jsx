@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Seal from '../../components/Seal';
 import { STATUS, TONES } from '../../lib/status';
 import { statusAsOf } from '../../lib/lineage';
+import { statusText } from '../../lib/i18n';
+import { useLanguage, useT } from '../../lib/LanguageContext';
 
 // Three invented orders. The statuses come from the same statusAsOf() the application uses, so what moves here is real logic.
 const CHAIN = [
@@ -24,6 +26,8 @@ const TONE_KEY = { no_change: 'emerald', amended: 'amber', superseded: 'rose' };
 const PRESETS = [['Mar 2016', '2016-03-01'], ['Jan 2020', '2020-01-15'], ['Dec 2022', '2022-12-01']];
 
 export default function TimeDemo() {
+  const { lang } = useLanguage();
+  const t = useT();
   const [day, setDay] = useState(dayOf('2019-06-01'));
   const [focus, setFocus] = useState('B');
   const date = iso(day);
@@ -31,20 +35,25 @@ export default function TimeDemo() {
   const mine = st[focus];
   const key = !mine.issued ? 'insufficient' : mine.status;
   const meta = STATUS[key];
+  const loc = statusText(key, lang);
   const tone = TONES[meta.tone];
   const chainNo = Object.fromEntries(CHAIN.map((c) => [c.gr_id, c.gr_number]));
 
-  let headline = meta.headline;
-  let note = meta.note;
+  let headline = loc.headline;
+  let note = loc.note;
   if (!mine.issued) {
-    headline = 'This order did not exist yet';
-    note = `${chainNo[focus]} is dated ${pretty(CHAIN.find((c) => c.gr_id === focus).date)}. On ${pretty(date)} an officer could not have found it.`;
+    headline = t('timedemo.not_exist_h');
+    note = t('timedemo.not_exist_n', {
+      gr: chainNo[focus],
+      grDate: pretty(CHAIN.find((c) => c.gr_id === focus).date),
+      date: pretty(date),
+    });
   } else if (focus === 'A' && mine.status === 'amended' && st.B.status === 'superseded') {
-    note = `Amended by ${chainNo.B}, but that amending order has itself been superseded by ${chainNo.C}. Read the successor before relying on either.`;
+    note = t('timedemo.amended_sup_n', { b: chainNo.B, c: chainNo.C });
   } else if (focus === 'B' && mine.status === 'superseded') {
-    note = `Replaced by ${chainNo.C} on ${pretty('2021-08-02')}. Do not act on this order; see its successor.`;
+    note = t('timedemo.sup_n', { c: chainNo.C });
   } else if (mine.status === 'no_change') {
-    note = 'No later amendment or replacement exists in the documents we hold. That is all this means: it does not prove the rule is in force.';
+    note = t('timedemo.no_change_n');
   }
 
   const ticks = [2013, 2015, 2017, 2019, 2021, 2023];
@@ -53,11 +62,11 @@ export default function TimeDemo() {
     <div className="sheet overflow-hidden rounded-[22px]">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hair px-5 py-3.5">
         <div>
-          <p className="eyebrow">Try it · three invented orders</p>
-          <p className="mt-0.5 text-[12.5px] text-mist">Pick the order you found, then drag the date. This is the same logic as the app’s Rule Time Machine.</p>
+          <p className="eyebrow">{t('timedemo.eyebrow')}</p>
+          <p className="mt-0.5 text-[12.5px] text-mist">{t('timedemo.sub')}</p>
         </div>
         <div className="well flex p-0.5" role="group" aria-label="The order you found">
-          {[['A', '2014 order'], ['B', '2018 order']].map(([k, l]) => (
+          {[['A', t('timedemo.order_2014')], ['B', t('timedemo.order_2018')]].map(([k, l]) => (
             <button key={k} type="button" aria-pressed={focus === k} onClick={() => setFocus(k)} className={`rounded-[9px] px-3 py-1 text-[12px] font-semibold transition ${focus === k ? 'bg-ivory text-iris-800 shadow-card' : 'text-mist hover:text-ink'}`}>
               {l}
             </button>
@@ -85,17 +94,17 @@ export default function TimeDemo() {
               );
             })}
             {/* links, drawn newer -> older */}
-            {[['C', 'B', 'Supersedes', '#C2395A'], ['B', 'A', 'Amends', '#D98A1F']].map(([from, to, label, col]) => {
+            {[['C', 'B', t('timedemo.supersedes'), '#C2395A'], ['B', 'A', t('timedemo.amends'), '#D98A1F']].map(([from, to, label, col]) => {
               const f = CHAIN.find((c) => c.gr_id === from);
-              const t = CHAIN.find((c) => c.gr_id === to);
+              const targetNode = CHAIN.find((c) => c.gr_id === to);
               const sx = xOf(dayOf(f.date));
-              const tx = xOf(dayOf(t.date));
+              const tx = xOf(dayOf(targetNode.date));
               const live = st[from].issued;
               const h = 78;
               return (
                 <g key={from + to} opacity={live ? 1 : 0.22} style={{ transition: 'opacity .25s' }}>
                   <path d={`M${sx} 138 C${sx} ${138 - h}, ${tx} ${138 - h}, ${tx} 134`} fill="none" stroke={col} strokeWidth="1.8" strokeLinecap="round" markerEnd="url(#tdArrow)" />
-                  <text x={(sx + tx) / 2} y={140 - h * 0.74 - 4} textAnchor="middle" fontSize="10.5" fontWeight="700" fill={col} fontFamily="Plus Jakarta Sans, sans-serif">{label}</text>
+                  <text x={(sx + tx) / 2} y={140 - h * 0.74 - 4} textAnchor="middle" fontSize="10.5" fontWeight="700" fill={col} fontFamily="Plus Jakarta Sans, Noto Sans Gujarati, sans-serif">{label}</text>
                 </g>
               );
             })}
@@ -136,7 +145,7 @@ export default function TimeDemo() {
             />
           </div>
           <div className="mt-3 flex flex-wrap items-center gap-1.5">
-            <span className="mr-1 text-[11.5px] text-faint">Jump to</span>
+            <span className="mr-1 text-[11.5px] text-faint">{t('timedemo.jump_to')}</span>
             {PRESETS.map(([l, d]) => (
               <button key={l} type="button" onClick={() => setDay(dayOf(d))} className="rounded-full bg-ivory px-2.5 py-1 text-[11.5px] font-medium text-mist transition hover:text-iris-700" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.1), inset 0 1px 0 #fff' }}>
                 {l}
@@ -146,7 +155,7 @@ export default function TimeDemo() {
         </div>
 
         <div className="relative flex flex-col justify-center p-5 sm:p-6" style={{ background: `linear-gradient(160deg, ${tone.wash} 0%, transparent 70%)` }}>
-          <p className="mono-label text-[9px] text-mist">On {pretty(date)}, an officer holding</p>
+          <p className="mono-label text-[9px] text-mist">{t('timedemo.on_date', { date: pretty(date) })}</p>
           <p className="mt-0.5 font-mono text-[12.5px] font-bold text-ink">{chainNo[focus]}</p>
           <div className="mt-4 flex items-center gap-4">
             <AnimatePresence mode="wait" initial={false}>
@@ -155,7 +164,7 @@ export default function TimeDemo() {
               </motion.div>
             </AnimatePresence>
             <div className="min-w-0">
-              <span className={`rounded-full border ${tone.ring} bg-ivory/80 px-2 py-0.5 text-[10.5px] font-bold ${tone.text}`}>{!mine.issued ? 'Not yet issued' : meta.label}</span>
+              <span className={`rounded-full border ${tone.ring} bg-ivory/80 px-2 py-0.5 text-[10.5px] font-bold ${tone.text}`}>{!mine.issued ? t('lineage.not_yet_issued') : loc.label}</span>
               <h3 className={`display mt-1.5 text-[17px] font-bold leading-tight ${tone.text}`}>{headline}</h3>
             </div>
           </div>

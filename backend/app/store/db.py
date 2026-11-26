@@ -16,6 +16,9 @@ CREATE TABLE IF NOT EXISTS query_log (
 CREATE TABLE IF NOT EXISTS feedback (
     id INTEGER PRIMARY KEY AUTOINCREMENT, query_id TEXT, verdict TEXT, note TEXT, created_at TEXT);
 CREATE TABLE IF NOT EXISTS llm_cache (sentence_hash TEXT PRIMARY KEY, result TEXT, created_at TEXT);
+CREATE TABLE IF NOT EXISTS voice_call_log (
+    call_id TEXT PRIMARY KEY, created_at TEXT, call_status TEXT, direction TEXT,
+    from_number TEXT, to_number TEXT, duration_sec REAL, summary TEXT, recording_url TEXT, payload TEXT);
 """
 
 
@@ -112,3 +115,42 @@ class Database:
 
     def cache_put(self, sentence_hash: str, result: dict) -> None:
         self._exec("INSERT OR REPLACE INTO llm_cache VALUES (?, ?, ?)", (sentence_hash, json.dumps(result), _now()))
+
+    # voice webhook logs (OmniDimension / telephony)
+    def log_voice_call(
+        self,
+        *,
+        call_id: str,
+        call_status: str = "",
+        direction: str = "",
+        from_number: str = "",
+        to_number: str = "",
+        duration_sec: float | None = None,
+        summary: str = "",
+        recording_url: str = "",
+        payload: dict | None = None,
+    ) -> None:
+        self._exec(
+            "INSERT OR REPLACE INTO voice_call_log VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (
+                call_id,
+                _now(),
+                call_status,
+                direction,
+                from_number,
+                to_number,
+                duration_sec,
+                summary,
+                recording_url,
+                json.dumps(payload or {}, default=str),
+            ),
+        )
+
+    def recent_voice_calls(self, limit: int = 20) -> list[dict]:
+        rows = self._exec("SELECT * FROM voice_call_log ORDER BY created_at DESC, rowid DESC LIMIT ?", (limit,))
+        out = []
+        for r in rows:
+            d = dict(r)
+            d["payload"] = json.loads(d["payload"] or "{}")
+            out.append(d)
+        return out

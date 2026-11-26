@@ -51,6 +51,15 @@ from backend.models import (
 from backend.lineage.lineage_graph import LineageGraph, apply_lineage_to_records
 from backend.rag.search_engine import GRIndex
 from backend.rag.gujarati_stemmer import normalize_gujarati_digits
+from backend.ingestion.metadata import (
+    build_complete_chunks,
+    clean_ligatures,
+    extract_department as _shared_extract_department,
+    extract_gr_number as _shared_extract_gr_number,
+    extract_issue_date as _shared_extract_issue_date,
+    extract_subject as _shared_extract_subject,
+    has_garbled_font_stream,
+)
 
 # Optional libraries
 try:
@@ -127,11 +136,10 @@ def clean_gr_number(raw: str) -> str:
 
 def is_clean_digital_text(text: str) -> bool:
     """
-    Returns True only if text has genuine Gujarati Unicode or valid English words.
-    Returns False if it is an image scan OR garbled legacy non-Unicode font ASCII
-    (e.g., Gopika/ShreeLipi font typed as English letters like '-212S1R Ldl...').
+    Returns True only if text has genuine Gujarati Unicode or valid English words,
+    with NO legacy non-Unicode PDF font-subset control/ligature corruption.
     """
-    if len(text.strip()) < 50:
+    if len(text.strip()) < 50 or has_garbled_font_stream(text):
         return False
     gu_chars = len(re.findall(r"[\u0A80-\u0AFF]", text))
     if gu_chars > 30:
@@ -372,75 +380,39 @@ def ingest_pdf_accurate(pdf_path: str, processed_dir: str = "./data/processed") 
 
     doc.close()
     full_text = "\n\n".join(page_transcripts)
-    parsed = parse_sachivalaya_text(page_transcripts[0] if page_transcripts else full_text)
+    parsed = parse_sachivalaya_text(full_text)
+    shared_gr, _ = _shared_extract_gr_number(full_text)
+    shared_dt = _shared_extract_issue_date(full_text, filename=pdf_path)
+    shared_dept = _shared_extract_department(full_text, parsed["department"])
+    shared_subj = _shared_extract_subject(full_text)
 
-    # Use vision metadata if available for higher accuracy
+    # Use vision metadata if available, supplemented by clean header/footer extractors
     if vision_meta:
-        gr_num = vision_meta.get("gr_number") or parsed["gr_number"]
-        subject = vision_meta.get("subject") or parsed["subject"]
-        dept = vision_meta.get("department") or parsed["department"]
-        issue_date = vision_meta.get("issue_date") or parsed["issue_date"]
+        gr_num = vision_meta.get("gr_number") or (shared_gr if shared_gr != "UNKNOWN" else parsed["gr_number"])
+        subject = vision_meta.get("subject") or shared_subj
+        dept = vision_meta.get("department") or shared_dept
+        issue_date = vision_meta.get("issue_date") or shared_dt or parsed["issue_date"]
     else:
-        gr_num = parsed["gr_number"]
-        subject = parsed["subject"]
-        dept = parsed["department"]
-        issue_date = parsed["issue_date"]
+        gr_num = shared_gr if shared_gr != "UNKNOWN" else parsed["gr_number"]
+        subject = shared_subj if shared_subj != "Unknown Subject" else parsed["subject"]
+        dept = shared_dept
+        issue_date = shared_dt or parsed["issue_date"]
 
     dept_prefix = "".join(w[0] for w in dept.split()[:3]).upper()
     year = issue_date[:4] if issue_date else "0000"
     fhash = file_hash(pdf_path)[:6]
     gr_id = f"{dept_prefix}-{year}-{fhash}"
 
-    # Generate Sentence-Indexed Chunks
-    chunks: list[Chunk] = []
-    chunk_idx = 0
-
-    # 1. Preamble chunk
-    if len(subject) > 10:
-        chunks.append(Chunk(
-            chunk_id=f"{gr_id}_p1_c{chunk_idx:03d}",
-            gr_id=gr_id,
-            text=f"વિષય: {subject}\nઠરાવ ક્રમાંક: {gr_num}\nતારીખ: {issue_date}",
-            text_clean=normalize_gujarati_digits(f"વિષય: {subject}\nઠરાવ ક્રમાંક: {gr_num}\nતારીખ: {issue_date}"),
-            pages=[1],
-            bboxes=[BoundingBox(x0=0, y0=0, x1=500, y1=200, page=1)],
-            chunk_type="preamble",
-            clause_status=ClauseStatus.ACTIVE,
-        ))
-        chunk_idx += 1
-
-    # 2. Operative clauses
-    raw_clauses = (vision_meta.get("clauses", []) if vision_meta else []) or parsed["clauses"]
-    for c_item in raw_clauses:
-        c_text = c_item.get("text_gu", "") if isinstance(c_item, dict) else str(c_item)
-        if len(c_text.strip()) < 15:
-            continue
-        chunks.append(Chunk(
-            chunk_id=f"{gr_id}_p1_c{chunk_idx:03d}",
-            gr_id=gr_id,
-            text=c_text,
-            text_clean=normalize_gujarati_digits(c_text),
-            pages=[1],
-            bboxes=[BoundingBox(x0=0, y0=200, x1=500, y1=600, page=1)],
-            chunk_type="clause",
-            clause_status=ClauseStatus.ACTIVE,
-        ))
-        chunk_idx += 1
-
-    # 3. Add subsequent page chunks
-    for p_num, p_text in enumerate(page_transcripts[1:], start=2):
-        if len(p_text.strip()) > 30:
-            chunks.append(Chunk(
-                chunk_id=f"{gr_id}_p{p_num}_c{chunk_idx:03d}",
-                gr_id=gr_id,
-                text=p_text.strip(),
-                text_clean=normalize_gujarati_digits(p_text.strip()),
-                pages=[p_num],
-                bboxes=[BoundingBox(x0=0, y0=0, x1=500, y1=700, page=p_num)],
-                chunk_type="clause",
-                clause_status=ClauseStatus.ACTIVE,
-            ))
-            chunk_idx += 1
+    # Complete structural chunking covering Read ('વંચાણે લીધા'), Preamble ('આમુખ'), Clauses, and Footer
+    chunks = build_complete_chunks(
+        gr_id,
+        all_page_records,
+        subject=clean_ligatures(subject),
+        department=dept,
+        gr_number=gr_num,
+        issue_date=issue_date,
+        clause_status=ClauseStatus.ACTIVE,
+    )
 
     record = GRRecord(
         gr_id=gr_id,

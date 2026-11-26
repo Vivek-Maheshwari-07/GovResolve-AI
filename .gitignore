@@ -34,6 +34,7 @@ data/index/chroma_test/
 data/index/chroma_target_test/
 data/index/*.sqlite3
 data/index/translations.json
+data/index/translations_gu.json
 
 # Model cache
 .cache/

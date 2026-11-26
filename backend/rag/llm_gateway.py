@@ -79,6 +79,7 @@ def _remember(cache: dict, key: str, value: str) -> None:
         while len(cache) > MAX_TRANSLATIONS:
             cache.pop(next(iter(cache)))
 _TRANSLATIONS_LOADED = False
+_TRANSLATIONS_GU_LOADED = False
 
 
 def _translation_cache_path() -> Optional[str]:
@@ -87,6 +88,44 @@ def _translation_cache_path() -> Optional[str]:
     if path is None:
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "data", "index", "translations.json")
     return os.path.abspath(path) if path else None
+
+
+def _translation_gu_cache_path() -> Optional[str]:
+    """Disk cache for Gujarati translations; shares the directory of TRANSLATION_CACHE and respects '' to disable."""
+    path = os.getenv("TRANSLATION_GU_CACHE")
+    if path is not None:
+        return os.path.abspath(path) if path else None
+    en_path = _translation_cache_path()
+    if not en_path:
+        return None
+    return os.path.join(os.path.dirname(en_path), "translations_gu.json")
+
+
+def _load_translation_cache(path: Optional[str], cache: dict[str, str]) -> None:
+    if not path:
+        return
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict):
+            with _TRANSLATION_LOCK:
+                cache.update(data)
+    except (OSError, ValueError):
+        pass
+
+
+def _save_translation_cache(path: Optional[str], cache: dict[str, str]) -> None:
+    if not path:
+        return
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        tmp = f"{path}.tmp"
+        with _TRANSLATION_LOCK:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(cache, f, ensure_ascii=False, indent=0)
+            os.replace(tmp, path)   # atomic: a crash never leaves a half-written cache
+    except OSError:
+        pass
 
 
 def _clean_translation(reply: str) -> Optional[str]:
@@ -117,11 +156,7 @@ def translate_to_english(question: str) -> Optional[str]:
     path = _translation_cache_path()
     if path and not _TRANSLATIONS_LOADED:
         _TRANSLATIONS_LOADED = True
-        try:
-            with open(path, encoding="utf-8") as f:
-                _TRANSLATIONS.update(json.load(f))
-        except (OSError, ValueError):
-            pass
+        _load_translation_cache(path, _TRANSLATIONS)
     key = question.strip()
     if key in _TRANSLATIONS:
         return _TRANSLATIONS[key] or None
@@ -130,16 +165,7 @@ def translate_to_english(question: str) -> Optional[str]:
         return None  # nothing answered; do not remember a failure
     english = _clean_translation(reply)
     _remember(_TRANSLATIONS, key, english or "")
-    if path:
-        try:
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-            tmp = f"{path}.tmp"
-            with _TRANSLATION_LOCK:
-                with open(tmp, "w", encoding="utf-8") as f:
-                    json.dump(_TRANSLATIONS, f, ensure_ascii=False, indent=0)
-                os.replace(tmp, path)   # atomic: a crash never leaves a half-written cache
-        except OSError:
-            pass
+    _save_translation_cache(path, _TRANSLATIONS)
     return english
 
 
@@ -165,6 +191,11 @@ def _clean_gujarati_translation(reply: str) -> Optional[str]:
 def translate_to_gujarati(question: str) -> Optional[str]:
     """One short model call that renders an English or Gujlish question in Gujarati script, so keyword search and sentence choice can
     match Gujarati resolutions. None when no model answers or the reply is not Gujarati script."""
+    global _TRANSLATIONS_GU_LOADED
+    path = _translation_gu_cache_path()
+    if path and not _TRANSLATIONS_GU_LOADED:
+        _TRANSLATIONS_GU_LOADED = True
+        _load_translation_cache(path, _TRANSLATIONS_GU)
     key = question.strip()
     if key in _TRANSLATIONS_GU:
         return _TRANSLATIONS_GU[key] or None
@@ -173,4 +204,79 @@ def translate_to_gujarati(question: str) -> Optional[str]:
         return None
     gujarati = _clean_gujarati_translation(reply)
     _remember(_TRANSLATIONS_GU, key, gujarati or "")
+    _save_translation_cache(path, _TRANSLATIONS_GU)
     return gujarati
+
+
+GUJARAT_GOV_GLOSSARY = """Use authentic Gujarat Secretariat / Government Resolution Gujarati terminology (never word-for-word literal translations):
+- Major Head -> મુખ્ય સદર
+- Sub-head -> પેટા-સદર
+- Detailed Head -> વિગતવાર સદર
+- House Building Advance -> મકાન બાંધકામ પેશગી
+- Government Resolution -> સરકારી ઠરાવ
+- Circular -> પરિપત્ર
+- Notification -> જાહેરનામું
+- Amendment / Amended -> સુધારો / સુધારેલ
+- Superseded / In supersession of -> રદબાતલ / અવેજીમાં
+- Sanctioned / Approved -> મંજૂર થયેલ
+- All India Service Officers -> અખિલ ભારતીય સેવા અધિકારીઓ
+- Government Servants -> સરકારી કર્મચારીઓ
+- Recruitment Rules -> ભરતી નિયમો
+- Upper age limit relaxation -> ઉપલી વયમર્યાદામાં છૂટછાટ
+- Direct Selection / Recruitment -> સીધી ભરતી / પસંદગી
+- Departmental Examination -> ખાતાકીય પરીક્ષા
+- Maternity Leave / Casual Leave / Earned Leave -> પ્રસૂતિ રજા / પરચુરણ રજા / હક રજા
+- Finance Department -> નાણા વિભાગ
+- General Administration Department (GAD) -> સામાન્ય વહીવટ વિભાગ
+- Home Department -> ગૃહ વિભાગ"""
+
+TRANSLATE_ANSWER_TO_GU_SYSTEM = (
+    "You translate official Gujarat Government Resolution findings or passages from English into clear, natural, formal "
+    "administrative Gujarati (ગુજરાતી લિપિ). Preserve every GR number, date, amount, percentage, office name, and citation fact accurately.\n"
+    f"{GUJARAT_GOV_GLOSSARY}\n"
+    "Reply ONLY with natural Gujarati text, nothing else."
+)
+TRANSLATE_ANSWER_TO_EN_SYSTEM = (
+    "You translate official Gujarat Government Resolution findings or passages from Gujarati into clear, concise, formal English. "
+    "Preserve every GR number, date, amount, percentage, person/office name, and citation fact accurately. "
+    "Reply ONLY with the English translation text, nothing else."
+)
+_ANSWER_TRANSLATE_CACHE: dict[tuple[str, str], str] = {}
+
+
+def translate_answer_text(text: str, target_lang: str) -> Optional[str]:
+    """Translate a grounded answer statement, summary, or passage into 'gu' or 'en', preserving factual tokens."""
+    src = (text or "").strip()
+    if not src:
+        return None
+    lang = (target_lang or "").strip().lower()
+    if lang in ("gu", "gujarati"):
+        norm_lang = "gu"
+        sys_p = TRANSLATE_ANSWER_TO_GU_SYSTEM
+    elif lang in ("en", "english"):
+        norm_lang = "en"
+        sys_p = TRANSLATE_ANSWER_TO_EN_SYSTEM
+    else:
+        return None
+
+    ckey = (norm_lang, src)
+    with _TRANSLATION_LOCK:
+        cached = _ANSWER_TRANSLATE_CACHE.get(ckey)
+    if cached:
+        return cached
+
+    reply, provider = execute_llm_generation(sys_p, src[:2500], max_tokens=450, json_mode=False)
+    if provider == "fallback" or not reply:
+        return None
+    cleaned = re.sub(r"^(?:translation\s*[:\-]\s*)", "", reply.strip(), flags=re.I).strip().strip("\"'`")
+    if not cleaned:
+        return None
+    if norm_lang == "gu":
+        if sum("઀" <= ch <= "૿" for ch in cleaned) < 2:
+            return None
+    else:
+        if len(re.findall(r"[A-Za-z]", cleaned)) < 3:
+            return None
+    out = cleaned[:1800]
+    _remember(_ANSWER_TRANSLATE_CACHE, ckey, out)
+    return out

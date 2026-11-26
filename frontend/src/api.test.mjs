@@ -1,7 +1,7 @@
 // Run: node --test src/api.test.mjs   (no browser, fetch is faked)
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ask, lineageChain, pdfUrl } from './api.js';
+import { ask, lineageChain, needsTextTranslation, pdfUrl, translateResponseFields, voiceTranscribeStatus, transcribeAudio } from './api.js';
 
 function fakeFetch(routes) {
   globalThis.fetch = async (url, init) => {
@@ -85,6 +85,42 @@ test('lineage chain keeps timeline order and edge direction newer -> older', asy
   assert.equal(chain[0].edges_out.length, 0);
 });
 
+test('answer: includeChain=false skips lineage fetch while keeping language', async () => {
+  fakeFetch({
+    'POST /query': {
+      verdict: 'answered',
+      answer: 'પંચવટી યોજના ગ્રામીણ બગીચા માટે છે.',
+      language: 'gu',
+      citations: [cit('a', 'no_later_amendment_found')],
+      statements: [],
+    },
+    'GET /documents/a': meta('a', 'GR-A', '2020-01-01'),
+  });
+  const r = await ask('Panchwati Yojna', null, undefined, { includeChain: false });
+  assert.equal(r.language, 'gu');
+  assert.deepEqual(r.lineage_chain, []);
+});
+
+test('voice: voiceTranscribeStatus and transcribeAudio fast mode work cleanly', async () => {
+  let postedBody = null;
+  globalThis.fetch = async (url, init) => {
+    if (init?.method === 'GET' && url === '/voice/transcribe') {
+      return { ok: true, status: 200, json: async () => ({ available: true, provider: 'groq' }) };
+    }
+    if (init?.method === 'POST' && url === '/voice/transcribe') {
+      postedBody = init.body;
+      return { ok: true, status: 200, json: async () => ({ text: 'પંચવટી યોજના', detected_language: 'gu' }) };
+    }
+    return { ok: false, status: 404, json: async () => ({}) };
+  };
+  assert.equal(await voiceTranscribeStatus(), true);
+  const res = await transcribeAudio(new Blob(['abc'], { type: 'audio/webm' }), null, undefined, 'fast');
+  assert.equal(res.text, 'પંચવટી યોજના');
+  assert.equal(res.detected_language, 'gu');
+  assert.equal(postedBody.get('mode'), 'fast');
+  assert.equal(postedBody.get('language'), null);
+});
+
 test('a failing request raises the backend reason', async () => {
   fakeFetch({});
   await assert.rejects(() => ask('q'), /no route/);
@@ -106,4 +142,39 @@ test('library statuses never pass "ACTIVE" through', async () => {
   const rows = await listGrs();
   assert.deepEqual(rows.map((r) => r.gr_id), ['b', 'a']);      // newest first
   assert.ok(!JSON.stringify(rows).includes('ACTIVE'));
+});
+
+test('in-place response translation translates prose only without altering citations or lineage', async () => {
+  const cites = [{ gr_id: 'GR-1', gr_number: 'FD/1', page: 2, passage: 'Original verbatim text.' }];
+  const base = {
+    question: 'leave rules?',
+    verdict: 'answered',
+    answer_status: 'no_change',
+    summary: 'Leave is admissible for 180 days.',
+    statements: [{ text: 'Leave is admissible for 180 days.', label: 'Established', citations: cites }],
+    warnings: [],
+    citations: cites,
+    lineage_chain: [{ gr_id: 'GR-1' }],
+  };
+
+  let calls = 0;
+  const fakeTranslate = async (txt, tgt) => {
+    calls += 1;
+    return tgt === 'gu' ? '૧૮૦ દિવસની રજા મળવાપાત્ર છે.' : txt;
+  };
+
+  // Already English -> 0 translation calls
+  const same = await translateResponseFields(base, 'en', { translateFn: fakeTranslate });
+  assert.equal(calls, 0);
+  assert.equal(same, base);
+
+  // Switch EN -> GU -> deduplicated 1 call because summary equals joined statement text; citations preserved verbatim
+  assert.equal(needsTextTranslation(base.summary, 'gu'), true);
+  const gu = await translateResponseFields(base, 'gu', { translateFn: fakeTranslate });
+  assert.equal(calls, 1);
+  assert.equal(gu.summary, '૧૮૦ દિવસની રજા મળવાપાત્ર છે.');
+  assert.equal(gu.statements[0].text, '૧૮૦ દિવસની રજા મળવાપાત્ર છે.');
+  assert.equal(gu.citations, base.citations);
+  assert.equal(gu.citations[0].passage, 'Original verbatim text.');
+  assert.equal(gu.lineage_chain, base.lineage_chain);
 });

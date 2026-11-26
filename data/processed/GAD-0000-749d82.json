@@ -1,10 +1,10 @@
 {
   "gr_id": "GAD-0000-749d82",
-  "gr_number": "UNKNOWN",
-  "department": "General Administration Department",
-  "issue_date": null,
+  "gr_number": "KP/40 of 2022/KTP/102021/1004/KH",
+  "department": "Panchayat, Rural Housing and Rural Development Department",
+  "issue_date": "2022-09-01",
   "effective_date": null,
-  "subject": "Unknown Subject",
+  "subject": "under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT",
   "language": "en",
   "source_type": "digital",
   "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\notifications\\Gujarat-Panchayat-Servic-Departmental-Examination-Rules-23-08-2022.pdf",
@@ -168,8 +168,8 @@
     {
       "chunk_id": "GAD-0000-749d82_p1_c000",
       "gr_id": "GAD-0000-749d82",
-      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
-      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: UNKNOWN\nતારીખ: None",
+      "text": "વિષય / Subject: under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT\nવિભાગ / Department: Panchayat, Rural Housing and Rural Development Department\nઠરાવ ક્રમાંક / GR No.: KP/40 of 2022/KTP/102021/1004/KH\nતારીખ / Date: 2022-09-01",
+      "text_clean": "વિષય / Subject: under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT\nવિભાગ / Department: Panchayat, Rural Housing and Rural Development Department\nઠરાવ ક્રમાંક / GR No.: KP/40 of 2022/KTP/102021/1004/KH\nતારીખ / Date: 2022-09-01",
       "pages": [
         1
       ],
@@ -177,7 +177,7 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
+          "x1": 595.0,
           "y1": 200.0,
           "page": 1
         }
@@ -190,17 +190,17 @@
     {
       "chunk_id": "GAD-0000-749d82_p1_c001",
       "gr_id": "GAD-0000-749d82",
-      "text": "Extra No. 37 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXIII ] THURSDAY, SEPTEMBER 1, 2022 / BHADRA 10, 1944 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 23rd August, 2022. GUJARAT PANCHAYATS ACT, 1993. No.KP/40 of 2022/KTP/102021/1004/KH:-In exercise of the powers conferred by sub-section (5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993) and in supersession of all the rules made in this behalf, the Government of Gujarat hereby makes the following rules, to provided for regulation the conditions of service of persons appointed to the post specified in Appendix A and Appendix B, in so far as they relate to the passing of the departmental examination, namely :-",
-      "text_clean": "Extra No. 37 © The Gujarat Government Gazette EXTRAORDINARY PUBLISHED BY AUTHORITY Vol. LXIII ] THURSDAY, SEPTEMBER 1, 2022 / BHADRA 10, 1944 Separate paging is given to this part in order that it may be filed as a Separate Compilation. PART I-A CENTRAL SECTION Orders and Notifications (Other than those published in Part IV-B) under the Gujarat Local Boards, Village Panchayats, Municipal Boroughs, District Municipal, Primary Education and Local Fund Audit Acts. PANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT NOTIFICATION Sachivalaya, Gandhinagar, 23rd August, 2022. GUJARAT PANCHAYATS ACT, 1993. No.KP/40 of 2022/KTP/102021/1004/KH:-In exercise of the powers conferred by sub-section (5) of section 227 read with section 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993) and in supersession of all the rules made in this behalf, the Government of Gujarat hereby makes the following rules, to provided for regulation the conditions of service of persons appointed to the post specified in Appendix A and Appendix B, in so far as they relate to the passing of the departmental examination, namely :-",
+      "text": "Extra No. 37 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTHURSDAY,  SEPTEMBER  1,  2022 / BHADRA  10,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n        \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 23rd August, 2022. \nGUJARAT PANCHAYATS ACT, 1993.               \nNo.KP/40 of 2022/KTP/102021/1004/KH:-In exercise of the powers conferred by sub-section (5) of section 227 read with \nsection 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993) and in supersession of all the rules made in this behalf, \nthe Government of Gujarat hereby makes the following rules, to provided for regulation the conditions of service of persons \nappointed to the post specified in Appendix A and Appendix B, in so far as they relate to the passing of the departmental \nexamination, namely :-",
+      "text_clean": "Extra No. 37 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTHURSDAY,  SEPTEMBER  1,  2022 / BHADRA  10,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n        \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 23rd August, 2022. \nGUJARAT PANCHAYATS ACT, 1993.               \nNo.KP/40 of 2022/KTP/102021/1004/KH:-In exercise of the powers conferred by sub-section (5) of section 227 read with \nsection 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993) and in supersession of all the rules made in this behalf, \nthe Government of Gujarat hereby makes the following rules, to provided for regulation the conditions of service of persons \nappointed to the post specified in Appendix A and Appendix B, in so far as they relate to the passing of the departmental \nexamination, namely :-",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 1
         }
       ],
@@ -212,17 +212,17 @@
     {
       "chunk_id": "GAD-0000-749d82_p1_c002",
       "gr_id": "GAD-0000-749d82",
-      "text": "1. Short title, commencement and extent- (1) These rules may be called the Gujarat Panchayat Services (Class-III), Departmental Examination Rules,",
-      "text_clean": "1. Short title, commencement and extent- (1) These rules may be called the Gujarat Panchayat Services (Class-III), Departmental Examination Rules,",
+      "text": "1. \nShort title, commencement and extent-\n(1)    These rules may be called the Gujarat Panchayat Services (Class-III), Departmental Examination Rules, \n \n2022.",
+      "text_clean": "1. \nShort title, commencement and extent-\n(1)    These rules may be called the Gujarat Panchayat Services (Class-III), Departmental Examination Rules, \n \n2022.",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 1
         }
       ],
@@ -234,17 +234,17 @@
     {
       "chunk_id": "GAD-0000-749d82_p1_c003",
       "gr_id": "GAD-0000-749d82",
-      "text": "2022. (2) They shall come into force from the date of their publication in Official Gazette. (3) Notwithstanding anything contained in any other rules, these rules shall apply to the employees of Panchayat Service (Class III) of the posts specified in the Appendix A and Appendix B.",
-      "text_clean": "2022. (2) They shall come into force from the date of their publication in Official Gazette. (3) Notwithstanding anything contained in any other rules, these rules shall apply to the employees of Panchayat Service (Class III) of the posts specified in the Appendix A and Appendix B.",
+      "text": "(2)    They shall come into force from the date of their   publication in Official Gazette.",
+      "text_clean": "(2)    They shall come into force from the date of their   publication in Official Gazette.",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 1
         }
       ],
@@ -256,17 +256,17 @@
     {
       "chunk_id": "GAD-0000-749d82_p1_c004",
       "gr_id": "GAD-0000-749d82",
-      "text": "2. Definitions - In these rules, unless the context otherwise requires;- (a) “Appendix” means an appendix appended to these rules; (b) “appointed date” means the date on which these rules shall come into force; (c) \"Board\" means Gujarat Panchayat Service Selection Board; (d) \"Examination\" means the higher level departmental examination or as the case may be lower level department examination prescribed under these rules; (e) “Government” means the Government of Gujarat; (f) “Higher level departmental examination” means an examination specified in Part-II of Appendix C; I-A Ex.-37 37-1",
-      "text_clean": "2. Definitions - In these rules, unless the context otherwise requires;- (a) “Appendix” means an appendix appended to these rules; (b) “appointed date” means the date on which these rules shall come into force; (c) \"Board\" means Gujarat Panchayat Service Selection Board; (d) \"Examination\" means the higher level departmental examination or as the case may be lower level department examination prescribed under these rules; (e) “Government” means the Government of Gujarat; (f) “Higher level departmental examination” means an examination specified in Part-II of Appendix C; I-A Ex.-37 37-1",
+      "text": "(3)    Notwithstanding anything contained in any other rules, these rules shall apply to the employees of \n \nPanchayat Service (Class III) of the posts specified in the Appendix A and Appendix B.",
+      "text_clean": "(3)    Notwithstanding anything contained in any other rules, these rules shall apply to the employees of \n \nPanchayat Service (Class III) of the posts specified in the Appendix A and Appendix B.",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 1
         }
       ],
@@ -276,10 +276,32 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-749d82_p2_c005",
+      "chunk_id": "GAD-0000-749d82_p1_c005",
       "gr_id": "GAD-0000-749d82",
-      "text": "37-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \n (g)  “Lower level departmental examination” means an examination specified in Part-I of Appendix C; \n (h)  \"Specified Chances\" means the number of chances specified in these rules within which a person is required \nto pass the examination.  \n3.  \nRequirement to pass the examination \n(1) The person appointed to the post specified in Part-I of Appendix A shall be required to pass the Lower Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix A \n(2) The person appointed to the post specified in Part-I of Appendix B shall be required to pass the Higher Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix B. \n4. \nEligibility to appear in the examination- \n(1) No person shall be eligible to appear in the examination unless he has completed two years’ of continuous \nservice after   his appointment on the post of Part-I of Appendix A and Appendix B. \n(2) No person shall be eligible to appear in the examination unless he has passed the post- training examination \nto existing post or he has been exempted from passing post-training examination by the Competent authority, \nif any. \n5. \nSpecified chances for passing the examination- \n(1)  To be eligible for promotion to the post specified in Part-II of Appendix A and B, a person shall be required \nto pass examination within three chances from the date of his completing two years' of continuous service \nafter his appointment on the post specified in Part-I of Appendix A and B: \nProvided that a person belonging to the Scheduled Casts or Scheduled Tribes may be given one   \nadditional chance which shall have to be availed of within a period of one year from the date of declaration \nof the result of the examination of his third chance. \n(2)  If a person fails to pass the examination referred to in these rules within the specified chances, he shall, \nnotwithstanding such failure, be eligible to appear at any time in the examination on payment of an \nexamination fee as may be determined by the Government from time to time and if he passes the said \nexamination, he shall be eligible for promotion: \nProvided that a person shall not be entitled to claim seniority over those persons who have passed the \nexamination earlier than him and also have been promoted to the post specified in Part-II of Appendix A and \nB under these rules before he became eligible for such promotion on passing the examination. \n6. \nSyllabus and scheme of examination- \n(1)  The syllabus for Lower level departmental examination shall be such as specified in Part-1 of   Appendix C. \n(2)  The syllabus for Higher level departmental examination shall be such as specified in Part-II of   Appendix C. \n(3)  Lower level and higher level departmental examination shall consist of four papers each of 100 (one hundred) \nmarks. The examination shall consist of multiple choice questions except paper I which shall be descriptive. \n(4) The candidate shall be allowed to answer the entire subjects of papers II to IV with the help of books. \nWhereas, paper 1 shall be answered without books. \nExplanation: \"With Books\" means original book of the subjects approved by the Government or the Board which \nincludes bare Acts and/or rules without any commentaries or case laws and includes manuals issued under the Act \npublished or approved by the Government. \n7.  \nMedium of examination - The medium of examination shall be Gujarati or English as per instructions given in \nthe question paper.   \n8. \nHolding of examination -  \n(1) The Board shall hold the examination once in a year. \n(2)  The Board shall communicate the tentative programme of the examination to all the District Development \nOfficers at least ninety days prior to the date of examination. \n(3)  A person who desires to appear in the examination shall be required to send his application in the form as \nspecified in Appendix-D to the Board through the concerned District Development Officer in which district \nthe person is serving for enlisting his name as a candidate for such examination at least sixty days prior to \nthe date of examination; \n (4) The District Development Officer in which district the person is serving shall scrutinize his application with \nregard to his eligibility for appearing in the examination and forward the same to the Board with the certificate \nof eligibility as specified in Appendix D to appear at the examination.  \n(5) If the applicant subsequently decides not to appear at the examination, he shall give intimation thereof to the \nBoard though concerned District Development Officer at least thirty days before the date of commencement of the \nexamination.",
-      "text_clean": "37-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \n (g)  “Lower level departmental examination” means an examination specified in Part-I of Appendix C; \n (h)  \"Specified Chances\" means the number of chances specified in these rules within which a person is required \nto pass the examination.  \n3.  \nRequirement to pass the examination \n(1) The person appointed to the post specified in Part-I of Appendix A shall be required to pass the Lower Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix A \n(2) The person appointed to the post specified in Part-I of Appendix B shall be required to pass the Higher Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix B. \n4. \nEligibility to appear in the examination- \n(1) No person shall be eligible to appear in the examination unless he has completed two years’ of continuous \nservice after   his appointment on the post of Part-I of Appendix A and Appendix B. \n(2) No person shall be eligible to appear in the examination unless he has passed the post- training examination \nto existing post or he has been exempted from passing post-training examination by the Competent authority, \nif any. \n5. \nSpecified chances for passing the examination- \n(1)  To be eligible for promotion to the post specified in Part-II of Appendix A and B, a person shall be required \nto pass examination within three chances from the date of his completing two years' of continuous service \nafter his appointment on the post specified in Part-I of Appendix A and B: \nProvided that a person belonging to the Scheduled Casts or Scheduled Tribes may be given one   \nadditional chance which shall have to be availed of within a period of one year from the date of declaration \nof the result of the examination of his third chance. \n(2)  If a person fails to pass the examination referred to in these rules within the specified chances, he shall, \nnotwithstanding such failure, be eligible to appear at any time in the examination on payment of an \nexamination fee as may be determined by the Government from time to time and if he passes the said \nexamination, he shall be eligible for promotion: \nProvided that a person shall not be entitled to claim seniority over those persons who have passed the \nexamination earlier than him and also have been promoted to the post specified in Part-II of Appendix A and \nB under these rules before he became eligible for such promotion on passing the examination. \n6. \nSyllabus and scheme of examination- \n(1)  The syllabus for Lower level departmental examination shall be such as specified in Part-1 of   Appendix C. \n(2)  The syllabus for Higher level departmental examination shall be such as specified in Part-II of   Appendix C. \n(3)  Lower level and higher level departmental examination shall consist of four papers each of 100 (one hundred) \nmarks. The examination shall consist of multiple choice questions except paper I which shall be descriptive. \n(4) The candidate shall be allowed to answer the entire subjects of papers II to IV with the help of books. \nWhereas, paper 1 shall be answered without books. \nExplanation: \"With Books\" means original book of the subjects approved by the Government or the Board which \nincludes bare Acts and/or rules without any commentaries or case laws and includes manuals issued under the Act \npublished or approved by the Government. \n7.  \nMedium of examination - The medium of examination shall be Gujarati or English as per instructions given in \nthe question paper.   \n8. \nHolding of examination -  \n(1) The Board shall hold the examination once in a year. \n(2)  The Board shall communicate the tentative programme of the examination to all the District Development \nOfficers at least ninety days prior to the date of examination. \n(3)  A person who desires to appear in the examination shall be required to send his application in the form as \nspecified in Appendix-D to the Board through the concerned District Development Officer in which district \nthe person is serving for enlisting his name as a candidate for such examination at least sixty days prior to \nthe date of examination; \n (4) The District Development Officer in which district the person is serving shall scrutinize his application with \nregard to his eligibility for appearing in the examination and forward the same to the Board with the certificate \nof eligibility as specified in Appendix D to appear at the examination.  \n(5) If the applicant subsequently decides not to appear at the examination, he shall give intimation thereof to the \nBoard though concerned District Development Officer at least thirty days before the date of commencement of the \nexamination.",
+      "text": "2. \nDefinitions -  \nIn these rules, unless the context otherwise requires;- \n (a)  “Appendix” means an appendix appended to these rules; \n (b)  “appointed date” means the date on which these rules shall come into force; \n (c)  \"Board\" means Gujarat Panchayat Service Selection Board; \n (d)  \"Examination\" means the higher level departmental examination or as the case may be lower level department \nexamination prescribed under these rules; \n (e)  “Government” means the Government of Gujarat; \n (f) “Higher level departmental examination” means an examination specified in Part-II of Appendix C; \nI-A Ex.-37 \n37-1",
+      "text_clean": "2. \nDefinitions -  \nIn these rules, unless the context otherwise requires;- \n (a)  “Appendix” means an appendix appended to these rules; \n (b)  “appointed date” means the date on which these rules shall come into force; \n (c)  \"Board\" means Gujarat Panchayat Service Selection Board; \n (d)  \"Examination\" means the higher level departmental examination or as the case may be lower level department \nexamination prescribed under these rules; \n (e)  “Government” means the Government of Gujarat; \n (f) “Higher level departmental examination” means an examination specified in Part-II of Appendix C; \nI-A Ex.-37 \n37-1",
+      "pages": [
+        1
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 1
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c006",
+      "gr_id": "GAD-0000-749d82",
+      "text": "37-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \n (g)  “Lower level departmental examination” means an examination specified in Part-I of Appendix C; \n (h)  \"Specified Chances\" means the number of chances specified in these rules within which a person is required \nto pass the examination.",
+      "text_clean": "37-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \n (g)  “Lower level departmental examination” means an examination specified in Part-I of Appendix C; \n (h)  \"Specified Chances\" means the number of chances specified in these rules within which a person is required \nto pass the examination.",
       "pages": [
         2
       ],
@@ -287,8 +309,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 2
         }
       ],
@@ -298,10 +320,340 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-749d82_p3_c006",
+      "chunk_id": "GAD-0000-749d82_p2_c007",
       "gr_id": "GAD-0000-749d82",
-      "text": "CENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-3 \n(6)  If any person fails to appear in the examination after having enlisted his name as a candidate without giving \nintimation referred in sub-rule (5), he shall be deemed to have lost one chance to pass the examination: \nProvided that the concerned District Development Officer may condone the failure on the part of the \nperson to give intimation referred to in sub-rule (5) and the consequences arising therefrom, if it is satisfied \nthat the person has failed to give intimation within time for reasons beyond his control. \n (7)  The Board shall admit the candidate to the examination on the strength of the certificate issued by the \nconcerned District Development Officer that he is eligible to appear in the examination. \n (8)  The place, date and time for holding the examination shall be communicated by the Board directly to the \nDistrict Development Officer and the same shall be communicated to the candidates by the District \nDevelopment Officer. \n9.  \nStandard for passing the examination- \n(1)  The standard for passing the examination shall be fifty percent (50%) of the total marks assigned to each \npaper. \n(2)  An unsuccessful candidate who secures sixty percent (60%) or more marks in any one or more papers shall \nbe exempted from appearing in those papers in the subsequent examination. \n10.  \nResult of the examination.- \nThe Board shall publish the result of the examination in the official Gazette and its website and also \ncommunicate the same to Secretary to the Government of Gujarat, the Panchayats, Rural Housing and Rural \nDevelopment Department and the concerned District Development Officer. The District Development Officer \nshall intimate the results to the candidates.  \n11. \n Incentives- \nThe candidate who secures eighty percent (80%) or more aggregate marks in the examination in first chance \nshall be paid such cash amount as an incentive as determined by the Government from time to time. \n12. \n Prohibition to use certain devices in the examination hall- \nNo candidate shall be allowed to carry with him any electronic communication devices like cellular phone, \ncalculator, pager, i-pad etc. in the examination hall. \n \nAppendix A \n(see rule 3 (1)) \nSr. \nPost \nPart - I \nPromotion Post \nPart -II \n1. \nFemale Health Worker, Class III \nFemale Health Supervisor , Class III \n2. \nMulti-Purpose Health Worker(Male),Class III \nMulti-Purpose Health Supervisor ,Class III \n3. \nJunior Clerk (Administrative), Class III \nSenior Clerk (Administrative), Class III \n4. \nJunior Clerk (Accounts ), Class III  \nSenior Clerk (Accounts), Class III \n \n \nAppendix B \n(see rule 3 (2)) \nSr. \nPost \nPart -I \nPromotion Post \nPart - II \n1. \nStatistical Assistant, Class III \nResearch Assistant, Class III \n2. \nSocial Welfare Inspector (Junior Grade), Class \nIII \nSocial Welfare Inspector (Senior Grade), Class III \n3. \nSenior Clerk (Accounts), Class III \nDeputy Accountant, Class III",
-      "text_clean": "CENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-3 \n(6)  If any person fails to appear in the examination after having enlisted his name as a candidate without giving \nintimation referred in sub-rule (5), he shall be deemed to have lost one chance to pass the examination: \nProvided that the concerned District Development Officer may condone the failure on the part of the \nperson to give intimation referred to in sub-rule (5) and the consequences arising therefrom, if it is satisfied \nthat the person has failed to give intimation within time for reasons beyond his control. \n (7)  The Board shall admit the candidate to the examination on the strength of the certificate issued by the \nconcerned District Development Officer that he is eligible to appear in the examination. \n (8)  The place, date and time for holding the examination shall be communicated by the Board directly to the \nDistrict Development Officer and the same shall be communicated to the candidates by the District \nDevelopment Officer. \n9.  \nStandard for passing the examination- \n(1)  The standard for passing the examination shall be fifty percent (50%) of the total marks assigned to each \npaper. \n(2)  An unsuccessful candidate who secures sixty percent (60%) or more marks in any one or more papers shall \nbe exempted from appearing in those papers in the subsequent examination. \n10.  \nResult of the examination.- \nThe Board shall publish the result of the examination in the official Gazette and its website and also \ncommunicate the same to Secretary to the Government of Gujarat, the Panchayats, Rural Housing and Rural \nDevelopment Department and the concerned District Development Officer. The District Development Officer \nshall intimate the results to the candidates.  \n11. \n Incentives- \nThe candidate who secures eighty percent (80%) or more aggregate marks in the examination in first chance \nshall be paid such cash amount as an incentive as determined by the Government from time to time. \n12. \n Prohibition to use certain devices in the examination hall- \nNo candidate shall be allowed to carry with him any electronic communication devices like cellular phone, \ncalculator, pager, i-pad etc. in the examination hall. \n \nAppendix A \n(see rule 3 (1)) \nSr. \nPost \nPart - I \nPromotion Post \nPart -II \n1. \nFemale Health Worker, Class III \nFemale Health Supervisor , Class III \n2. \nMulti-Purpose Health Worker(Male),Class III \nMulti-Purpose Health Supervisor ,Class III \n3. \nJunior Clerk (Administrative), Class III \nSenior Clerk (Administrative), Class III \n4. \nJunior Clerk (Accounts ), Class III  \nSenior Clerk (Accounts), Class III \n \n \nAppendix B \n(see rule 3 (2)) \nSr. \nPost \nPart -I \nPromotion Post \nPart - II \n1. \nStatistical Assistant, Class III \nResearch Assistant, Class III \n2. \nSocial Welfare Inspector (Junior Grade), Class \nIII \nSocial Welfare Inspector (Senior Grade), Class III \n3. \nSenior Clerk (Accounts), Class III \nDeputy Accountant, Class III",
+      "text": "3.  \nRequirement to pass the examination\n(1) The person appointed to the post specified in Part-I of Appendix A shall be required to pass the Lower Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix A",
+      "text_clean": "3.  \nRequirement to pass the examination\n(1) The person appointed to the post specified in Part-I of Appendix A shall be required to pass the Lower Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix A",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c008",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(2) The person appointed to the post specified in Part-I of Appendix B shall be required to pass the Higher Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix B.",
+      "text_clean": "(2) The person appointed to the post specified in Part-I of Appendix B shall be required to pass the Higher Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix B.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c009",
+      "gr_id": "GAD-0000-749d82",
+      "text": "4. \nEligibility to appear in the examination-\n(1) No person shall be eligible to appear in the examination unless he has completed two years’ of continuous \nservice after   his appointment on the post of Part-I of Appendix A and Appendix B.",
+      "text_clean": "4. \nEligibility to appear in the examination-\n(1) No person shall be eligible to appear in the examination unless he has completed two years’ of continuous \nservice after   his appointment on the post of Part-I of Appendix A and Appendix B.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c010",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(2) No person shall be eligible to appear in the examination unless he has passed the post- training examination \nto existing post or he has been exempted from passing post-training examination by the Competent authority, \nif any.",
+      "text_clean": "(2) No person shall be eligible to appear in the examination unless he has passed the post- training examination \nto existing post or he has been exempted from passing post-training examination by the Competent authority, \nif any.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c011",
+      "gr_id": "GAD-0000-749d82",
+      "text": "5. \nSpecified chances for passing the examination-\n(1)  To be eligible for promotion to the post specified in Part-II of Appendix A and B, a person shall be required \nto pass examination within three chances from the date of his completing two years' of continuous service \nafter his appointment on the post specified in Part-I of Appendix A and B: \nProvided that a person belonging to the Scheduled Casts or Scheduled Tribes may be given one   \nadditional chance which shall have to be availed of within a period of one year from the date of declaration \nof the result of the examination of his third chance.",
+      "text_clean": "5. \nSpecified chances for passing the examination-\n(1)  To be eligible for promotion to the post specified in Part-II of Appendix A and B, a person shall be required \nto pass examination within three chances from the date of his completing two years' of continuous service \nafter his appointment on the post specified in Part-I of Appendix A and B: \nProvided that a person belonging to the Scheduled Casts or Scheduled Tribes may be given one   \nadditional chance which shall have to be availed of within a period of one year from the date of declaration \nof the result of the examination of his third chance.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c012",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(2)  If a person fails to pass the examination referred to in these rules within the specified chances, he shall, \nnotwithstanding such failure, be eligible to appear at any time in the examination on payment of an \nexamination fee as may be determined by the Government from time to time and if he passes the said \nexamination, he shall be eligible for promotion: \nProvided that a person shall not be entitled to claim seniority over those persons who have passed the \nexamination earlier than him and also have been promoted to the post specified in Part-II of Appendix A and \nB under these rules before he became eligible for such promotion on passing the examination.",
+      "text_clean": "(2)  If a person fails to pass the examination referred to in these rules within the specified chances, he shall, \nnotwithstanding such failure, be eligible to appear at any time in the examination on payment of an \nexamination fee as may be determined by the Government from time to time and if he passes the said \nexamination, he shall be eligible for promotion: \nProvided that a person shall not be entitled to claim seniority over those persons who have passed the \nexamination earlier than him and also have been promoted to the post specified in Part-II of Appendix A and \nB under these rules before he became eligible for such promotion on passing the examination.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c013",
+      "gr_id": "GAD-0000-749d82",
+      "text": "6. \nSyllabus and scheme of examination-\n(1)  The syllabus for Lower level departmental examination shall be such as specified in Part-1 of   Appendix C.",
+      "text_clean": "6. \nSyllabus and scheme of examination-\n(1)  The syllabus for Lower level departmental examination shall be such as specified in Part-1 of   Appendix C.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c014",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(2)  The syllabus for Higher level departmental examination shall be such as specified in Part-II of   Appendix C.",
+      "text_clean": "(2)  The syllabus for Higher level departmental examination shall be such as specified in Part-II of   Appendix C.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c015",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(3)  Lower level and higher level departmental examination shall consist of four papers each of 100 (one hundred) \nmarks. The examination shall consist of multiple choice questions except paper I which shall be descriptive.",
+      "text_clean": "(3)  Lower level and higher level departmental examination shall consist of four papers each of 100 (one hundred) \nmarks. The examination shall consist of multiple choice questions except paper I which shall be descriptive.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c016",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(4) The candidate shall be allowed to answer the entire subjects of papers II to IV with the help of books. \nWhereas, paper 1 shall be answered without books. \nExplanation: \"With Books\" means original book of the subjects approved by the Government or the Board which \nincludes bare Acts and/or rules without any commentaries or case laws and includes manuals issued under the Act \npublished or approved by the Government.",
+      "text_clean": "(4) The candidate shall be allowed to answer the entire subjects of papers II to IV with the help of books. \nWhereas, paper 1 shall be answered without books. \nExplanation: \"With Books\" means original book of the subjects approved by the Government or the Board which \nincludes bare Acts and/or rules without any commentaries or case laws and includes manuals issued under the Act \npublished or approved by the Government.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c017",
+      "gr_id": "GAD-0000-749d82",
+      "text": "7.  \nMedium of examination - The medium of examination shall be Gujarati or English as per instructions given in \nthe question paper.",
+      "text_clean": "7.  \nMedium of examination - The medium of examination shall be Gujarati or English as per instructions given in \nthe question paper.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c018",
+      "gr_id": "GAD-0000-749d82",
+      "text": "8. \nHolding of examination -\n(1) The Board shall hold the examination once in a year.\n(2)  The Board shall communicate the tentative programme of the examination to all the District Development \nOfficers at least ninety days prior to the date of examination.",
+      "text_clean": "8. \nHolding of examination -\n(1) The Board shall hold the examination once in a year.\n(2)  The Board shall communicate the tentative programme of the examination to all the District Development \nOfficers at least ninety days prior to the date of examination.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c019",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(3)  A person who desires to appear in the examination shall be required to send his application in the form as \nspecified in Appendix-D to the Board through the concerned District Development Officer in which district \nthe person is serving for enlisting his name as a candidate for such examination at least sixty days prior to \nthe date of examination;",
+      "text_clean": "(3)  A person who desires to appear in the examination shall be required to send his application in the form as \nspecified in Appendix-D to the Board through the concerned District Development Officer in which district \nthe person is serving for enlisting his name as a candidate for such examination at least sixty days prior to \nthe date of examination;",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c020",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(4) The District Development Officer in which district the person is serving shall scrutinize his application with \nregard to his eligibility for appearing in the examination and forward the same to the Board with the certificate \nof eligibility as specified in Appendix D to appear at the examination.",
+      "text_clean": "(4) The District Development Officer in which district the person is serving shall scrutinize his application with \nregard to his eligibility for appearing in the examination and forward the same to the Board with the certificate \nof eligibility as specified in Appendix D to appear at the examination.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p2_c021",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(5) If the applicant subsequently decides not to appear at the examination, he shall give intimation thereof to the \nBoard though concerned District Development Officer at least thirty days before the date of commencement of the \nexamination.",
+      "text_clean": "(5) If the applicant subsequently decides not to appear at the examination, he shall give intimation thereof to the \nBoard though concerned District Development Officer at least thirty days before the date of commencement of the \nexamination.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c022",
+      "gr_id": "GAD-0000-749d82",
+      "text": "CENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-3\n(6)  If any person fails to appear in the examination after having enlisted his name as a candidate without giving \nintimation referred in sub-rule (5), he shall be deemed to have lost one chance to pass the examination: \nProvided that the concerned District Development Officer may condone the failure on the part of the \nperson to give intimation referred to in sub-rule (5) and the consequences arising therefrom, if it is satisfied \nthat the person has failed to give intimation within time for reasons beyond his control.",
+      "text_clean": "CENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-3\n(6)  If any person fails to appear in the examination after having enlisted his name as a candidate without giving \nintimation referred in sub-rule (5), he shall be deemed to have lost one chance to pass the examination: \nProvided that the concerned District Development Officer may condone the failure on the part of the \nperson to give intimation referred to in sub-rule (5) and the consequences arising therefrom, if it is satisfied \nthat the person has failed to give intimation within time for reasons beyond his control.",
       "pages": [
         3
       ],
@@ -309,8 +661,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 3
         }
       ],
@@ -320,10 +672,230 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-749d82_p4_c007",
+      "chunk_id": "GAD-0000-749d82_p3_c023",
       "gr_id": "GAD-0000-749d82",
-      "text": "37-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAppendix C \n(see rule 6 (1)(2)) \nPart-I (Lower level Departmental Examination) \nPaper-I Gujarati- English Language Marks:100, Duration: 2 hours, without Books, Descriptive. \n(1) \nTranslation from English to Gujarati and from Gujarati to English. \n(2) \nNoting writing. \n(3) \nReport writing. \n(4) \nSummary of Gujarati Paragraph. \n(5) \nGujarati and English Grammar. \nPaper-II Office Procedure: Marks: 100, Duration:2 hours, With Books, MCQs. \n (1)  \nThe Gujarat Panchayat Services Classification and Recruitment (General), Rules, 1998. \n (2)  \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997. \n (3) \nThe Panchayat Services (Conduct) Rules, 1998. \n (4)  \nThe Gujarat Panchayats Act, 1993. \n (5)  \nManual of Office procedure for Non-Secretariat Offices. \nPaper-III Financial matters: Marks:100, Duration: 2 hours, With Books, MCQs. \n(1) \nGujarat Budget manual (Both volumes except Chapter VII of Volume I and Appendix-D). \n(2) \nThe Bombay Contingent Expenditure Rules, 1959, whole book except chapter XII, XXI, XXV (ii, v, vii, viii, \nix, xi, xii, xiii), XXVI (ii, iii, iv), XXVIII, XXIX, XXXI, XXXII, and XXXIII. \n(3) \nThe Gujarat Civil Services Rules, 2002 (volume 1 to 8).  \n(4) \nThe Gujarat Financial Rules, 1971 (whole book except rules 46,47,56,62,63,64,76,82,83,84,85, 97,141, 158 to \n182 and all appendices except 4,13,14,15,21 and 24). \n(5)  \nDelegation of Financial Power Rules, 1998. \nPaper-IV Constitution of India and Service Matters: Marks:100, Duration:2 hours, with Books, MCQs. \n(1)  \nConstitution of India. \n(2) \nCurrent year booklet of development report published by the General Administration Department. \n(3) \nPanchayati Raj: \n \n(a) Background and History of Panchayati Raj; and \n \n(b) Panchayati Raj in Gujarat. \n(4)  \nThe Gujarat State Disaster Management Act,2003; and The Gujarat State Disaster Management Policy, 2002. \n(5)  \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \nPart-II (Higher level Departmental Examination) \nPaper- I Gujarati- English Language Marks:100, Duration: 3 hours, without Books, Descriptive. \n(1) \nNoting and Drafting (English and Gujarati). \n(2)  \nEssay in English and Gujarati. \n(3)  \nHigh Court matters- preparation parawise remarks and drafting of speaking orders. \n(4)  \nGovernment Correspondence-Different types of letters and difference between them.  \n(5) \nLetter writing (Government, semi Government, circular, Government Resolution, Order, notification) \n(6)  \nAdministrative Vocabulary- Gujarati and English",
-      "text_clean": "37-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAppendix C \n(see rule 6 (1)(2)) \nPart-I (Lower level Departmental Examination) \nPaper-I Gujarati- English Language Marks:100, Duration: 2 hours, without Books, Descriptive. \n(1) \nTranslation from English to Gujarati and from Gujarati to English. \n(2) \nNoting writing. \n(3) \nReport writing. \n(4) \nSummary of Gujarati Paragraph. \n(5) \nGujarati and English Grammar. \nPaper-II Office Procedure: Marks: 100, Duration:2 hours, With Books, MCQs. \n (1)  \nThe Gujarat Panchayat Services Classification and Recruitment (General), Rules, 1998. \n (2)  \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997. \n (3) \nThe Panchayat Services (Conduct) Rules, 1998. \n (4)  \nThe Gujarat Panchayats Act, 1993. \n (5)  \nManual of Office procedure for Non-Secretariat Offices. \nPaper-III Financial matters: Marks:100, Duration: 2 hours, With Books, MCQs. \n(1) \nGujarat Budget manual (Both volumes except Chapter VII of Volume I and Appendix-D). \n(2) \nThe Bombay Contingent Expenditure Rules, 1959, whole book except chapter XII, XXI, XXV (ii, v, vii, viii, \nix, xi, xii, xiii), XXVI (ii, iii, iv), XXVIII, XXIX, XXXI, XXXII, and XXXIII. \n(3) \nThe Gujarat Civil Services Rules, 2002 (volume 1 to 8).  \n(4) \nThe Gujarat Financial Rules, 1971 (whole book except rules 46,47,56,62,63,64,76,82,83,84,85, 97,141, 158 to \n182 and all appendices except 4,13,14,15,21 and 24). \n(5)  \nDelegation of Financial Power Rules, 1998. \nPaper-IV Constitution of India and Service Matters: Marks:100, Duration:2 hours, with Books, MCQs. \n(1)  \nConstitution of India. \n(2) \nCurrent year booklet of development report published by the General Administration Department. \n(3) \nPanchayati Raj: \n \n(a) Background and History of Panchayati Raj; and \n \n(b) Panchayati Raj in Gujarat. \n(4)  \nThe Gujarat State Disaster Management Act,2003; and The Gujarat State Disaster Management Policy, 2002. \n(5)  \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \nPart-II (Higher level Departmental Examination) \nPaper- I Gujarati- English Language Marks:100, Duration: 3 hours, without Books, Descriptive. \n(1) \nNoting and Drafting (English and Gujarati). \n(2)  \nEssay in English and Gujarati. \n(3)  \nHigh Court matters- preparation parawise remarks and drafting of speaking orders. \n(4)  \nGovernment Correspondence-Different types of letters and difference between them.  \n(5) \nLetter writing (Government, semi Government, circular, Government Resolution, Order, notification) \n(6)  \nAdministrative Vocabulary- Gujarati and English",
+      "text": "(7)  The Board shall admit the candidate to the examination on the strength of the certificate issued by the \nconcerned District Development Officer that he is eligible to appear in the examination.",
+      "text_clean": "(7)  The Board shall admit the candidate to the examination on the strength of the certificate issued by the \nconcerned District Development Officer that he is eligible to appear in the examination.",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c024",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(8)  The place, date and time for holding the examination shall be communicated by the Board directly to the \nDistrict Development Officer and the same shall be communicated to the candidates by the District \nDevelopment Officer.",
+      "text_clean": "(8)  The place, date and time for holding the examination shall be communicated by the Board directly to the \nDistrict Development Officer and the same shall be communicated to the candidates by the District \nDevelopment Officer.",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c025",
+      "gr_id": "GAD-0000-749d82",
+      "text": "9.  \nStandard for passing the examination-\n(1)  The standard for passing the examination shall be fifty percent (50%) of the total marks assigned to each \npaper.",
+      "text_clean": "9.  \nStandard for passing the examination-\n(1)  The standard for passing the examination shall be fifty percent (50%) of the total marks assigned to each \npaper.",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c026",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(2)  An unsuccessful candidate who secures sixty percent (60%) or more marks in any one or more papers shall \nbe exempted from appearing in those papers in the subsequent examination.",
+      "text_clean": "(2)  An unsuccessful candidate who secures sixty percent (60%) or more marks in any one or more papers shall \nbe exempted from appearing in those papers in the subsequent examination.",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c027",
+      "gr_id": "GAD-0000-749d82",
+      "text": "10.  \nResult of the examination.- \nThe Board shall publish the result of the examination in the official Gazette and its website and also \ncommunicate the same to Secretary to the Government of Gujarat, the Panchayats, Rural Housing and Rural \nDevelopment Department and the concerned District Development Officer. The District Development Officer \nshall intimate the results to the candidates.",
+      "text_clean": "10.  \nResult of the examination.- \nThe Board shall publish the result of the examination in the official Gazette and its website and also \ncommunicate the same to Secretary to the Government of Gujarat, the Panchayats, Rural Housing and Rural \nDevelopment Department and the concerned District Development Officer. The District Development Officer \nshall intimate the results to the candidates.",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c028",
+      "gr_id": "GAD-0000-749d82",
+      "text": "11. \n Incentives- \nThe candidate who secures eighty percent (80%) or more aggregate marks in the examination in first chance \nshall be paid such cash amount as an incentive as determined by the Government from time to time.",
+      "text_clean": "11. \n Incentives- \nThe candidate who secures eighty percent (80%) or more aggregate marks in the examination in first chance \nshall be paid such cash amount as an incentive as determined by the Government from time to time.",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c029",
+      "gr_id": "GAD-0000-749d82",
+      "text": "12. \n Prohibition to use certain devices in the examination hall- \nNo candidate shall be allowed to carry with him any electronic communication devices like cellular phone, \ncalculator, pager, i-pad etc. in the examination hall. \n \nAppendix A \n(see rule 3 (1)) \nSr. \nPost \nPart - I \nPromotion Post \nPart -II",
+      "text_clean": "12. \n Prohibition to use certain devices in the examination hall- \nNo candidate shall be allowed to carry with him any electronic communication devices like cellular phone, \ncalculator, pager, i-pad etc. in the examination hall. \n \nAppendix A \n(see rule 3 (1)) \nSr. \nPost \nPart - I \nPromotion Post \nPart -II",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c030",
+      "gr_id": "GAD-0000-749d82",
+      "text": "1. \nFemale Health Worker, Class III \nFemale Health Supervisor , Class III\n2. \nMulti-Purpose Health Worker(Male),Class III \nMulti-Purpose Health Supervisor ,Class III",
+      "text_clean": "1. \nFemale Health Worker, Class III \nFemale Health Supervisor , Class III\n2. \nMulti-Purpose Health Worker(Male),Class III \nMulti-Purpose Health Supervisor ,Class III",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c031",
+      "gr_id": "GAD-0000-749d82",
+      "text": "3. \nJunior Clerk (Administrative), Class III \nSenior Clerk (Administrative), Class III\n4. \nJunior Clerk (Accounts ), Class III  \nSenior Clerk (Accounts), Class III \n \n \nAppendix B \n(see rule 3 (2)) \nSr. \nPost \nPart -I \nPromotion Post \nPart - II",
+      "text_clean": "3. \nJunior Clerk (Administrative), Class III \nSenior Clerk (Administrative), Class III\n4. \nJunior Clerk (Accounts ), Class III  \nSenior Clerk (Accounts), Class III \n \n \nAppendix B \n(see rule 3 (2)) \nSr. \nPost \nPart -I \nPromotion Post \nPart - II",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p3_c032",
+      "gr_id": "GAD-0000-749d82",
+      "text": "1. \nStatistical Assistant, Class III \nResearch Assistant, Class III\n2. \nSocial Welfare Inspector (Junior Grade), Class \nIII \nSocial Welfare Inspector (Senior Grade), Class III\n3. \nSenior Clerk (Accounts), Class III \nDeputy Accountant, Class III",
+      "text_clean": "1. \nStatistical Assistant, Class III \nResearch Assistant, Class III\n2. \nSocial Welfare Inspector (Junior Grade), Class \nIII \nSocial Welfare Inspector (Senior Grade), Class III\n3. \nSenior Clerk (Accounts), Class III \nDeputy Accountant, Class III",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c033",
+      "gr_id": "GAD-0000-749d82",
+      "text": "37-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAppendix C \n(see rule 6 (1)(2)) \nPart-I (Lower level Departmental Examination) \nPaper-I Gujarati- English Language Marks:100, Duration: 2 hours, without Books, Descriptive.",
+      "text_clean": "37-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAppendix C \n(see rule 6 (1)(2)) \nPart-I (Lower level Departmental Examination) \nPaper-I Gujarati- English Language Marks:100, Duration: 2 hours, without Books, Descriptive.",
       "pages": [
         4
       ],
@@ -331,8 +903,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 4
         }
       ],
@@ -342,10 +914,318 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-749d82_p5_c008",
+      "chunk_id": "GAD-0000-749d82_p4_c034",
       "gr_id": "GAD-0000-749d82",
-      "text": "CENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-5 \nPaper-II Office Procedure: Marks:100, Duration:3 hours, with Books, MCQs. \n(1) \nThe Gujarat Panchayat Services Classification and Recruitment(General) Rules, 1998. \n(2) \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997. \n(3) \nThe Panchayat Services (Conduct) Rules, 1998. \n(4) \nPerformance Appraisal Report and Guidelines. \n(5)  \nThe Gujarat Civil Services (Conduct) Rules, 1971 and The Gujarat Civil Services Rules (Discipline and \nAppeal) Rules, 1971. \n(6)  \nThe Prevention of Corruption Act, 1988. \n(7)  \nThe Gujarat (Right of Citizens to Public Services) Act, 2013 (RCPS Act) and The Gujarat (Right of Citizens \nto Public Service) Rules, 2014. \n(8)  \nThe Right to Information Act, 2005 and Gujarat Right to Information Rules, 2010. \nPaper-III Financial matters: Marks: 100, Duration: 3 hours, with Books, MCQs. \n(1) \nThe Gujarat Civil Services Rules, (GCSR), 2002 (volume 1 to 8). \n(2) \nGujarat Budget manual (Part-I and II). \n(3) \nThe Gujarat Financial Rules, 1971. \n(4) \nDelegation of Financial Powers Rules, 1998. \n(5)  \nPurchase Policy of the Government of Gujarat. \n(6)  \nThe Gujarat Treasury Rules, 2000. \n(7) \nExisting higher pay scale scheme. \nPaper-IV Constitution of India and Other Laws/Schemes: Marks: 100, Duration:3 hours, with Books, MCQs.  \n(1)  \nConstitution of India with reference to;  \n(a)   Article 309; \n(b)   Provision of Panchayats and Municipalities with focus on Amendment 73 and 74; \n(c)   Election Commission; \n(d)   Finance Commission; \n(e)   Concurrent list and State list; and \n(f)   Supreme Court and High Courts. \n(2)  \nCurrent year booklet of development report published by the General Administration Department. \n(3)    Rural Development and Panchayat.  \n(a)  E-Gram Vishav Gram project, \n(b)  Schemes of Panchayat. \n(4)   \nThe Gujarat State Disaster Management Act, 2003 and The Gujarat State Disaster Management Policy, 2002. \n(5) \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \n(6)  \nThe Gujarat Co-operative Societies Act, 1961. \n(7)  \nOrganization and structure of machinery of Government.",
-      "text_clean": "CENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-5 \nPaper-II Office Procedure: Marks:100, Duration:3 hours, with Books, MCQs. \n(1) \nThe Gujarat Panchayat Services Classification and Recruitment(General) Rules, 1998. \n(2) \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997. \n(3) \nThe Panchayat Services (Conduct) Rules, 1998. \n(4) \nPerformance Appraisal Report and Guidelines. \n(5)  \nThe Gujarat Civil Services (Conduct) Rules, 1971 and The Gujarat Civil Services Rules (Discipline and \nAppeal) Rules, 1971. \n(6)  \nThe Prevention of Corruption Act, 1988. \n(7)  \nThe Gujarat (Right of Citizens to Public Services) Act, 2013 (RCPS Act) and The Gujarat (Right of Citizens \nto Public Service) Rules, 2014. \n(8)  \nThe Right to Information Act, 2005 and Gujarat Right to Information Rules, 2010. \nPaper-III Financial matters: Marks: 100, Duration: 3 hours, with Books, MCQs. \n(1) \nThe Gujarat Civil Services Rules, (GCSR), 2002 (volume 1 to 8). \n(2) \nGujarat Budget manual (Part-I and II). \n(3) \nThe Gujarat Financial Rules, 1971. \n(4) \nDelegation of Financial Powers Rules, 1998. \n(5)  \nPurchase Policy of the Government of Gujarat. \n(6)  \nThe Gujarat Treasury Rules, 2000. \n(7) \nExisting higher pay scale scheme. \nPaper-IV Constitution of India and Other Laws/Schemes: Marks: 100, Duration:3 hours, with Books, MCQs.  \n(1)  \nConstitution of India with reference to;  \n(a)   Article 309; \n(b)   Provision of Panchayats and Municipalities with focus on Amendment 73 and 74; \n(c)   Election Commission; \n(d)   Finance Commission; \n(e)   Concurrent list and State list; and \n(f)   Supreme Court and High Courts. \n(2)  \nCurrent year booklet of development report published by the General Administration Department. \n(3)    Rural Development and Panchayat.  \n(a)  E-Gram Vishav Gram project, \n(b)  Schemes of Panchayat. \n(4)   \nThe Gujarat State Disaster Management Act, 2003 and The Gujarat State Disaster Management Policy, 2002. \n(5) \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \n(6)  \nThe Gujarat Co-operative Societies Act, 1961. \n(7)  \nOrganization and structure of machinery of Government.",
+      "text": "(1) \nTranslation from English to Gujarati and from Gujarati to English.\n(2) \nNoting writing.",
+      "text_clean": "(1) \nTranslation from English to Gujarati and from Gujarati to English.\n(2) \nNoting writing.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c035",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(3) \nReport writing.\n(4) \nSummary of Gujarati Paragraph.\n(5) \nGujarati and English Grammar. \nPaper-II Office Procedure: Marks: 100, Duration:2 hours, With Books, MCQs.",
+      "text_clean": "(3) \nReport writing.\n(4) \nSummary of Gujarati Paragraph.\n(5) \nGujarati and English Grammar. \nPaper-II Office Procedure: Marks: 100, Duration:2 hours, With Books, MCQs.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c036",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(1)  \nThe Gujarat Panchayat Services Classification and Recruitment (General), Rules, 1998.",
+      "text_clean": "(1)  \nThe Gujarat Panchayat Services Classification and Recruitment (General), Rules, 1998.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c037",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(2)  \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997.\n(3) \nThe Panchayat Services (Conduct) Rules, 1998.",
+      "text_clean": "(2)  \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997.\n(3) \nThe Panchayat Services (Conduct) Rules, 1998.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c038",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(4)  \nThe Gujarat Panchayats Act, 1993.\n(5)  \nManual of Office procedure for Non-Secretariat Offices. \nPaper-III Financial matters: Marks:100, Duration: 2 hours, With Books, MCQs.",
+      "text_clean": "(4)  \nThe Gujarat Panchayats Act, 1993.\n(5)  \nManual of Office procedure for Non-Secretariat Offices. \nPaper-III Financial matters: Marks:100, Duration: 2 hours, With Books, MCQs.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c039",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(1) \nGujarat Budget manual (Both volumes except Chapter VII of Volume I and Appendix-D).\n(2) \nThe Bombay Contingent Expenditure Rules, 1959, whole book except chapter XII, XXI, XXV (ii, v, vii, viii, \nix, xi, xii, xiii), XXVI (ii, iii, iv), XXVIII, XXIX, XXXI, XXXII, and XXXIII.",
+      "text_clean": "(1) \nGujarat Budget manual (Both volumes except Chapter VII of Volume I and Appendix-D).\n(2) \nThe Bombay Contingent Expenditure Rules, 1959, whole book except chapter XII, XXI, XXV (ii, v, vii, viii, \nix, xi, xii, xiii), XXVI (ii, iii, iv), XXVIII, XXIX, XXXI, XXXII, and XXXIII.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c040",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(3) \nThe Gujarat Civil Services Rules, 2002 (volume 1 to 8).\n(4) \nThe Gujarat Financial Rules, 1971 (whole book except rules 46,47,56,62,63,64,76,82,83,84,85, 97,141, 158 to \n182 and all appendices except 4,13,14,15,21 and 24).",
+      "text_clean": "(3) \nThe Gujarat Civil Services Rules, 2002 (volume 1 to 8).\n(4) \nThe Gujarat Financial Rules, 1971 (whole book except rules 46,47,56,62,63,64,76,82,83,84,85, 97,141, 158 to \n182 and all appendices except 4,13,14,15,21 and 24).",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c041",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(5)  \nDelegation of Financial Power Rules, 1998. \nPaper-IV Constitution of India and Service Matters: Marks:100, Duration:2 hours, with Books, MCQs.",
+      "text_clean": "(5)  \nDelegation of Financial Power Rules, 1998. \nPaper-IV Constitution of India and Service Matters: Marks:100, Duration:2 hours, with Books, MCQs.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c042",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(1)  \nConstitution of India.\n(2) \nCurrent year booklet of development report published by the General Administration Department.",
+      "text_clean": "(1)  \nConstitution of India.\n(2) \nCurrent year booklet of development report published by the General Administration Department.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c043",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(3) \nPanchayati Raj: \n \n(a) Background and History of Panchayati Raj; and \n \n(b) Panchayati Raj in Gujarat.",
+      "text_clean": "(3) \nPanchayati Raj: \n \n(a) Background and History of Panchayati Raj; and \n \n(b) Panchayati Raj in Gujarat.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c044",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(4)  \nThe Gujarat State Disaster Management Act,2003; and The Gujarat State Disaster Management Policy, 2002.",
+      "text_clean": "(4)  \nThe Gujarat State Disaster Management Act,2003; and The Gujarat State Disaster Management Policy, 2002.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c045",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(5)  \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \nPart-II (Higher level Departmental Examination) \nPaper- I Gujarati- English Language Marks:100, Duration: 3 hours, without Books, Descriptive.",
+      "text_clean": "(5)  \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \nPart-II (Higher level Departmental Examination) \nPaper- I Gujarati- English Language Marks:100, Duration: 3 hours, without Books, Descriptive.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c046",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(1) \nNoting and Drafting (English and Gujarati).\n(2)  \nEssay in English and Gujarati.\n(3)  \nHigh Court matters- preparation parawise remarks and drafting of speaking orders.",
+      "text_clean": "(1) \nNoting and Drafting (English and Gujarati).\n(2)  \nEssay in English and Gujarati.\n(3)  \nHigh Court matters- preparation parawise remarks and drafting of speaking orders.",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p4_c047",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(4)  \nGovernment Correspondence-Different types of letters and difference between them.\n(5) \nLetter writing (Government, semi Government, circular, Government Resolution, Order, notification)\n(6)  \nAdministrative Vocabulary- Gujarati and English",
+      "text_clean": "(4)  \nGovernment Correspondence-Different types of letters and difference between them.\n(5) \nLetter writing (Government, semi Government, circular, Government Resolution, Order, notification)\n(6)  \nAdministrative Vocabulary- Gujarati and English",
+      "pages": [
+        4
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 4
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c048",
+      "gr_id": "GAD-0000-749d82",
+      "text": "CENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-5 \nPaper-II Office Procedure: Marks:100, Duration:3 hours, with Books, MCQs.",
+      "text_clean": "CENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-5 \nPaper-II Office Procedure: Marks:100, Duration:3 hours, with Books, MCQs.",
       "pages": [
         5
       ],
@@ -353,8 +1233,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 5
         }
       ],
@@ -364,10 +1244,318 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-749d82_p6_c009",
+      "chunk_id": "GAD-0000-749d82_p5_c049",
       "gr_id": "GAD-0000-749d82",
-      "text": "37-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAPPENDIX D \n(see Rule 8) \nForm of Application \nApplication for appearing at the Panchayat Service Departmental Examination for the promotion to the post of \n_______________________to be held by the Gujarat Panchayat Service Selection Board in_______  20 ____ . \n1. \nApplicant's name in full \n: \n \n(Surname first) in English and Gujarati. \n2. \nDesignation. \n: \n \n(In English and Gujarati), \n3.     (1)     Name of the District Panchayat to which he belongs. \n: \n(2)  Name of the Office where he is working at present. \n:                 \n4. \nBirth date and age at the time of the examination. \n: \n5. \nDate of appointment and total years of service. \n: \n6. \nWhether the applicant has appeared at the examination  \n: \npreviously ? If so. \n(a) Month and year of examination at which he appeared. \n: \n(b) Whether any exemption is earned ? \n: \nIf so details of marks month and year of examination  \nand subject should be given. \n(c) Whether he intends to avail of exemption earned \n: \n(yes or no) (The choice will be treated as final and \nno change will be allowed).  \n7. \nAuthority or the Rules under which the applicant has to  \n: \nappear for the examination. \n8. \nNumber of chances and time limit within which the  \n: \napplicant is required to pass the examination \n(date of eligibility and expiry of the period for \nappearing at the examination should be mentioned). \n9. \nNumber of chances exhausted. \n: \n10. Whether additional (Special) chances have been granted ? \n: \nNumber and date of order under which \nthe additional special chances have been granted to him \nshould be specified and a copy thereof should be attached. \n11. If necessary, whether fee is paid ?                            \n: \n \nIf yes, furnish the details of challan and date",
-      "text_clean": "37-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAPPENDIX D \n(see Rule 8) \nForm of Application \nApplication for appearing at the Panchayat Service Departmental Examination for the promotion to the post of \n_______________________to be held by the Gujarat Panchayat Service Selection Board in_______  20 ____ . \n1. \nApplicant's name in full \n: \n \n(Surname first) in English and Gujarati. \n2. \nDesignation. \n: \n \n(In English and Gujarati), \n3.     (1)     Name of the District Panchayat to which he belongs. \n: \n(2)  Name of the Office where he is working at present. \n:                 \n4. \nBirth date and age at the time of the examination. \n: \n5. \nDate of appointment and total years of service. \n: \n6. \nWhether the applicant has appeared at the examination  \n: \npreviously ? If so. \n(a) Month and year of examination at which he appeared. \n: \n(b) Whether any exemption is earned ? \n: \nIf so details of marks month and year of examination  \nand subject should be given. \n(c) Whether he intends to avail of exemption earned \n: \n(yes or no) (The choice will be treated as final and \nno change will be allowed).  \n7. \nAuthority or the Rules under which the applicant has to  \n: \nappear for the examination. \n8. \nNumber of chances and time limit within which the  \n: \napplicant is required to pass the examination \n(date of eligibility and expiry of the period for \nappearing at the examination should be mentioned). \n9. \nNumber of chances exhausted. \n: \n10. Whether additional (Special) chances have been granted ? \n: \nNumber and date of order under which \nthe additional special chances have been granted to him \nshould be specified and a copy thereof should be attached. \n11. If necessary, whether fee is paid ?                            \n: \n \nIf yes, furnish the details of challan and date",
+      "text": "(1) \nThe Gujarat Panchayat Services Classification and Recruitment(General) Rules, 1998.\n(2) \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997.",
+      "text_clean": "(1) \nThe Gujarat Panchayat Services Classification and Recruitment(General) Rules, 1998.\n(2) \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c050",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(3) \nThe Panchayat Services (Conduct) Rules, 1998.\n(4) \nPerformance Appraisal Report and Guidelines.",
+      "text_clean": "(3) \nThe Panchayat Services (Conduct) Rules, 1998.\n(4) \nPerformance Appraisal Report and Guidelines.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c051",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(5)  \nThe Gujarat Civil Services (Conduct) Rules, 1971 and The Gujarat Civil Services Rules (Discipline and \nAppeal) Rules, 1971.",
+      "text_clean": "(5)  \nThe Gujarat Civil Services (Conduct) Rules, 1971 and The Gujarat Civil Services Rules (Discipline and \nAppeal) Rules, 1971.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c052",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(6)  \nThe Prevention of Corruption Act, 1988.\n(7)  \nThe Gujarat (Right of Citizens to Public Services) Act, 2013 (RCPS Act) and The Gujarat (Right of Citizens \nto Public Service) Rules, 2014.",
+      "text_clean": "(6)  \nThe Prevention of Corruption Act, 1988.\n(7)  \nThe Gujarat (Right of Citizens to Public Services) Act, 2013 (RCPS Act) and The Gujarat (Right of Citizens \nto Public Service) Rules, 2014.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c053",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(8)  \nThe Right to Information Act, 2005 and Gujarat Right to Information Rules, 2010. \nPaper-III Financial matters: Marks: 100, Duration: 3 hours, with Books, MCQs.",
+      "text_clean": "(8)  \nThe Right to Information Act, 2005 and Gujarat Right to Information Rules, 2010. \nPaper-III Financial matters: Marks: 100, Duration: 3 hours, with Books, MCQs.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c054",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(1) \nThe Gujarat Civil Services Rules, (GCSR), 2002 (volume 1 to 8).\n(2) \nGujarat Budget manual (Part-I and II).",
+      "text_clean": "(1) \nThe Gujarat Civil Services Rules, (GCSR), 2002 (volume 1 to 8).\n(2) \nGujarat Budget manual (Part-I and II).",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c055",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(3) \nThe Gujarat Financial Rules, 1971.\n(4) \nDelegation of Financial Powers Rules, 1998.\n(5)  \nPurchase Policy of the Government of Gujarat.",
+      "text_clean": "(3) \nThe Gujarat Financial Rules, 1971.\n(4) \nDelegation of Financial Powers Rules, 1998.\n(5)  \nPurchase Policy of the Government of Gujarat.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c056",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(6)  \nThe Gujarat Treasury Rules, 2000.\n(7) \nExisting higher pay scale scheme. \nPaper-IV Constitution of India and Other Laws/Schemes: Marks: 100, Duration:3 hours, with Books, MCQs.",
+      "text_clean": "(6)  \nThe Gujarat Treasury Rules, 2000.\n(7) \nExisting higher pay scale scheme. \nPaper-IV Constitution of India and Other Laws/Schemes: Marks: 100, Duration:3 hours, with Books, MCQs.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c057",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(1)  \nConstitution of India with reference to;  \n(a)   Article 309; \n(b)   Provision of Panchayats and Municipalities with focus on Amendment 73 and 74; \n(c)   Election Commission; \n(d)   Finance Commission; \n(e)   Concurrent list and State list; and \n(f)   Supreme Court and High Courts.",
+      "text_clean": "(1)  \nConstitution of India with reference to;  \n(a)   Article 309; \n(b)   Provision of Panchayats and Municipalities with focus on Amendment 73 and 74; \n(c)   Election Commission; \n(d)   Finance Commission; \n(e)   Concurrent list and State list; and \n(f)   Supreme Court and High Courts.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c058",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(2)  \nCurrent year booklet of development report published by the General Administration Department.",
+      "text_clean": "(2)  \nCurrent year booklet of development report published by the General Administration Department.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c059",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(3)    Rural Development and Panchayat.  \n(a)  E-Gram Vishav Gram project, \n(b)  Schemes of Panchayat.",
+      "text_clean": "(3)    Rural Development and Panchayat.  \n(a)  E-Gram Vishav Gram project, \n(b)  Schemes of Panchayat.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c060",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(4)   \nThe Gujarat State Disaster Management Act, 2003 and The Gujarat State Disaster Management Policy, 2002.",
+      "text_clean": "(4)   \nThe Gujarat State Disaster Management Act, 2003 and The Gujarat State Disaster Management Policy, 2002.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c061",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(5) \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition).",
+      "text_clean": "(5) \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition).",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p5_c062",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(6)  \nThe Gujarat Co-operative Societies Act, 1961.\n(7)  \nOrganization and structure of machinery of Government.",
+      "text_clean": "(6)  \nThe Gujarat Co-operative Societies Act, 1961.\n(7)  \nOrganization and structure of machinery of Government.",
+      "pages": [
+        5
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 5
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p6_c063",
+      "gr_id": "GAD-0000-749d82",
+      "text": "37-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAPPENDIX D \n(see Rule 8) \nForm of Application \nApplication for appearing at the Panchayat Service Departmental Examination for the promotion to the post of \n_______________________to be held by the Gujarat Panchayat Service Selection Board in_______  20 ____ .",
+      "text_clean": "37-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAPPENDIX D \n(see Rule 8) \nForm of Application \nApplication for appearing at the Panchayat Service Departmental Examination for the promotion to the post of \n_______________________to be held by the Gujarat Panchayat Service Selection Board in_______  20 ____ .",
       "pages": [
         6
       ],
@@ -375,8 +1563,8 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 6
         }
       ],
@@ -386,10 +1574,186 @@
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-749d82_p7_c010",
+      "chunk_id": "GAD-0000-749d82_p6_c064",
       "gr_id": "GAD-0000-749d82",
-      "text": "Government Central Press, Gandhinagar.\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-7 \n12. Purpose of passing the examination: \n:  \n \n(e. g. confirmation retention in government service, promotion etc.) \n13. Whether the applicant is eligible to appear at the \n: \n         examination according to rules of the Departmental Examination. \n14.   Remarks, if any. \n \n \n \n \n:  \nPlace: \nDate:                                                                                                   \n \n \n(Signature of the Applicant) \nCertificate of Eligibility \nCertified that - \n(1) \nThe above particulars are verified and found correct. \n \nShri/Smt/Kumari............................. is eligible to appear at the Lower /⃰ Higher Level departmental examination for \n \npromotion  to the post of.......................................... to be held in ........................................20................... \n(2) \n*Necessary fee is paid; copy of challan is attached herewith \n(3) \n*Candidate is granted additional chance, a copy of the order is attached. \nPlace  :                                                                       \nSignature    : \nDate    :                                                                       Name         : \nDistrict:  \n \n \n \n        \nDesignation : \n \n*Strike out whichever is not applicable. \nDistrict Development Officer. \n...............................................District. \nBy order and in the name of the Governor of Gujarat,          \n \n \n \n \n \n \n \nNARENDRA VAGHELA, \n \n \n \n \n \nDeputy Secretary to Government. \n---------- \nSigned by:Shri P. B. Kanwar\nDate: 2022.09.06 12:41:35 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
-      "text_clean": "Government Central Press, Gandhinagar.\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-7 \n12. Purpose of passing the examination: \n:  \n \n(e. g. confirmation retention in government service, promotion etc.) \n13. Whether the applicant is eligible to appear at the \n: \n         examination according to rules of the Departmental Examination. \n14.   Remarks, if any. \n \n \n \n \n:  \nPlace: \nDate:                                                                                                   \n \n \n(Signature of the Applicant) \nCertificate of Eligibility \nCertified that - \n(1) \nThe above particulars are verified and found correct. \n \nShri/Smt/Kumari............................. is eligible to appear at the Lower /⃰ Higher Level departmental examination for \n \npromotion  to the post of.......................................... to be held in ........................................20................... \n(2) \n*Necessary fee is paid; copy of challan is attached herewith \n(3) \n*Candidate is granted additional chance, a copy of the order is attached. \nPlace  :                                                                       \nSignature    : \nDate    :                                                                       Name         : \nDistrict:  \n \n \n \n        \nDesignation : \n \n*Strike out whichever is not applicable. \nDistrict Development Officer. \n...............................................District. \nBy order and in the name of the Governor of Gujarat,          \n \n \n \n \n \n \n \nNARENDRA VAGHELA, \n \n \n \n \n \nDeputy Secretary to Government. \n---------- \nSigned by:Shri P. B. Kanwar\nDate: 2022.09.06 12:41:35 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+      "text": "1. \nApplicant's name in full \n: \n \n(Surname first) in English and Gujarati.\n2. \nDesignation. \n: \n \n(In English and Gujarati),",
+      "text_clean": "1. \nApplicant's name in full \n: \n \n(Surname first) in English and Gujarati.\n2. \nDesignation. \n: \n \n(In English and Gujarati),",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p6_c065",
+      "gr_id": "GAD-0000-749d82",
+      "text": "3.     (1)     Name of the District Panchayat to which he belongs. \n:\n(2)  Name of the Office where he is working at present. \n:",
+      "text_clean": "3.     (1)     Name of the District Panchayat to which he belongs. \n:\n(2)  Name of the Office where he is working at present. \n:",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p6_c066",
+      "gr_id": "GAD-0000-749d82",
+      "text": "4. \nBirth date and age at the time of the examination. \n:\n5. \nDate of appointment and total years of service. \n:",
+      "text_clean": "4. \nBirth date and age at the time of the examination. \n:\n5. \nDate of appointment and total years of service. \n:",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p6_c067",
+      "gr_id": "GAD-0000-749d82",
+      "text": "6. \nWhether the applicant has appeared at the examination  \n: \npreviously ? If so. \n(a) Month and year of examination at which he appeared. \n: \n(b) Whether any exemption is earned ? \n: \nIf so details of marks month and year of examination  \nand subject should be given. \n(c) Whether he intends to avail of exemption earned \n: \n(yes or no) (The choice will be treated as final and \nno change will be allowed).",
+      "text_clean": "6. \nWhether the applicant has appeared at the examination  \n: \npreviously ? If so. \n(a) Month and year of examination at which he appeared. \n: \n(b) Whether any exemption is earned ? \n: \nIf so details of marks month and year of examination  \nand subject should be given. \n(c) Whether he intends to avail of exemption earned \n: \n(yes or no) (The choice will be treated as final and \nno change will be allowed).",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p6_c068",
+      "gr_id": "GAD-0000-749d82",
+      "text": "7. \nAuthority or the Rules under which the applicant has to  \n: \nappear for the examination.",
+      "text_clean": "7. \nAuthority or the Rules under which the applicant has to  \n: \nappear for the examination.",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p6_c069",
+      "gr_id": "GAD-0000-749d82",
+      "text": "8. \nNumber of chances and time limit within which the  \n: \napplicant is required to pass the examination \n(date of eligibility and expiry of the period for \nappearing at the examination should be mentioned).",
+      "text_clean": "8. \nNumber of chances and time limit within which the  \n: \napplicant is required to pass the examination \n(date of eligibility and expiry of the period for \nappearing at the examination should be mentioned).",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p6_c070",
+      "gr_id": "GAD-0000-749d82",
+      "text": "9. \nNumber of chances exhausted. \n:\n10. Whether additional (Special) chances have been granted ? \n: \nNumber and date of order under which \nthe additional special chances have been granted to him \nshould be specified and a copy thereof should be attached.",
+      "text_clean": "9. \nNumber of chances exhausted. \n:\n10. Whether additional (Special) chances have been granted ? \n: \nNumber and date of order under which \nthe additional special chances have been granted to him \nshould be specified and a copy thereof should be attached.",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p6_c071",
+      "gr_id": "GAD-0000-749d82",
+      "text": "11. If necessary, whether fee is paid ?                            \n: \n \nIf yes, furnish the details of challan and date",
+      "text_clean": "11. If necessary, whether fee is paid ?                            \n: \n \nIf yes, furnish the details of challan and date",
+      "pages": [
+        6
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 6
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p7_c072",
+      "gr_id": "GAD-0000-749d82",
+      "text": "Government Central Press, Gandhinagar.\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-7",
+      "text_clean": "Government Central Press, Gandhinagar.\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-7",
       "pages": [
         7
       ],
@@ -397,8 +1761,118 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 7
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p7_c073",
+      "gr_id": "GAD-0000-749d82",
+      "text": "12. Purpose of passing the examination: \n:  \n \n(e. g. confirmation retention in government service, promotion etc.)",
+      "text_clean": "12. Purpose of passing the examination: \n:  \n \n(e. g. confirmation retention in government service, promotion etc.)",
+      "pages": [
+        7
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 7
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p7_c074",
+      "gr_id": "GAD-0000-749d82",
+      "text": "13. Whether the applicant is eligible to appear at the \n: \n         examination according to rules of the Departmental Examination.",
+      "text_clean": "13. Whether the applicant is eligible to appear at the \n: \n         examination according to rules of the Departmental Examination.",
+      "pages": [
+        7
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 7
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p7_c075",
+      "gr_id": "GAD-0000-749d82",
+      "text": "14.   Remarks, if any. \n \n \n \n \n:  \nPlace: \nDate:                                                                                                   \n \n \n(Signature of the Applicant) \nCertificate of Eligibility \nCertified that -",
+      "text_clean": "14.   Remarks, if any. \n \n \n \n \n:  \nPlace: \nDate:                                                                                                   \n \n \n(Signature of the Applicant) \nCertificate of Eligibility \nCertified that -",
+      "pages": [
+        7
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 7
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p7_c076",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(1) \nThe above particulars are verified and found correct. \n \nShri/Smt/Kumari............................. is eligible to appear at the Lower /⃰ Higher Level departmental examination for \n \npromotion  to the post of.......................................... to be held in ........................................20...................",
+      "text_clean": "(1) \nThe above particulars are verified and found correct. \n \nShri/Smt/Kumari............................. is eligible to appear at the Lower /⃰ Higher Level departmental examination for \n \npromotion  to the post of.......................................... to be held in ........................................20...................",
+      "pages": [
+        7
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
+          "page": 7
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": null,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-749d82_p7_c077",
+      "gr_id": "GAD-0000-749d82",
+      "text": "(2) \n*Necessary fee is paid; copy of challan is attached herewith\n(3) \n*Candidate is granted additional chance, a copy of the order is attached. \nPlace  :                                                                       \nSignature    : \nDate    :                                                                       Name         : \nDistrict:  \n \n \n \n        \nDesignation : \n \n*Strike out whichever is not applicable. \nDistrict Development Officer. \n...............................................District. \nBy order and in the name of the Governor of Gujarat,          \n \n \n \n \n \n \n \nNARENDRA VAGHELA, \n \n \n \n \n \nDeputy Secretary to Government. \n---------- \nSigned by:Shri P. B. Kanwar\nDate: 2022.09.06 12:41:35 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+      "text_clean": "(2) \n*Necessary fee is paid; copy of challan is attached herewith\n(3) \n*Candidate is granted additional chance, a copy of the order is attached. \nPlace  :                                                                       \nSignature    : \nDate    :                                                                       Name         : \nDistrict:  \n \n \n \n        \nDesignation : \n \n*Strike out whichever is not applicable. \nDistrict Development Officer. \n...............................................District. \nBy order and in the name of the Governor of Gujarat,          \n \n \n \n \n \n \n \nNARENDRA VAGHELA, \n \n \n \n \n \nDeputy Secretary to Government. \n---------- \nSigned by:Shri P. B. Kanwar\nDate: 2022.09.06 12:41:35 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+      "pages": [
+        7
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.3200073242188,
+          "y1": 842.0399780273438,
           "page": 7
         }
       ],
@@ -409,6 +1883,8 @@
     }
   ],
   "references": [],
-  "metadata_confidence": 0.88,
-  "raw_text": "Extra No. 37 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTHURSDAY,  SEPTEMBER  1,  2022 / BHADRA  10,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n        \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 23rd August, 2022. \nGUJARAT PANCHAYATS ACT, 1993.               \nNo.KP/40 of 2022/KTP/102021/1004/KH:-In exercise of the powers conferred by sub-section (5) of section 227 read with \nsection 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993) and in supersession of all the rules made in this behalf, \nthe Government of Gujarat hereby makes the following rules, to provided for regulation the conditions of service of persons \nappointed to the post specified in Appendix A and Appendix B, in so far as they relate to the passing of the departmental \nexamination, namely :-  \n1. \nShort title, commencement and extent-  \n(1)    These rules may be called the Gujarat Panchayat Services (Class-III), Departmental Examination Rules, \n \n2022.  \n(2)    They shall come into force from the date of their   publication in Official Gazette. \n(3)    Notwithstanding anything contained in any other rules, these rules shall apply to the employees of \n \nPanchayat Service (Class III) of the posts specified in the Appendix A and Appendix B.  \n2. \nDefinitions -  \nIn these rules, unless the context otherwise requires;- \n (a)  “Appendix” means an appendix appended to these rules; \n (b)  “appointed date” means the date on which these rules shall come into force; \n (c)  \"Board\" means Gujarat Panchayat Service Selection Board; \n (d)  \"Examination\" means the higher level departmental examination or as the case may be lower level department \nexamination prescribed under these rules; \n (e)  “Government” means the Government of Gujarat; \n (f) “Higher level departmental examination” means an examination specified in Part-II of Appendix C; \nI-A Ex.-37 \n37-1\n\n37-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \n (g)  “Lower level departmental examination” means an examination specified in Part-I of Appendix C; \n (h)  \"Specified Chances\" means the number of chances specified in these rules within which a person is required \nto pass the examination.  \n3.  \nRequirement to pass the examination \n(1) The person appointed to the post specified in Part-I of Appendix A shall be required to pass the Lower Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix A \n(2) The person appointed to the post specified in Part-I of Appendix B shall be required to pass the Higher Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix B. \n4. \nEligibility to appear in the examination- \n(1) No person shall be eligible to appear in the examination unless he has completed two years’ of continuous \nservice after   his appointment on the post of Part-I of Appendix A and Appendix B. \n(2) No person shall be eligible to appear in the examination unless he has passed the post- training examination \nto existing post or he has been exempted from passing post-training examination by the Competent authority, \nif any. \n5. \nSpecified chances for passing the examination- \n(1)  To be eligible for promotion to the post specified in Part-II of Appendix A and B, a person shall be required \nto pass examination within three chances from the date of his completing two years' of continuous service \nafter his appointment on the post specified in Part-I of Appendix A and B: \nProvided that a person belonging to the Scheduled Casts or Scheduled Tribes may be given one   \nadditional chance which shall have to be availed of within a period of one year from the date of declaration \nof the result of the examination of his third chance. \n(2)  If a person fails to pass the examination referred to in these rules within the specified chances, he shall, \nnotwithstanding such failure, be eligible to appear at any time in the examination on payment of an \nexamination fee as may be determined by the Government from time to time and if he passes the said \nexamination, he shall be eligible for promotion: \nProvided that a person shall not be entitled to claim seniority over those persons who have passed the \nexamination earlier than him and also have been promoted to the post specified in Part-II of Appendix A and \nB under these rules before he became eligible for such promotion on passing the examination. \n6. \nSyllabus and scheme of examination- \n(1)  The syllabus for Lower level departmental examination shall be such as specified in Part-1 of   Appendix C. \n(2)  The syllabus for Higher level departmental examination shall be such as specified in Part-II of   Appendix C. \n(3)  Lower level and higher level departmental examination shall consist of four papers each of 100 (one hundred) \nmarks. The examination shall consist of multiple choice questions except paper I which shall be descriptive. \n(4) The candidate shall be allowed to answer the entire subjects of papers II to IV with the help of books. \nWhereas, paper 1 shall be answered without books. \nExplanation: \"With Books\" means original book of the subjects approved by the Government or the Board which \nincludes bare Acts and/or rules without any commentaries or case laws and includes manuals issued under the Act \npublished or approved by the Government. \n7.  \nMedium of examination - The medium of examination shall be Gujarati or English as per instructions given in \nthe question paper.   \n8. \nHolding of examination -  \n(1) The Board shall hold the examination once in a year. \n(2)  The Board shall communicate the tentative programme of the examination to all the District Development \nOfficers at least ninety days prior to the date of examination. \n(3)  A person who desires to appear in the examination shall be required to send his application in the form as \nspecified in Appendix-D to the Board through the concerned District Development Officer in which district \nthe person is serving for enlisting his name as a candidate for such examination at least sixty days prior to \nthe date of examination; \n (4) The District Development Officer in which district the person is serving shall scrutinize his application with \nregard to his eligibility for appearing in the examination and forward the same to the Board with the certificate \nof eligibility as specified in Appendix D to appear at the examination.  \n(5) If the applicant subsequently decides not to appear at the examination, he shall give intimation thereof to the \nBoard though concerned District Development Officer at least thirty days before the date of commencement of the \nexamination.\n\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-3 \n(6)  If any person fails to appear in the examination after having enlisted his name as a candidate without giving \nintimation referred in sub-rule (5), he shall be deemed to have lost one chance to pass the examination: \nProvided that the concerned District Development Officer may condone the failure on the part of the \nperson to give intimation referred to in sub-rule (5) and the consequences arising therefrom, if it is satisfied \nthat the person has failed to give intimation within time for reasons beyond his control. \n (7)  The Board shall admit the candidate to the examination on the strength of the certificate issued by the \nconcerned District Development Officer that he is eligible to appear in the examination. \n (8)  The place, date and time for holding the examination shall be communicated by the Board directly to the \nDistrict Development Officer and the same shall be communicated to the candidates by the District \nDevelopment Officer. \n9.  \nStandard for passing the examination- \n(1)  The standard for passing the examination shall be fifty percent (50%) of the total marks assigned to each \npaper. \n(2)  An unsuccessful candidate who secures sixty percent (60%) or more marks in any one or more papers shall \nbe exempted from appearing in those papers in the subsequent examination. \n10.  \nResult of the examination.- \nThe Board shall publish the result of the examination in the official Gazette and its website and also \ncommunicate the same to Secretary to the Government of Gujarat, the Panchayats, Rural Housing and Rural \nDevelopment Department and the concerned District Development Officer. The District Development Officer \nshall intimate the results to the candidates.  \n11. \n Incentives- \nThe candidate who secures eighty percent (80%) or more aggregate marks in the examination in first chance \nshall be paid such cash amount as an incentive as determined by the Government from time to time. \n12. \n Prohibition to use certain devices in the examination hall- \nNo candidate shall be allowed to carry with him any electronic communication devices like cellular phone, \ncalculator, pager, i-pad etc. in the examination hall. \n \nAppendix A \n(see rule 3 (1)) \nSr. \nPost \nPart - I \nPromotion Post \nPart -II \n1. \nFemale Health Worker, Class III \nFemale Health Supervisor , Class III \n2. \nMulti-Purpose Health Worker(Male),Class III \nMulti-Purpose Health Supervisor ,Class III \n3. \nJunior Clerk (Administrative), Class III \nSenior Clerk (Administrative), Class III \n4. \nJunior Clerk (Accounts ), Class III  \nSenior Clerk (Accounts), Class III \n \n \nAppendix B \n(see rule 3 (2)) \nSr. \nPost \nPart -I \nPromotion Post \nPart - II \n1. \nStatistical Assistant, Class III \nResearch Assistant, Class III \n2. \nSocial Welfare Inspector (Junior Grade), Class \nIII \nSocial Welfare Inspector (Senior Grade), Class III \n3. \nSenior Clerk (Accounts), Class III \nDeputy Accountant, Class III\n\n37-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAppendix C \n(see rule 6 (1)(2)) \nPart-I (Lower level Departmental Examination) \nPaper-I Gujarati- English Language Marks:100, Duration: 2 hours, without Books, Descriptive. \n(1) \nTranslation from English to Gujarati and from Gujarati to English. \n(2) \nNoting writing. \n(3) \nReport writing. \n(4) \nSummary of Gujarati Paragraph. \n(5) \nGujarati and English Grammar. \nPaper-II Office Procedure: Marks: 100, Duration:2 hours, With Books, MCQs. \n (1)  \nThe Gujarat Panchayat Services Classification and Recruitment (General), Rules, 1998. \n (2)  \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997. \n (3) \nThe Panchayat Services (Conduct) Rules, 1998. \n (4)  \nThe Gujarat Panchayats Act, 1993. \n (5)  \nManual of Office procedure for Non-Secretariat Offices. \nPaper-III Financial matters: Marks:100, Duration: 2 hours, With Books, MCQs. \n(1) \nGujarat Budget manual (Both volumes except Chapter VII of Volume I and Appendix-D). \n(2) \nThe Bombay Contingent Expenditure Rules, 1959, whole book except chapter XII, XXI, XXV (ii, v, vii, viii, \nix, xi, xii, xiii), XXVI (ii, iii, iv), XXVIII, XXIX, XXXI, XXXII, and XXXIII. \n(3) \nThe Gujarat Civil Services Rules, 2002 (volume 1 to 8).  \n(4) \nThe Gujarat Financial Rules, 1971 (whole book except rules 46,47,56,62,63,64,76,82,83,84,85, 97,141, 158 to \n182 and all appendices except 4,13,14,15,21 and 24). \n(5)  \nDelegation of Financial Power Rules, 1998. \nPaper-IV Constitution of India and Service Matters: Marks:100, Duration:2 hours, with Books, MCQs. \n(1)  \nConstitution of India. \n(2) \nCurrent year booklet of development report published by the General Administration Department. \n(3) \nPanchayati Raj: \n \n(a) Background and History of Panchayati Raj; and \n \n(b) Panchayati Raj in Gujarat. \n(4)  \nThe Gujarat State Disaster Management Act,2003; and The Gujarat State Disaster Management Policy, 2002. \n(5)  \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \nPart-II (Higher level Departmental Examination) \nPaper- I Gujarati- English Language Marks:100, Duration: 3 hours, without Books, Descriptive. \n(1) \nNoting and Drafting (English and Gujarati). \n(2)  \nEssay in English and Gujarati. \n(3)  \nHigh Court matters- preparation parawise remarks and drafting of speaking orders. \n(4)  \nGovernment Correspondence-Different types of letters and difference between them.  \n(5) \nLetter writing (Government, semi Government, circular, Government Resolution, Order, notification) \n(6)  \nAdministrative Vocabulary- Gujarati and English\n\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-5 \nPaper-II Office Procedure: Marks:100, Duration:3 hours, with Books, MCQs. \n(1) \nThe Gujarat Panchayat Services Classification and Recruitment(General) Rules, 1998. \n(2) \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997. \n(3) \nThe Panchayat Services (Conduct) Rules, 1998. \n(4) \nPerformance Appraisal Report and Guidelines. \n(5)  \nThe Gujarat Civil Services (Conduct) Rules, 1971 and The Gujarat Civil Services Rules (Discipline and \nAppeal) Rules, 1971. \n(6)  \nThe Prevention of Corruption Act, 1988. \n(7)  \nThe Gujarat (Right of Citizens to Public Services) Act, 2013 (RCPS Act) and The Gujarat (Right of Citizens \nto Public Service) Rules, 2014. \n(8)  \nThe Right to Information Act, 2005 and Gujarat Right to Information Rules, 2010. \nPaper-III Financial matters: Marks: 100, Duration: 3 hours, with Books, MCQs. \n(1) \nThe Gujarat Civil Services Rules, (GCSR), 2002 (volume 1 to 8). \n(2) \nGujarat Budget manual (Part-I and II). \n(3) \nThe Gujarat Financial Rules, 1971. \n(4) \nDelegation of Financial Powers Rules, 1998. \n(5)  \nPurchase Policy of the Government of Gujarat. \n(6)  \nThe Gujarat Treasury Rules, 2000. \n(7) \nExisting higher pay scale scheme. \nPaper-IV Constitution of India and Other Laws/Schemes: Marks: 100, Duration:3 hours, with Books, MCQs.  \n(1)  \nConstitution of India with reference to;  \n(a)   Article 309; \n(b)   Provision of Panchayats and Municipalities with focus on Amendment 73 and 74; \n(c)   Election Commission; \n(d)   Finance Commission; \n(e)   Concurrent list and State list; and \n(f)   Supreme Court and High Courts. \n(2)  \nCurrent year booklet of development report published by the General Administration Department. \n(3)    Rural Development and Panchayat.  \n(a)  E-Gram Vishav Gram project, \n(b)  Schemes of Panchayat. \n(4)   \nThe Gujarat State Disaster Management Act, 2003 and The Gujarat State Disaster Management Policy, 2002. \n(5) \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \n(6)  \nThe Gujarat Co-operative Societies Act, 1961. \n(7)  \nOrganization and structure of machinery of Government.\n\n37-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAPPENDIX D \n(see Rule 8) \nForm of Application \nApplication for appearing at the Panchayat Service Departmental Examination for the promotion to the post of \n_______________________to be held by the Gujarat Panchayat Service Selection Board in_______  20 ____ . \n1. \nApplicant's name in full \n: \n \n(Surname first) in English and Gujarati. \n2. \nDesignation. \n: \n \n(In English and Gujarati), \n3.     (1)     Name of the District Panchayat to which he belongs. \n: \n(2)  Name of the Office where he is working at present. \n:                 \n4. \nBirth date and age at the time of the examination. \n: \n5. \nDate of appointment and total years of service. \n: \n6. \nWhether the applicant has appeared at the examination  \n: \npreviously ? If so. \n(a) Month and year of examination at which he appeared. \n: \n(b) Whether any exemption is earned ? \n: \nIf so details of marks month and year of examination  \nand subject should be given. \n(c) Whether he intends to avail of exemption earned \n: \n(yes or no) (The choice will be treated as final and \nno change will be allowed).  \n7. \nAuthority or the Rules under which the applicant has to  \n: \nappear for the examination. \n8. \nNumber of chances and time limit within which the  \n: \napplicant is required to pass the examination \n(date of eligibility and expiry of the period for \nappearing at the examination should be mentioned). \n9. \nNumber of chances exhausted. \n: \n10. Whether additional (Special) chances have been granted ? \n: \nNumber and date of order under which \nthe additional special chances have been granted to him \nshould be specified and a copy thereof should be attached. \n11. If necessary, whether fee is paid ?                            \n: \n \nIf yes, furnish the details of challan and date\n\nGovernment Central Press, Gandhinagar.\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-7 \n12. Purpose of passing the examination: \n:  \n \n(e. g. confirmation retention in government service, promotion etc.) \n13. Whether the applicant is eligible to appear at the \n: \n         examination according to rules of the Departmental Examination. \n14.   Remarks, if any. \n \n \n \n \n:  \nPlace: \nDate:                                                                                                   \n \n \n(Signature of the Applicant) \nCertificate of Eligibility \nCertified that - \n(1) \nThe above particulars are verified and found correct. \n \nShri/Smt/Kumari............................. is eligible to appear at the Lower /⃰ Higher Level departmental examination for \n \npromotion  to the post of.......................................... to be held in ........................................20................... \n(2) \n*Necessary fee is paid; copy of challan is attached herewith \n(3) \n*Candidate is granted additional chance, a copy of the order is attached. \nPlace  :                                                                       \nSignature    : \nDate    :                                                                       Name         : \nDistrict:  \n \n \n \n        \nDesignation : \n \n*Strike out whichever is not applicable. \nDistrict Development Officer. \n...............................................District. \nBy order and in the name of the Governor of Gujarat,          \n \n \n \n \n \n \n \nNARENDRA VAGHELA, \n \n \n \n \n \nDeputy Secretary to Government. \n---------- \nSigned by:Shri P. B. Kanwar\nDate: 2022.09.06 12:41:35 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified"
+  "metadata_confidence": 0.92,
+  "raw_text": "Extra No. 37 \n            \n    © \nThe Gujarat Government Gazette \nEXTRAORDINARY \nPUBLISHED BY AUTHORITY \nVol. LXIII ] \nTHURSDAY,  SEPTEMBER  1,  2022 / BHADRA  10,  1944 \nSeparate paging is given to this part in order that it may be filed as a Separate Compilation. \n \nPART   I-A \nCENTRAL SECTION \nOrders  and  Notifications  (Other than those published in Part IV-B) \nunder the Gujarat Local Boards, Village Panchayats, Municipal \nBoroughs, District Municipal, Primary Education and Local Fund Audit Acts. \n \n \n        \nPANCHAYATS, RURAL HOUSING AND RURAL DEVELOPMENT DEPARTMENT \nNOTIFICATION \nSachivalaya, Gandhinagar, 23rd August, 2022. \nGUJARAT PANCHAYATS ACT, 1993.               \nNo.KP/40 of 2022/KTP/102021/1004/KH:-In exercise of the powers conferred by sub-section (5) of section 227 read with \nsection 274 of the Gujarat Panchayats Act, 1993 (Guj. 18 of 1993) and in supersession of all the rules made in this behalf, \nthe Government of Gujarat hereby makes the following rules, to provided for regulation the conditions of service of persons \nappointed to the post specified in Appendix A and Appendix B, in so far as they relate to the passing of the departmental \nexamination, namely :-  \n1. \nShort title, commencement and extent-  \n(1)    These rules may be called the Gujarat Panchayat Services (Class-III), Departmental Examination Rules, \n \n2022.  \n(2)    They shall come into force from the date of their   publication in Official Gazette. \n(3)    Notwithstanding anything contained in any other rules, these rules shall apply to the employees of \n \nPanchayat Service (Class III) of the posts specified in the Appendix A and Appendix B.  \n2. \nDefinitions -  \nIn these rules, unless the context otherwise requires;- \n (a)  “Appendix” means an appendix appended to these rules; \n (b)  “appointed date” means the date on which these rules shall come into force; \n (c)  \"Board\" means Gujarat Panchayat Service Selection Board; \n (d)  \"Examination\" means the higher level departmental examination or as the case may be lower level department \nexamination prescribed under these rules; \n (e)  “Government” means the Government of Gujarat; \n (f) “Higher level departmental examination” means an examination specified in Part-II of Appendix C; \nI-A Ex.-37 \n37-1\n\n37-2 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \n (g)  “Lower level departmental examination” means an examination specified in Part-I of Appendix C; \n (h)  \"Specified Chances\" means the number of chances specified in these rules within which a person is required \nto pass the examination.  \n3.  \nRequirement to pass the examination \n(1) The person appointed to the post specified in Part-I of Appendix A shall be required to pass the Lower Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix A \n(2) The person appointed to the post specified in Part-I of Appendix B shall be required to pass the Higher Level \nDepartmental Examination to be eligible for promotion to the respective post specified in Part-II of Appendix B. \n4. \nEligibility to appear in the examination- \n(1) No person shall be eligible to appear in the examination unless he has completed two years’ of continuous \nservice after   his appointment on the post of Part-I of Appendix A and Appendix B. \n(2) No person shall be eligible to appear in the examination unless he has passed the post- training examination \nto existing post or he has been exempted from passing post-training examination by the Competent authority, \nif any. \n5. \nSpecified chances for passing the examination- \n(1)  To be eligible for promotion to the post specified in Part-II of Appendix A and B, a person shall be required \nto pass examination within three chances from the date of his completing two years' of continuous service \nafter his appointment on the post specified in Part-I of Appendix A and B: \nProvided that a person belonging to the Scheduled Casts or Scheduled Tribes may be given one   \nadditional chance which shall have to be availed of within a period of one year from the date of declaration \nof the result of the examination of his third chance. \n(2)  If a person fails to pass the examination referred to in these rules within the specified chances, he shall, \nnotwithstanding such failure, be eligible to appear at any time in the examination on payment of an \nexamination fee as may be determined by the Government from time to time and if he passes the said \nexamination, he shall be eligible for promotion: \nProvided that a person shall not be entitled to claim seniority over those persons who have passed the \nexamination earlier than him and also have been promoted to the post specified in Part-II of Appendix A and \nB under these rules before he became eligible for such promotion on passing the examination. \n6. \nSyllabus and scheme of examination- \n(1)  The syllabus for Lower level departmental examination shall be such as specified in Part-1 of   Appendix C. \n(2)  The syllabus for Higher level departmental examination shall be such as specified in Part-II of   Appendix C. \n(3)  Lower level and higher level departmental examination shall consist of four papers each of 100 (one hundred) \nmarks. The examination shall consist of multiple choice questions except paper I which shall be descriptive. \n(4) The candidate shall be allowed to answer the entire subjects of papers II to IV with the help of books. \nWhereas, paper 1 shall be answered without books. \nExplanation: \"With Books\" means original book of the subjects approved by the Government or the Board which \nincludes bare Acts and/or rules without any commentaries or case laws and includes manuals issued under the Act \npublished or approved by the Government. \n7.  \nMedium of examination - The medium of examination shall be Gujarati or English as per instructions given in \nthe question paper.   \n8. \nHolding of examination -  \n(1) The Board shall hold the examination once in a year. \n(2)  The Board shall communicate the tentative programme of the examination to all the District Development \nOfficers at least ninety days prior to the date of examination. \n(3)  A person who desires to appear in the examination shall be required to send his application in the form as \nspecified in Appendix-D to the Board through the concerned District Development Officer in which district \nthe person is serving for enlisting his name as a candidate for such examination at least sixty days prior to \nthe date of examination; \n (4) The District Development Officer in which district the person is serving shall scrutinize his application with \nregard to his eligibility for appearing in the examination and forward the same to the Board with the certificate \nof eligibility as specified in Appendix D to appear at the examination.  \n(5) If the applicant subsequently decides not to appear at the examination, he shall give intimation thereof to the \nBoard though concerned District Development Officer at least thirty days before the date of commencement of the \nexamination.\n\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-3 \n(6)  If any person fails to appear in the examination after having enlisted his name as a candidate without giving \nintimation referred in sub-rule (5), he shall be deemed to have lost one chance to pass the examination: \nProvided that the concerned District Development Officer may condone the failure on the part of the \nperson to give intimation referred to in sub-rule (5) and the consequences arising therefrom, if it is satisfied \nthat the person has failed to give intimation within time for reasons beyond his control. \n (7)  The Board shall admit the candidate to the examination on the strength of the certificate issued by the \nconcerned District Development Officer that he is eligible to appear in the examination. \n (8)  The place, date and time for holding the examination shall be communicated by the Board directly to the \nDistrict Development Officer and the same shall be communicated to the candidates by the District \nDevelopment Officer. \n9.  \nStandard for passing the examination- \n(1)  The standard for passing the examination shall be fifty percent (50%) of the total marks assigned to each \npaper. \n(2)  An unsuccessful candidate who secures sixty percent (60%) or more marks in any one or more papers shall \nbe exempted from appearing in those papers in the subsequent examination. \n10.  \nResult of the examination.- \nThe Board shall publish the result of the examination in the official Gazette and its website and also \ncommunicate the same to Secretary to the Government of Gujarat, the Panchayats, Rural Housing and Rural \nDevelopment Department and the concerned District Development Officer. The District Development Officer \nshall intimate the results to the candidates.  \n11. \n Incentives- \nThe candidate who secures eighty percent (80%) or more aggregate marks in the examination in first chance \nshall be paid such cash amount as an incentive as determined by the Government from time to time. \n12. \n Prohibition to use certain devices in the examination hall- \nNo candidate shall be allowed to carry with him any electronic communication devices like cellular phone, \ncalculator, pager, i-pad etc. in the examination hall. \n \nAppendix A \n(see rule 3 (1)) \nSr. \nPost \nPart - I \nPromotion Post \nPart -II \n1. \nFemale Health Worker, Class III \nFemale Health Supervisor , Class III \n2. \nMulti-Purpose Health Worker(Male),Class III \nMulti-Purpose Health Supervisor ,Class III \n3. \nJunior Clerk (Administrative), Class III \nSenior Clerk (Administrative), Class III \n4. \nJunior Clerk (Accounts ), Class III  \nSenior Clerk (Accounts), Class III \n \n \nAppendix B \n(see rule 3 (2)) \nSr. \nPost \nPart -I \nPromotion Post \nPart - II \n1. \nStatistical Assistant, Class III \nResearch Assistant, Class III \n2. \nSocial Welfare Inspector (Junior Grade), Class \nIII \nSocial Welfare Inspector (Senior Grade), Class III \n3. \nSenior Clerk (Accounts), Class III \nDeputy Accountant, Class III\n\n37-4 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAppendix C \n(see rule 6 (1)(2)) \nPart-I (Lower level Departmental Examination) \nPaper-I Gujarati- English Language Marks:100, Duration: 2 hours, without Books, Descriptive. \n(1) \nTranslation from English to Gujarati and from Gujarati to English. \n(2) \nNoting writing. \n(3) \nReport writing. \n(4) \nSummary of Gujarati Paragraph. \n(5) \nGujarati and English Grammar. \nPaper-II Office Procedure: Marks: 100, Duration:2 hours, With Books, MCQs. \n (1)  \nThe Gujarat Panchayat Services Classification and Recruitment (General), Rules, 1998. \n (2)  \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997. \n (3) \nThe Panchayat Services (Conduct) Rules, 1998. \n (4)  \nThe Gujarat Panchayats Act, 1993. \n (5)  \nManual of Office procedure for Non-Secretariat Offices. \nPaper-III Financial matters: Marks:100, Duration: 2 hours, With Books, MCQs. \n(1) \nGujarat Budget manual (Both volumes except Chapter VII of Volume I and Appendix-D). \n(2) \nThe Bombay Contingent Expenditure Rules, 1959, whole book except chapter XII, XXI, XXV (ii, v, vii, viii, \nix, xi, xii, xiii), XXVI (ii, iii, iv), XXVIII, XXIX, XXXI, XXXII, and XXXIII. \n(3) \nThe Gujarat Civil Services Rules, 2002 (volume 1 to 8).  \n(4) \nThe Gujarat Financial Rules, 1971 (whole book except rules 46,47,56,62,63,64,76,82,83,84,85, 97,141, 158 to \n182 and all appendices except 4,13,14,15,21 and 24). \n(5)  \nDelegation of Financial Power Rules, 1998. \nPaper-IV Constitution of India and Service Matters: Marks:100, Duration:2 hours, with Books, MCQs. \n(1)  \nConstitution of India. \n(2) \nCurrent year booklet of development report published by the General Administration Department. \n(3) \nPanchayati Raj: \n \n(a) Background and History of Panchayati Raj; and \n \n(b) Panchayati Raj in Gujarat. \n(4)  \nThe Gujarat State Disaster Management Act,2003; and The Gujarat State Disaster Management Policy, 2002. \n(5)  \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \nPart-II (Higher level Departmental Examination) \nPaper- I Gujarati- English Language Marks:100, Duration: 3 hours, without Books, Descriptive. \n(1) \nNoting and Drafting (English and Gujarati). \n(2)  \nEssay in English and Gujarati. \n(3)  \nHigh Court matters- preparation parawise remarks and drafting of speaking orders. \n(4)  \nGovernment Correspondence-Different types of letters and difference between them.  \n(5) \nLetter writing (Government, semi Government, circular, Government Resolution, Order, notification) \n(6)  \nAdministrative Vocabulary- Gujarati and English\n\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-5 \nPaper-II Office Procedure: Marks:100, Duration:3 hours, with Books, MCQs. \n(1) \nThe Gujarat Panchayat Services Classification and Recruitment(General) Rules, 1998. \n(2) \nThe Gujarat Panchayat Services (Discipline and Appeal) Rules, 1997. \n(3) \nThe Panchayat Services (Conduct) Rules, 1998. \n(4) \nPerformance Appraisal Report and Guidelines. \n(5)  \nThe Gujarat Civil Services (Conduct) Rules, 1971 and The Gujarat Civil Services Rules (Discipline and \nAppeal) Rules, 1971. \n(6)  \nThe Prevention of Corruption Act, 1988. \n(7)  \nThe Gujarat (Right of Citizens to Public Services) Act, 2013 (RCPS Act) and The Gujarat (Right of Citizens \nto Public Service) Rules, 2014. \n(8)  \nThe Right to Information Act, 2005 and Gujarat Right to Information Rules, 2010. \nPaper-III Financial matters: Marks: 100, Duration: 3 hours, with Books, MCQs. \n(1) \nThe Gujarat Civil Services Rules, (GCSR), 2002 (volume 1 to 8). \n(2) \nGujarat Budget manual (Part-I and II). \n(3) \nThe Gujarat Financial Rules, 1971. \n(4) \nDelegation of Financial Powers Rules, 1998. \n(5)  \nPurchase Policy of the Government of Gujarat. \n(6)  \nThe Gujarat Treasury Rules, 2000. \n(7) \nExisting higher pay scale scheme. \nPaper-IV Constitution of India and Other Laws/Schemes: Marks: 100, Duration:3 hours, with Books, MCQs.  \n(1)  \nConstitution of India with reference to;  \n(a)   Article 309; \n(b)   Provision of Panchayats and Municipalities with focus on Amendment 73 and 74; \n(c)   Election Commission; \n(d)   Finance Commission; \n(e)   Concurrent list and State list; and \n(f)   Supreme Court and High Courts. \n(2)  \nCurrent year booklet of development report published by the General Administration Department. \n(3)    Rural Development and Panchayat.  \n(a)  E-Gram Vishav Gram project, \n(b)  Schemes of Panchayat. \n(4)   \nThe Gujarat State Disaster Management Act, 2003 and The Gujarat State Disaster Management Policy, 2002. \n(5) \nMahatma Gandhi National Rural Employment Guarantee Act, 2005 and the operational guidelines under it, \n2013 (4th edition). \n(6)  \nThe Gujarat Co-operative Societies Act, 1961. \n(7)  \nOrganization and structure of machinery of Government.\n\n37-6 \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n     [ PART  I-A \nAPPENDIX D \n(see Rule 8) \nForm of Application \nApplication for appearing at the Panchayat Service Departmental Examination for the promotion to the post of \n_______________________to be held by the Gujarat Panchayat Service Selection Board in_______  20 ____ . \n1. \nApplicant's name in full \n: \n \n(Surname first) in English and Gujarati. \n2. \nDesignation. \n: \n \n(In English and Gujarati), \n3.     (1)     Name of the District Panchayat to which he belongs. \n: \n(2)  Name of the Office where he is working at present. \n:                 \n4. \nBirth date and age at the time of the examination. \n: \n5. \nDate of appointment and total years of service. \n: \n6. \nWhether the applicant has appeared at the examination  \n: \npreviously ? If so. \n(a) Month and year of examination at which he appeared. \n: \n(b) Whether any exemption is earned ? \n: \nIf so details of marks month and year of examination  \nand subject should be given. \n(c) Whether he intends to avail of exemption earned \n: \n(yes or no) (The choice will be treated as final and \nno change will be allowed).  \n7. \nAuthority or the Rules under which the applicant has to  \n: \nappear for the examination. \n8. \nNumber of chances and time limit within which the  \n: \napplicant is required to pass the examination \n(date of eligibility and expiry of the period for \nappearing at the examination should be mentioned). \n9. \nNumber of chances exhausted. \n: \n10. Whether additional (Special) chances have been granted ? \n: \nNumber and date of order under which \nthe additional special chances have been granted to him \nshould be specified and a copy thereof should be attached. \n11. If necessary, whether fee is paid ?                            \n: \n \nIf yes, furnish the details of challan and date\n\nGovernment Central Press, Gandhinagar.\nCENTRAL SECTION] \nGUJARAT GOVERNMENT GAZETTE, EX., 01-09-2022 \n            37-7 \n12. Purpose of passing the examination: \n:  \n \n(e. g. confirmation retention in government service, promotion etc.) \n13. Whether the applicant is eligible to appear at the \n: \n         examination according to rules of the Departmental Examination. \n14.   Remarks, if any. \n \n \n \n \n:  \nPlace: \nDate:                                                                                                   \n \n \n(Signature of the Applicant) \nCertificate of Eligibility \nCertified that - \n(1) \nThe above particulars are verified and found correct. \n \nShri/Smt/Kumari............................. is eligible to appear at the Lower /⃰ Higher Level departmental examination for \n \npromotion  to the post of.......................................... to be held in ........................................20................... \n(2) \n*Necessary fee is paid; copy of challan is attached herewith \n(3) \n*Candidate is granted additional chance, a copy of the order is attached. \nPlace  :                                                                       \nSignature    : \nDate    :                                                                       Name         : \nDistrict:  \n \n \n \n        \nDesignation : \n \n*Strike out whichever is not applicable. \nDistrict Development Officer. \n...............................................District. \nBy order and in the name of the Governor of Gujarat,          \n \n \n \n \n \n \n \nNARENDRA VAGHELA, \n \n \n \n \n \nDeputy Secretary to Government. \n---------- \nSigned by:Shri P. B. Kanwar\nDate: 2022.09.06 12:41:35 +05:30\nReason: Validate Document\nLocation: Government Central Press,\nGandhinagar\nSignature Not Verified",
+  "subject_en": "Gujarat Panchayat Services (Class-III) Departmental Examination Rules, 2022",
+  "subject_gu": "ગુજરાત પંચાયત સેવાઓ (ધોરણ-III) ખાતાકીય પરીક્ષા નિયમો, ૨૦૨૨"
 }
