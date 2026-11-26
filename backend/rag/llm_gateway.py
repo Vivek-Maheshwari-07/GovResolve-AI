@@ -46,6 +46,14 @@ def execute_llm_generation(system_prompt: str, user_prompt: str, max_tokens: Opt
     return json.dumps(FALLBACK_REPLY), "fallback"
 
 
+def primary_provider_name() -> str:
+    """Name of the provider that would answer first ("groq", "ollama", ...), or "" if none is configured. No network call."""
+    for provider in build_providers():
+        if provider.is_configured():
+            return provider.name
+    return ""
+
+
 def warm_up_llm(system_prompt: Optional[str] = None) -> bool:
     """Load the local model and its prompt prefix now, so the first question is not slow. Only done when Ollama is the model that
     would answer (the first configured provider); with a hosted first choice there is nothing to warm."""
@@ -113,15 +121,8 @@ def translate_to_english(question: str) -> Optional[str]:
     """One short model call that renders a Gujarati / Gujlish question in English, so keyword search and sentence choice can match the
     (mostly English) documents. None when no model answers or the reply is not English; the caller then searches as before.
     Remembered in memory and in a small JSON file, so repeated runs and repeated questions cost nothing."""
-    global _TRANSLATIONS_LOADED
     path = _translation_cache_path()
-    if path and not _TRANSLATIONS_LOADED:
-        _TRANSLATIONS_LOADED = True
-        try:
-            with open(path, encoding="utf-8") as f:
-                _TRANSLATIONS.update(json.load(f))
-        except (OSError, ValueError):
-            pass
+    _load_translation_cache(path)
     key = question.strip()
     if key in _TRANSLATIONS:
         return _TRANSLATIONS[key] or None
@@ -130,17 +131,41 @@ def translate_to_english(question: str) -> Optional[str]:
         return None  # nothing answered; do not remember a failure
     english = _clean_translation(reply)
     _remember(_TRANSLATIONS, key, english or "")
-    if path:
-        try:
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-            tmp = f"{path}.tmp"
-            with _TRANSLATION_LOCK:
-                with open(tmp, "w", encoding="utf-8") as f:
-                    json.dump(_TRANSLATIONS, f, ensure_ascii=False, indent=0)
-                os.replace(tmp, path)   # atomic: a crash never leaves a half-written cache
-        except OSError:
-            pass
+    _save_translation_cache(path)
     return english
+
+
+def _load_translation_cache(path: Optional[str]) -> None:
+    """Read the saved translations once. English renderings sit at the top level of the file (the original format), Gujarati ones
+    under the key "__gu__", so a file written by an older build still loads."""
+    global _TRANSLATIONS_LOADED
+    if not path or _TRANSLATIONS_LOADED:
+        return
+    _TRANSLATIONS_LOADED = True
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, ValueError):
+        return
+    if isinstance(data, dict):
+        gu = data.pop("__gu__", None)
+        _TRANSLATIONS.update({k: v for k, v in data.items() if isinstance(v, str)})
+        if isinstance(gu, dict):
+            _TRANSLATIONS_GU.update({k: v for k, v in gu.items() if isinstance(v, str)})
+
+
+def _save_translation_cache(path: Optional[str]) -> None:
+    if not path:
+        return
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        tmp = f"{path}.{threading.get_ident()}.tmp"
+        with _TRANSLATION_LOCK:
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump({**_TRANSLATIONS, "__gu__": dict(_TRANSLATIONS_GU)}, f, ensure_ascii=False, indent=0)
+            os.replace(tmp, path)   # atomic: a crash never leaves a half-written cache
+    except OSError:
+        pass
 
 
 def _clean_gujarati_translation(reply: str) -> Optional[str]:
@@ -165,6 +190,8 @@ def _clean_gujarati_translation(reply: str) -> Optional[str]:
 def translate_to_gujarati(question: str) -> Optional[str]:
     """One short model call that renders an English or Gujlish question in Gujarati script, so keyword search and sentence choice can
     match Gujarati resolutions. None when no model answers or the reply is not Gujarati script."""
+    path = _translation_cache_path()
+    _load_translation_cache(path)
     key = question.strip()
     if key in _TRANSLATIONS_GU:
         return _TRANSLATIONS_GU[key] or None
@@ -173,4 +200,5 @@ def translate_to_gujarati(question: str) -> Optional[str]:
         return None
     gujarati = _clean_gujarati_translation(reply)
     _remember(_TRANSLATIONS_GU, key, gujarati or "")
+    _save_translation_cache(path)
     return gujarati

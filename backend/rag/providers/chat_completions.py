@@ -22,6 +22,7 @@ class ChatCompletionsProvider(LLMProvider):
     max_retries: int = 0            # extra attempts after a 429 / 5xx answer
     retry_network_errors = False    # also retry timeouts and refused connections (useful for a hosted API, pointless for localhost)
     reasoning_effort: str = ""      # sent as `reasoning_effort` when set (thinking models)
+    last_status: Optional[int] = None  # HTTP status of the last failed request (None: success or a network error)
 
     # ---- request -------------------------------------------------------------------------------------------------------
     def _headers(self) -> dict:
@@ -48,12 +49,14 @@ class ChatCompletionsProvider(LLMProvider):
             return None
         payload = self._payload(system, user, max_tokens, json_mode)
         attempts = 1 + max(0, self.max_retries)
+        self.last_status = None
         for attempt in range(attempts):
             try:
                 data = request_json(self.chat_url, payload, self._headers(), self.timeout)
                 text = data["choices"][0]["message"]["content"]
                 return text if isinstance(text, str) else None
             except HTTPFailure as e:
+                self.last_status = e.status
                 retryable = e.status in RETRY_STATUSES or (e.status is None and self.retry_network_errors)
                 if retryable and attempt + 1 < attempts:
                     delay = min(e.retry_after if e.retry_after is not None else 2.0 ** attempt, MAX_BACKOFF_SECONDS)

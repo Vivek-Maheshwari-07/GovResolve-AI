@@ -29,6 +29,7 @@ def groq_api(monkeypatch):
     monkeypatch.setenv("GROQ_API_KEY", KEY)
     monkeypatch.setenv("GROQ_BASE_URL", s.url + "/openai/v1")
     monkeypatch.setenv("GROQ_MAX_RETRIES", "0")
+    monkeypatch.setenv("GROQ_FALLBACK_MODELS", "")
     yield s
     s.stop()
 

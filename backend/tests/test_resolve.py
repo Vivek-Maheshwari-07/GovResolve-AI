@@ -202,3 +202,11 @@ def test_unbalanced_quotes_from_ocr_leave_the_sentence_untouched():
     new = r.corpus.get("NEW")
     broken = 'for the words "as laid down in the Gujarat Civil Services Classification and Recruitment (General) Rules, 1967 shall be substituted'
     assert r.match_title(broken, new) == ["RULES67"]      # odd number of quote marks: nothing is stripped, the old behaviour stays
+
+
+def test_a_clean_year_must_match_exactly_but_an_ocr_damaged_one_may_slip():
+    from app.lineage.resolve import _named_year_conflicts
+    rules_2021 = "Gujarat Panchayat Services (Class III) Recruitment (Examination) Rules, 2021"
+    assert _named_year_conflicts("In the Gujarat Panchayat Services (Class-III), Departmental Examination Rules, 2022, in rule 9", rules_2021)
+    assert not _named_year_conflicts("In the Gujarat Panchayat Services Recruitment (Examination) Rules, 2021, in Annexure A", rules_2021)
+    assert not _named_year_conflicts("further to amend the Recruitment Rules, 2O21, namely", rules_2021)   # OCR O for 0

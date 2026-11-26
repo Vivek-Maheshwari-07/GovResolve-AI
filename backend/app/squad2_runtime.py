@@ -76,6 +76,9 @@ def build_pipeline(state: Any, graph: LineageGraph, index_dir: Path) -> Any:
     from backend.rag.search_engine import SYSTEM_PROMPT
 
     pipeline = RAGPipeline(index, records, lineage_graph=OurLineageAdapter(graph, state.lineage.edges))
+    # Saved answers include amending passages chosen from the lineage: a changed graph must not reuse them.
+    changing = sum(1 for e in graph.edges() if e.relation.value != "refers_to")
+    pipeline.answer_cache.fingerprint += f":edges{changing}"
     # Pay model loading and prompt reading now, not during the first user's question (both best effort).
     warm_up_llm(SYSTEM_PROMPT)
     try:
@@ -111,8 +114,20 @@ class LazySquad2Engine:
     def prewarm(self) -> None:
         threading.Thread(target=self._ensure, name="squad2-prewarm", daemon=True).start()
 
-    def answer(self, question: str, language: str) -> EngineResult:
+    supports_progress = True
+
+    def answer(self, question: str, language: str, progress=None) -> EngineResult:
+        if self._engine is None and progress is not None:
+            progress({"stage": "startup", "detail": "Loading the search index (first question after start-up)"})
         error = self._ensure()
         if error:
             return EngineResult(insufficient_reason=error)
-        return self._engine.answer(question, language)
+        if progress is None:
+            return self._engine.answer(question, language)
+        return self._engine.answer(question, language, progress=progress)
+
+    def vector_warning(self) -> str | None:
+        """Why vector search is off (index built with another embedder), or None."""
+        engine = self._engine
+        index = getattr(getattr(engine, "pipeline", None), "index", None)
+        return getattr(index, "vector_error", None)

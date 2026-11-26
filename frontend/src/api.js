@@ -79,13 +79,53 @@ export async function lineageChain(docId) {
   });
 }
 
-export async function ask(question, language = null, signal = undefined) {
-  const r = await getJson('/query', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(language ? { question, language } : { question }),
-    signal,
+// Reads the NDJSON lines of POST /query/stream: stage events go to `onStage`, the last line carries the /query response.
+export async function streamQuery(body, signal, onStage) {
+  const res = await fetch('/query/stream', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal,
   });
+  if (!res.ok || !res.body) {
+    const err = await res.json().catch(() => ({}));
+    const e = new Error(err.reason || err.error || `Request failed with status ${res.status}`);
+    e.status = res.status;
+    throw e;
+  }
+  const reader = res.body.getReader();
+  const dec = new TextDecoder();
+  let buf = '';
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (value) buf += dec.decode(value, { stream: true });
+    let nl;
+    while ((nl = buf.indexOf(String.fromCharCode(10))) >= 0) {
+      const line = buf.slice(0, nl).trim();
+      buf = buf.slice(nl + 1);
+      if (!line) continue;
+      const ev = JSON.parse(line);
+      if (ev.type === 'stage') onStage?.(ev);
+      else if (ev.type === 'result') return { ...ev.response, _elapsed: ev.t };
+      else if (ev.type === 'error') throw new Error(ev.reason || 'The answer engine failed.');
+    }
+    if (done) throw new Error('The answer stream ended without a result.');
+  }
+}
+
+export async function ask(question, language = null, signal = undefined, onStage = undefined) {
+  const body = language ? { question, language } : { question };
+  let r;
+  if (onStage) {
+    try {
+      r = await streamQuery(body, signal, onStage);
+    } catch (e) {
+      if (e.name === 'AbortError' || (e.status !== 404 && e.status !== 405)) throw e;
+      r = null;  // an older server without /query/stream: ask the plain endpoint
+    }
+  }
+  if (!r) {
+    r = await getJson('/query', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal,
+    });
+  }
   const ids = [...new Set((r.citations || []).map((c) => c.doc_id))];
   const metas = Object.fromEntries(await Promise.all(ids.map(async (id) => [id, await docMeta(id)])));
   const citations = (r.citations || []).map((c) => ({
@@ -120,6 +160,7 @@ export async function ask(question, language = null, signal = undefined) {
       citations: (s.citations || []).map((i) => citations[i]).filter(Boolean),
     })),
     lineage_chain: chain,
+    server_seconds: r._elapsed ?? null,
   };
 }
 

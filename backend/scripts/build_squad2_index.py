@@ -13,6 +13,7 @@ from pathlib import Path
 
 from app.schemas import GRRecord
 from app.squad2_bridge import to_squad2_records
+from app.store.corpus import from_legacy
 
 ROOT = Path(__file__).resolve().parents[2]
 TEST_QUERIES = [
@@ -25,7 +26,8 @@ TEST_QUERIES = [
 
 
 def load_corpus(corpus: Path) -> list[GRRecord]:
-    return [GRRecord.model_validate(json.loads(f.read_text(encoding="utf-8"))) for f in sorted(corpus.glob("*.json"))]
+    # from_legacy: data/processed holds the ingestion format; corpus_v2 records pass through unchanged
+    return [GRRecord.model_validate(from_legacy(json.loads(f.read_text(encoding="utf-8")))) for f in sorted(corpus.glob("*.json"))]
 
 
 def main() -> int:
@@ -48,7 +50,9 @@ def main() -> int:
     t = time.time()
     index = GRIndex(str(args.index))
     if index.collection is not None:  # chunks of documents that were re-read (new OCR) have new ids: drop the old ones first
-        current = {c.chunk_id: c.text_clean.strip() for r in records for c in r.chunks}
+        # GRIndex.build stores only the first 1,000 characters of a chunk: compare the same prefix, or every long chunk looks
+        # changed and is deleted and re-embedded on each run (487 of 1,265 here, about 6 minutes)
+        current = {c.chunk_id: c.text_clean.strip()[:1000] for r in records for c in r.chunks}
         stored = index.collection.get(include=["documents"])
         # a re-read document keeps its chunk ids but has new text, so compare the text, not just the ids
         stale = [i for i, doc in zip(stored["ids"], stored["documents"]) if current.get(i) != doc]

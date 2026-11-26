@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { pdfUrl, pageBlocks } from '../api';
 import { courtCitation, reportText } from '../lib/lineage';
+import { displayQuote, looksGarbled } from '../lib/quote';
 
 // Bundled worker for offline resilience
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
@@ -300,11 +301,13 @@ export default function PdfInspector({ citation, question }) {
               <span className="h-2 w-2 rounded-full bg-[#F59E0B] animate-pulse" />
               Quoted passage · page {citation.page}
             </p>
-            {exactBbox && mode === 'pdf' && (
+            {looksGarbled(citation.passage) ? (
+              <span className="telemetry-tag text-[12.5px] font-bold text-[#D97706]">Legacy-font text: read the PDF page</span>
+            ) : exactBbox && mode === 'pdf' ? (
               <span className="telemetry-tag text-[12.5px] font-bold text-[#D97706]">Located in the PDF text</span>
-            )}
+            ) : null}
           </div>
-          <p className="legal-text line-clamp-2 text-[12.5px] text-[#1E293B]">“{citation.passage}”</p>
+          <p className="legal-text line-clamp-2 text-[12.5px] text-[#1E293B]">“{displayQuote(citation.passage)}”</p>
         </div>
       )}
 

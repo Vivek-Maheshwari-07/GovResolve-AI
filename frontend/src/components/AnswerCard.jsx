@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import Seal from './Seal';
 import TrustShield from './TrustShield';
+import { displayQuote, looksGarbled } from '../lib/quote';
 
 export const citeKey = (c) => (c ? `${c.gr_id}|${c.page}|${c.passage || ''}` : '');
 
@@ -214,8 +215,13 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
                             ”
                           </span>
                           <p className="legal-text relative pl-0.5 text-[14px] leading-relaxed text-[#1E293B]">
-                            “{c.passage}”
+                            “{displayQuote(c.passage)}”
                           </p>
+                          {looksGarbled(c.passage) && (
+                            <p className="relative mt-1.5 text-[12.5px] font-medium text-[#92400E]">
+                              This PDF's text layer uses an old Gujarati font, so the stored text reads poorly. Open the page to read the original.
+                            </p>
+                          )}
                           {(c.subject || c.department) && (
                             <p className="gu-text relative mt-2 text-[12.5px] leading-snug text-[#64748B]">
                               {c.subject}{c.subject && c.department ? ' · ' : ''}{c.department}

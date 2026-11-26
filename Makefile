@@ -4,7 +4,7 @@ CORPUS  ?= data/corpus_v2
 DC      ?= docker compose -f deploy/docker-compose.yml --project-directory .
 .DEFAULT_GOAL := help
 
-.PHONY: help install install-dev ui run demo llm-check index test test-backend test-frontend lint docker-build docker-up docker-up-ollama docker-down clean
+.PHONY: help install install-dev ui run demo preflight llm-check index test test-backend test-frontend lint docker-build docker-up docker-up-ollama docker-down clean
 
 help:  ## Show this help
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -25,6 +25,9 @@ run:  ## Start the app on http://127.0.0.1:8000 (real collection if found, else 
 
 demo:  ## Start with the synthetic demo documents only (no corpus, no model needed)
 	cd backend && SFIC_SEED=1 $(PY) -m uvicorn app.main:app --port 8000
+
+preflight:  ## Check this machine for the live demo and pre-warm the demo answers (start the app first)
+	$(PY) -m backend.scripts.preflight
 
 llm-check:  ## Check Ollama / Groq configuration, reachability and speed
 	$(PY) -m backend.scripts.llm_smoke

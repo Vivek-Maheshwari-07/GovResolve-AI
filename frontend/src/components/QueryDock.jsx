@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CornerDownLeft, X, Keyboard, Loader2 } from 'lucide-react';
+import { CornerDownLeft, X, Keyboard, Loader2, Mic, MicOff } from 'lucide-react';
 import GujaratiKeyboard from './GujaratiKeyboard';
 import HistoryMenu from './HistoryMenu';
 
@@ -9,6 +9,74 @@ const TEMPLATES = [
   { label: 'Leave rules', text: 'Leave rules: ' },
   { label: 'Pay & allowances', text: 'Pay fixation: ' },
 ];
+
+// Browser speech recognition (Chrome / Edge). Gujarati uses gu-IN; English and Gujlish use en-IN. Null where unsupported.
+const SpeechRecognition = typeof window !== 'undefined' ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null;
+
+function VoiceButton({ value, onChange, onSubmit, disabled }) {
+  const [lang, setLang] = useState('gu-IN');
+  const [listening, setListening] = useState(false);
+  const [err, setErr] = useState('');
+  const recRef = useRef(null);
+  if (!SpeechRecognition) return null;
+
+  const start = () => {
+    setErr('');
+    const rec = new SpeechRecognition();
+    rec.lang = lang;
+    rec.interimResults = true;
+    rec.continuous = false;
+    const base = value.trim() ? `${value.trim()} ` : '';
+    let finalText = '';
+    rec.onresult = (e) => {
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i += 1) {
+        if (e.results[i].isFinal) finalText += e.results[i][0].transcript;
+        else interim += e.results[i][0].transcript;
+      }
+      onChange(base + finalText + interim);
+    };
+    rec.onerror = (e) => setErr(e.error === 'not-allowed' ? 'Microphone blocked' : e.error === 'network' ? 'Needs internet' : '');
+    rec.onend = () => {
+      setListening(false);
+      const spoken = (base + finalText).trim();
+      if (finalText.trim() && onSubmit) onSubmit(spoken);
+    };
+    recRef.current = rec;
+    setListening(true);
+    rec.start();
+  };
+  const stop = () => recRef.current?.stop();
+
+  return (
+    <span className="inline-flex items-center gap-1">
+      <button
+        type="button"
+        onClick={() => setLang((l) => (l === 'gu-IN' ? 'en-IN' : 'gu-IN'))}
+        disabled={listening}
+        title="Speech language"
+        className="gu-text rounded-md border border-[#E6E4DD] bg-[#F1EFEA] px-1.5 py-0.5 text-[12.5px] font-semibold text-[#64748B] hover:text-[#1E293B]"
+      >
+        {lang === 'gu-IN' ? 'ગુ' : 'EN'}
+      </button>
+      <button
+        type="button"
+        onClick={listening ? stop : start}
+        disabled={disabled}
+        aria-pressed={listening}
+        aria-label={listening ? 'Stop listening' : 'Ask by voice'}
+        title={err || (listening ? 'Listening… click to stop' : 'Ask by voice')}
+        className={`relative inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[12.5px] font-semibold transition-all ${
+          listening ? 'border border-[#FDA4AF] bg-[#FFF1F2] text-[#BE123C]' : 'border border-[#E6E4DD] bg-[#F1EFEA] text-[#64748B] hover:bg-white hover:text-[#1E293B]'
+        } disabled:opacity-40`}
+      >
+        {listening && <span className="absolute -right-0.5 -top-0.5 h-2 w-2 animate-ping rounded-full bg-[#E11D48]" />}
+        {listening ? <MicOff className="h-3 w-3" /> : <Mic className="h-3 w-3 text-[#4F46E5]" />}
+        <span>{listening ? 'Listening' : err || 'Speak'}</span>
+      </button>
+    </span>
+  );
+}
 
 export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal, hero = false, history = [], onOpenHistory, onClearHistory }) {
   const [kb, setKb] = useState(false);
@@ -90,6 +158,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
 
             <div className="flex items-center gap-2">
               <HistoryMenu history={history} onOpen={onOpenHistory} onClear={onClearHistory} />
+              <VoiceButton value={value} onChange={onChange} onSubmit={(q) => !loading && onSubmit(q)} disabled={loading} />
               <span className="hidden text-[12.5px] text-[#64748B] sm:inline">Enter to send</span>
               <button
                 type="button"
