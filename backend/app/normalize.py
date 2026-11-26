@@ -6,6 +6,10 @@ import re
 import unicodedata
 from datetime import date
 
+from rag.gujlish_normalizer import GujlishNormalizer
+
+_gujlish_normalizer = GujlishNormalizer()
+
 _GUJARATI_DIGITS = "૦૧૨૩૪૫૬૭૮૯"
 _DEVANAGARI_DIGITS = "०१२३४५६७८९"
 _DIGIT_MAP = str.maketrans(
@@ -91,5 +95,5 @@ def detect_language(text: str) -> str:
     if ratio > 0.9:
         return "gu"
     if ratio < 0.1:
-        return "en"
+        return _gujlish_normalizer.detect_language(text)
     return "mixed"

@@ -79,11 +79,110 @@ CHECK_SYSTEM = ("You check an answer against evidence from a Government Resoluti
 # Without a model, quote a passage only if it has at least this share of the question's (rare) words. A floor against zero-signal matches, not a
 # test of relevance: on the 50 gold questions answerable and unanswerable ones overlap (0.14-0.66 vs 0.20-0.58), so no threshold can separate them.
 EXTRACTIVE_MIN_COVERAGE  = float(os.getenv("EXTRACTIVE_MIN_COVERAGE", "0.2"))
+_GENERIC_GROUNDING_TOKENS = {
+    "government", "officer", "officers", "employee", "employees",
+    "leave", "leaves", "rule", "rules", "document", "documents", "department", "departments",
+    "સરકારી", "સરકાર", "અધિકારી", "અધિકારીઓ", "કર્મચારી", "કર્મચારીઓ", "રજા", "રજાઓ",
+    "હાલ", "હાલમાં",
+}
+_GENERIC_GROUNDING_TOKENS |= {
+    "sarkari", "sarkar", "adhikari", "karmachari", "raja", "haal", "haalma",
+}
+_GROUNDING_EQUIVALENTS = {
+    "phone": {"phone", "mobile", "ફોન", "મોબાઇલ", "મોબાઈલ"},
+    "ફોન": {"phone", "mobile", "ફોન", "મોબાઇલ", "મોબાઈલ"},
+    "email": {"email", "ઇમેઇલ", "ઈમેઈલ", "ઈમેલ", "ઇમેલ"},
+    "ઈમેઈલ": {"email", "ઇમેઇલ", "ઈમેઈલ", "ઈમેલ", "ઇમેલ"},
+    "age": {"age", "વય", "ઉંમર"},
+    "વય": {"age", "વય", "ઉંમર"},
+    "umar": {"age", "limit", "ઉંમર", "વય", "મર્યાદા"},
+    "umr": {"age", "limit", "ઉંમર", "વય", "મર્યાદા"},
+    "maryada": {"age", "limit", "ઉંમર", "વય", "મર્યાદા"},
+    "મર્યાદા": {"age", "limit", "ઉંમર", "વય", "મર્યાદા", "umar", "maryada"},
+    "day": {"day", "days", "દિવસ"},
+    "days": {"day", "days", "દિવસ"},
+    "divas": {"day", "days", "દિવસ"},
+    "દિવસ": {"day", "days", "દિવસ"},
+    "year": {"year", "years", "વર્ષ"},
+    "years": {"year", "years", "વર્ષ"},
+    "varsh": {"year", "years", "વર્ષ"},
+    "વર્ષ": {"year", "years", "વર્ષ"},
+    "cancel": {"cancel", "cancelled", "canceled", "રદ", "રદબાતલ"},
+    "cancelled": {"cancel", "cancelled", "canceled", "રદ", "રદબાતલ"},
+    "canceled": {"cancel", "cancelled", "canceled", "રદ", "રદબાતલ"},
+    "રદ": {"cancel", "cancelled", "canceled", "રદ", "રદબાતલ"},
+}
+_GUJARATI_VOWELS = {
+    "અ": "a", "આ": "aa", "ઇ": "i", "ઈ": "i", "ઉ": "u", "ઊ": "u",
+    "ઋ": "ru", "એ": "e", "ઐ": "ai", "ઓ": "o", "ઔ": "au",
+}
+_GUJARATI_MATRAS = {
+    "ા": "aa", "િ": "i", "ી": "i", "ુ": "u", "ૂ": "u", "ૃ": "ru",
+    "ે": "e", "ૈ": "ai", "ો": "o", "ૌ": "au",
+}
+_GUJARATI_CONSONANTS = {
+    "ક": "k", "ખ": "kh", "ગ": "g", "ઘ": "gh", "ઙ": "ng",
+    "ચ": "ch", "છ": "chh", "જ": "j", "ઝ": "jh", "ઞ": "ny",
+    "ટ": "t", "ઠ": "th", "ડ": "d", "ઢ": "dh", "ણ": "n",
+    "ત": "t", "થ": "th", "દ": "d", "ધ": "dh", "ન": "n",
+    "પ": "p", "ફ": "ph", "બ": "b", "ભ": "bh", "મ": "m",
+    "ય": "y", "ર": "r", "લ": "l", "વ": "v", "શ": "sh",
+    "ષ": "sh", "સ": "s", "હ": "h", "ળ": "l",
+}
+_GUJARATI_VIRAMA = "્"
+
+
+def _grounding_tokens(text: str) -> set[str]:
+    """Include a simple Roman transliteration of Gujarati tokens for cross-script claim checks."""
+    tokens = set(tokenize_for_bm25(text))
+    for token in tokens.copy():
+        if not any("\u0A80" <= char <= "\u0AFF" for char in token):
+            continue
+        roman = []
+        index = 0
+        while index < len(token):
+            char = token[index]
+            if char in _GUJARATI_CONSONANTS:
+                roman.append(_GUJARATI_CONSONANTS[char])
+                if index + 1 < len(token) and token[index + 1] in _GUJARATI_MATRAS:
+                    roman.append(_GUJARATI_MATRAS[token[index + 1]])
+                    index += 1
+                elif index + 1 < len(token) and token[index + 1] == _GUJARATI_VIRAMA:
+                    index += 1
+                else:
+                    roman.append("a")
+            elif char in _GUJARATI_VOWELS:
+                roman.append(_GUJARATI_VOWELS[char])
+            elif char in {"ં", "ઁ"}:
+                roman.append("n")
+            elif char == "ઃ":
+                roman.append("h")
+            index += 1
+        romanized = "".join(roman).lower()
+        if romanized:
+            tokens.add(romanized)
+            if romanized.endswith("a") and len(romanized) > 2:
+                tokens.add(romanized[:-1])
+    return tokens
+
+
 EVIDENCE_CANDIDATES      = int(os.getenv("EVIDENCE_CANDIDATES", "10"))  # chunks whose sentences compete for the evidence budget
 EVIDENCE_CHARS_PER_CHUNK = int(os.getenv("EVIDENCE_CHARS_PER_CHUNK", "1200"))
 EVIDENCE_MAX_CHARS       = int(os.getenv("EVIDENCE_MAX_CHARS", "6000"))
+LOCAL_FAST_EVIDENCE_MAX_CHARS = int(os.getenv("LOCAL_FAST_EVIDENCE_MAX_CHARS", "1200"))
+LOCAL_FAST_MAX_TOKENS = int(os.getenv("LOCAL_FAST_MAX_TOKENS", "256"))
 CHROMA_DIR      = os.getenv("CHROMA_PERSIST_DIR", "./data/index/chroma")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "intfloat/multilingual-e5-large")
+_GUJARATI_QUERY_TERMS = {
+    "leave": "રજા", "leaves": "રજાઓ", "officer": "અધિકારી", "officers": "અધિકારીઓ",
+    "employee": "કર્મચારી", "employees": "કર્મચારીઓ", "phone": "ફોન", "email": "ઈ.મેઈલ",
+    "available": "ઉપલબ્ધ", "government": "સરકાર",
+}
+
+
+def local_fast_mode_enabled() -> bool:
+    return os.getenv("LOCAL_FAST_MODE", "").strip().lower() in {"1", "true", "yes"}
+
 
 # Initialize Normalizer
 normalizer = GujlishNormalizer()
@@ -305,6 +404,28 @@ def sentence_coverage(items: list[dict], query_tokens: set[str]) -> list[float]:
     return [sum(idf[t] for t in query_tokens & ts) / total for ts in tokens]
 
 
+_NUMERIC_QUESTION_TOKENS = {
+    "age", "range", "when", "date", "day", "days", "year", "years", "long", "many",
+    "amount", "duration", "period", "limit", "effective", "effect", "commence",
+    "ક્યારે", "તારીખ", "તારીખથી", "ઉંમર", "વય", "કેટલા", "દિવસ", "વર્ષ", "સમય", "અવધિ",
+}
+_AGE_QUESTION_TOKENS = {"age", "ઉંમર", "વય"}
+_DATE_QUESTION_TOKENS = {"when", "date", "effective", "effect", "commence", "ક્યારે", "તારીખ", "તારીખથી"}
+_DURATION_QUESTION_TOKENS = {"long", "duration", "period", "day", "days", "year", "years", "કેટલા", "દિવસ", "વર્ષ", "અવધિ"}
+_NUMERIC_VALUE = re.compile(
+    r"\d|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|"
+    r"twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)\b",
+    re.IGNORECASE,
+)
+_DATE_VALUE = re.compile(
+    r"\b(?:dated?|january|february|march|april|may|june|july|august|september|october|"
+    r"november|december|જાન્યુઆરી|ફેબ્રુઆરી|માર્ચ|એપ્રિલ|મે|જૂન|જુલાઈ|ઓગસ્ટ|સપ્ટેમ્બર|"
+    r"ઓક્ટોબર|નવેમ્બર|ડિસેમ્બર)\b",
+    re.IGNORECASE,
+)
+_CURRENT_QUESTION_TOKENS = {"currently", "current", "latest", "today", "હાલ", "હાલમાં", "હાલના"}
+
+
 def select_sentences(items: list[dict], query_tokens: set[str], budget: int, chunk_cap: int) -> list[int]:
     """Indexes of the sentences to send, best first.
 
@@ -320,10 +441,63 @@ def select_sentences(items: list[dict], query_tokens: set[str], budget: int, chu
     df = Counter(t for ts in tokens for t in ts)
     n = len(items)
     score = [sum(math.log(1 + n / df[t]) for t in query_tokens & ts) for ts in tokens]
-    total = [(sc + (it.get("bonus", 0.0) if sc > 0 else 0.0) + 1.0 / (1 + it["rank"])) if sc > 0 else 0.0 for sc, it in zip(score, items)]
-    if not any(total):  # nothing shares a word with the question
+    cross_language_chunk = None
+    if any(score):
+        total = [
+            sc + (it.get("bonus", 0.0) if sc > 0 else 0.0) + 1.0 / (1 + it["rank"])
+            for sc, it in zip(score, items)
+        ]
+        best_rank = min(it["rank"] for it in items)
+        best_chunk = next(it["chunk"] for it in items if it["rank"] == best_rank)
+        best_text = " ".join(it["text"] for it in items if it["chunk"] == best_chunk)
+        query_text = " ".join(query_tokens)
+        best_gu_chars = len(re.findall(r"[\u0A80-\u0AFF]", best_text))
+        best_latin_chars = len(re.findall(r"[A-Za-z]", best_text))
+        query_gu_chars = len(re.findall(r"[\u0A80-\u0AFF]", query_text))
+        query_latin_chars = len(re.findall(r"[A-Za-z]", query_text))
+        if (
+            best_gu_chars > best_latin_chars and query_latin_chars > query_gu_chars
+        ) or (
+            best_latin_chars > best_gu_chars and query_gu_chars > query_latin_chars
+        ):
+            cross_language_chunk = best_chunk
+    else:  # nothing shares a word with the question
         best = min(it["rank"] for it in items)
         total = [0.001 / (1 + k) if it["rank"] == best else 0.0 for k, it in enumerate(items)]
+
+    numeric_intent = query_tokens & _NUMERIC_QUESTION_TOKENS
+    if numeric_intent:
+        numeric_priority = max(total, default=0.0) + 1.0
+        for k, item in enumerate(items):
+            if score[k] <= 0 or item["rank"] > TOP_K_RERANK + 1 or not _NUMERIC_VALUE.search(item["text"]):
+                continue
+            candidate_tokens = tokens[k]
+            age_clause = bool(numeric_intent & _AGE_QUESTION_TOKENS) and bool(candidate_tokens & _AGE_QUESTION_TOKENS)
+            date_clause = bool(numeric_intent & _DATE_QUESTION_TOKENS) and bool(_DATE_VALUE.search(item["text"]))
+            duration_clause = bool(numeric_intent & _DURATION_QUESTION_TOKENS) and bool(
+                candidate_tokens & {"day", "days", "year", "years", "month", "months", "hour", "hours", "period"}
+            )
+            general_count = bool(numeric_intent & {"many", "amount", "કેટલા"})
+            if age_clause or date_clause or duration_clause or general_count:
+                total[k] += numeric_priority
+
+    if query_tokens & _CURRENT_QUESTION_TOKENS:
+        document_ranks: dict[str, float] = {}
+        document_dates: dict[str, str] = {}
+        for item in items:
+            document = item.get("document")
+            if document:
+                document_ranks[document] = min(document_ranks.get(document, float("inf")), item["rank"])
+                document_dates[document] = max(document_dates.get(document, ""), item.get("issue_date", ""))
+        top_documents = sorted(document_ranks, key=lambda doc: document_ranks[doc])[:max(1, TOP_K_RERANK)]
+        if top_documents:
+            latest_date = max(document_dates[doc] for doc in top_documents)
+            latest_documents = {doc for doc in top_documents if document_dates[doc] == latest_date and latest_date}
+            current_priority = max(total, default=0.0) + 1.0
+            for k, item in enumerate(items):
+                if score[k] > 0 and item.get("document") in latest_documents:
+                    total[k] += current_priority
+
     order = sorted((k for k in range(n) if total[k] > 0), key=lambda k: (-total[k], items[k]["rank"], k))
     chosen, used, per_chunk = [], 0, Counter()
     for k in order:
@@ -331,7 +505,8 @@ def select_sentences(items: list[dict], query_tokens: set[str], budget: int, chu
         chunk = items[k]["chunk"]
         if used + cost > budget and (chosen or cost > 2 * budget):
             continue  # too big for what is left (a shorter sentence may still fit); the very first one may overshoot a little
-        if per_chunk[chunk] and per_chunk[chunk] + cost > chunk_cap:
+        per_chunk_limit = chunk_cap * 2 if chunk == cross_language_chunk else chunk_cap
+        if per_chunk[chunk] and per_chunk[chunk] + cost > per_chunk_limit:
             continue
         chosen.append(k)
         used += cost
@@ -364,6 +539,16 @@ def amending_chunks_for(chunks: list, query_tokens: set[str], exclude: set[str],
 
 def is_substantive(sentence: str) -> bool:
     """False for fragments that cannot answer a question: very short, or mostly punctuation, digits and symbols."""
+    if re.match(r"^[A-Za-z]:[\\/]", sentence):
+        return False
+    if "વંચાણે લીધા" in sentence:
+        return False
+    if re.search(r"(?:બાબત|અંગે)\s*[.।]?$", sentence.strip()) and not re.search(
+        r"\b(?:shall|must|is|are|was|were|be)\b|(?:કરશે|રહેશે|મળશે|થશે|છે)\s*[.।]?$",
+        sentence.strip(),
+        re.IGNORECASE,
+    ):
+        return False
     if len(sentence) < 30:
         return False
     texty = sum(ch.isalpha() or unicodedata.category(ch).startswith("M") for ch in sentence)  # M = Gujarati vowel signs
@@ -625,47 +810,52 @@ class GRIndex:
             if "year" in filters:
                 where["issue_date"] = {"$gte": f"{filters['year']}-01-01"}
 
-        # 1. Dense EN Search
+        # 1. Dense search. Chroma/Ollama accepts multiple query texts in one embedding request.
         dense_en_ranks: dict[str, int] = {}
         dense_en_chunks: dict[str, dict] = {}
-        if self.collection and bundle.query_en:
-            try:
-                res_en = self.collection.query(
-                    query_texts=[bundle.query_en],
-                    n_results=min(top_k, self.collection.count() or 1),
-                    where=where if where else None,
-                )
-                for rank, cid in enumerate(res_en["ids"][0]):
-                    dense_en_ranks[cid] = rank + 1
-                    dense_en_chunks[cid] = {
-                        "chunk_id": cid,
-                        "text": res_en["documents"][0][rank],
-                        "metadata": res_en["metadatas"][0][rank],
-                    }
-            except Exception as e:
-                logger.warning(f"Dense EN query failed: {e}")
-
-        # 2. Dense GU Search
         dense_gu_ranks: dict[str, int] = {}
         dense_gu_chunks: dict[str, dict] = {}
-        # When the "Gujarati" query is the same text as the "English" one (any plain English or Gujarati question) the second
-        # search would only repeat the first and make the vector search count double against the keyword search.
-        if self.collection and bundle.query_gu and bundle.query_gu.strip() != (bundle.query_en or "").strip():
+        dense_queries: list[tuple[str, str]] = []
+        if bundle.query_en and bundle.query_en.strip():
+            dense_queries.append(("en", bundle.query_en))
+        if bundle.query_gu and bundle.query_gu.strip() != (bundle.query_en or "").strip():
+            dense_queries.append(("gu", bundle.query_gu))
+
+        def record_dense_result(channel: str, result: dict, query_index: int = 0) -> None:
+            ranks = dense_en_ranks if channel == "en" else dense_gu_ranks
+            chunks = dense_en_chunks if channel == "en" else dense_gu_chunks
+            for rank, cid in enumerate(result["ids"][query_index]):
+                ranks[cid] = rank + 1
+                chunks[cid] = {
+                    "chunk_id": cid,
+                    "text": result["documents"][query_index][rank],
+                    "metadata": result["metadatas"][query_index][rank],
+                }
+
+        if self.collection and dense_queries:
             try:
-                res_gu = self.collection.query(
-                    query_texts=[bundle.query_gu],
+                dense_result = self.collection.query(
+                    query_texts=[query for _, query in dense_queries],
                     n_results=min(top_k, self.collection.count() or 1),
                     where=where if where else None,
                 )
-                for rank, cid in enumerate(res_gu["ids"][0]):
-                    dense_gu_ranks[cid] = rank + 1
-                    dense_gu_chunks[cid] = {
-                        "chunk_id": cid,
-                        "text": res_gu["documents"][0][rank],
-                        "metadata": res_gu["metadatas"][0][rank],
-                    }
+                for query_index, (channel, _) in enumerate(dense_queries):
+                    record_dense_result(channel, dense_result, query_index)
             except Exception as e:
-                logger.warning(f"Dense GU query failed: {e}")
+                if len(dense_queries) == 1:
+                    logger.warning(f"Dense {dense_queries[0][0].upper()} query failed: {e}")
+                else:
+                    logger.warning(f"Batched dense query failed; retrying language queries separately: {e}")
+                    for channel, query in dense_queries:
+                        try:
+                            result = self.collection.query(
+                                query_texts=[query],
+                                n_results=min(top_k, self.collection.count() or 1),
+                                where=where if where else None,
+                            )
+                            record_dense_result(channel, result)
+                        except Exception as retry_error:
+                            logger.warning(f"Dense {channel.upper()} query failed: {retry_error}")
 
         # 3. Suffix-Stripped BM25 Search
         bm25_ranks: dict[str, int] = {}
@@ -878,9 +1068,20 @@ class RAGPipeline:
             raw_query = unicodedata.normalize("NFC", raw_query).replace("\u200c", "").replace("\u200d", "")
         bundle = normalizer.normalize(raw_query)
         has_gujarati_script = any(0x0A80 <= ord(c) <= 0x0AFF for c in raw_query)
+        if bundle.detected_lang in ("gujlish", "mixed"):
+            source_terms = set(normalizer.english_terms(raw_query))
+            translated_terms = [gu for en, gu in _GUJARATI_QUERY_TERMS.items() if en in source_terms]
+            if translated_terms:
+                bundle = dataclasses.replace(
+                    bundle,
+                    query_gu=" ".join(dict.fromkeys([bundle.query_gu, *translated_terms])),
+                    keywords=list(dict.fromkeys([*bundle.keywords, *translated_terms])),
+                )
 
         need_en = bundle.detected_lang != "en" or not bundle.query_en
-        need_gu = not has_gujarati_script and want_gujarati_rendering(bundle.detected_lang)
+        # LOCAL_FAST_MODE (Kunj) also skips the Gujarati rendering of English and Gujlish questions on a CPU-only model
+        skip_gujarati = local_fast_mode_enabled() and bundle.detected_lang in ("en", "gujlish")
+        need_gu = not has_gujarati_script and want_gujarati_rendering(bundle.detected_lang) and not skip_gujarati
         if not (need_en or need_gu):
             return bundle
         _emit(progress, "translate", "Rendering the question in " + " and ".join(
@@ -893,8 +1094,12 @@ class RAGPipeline:
 
         # 1. High-quality English query (bridges Gujarati/Gujlish to English GRs)
         if english:
-            words = [w.lower() for w in re.findall(r"[A-Za-z0-9]{3,}", english)]
-            bundle = dataclasses.replace(bundle, query_en=english, keywords=list(dict.fromkeys(list(bundle.keywords) + words)))
+            # the model's rendering plus the question's own English terms (Kunj), so a term the model dropped still matches
+            translated_words = [w.lower() for w in re.findall(r"[A-Za-z0-9]{3,}", english)]
+            source_words = normalizer.english_terms(raw_query)
+            english_query = " ".join([english, *(w for w in source_words if w not in translated_words)])
+            words = [w.lower() for w in re.findall(r"[A-Za-z0-9]{3,}", english_query)]
+            bundle = dataclasses.replace(bundle, query_en=english_query, keywords=list(dict.fromkeys(list(bundle.keywords) + words)))
 
         # 2. High-quality Gujarati script query (bridges Gujlish/English to Gujarati GRs)
         if gujarati:
@@ -906,18 +1111,24 @@ class RAGPipeline:
     def build_evidence(self, raw_query: str, passages: list[dict], bundle: Optional[SearchBundle] = None) -> tuple[str, dict, list[dict]]:
         """The numbered evidence the model reads: (text, sentence registry, chunks used). No model call, so it can be measured on its own.
 
-        The sentences of the best EVIDENCE_CANDIDATES chunks compete for one budget (EVIDENCE_MAX_CHARS), chosen by how well they
-        match the question. A wide pool with a small prompt: the answer is often a sentence in the 4th-8th chunk of the right
-        document, and sending whole top-3 chunks both missed it and spent the prompt on letterhead.
+        Retrieved chunks from the top distinct GRs, plus same-document BM25 expansions and amending passages,
+        compete for one budget (EVIDENCE_MAX_CHARS), chosen by how well they match the question. A wide pool with
+        a small prompt can reach answer-bearing clauses beyond the first retrieved chunk without sending whole documents.
         """
-        raw_cands = passages[:max(EVIDENCE_CANDIDATES, TOP_K_RERANK)]
+        raw_cands = passages[:max(EVIDENCE_CANDIDATES, TOP_K_RERANK, TOP_K_RETRIEVE)]
+        top_document_ids = {
+            cand.get("metadata", {}).get("gr_id")
+            for cand in raw_cands
+            if cand.get("metadata", {}).get("gr_id")
+        }
+        raw_cands = [cand for cand in raw_cands if cand.get("metadata", {}).get("gr_id") in top_document_ids]
         candidates = []
         seen_cand_ids = set()
         for cand in raw_cands:
             cid = cand.get("chunk_id")
             if cid and cid not in seen_cand_ids:
                 seen_cand_ids.add(cid)
-                candidates.append(cand)
+                candidates.append({**cand, "_evidence_rank": len(candidates)})
             # Pull in sequential continuation chunk if chunk ends in colon, dash or namely
             t = cand.get("text", "").strip()
             gid = cand.get("metadata", {}).get("gr_id")
@@ -940,8 +1151,43 @@ class RAGPipeline:
                                     "ocr_conf": next_ch.ocr_confidence or 1.0,
                                 },
                                 "rrf_score": cand.get("rrf_score", 1.0) * 0.9,
+                                "_evidence_rank": len(candidates) + 0.25,
                             })
                         break
+
+        # Dense retrieval can find the right GR while ranking its answer-bearing clause below top-k.
+        bm25_docs = getattr(self.index, "bm25_docs", [])
+        if getattr(self.index, "bm25", None) is not None and bm25_docs and candidates:
+            query = f"{raw_query} {' '.join(bundle.keywords)}" if bundle else raw_query
+            scores = self.index._bm25_scores(query)
+            if scores is not None:
+                document_ranks: dict[str, int] = {}
+                for cand in candidates:
+                    gr_id = cand.get("metadata", {}).get("gr_id")
+                    if gr_id and gr_id not in document_ranks:
+                        document_ranks[gr_id] = len(document_ranks)
+
+                ranked_by_document: dict[str, list[tuple[float, dict]]] = {gr_id: [] for gr_id in document_ranks}
+                for index, doc in enumerate(bm25_docs):
+                    gr_id = doc.get("gr_id")
+                    if gr_id in ranked_by_document and doc.get("chunk_id") not in seen_cand_ids and scores[index] > 0:
+                        ranked_by_document[gr_id].append((float(scores[index]), doc))
+
+                for gr_id, rank in document_ranks.items():
+                    ranked_chunks = sorted(ranked_by_document[gr_id], key=lambda item: item[0], reverse=True)[:8]
+                    for offset, (_, doc) in enumerate(ranked_chunks):
+                        seen_cand_ids.add(doc["chunk_id"])
+                        candidates.append({
+                            "chunk_id": doc["chunk_id"],
+                            "text": doc["text"],
+                            "metadata": doc,
+                            "rrf_score": 0.0,
+                            "_evidence_rank": rank + 0.5 + offset / 100,
+                        })
+                for cand in candidates:
+                    gr_id = cand.get("metadata", {}).get("gr_id")
+                    if gr_id in document_ranks:
+                        cand["_evidence_bonus"] = max(1.0, TOP_K_RERANK - document_ranks[gr_id])
 
         # ── Step 3: Pre-Generation Lineage Injection ──
         # Check if retrieved chunks are Amended/Superseded; inject operative successor clauses!
@@ -1001,9 +1247,38 @@ class RAGPipeline:
                 if looks_like_injection(s):
                     logger.warning(f"Dropped instruction-like sentence from GR {meta.get('gr_number')}: {s[:80]!r}")
                 elif is_substantive(s):  # not letterhead or page furniture: it costs prompt time and answers nothing
-                    pool.append({"text": s, "chunk": c_idx, "rank": c_idx, "bonus": 3.0 if c.get("injected") else 0.0})
+                    pool.append({
+                        "text": s,
+                        "chunk": c_idx,
+                        "rank": c.get("_evidence_rank", c_idx),
+                        "bonus": c.get("_evidence_bonus", 0.0) + (3.0 if c.get("injected") else 0.0),
+                        "document": meta.get("gr_id"),
+                        "gr_number": meta.get("gr_number"),
+                        "issue_date": meta.get("issue_date", ""),
+                    })
 
-        chosen = select_sentences(pool, query_tokens, EVIDENCE_MAX_CHARS, EVIDENCE_CHARS_PER_CHUNK)
+        # the English rendering (if any) lets a Gujarati question pick English sentences
+        extra = ""
+        if bundle:
+            extra = f" {bundle.query_en or ''} {bundle.query_gu or ''} {' '.join(bundle.keywords)}"
+        query_tokens = set(tokenize_for_bm25(raw_query + extra))
+        if query_tokens & _CURRENT_QUESTION_TOKENS:
+            latest_by_number: dict[str, str] = {}
+            for item in pool:
+                number = item.get("gr_number")
+                issue_date = item.get("issue_date")
+                if number and issue_date:
+                    latest_by_number[number] = max(latest_by_number.get(number, ""), issue_date)
+            pool = [
+                item for item in pool
+                if not item.get("gr_number")
+                or not item.get("issue_date")
+                or item["issue_date"] >= latest_by_number.get(item["gr_number"], item["issue_date"])
+            ]
+        evidence_budget = EVIDENCE_MAX_CHARS
+        if local_fast_mode_enabled():
+            evidence_budget = min(evidence_budget, LOCAL_FAST_EVIDENCE_MAX_CHARS)
+        chosen = select_sentences(pool, query_tokens, evidence_budget, EVIDENCE_CHARS_PER_CHUNK)
         coverage = sentence_coverage(pool, query_tokens)
         by_chunk: dict[int, list[int]] = {}
         for k in chosen:
@@ -1249,11 +1524,21 @@ class RAGPipeline:
                 "Write the summary and each `explanation` in fluent, accurate, natural Gujarati script (ગુજરાતીમાં). "
                 "Do NOT write explanations in English. All explanations MUST be in Gujarati."
             )
+        elif effective_target_lang == Language.MIXED and (tgt == "gujlish" or bundle.detected_lang == "gujlish"):
+            lang_rule = (
+                "MANDATORY LANGUAGE INSTRUCTION: Write the summary and each `explanation` in natural, concise Gujlish: "
+                "Gujarati written with Latin/Roman letters, like a WhatsApp message. Never use Gujarati script or Hindi. "
+                "Use Gujarati words such as 'umar', 'maryada', 'thi', 'varsh', and 'chhe'; for example, "
+                "'Umar ni maryada 20 thi 40 varsh chhe.' Keep official names, GR numbers, dates and amounts unchanged. "
+                "Do not add facts that are not supported by the numbered evidence."
+            )
         elif effective_target_lang == Language.MIXED:
-            lang_rule = "Write each `explanation` in the language of the question's main text (Gujarati or English)."
+            lang_rule = "Write each `explanation` in the language and script that dominate the user's question."
         else:
             lang_rule = "Write each `explanation` in English, even if the evidence is in Gujarati."
         system_prompt = SYSTEM_PROMPT
+        if effective_target_lang == Language.MIXED and (tgt == "gujlish" or bundle.detected_lang == "gujlish"):
+            system_prompt = f"{SYSTEM_PROMPT}\n\n{lang_rule} Give exactly one short answer statement."
 
         user_prompt = (
             f"Collection latest date: {self.collection_latest_date}\n\n"
@@ -1264,7 +1549,10 @@ class RAGPipeline:
 
         first = primary_provider_name() or "none"
         _emit(progress, "generate", f"Writing the answer from the numbered sentences only ({first})", provider=first)
-        raw_llm, provider_used = execute_llm_generation(system_prompt, user_prompt)
+        if local_fast_mode_enabled():  # Kunj: a shorter reply keeps a CPU-only local model fast
+            raw_llm, provider_used = execute_llm_generation(system_prompt, user_prompt, max_tokens=LOCAL_FAST_MAX_TOKENS)
+        else:
+            raw_llm, provider_used = execute_llm_generation(system_prompt, user_prompt)
         if provider_used == "fallback":  # no model answered (offline, unreachable, no key): quote the best passages instead
             _emit(progress, "fallback", "No language model answered: quoting the best-matching passage instead")
             return self._extractive_response(raw_query, sentence_registry, detected_lang, target_language=effective_target_lang), False
@@ -1272,6 +1560,60 @@ class RAGPipeline:
         # Parse LLM Response
         parsed = parse_llm_json(raw_llm)
         _emit(progress, "verify", "Resolving cited sentence IDs to verbatim quotes on their pages", provider=provider_used)
+
+        # A citation can be verbatim yet unrelated to the question. Require it to support both a
+        # question-specific term and a non-generic term in the generated claim.
+        claims = [stmt for stmt in parsed.get("statements", []) if stmt.get("explanation", "").strip()]
+        grounding_query = raw_query
+        if bundle:
+            grounding_query += f" {bundle.query_en or ''} {bundle.query_gu or ''} {' '.join(bundle.keywords)}"
+        question_terms = _grounding_tokens(grounding_query) - _GENERIC_GROUNDING_TOKENS
+
+        def expand_grounding_terms(tokens: set[str]) -> set[str]:
+            expanded = set(tokens)
+            for token in tokens:
+                expanded.update(_GROUNDING_EQUIVALENTS.get(token, ()))
+            return expanded
+
+        question_terms = expand_grounding_terms(question_terms)
+
+        def has_supported_citation(stmt: dict) -> bool:
+            answer_terms = _grounding_tokens(str(stmt.get("explanation", ""))) - _GENERIC_GROUNDING_TOKENS
+            answer_terms = expand_grounding_terms(answer_terms)
+            for sid in stmt.get("cited_sentence_ids", []):
+                cited = sentence_registry.get(sid)
+                if not cited:
+                    continue
+                cited_terms = _grounding_tokens(cited["verbatim_text"])
+                if question_terms.intersection(answer_terms, cited_terms):
+                    return True
+                if question_terms & _NUMERIC_QUESTION_TOKENS:
+                    answer_values = set(_NUMERIC_VALUE.findall(str(stmt.get("explanation", ""))))
+                    cited_values = set(_NUMERIC_VALUE.findall(cited["verbatim_text"]))
+                    if question_terms.intersection(cited_terms) and answer_values.intersection(cited_values):
+                        return True
+            return False
+
+        supported_claims = [stmt for stmt in claims if has_supported_citation(stmt)]
+        unsupported_claims_filtered = len(supported_claims) != len(claims)
+        if unsupported_claims_filtered and not supported_claims:
+            if effective_target_lang == Language.GU:
+                summary = "મળેલા દસ્તાવેજોમાંથી આ પ્રશ્નનો જવાબ આપવા પૂરતા સંબંધિત પુરાવા મળ્યા નથી. કૃપા કરીને સંબંધિત સરકારી ઠરાવ અથવા વધુ વિગતો આપો."
+            elif effective_target_lang == Language.MIXED and (tgt == "gujlish" or bundle.detected_lang == "gujlish"):
+                summary = "Maldela documents ma aa question no answer aapva jetla relevant purava nathi. Krupaya related Government Resolution athva vadhu details aapo."
+            else:
+                summary = "The retrieved documents do not contain enough question-specific evidence to answer this. Please provide the relevant Government Resolution or more details."
+            return QueryResponse(
+                question=raw_query,
+                answer_status=AnswerStatus.INSUFFICIENT,
+                insufficient_reason=InsufficientReason.NO_DOCUMENT,
+                summary=summary,
+                language_detected=detected_lang,
+                collection_latest_date=self.collection_latest_date,
+            ), True
+        if unsupported_claims_filtered:
+            parsed["statements"] = supported_claims
+            parsed["summary"] = ""
 
         # ── Step 6: Verbatim Citation Resolution from Sentence Registry (Pillar 3) ──
         verified_citations: list[Citation] = []
@@ -1369,6 +1711,8 @@ class RAGPipeline:
         warnings: list[str] = []
         if answer_status != AnswerStatus.INSUFFICIENT and ANSWER_CHECK in ("warn", "refuse") and verified_citations:
             _emit(progress, "check", "Second check: do the cited sentences really answer the question?")
+        if unsupported_claims_filtered:
+            warnings.append("Unsupported statements were omitted because their cited passages did not support them.")
         if answer_status != AnswerStatus.INSUFFICIENT and self._check_answer(raw_query, summary, verified_citations) is False:
             if ANSWER_CHECK == "refuse":
                 return QueryResponse(

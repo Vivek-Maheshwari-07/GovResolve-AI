@@ -29,12 +29,17 @@ R = RelType
     ("સ્પષ્ટતા કરવામાં આવે છે કે ઠરાવ લાગુ પડશે.", R.CLARIFIES),
     ("GR A/1/1 is hereby restored.", R.RESTORES),
     ("ઠરાવ પુનઃસ્થાપિત કરવામાં આવે છે.", R.RESTORES),
+    ("કર્મચારી/અધિકારીને નોકરીમાં પુનઃસ્થાપિત કરાયેલ હોય.", None),
     ("This GR is to be read with GR A/1/1.", R.REFERS),
     ("With reference to GR A/1/1, the following.", R.REFERS),
     ("સંદર્ભ ઠરાવ મુજબ કાર્યવાહી થશે.", R.REFERS),
 ])
 def test_relationship_phrases(sentence, rel):
-    assert match_relation(sentence)[0] == rel
+    result = match_relation(sentence)
+    if rel is None:
+        assert result is None
+    else:
+        assert result[0] == rel
 
 
 def test_phrases_allow_ocr_whitespace():

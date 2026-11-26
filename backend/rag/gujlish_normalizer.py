@@ -29,7 +29,9 @@ _COMMON_EN_WORDS = {
     "few", "more", "most", "other", "such", "only", "own", "same", "so", "than", "too", "very",
     "rules", "rule", "order", "orders", "circular", "resolution", "government", "employee",
     "employees", "department", "entitled", "entitlement", "ceiling", "limit", "amount",
+    "technical", "examination", "examinations", "board",
     "allowance", "leave", "pension", "salary", "service", "medical", "claim", "reimbursement",
+    "phone", "email", "available",
     "officer", "officers", "office", "date", "year", "number", "policy", "scheme", "application",
     "notification", "benefits", "benefit", "eligible", "eligibility", "procedure", "document",
     "documents", "status", "amendment", "superseded", "guidelines", "prescribed", "pay", "fixed"
@@ -79,7 +81,8 @@ _DISTINCTIVE_GUJLISH = {
     "vanchvanu", "karmchario", "spashtata", "jagyae", "malse", "ketla", "ketli",
     "ketlu", "ganvesh", "pachi", "pahela", "sudhi", "nathi",
     "mateni", "karyavidhi", "karyapadhati", "nikal", "sachivalay", "binjaruri", "raheli", "vastuo",
-    "darakhast", "manjur", "tathya", "tapas", "aheval", "kramank"
+    "darakhast", "manjur", "tathya", "tapas", "aheval", "kramank",
+    "tyare", "hoy", "padse", "rehvanu"
 }
 
 
@@ -166,6 +169,11 @@ class GujlishNormalizer:
             return "gujlish"
         
         return "en"
+
+    def english_terms(self, text: str) -> list[str]:
+        """Return distinct known English words from a mixed or transliterated query."""
+        words = re.findall(r"[a-zA-Z]+", text.lower())
+        return list(dict.fromkeys(word for word in words if word in _COMMON_EN_WORDS))
 
     def extract_metadata_entities(self, text: str) -> tuple[Optional[str], Optional[str]]:
         """Extract explicit GR Number and 4-digit Year if mentioned in query."""

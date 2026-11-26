@@ -97,14 +97,20 @@ class _Collection:
     """Stand-in for a Chroma collection: returns the same ranked chunks for any query and counts the searches."""
     def __init__(self, ids):
         self.ids, self.calls = ids, 0
+        self.queries = []
 
     def count(self):
         return len(self.ids)
 
     def query(self, query_texts, n_results, where=None):
         self.calls += 1
+        self.queries.append(query_texts)
         ids = self.ids[:n_results]
-        return {"ids": [ids], "documents": [[f"text {i}" for i in ids]], "metadatas": [[{"gr_id": i, "gr_number": ""} for i in ids]]}
+        return {
+            "ids": [ids for _ in query_texts],
+            "documents": [[f"text {i}" for i in ids] for _ in query_texts],
+            "metadatas": [[{"gr_id": i, "gr_number": ""} for i in ids] for _ in query_texts],
+        }
 
 
 class _Bm25:
@@ -133,12 +139,13 @@ def test_an_identical_second_query_does_not_make_the_vector_search_count_twice()
     assert out[0] in {"A", "T"}
 
 
-def test_a_different_gujarati_query_is_still_searched_separately():
+def test_different_language_queries_are_batched_but_keep_separate_rankings():
     from backend.rag.gujlish_normalizer import SearchBundle
     idx = _search_index(["A", "B"], bm25_best="T")
     bundle = SearchBundle(original_query="q", query_en="leave rules", query_gu="રજાના નિયમો", keywords=["leave"], detected_lang="gujlish")
     idx.search(bundle, top_k=5)
-    assert idx.collection.calls == 2
+    assert idx.collection.calls == 1
+    assert idx.collection.queries == [["leave rules", "રજાના નિયમો"]]
 
 
 def test_a_gujarati_script_question_keeps_double_weight_on_the_vector_search():

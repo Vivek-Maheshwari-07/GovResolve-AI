@@ -69,6 +69,19 @@ def _work(job: dict) -> str:
     return f"OK {pdf.name} {'ocr' if confs else 'text'} pages={rec['page_count']}"
 
 
+def _resolve_family_pdf(pdf_root: Path, listed_path: str, by_basename: dict[str, list[Path]]) -> Path:
+    direct = pdf_root / listed_path
+    if direct.is_file():
+        return direct
+
+    matches = by_basename.get(Path(listed_path).name.casefold(), [])
+    if not matches:
+        raise FileNotFoundError(f"Family PDF not found under {pdf_root}: {listed_path}")
+    if len(matches) > 1 and len({hashlib.sha256(p.read_bytes()).digest() for p in matches}) > 1:
+        raise ValueError(f"Ambiguous family PDF basename under {pdf_root}: {Path(listed_path).name}")
+    return matches[0]
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--families", type=Path, required=True)
@@ -79,10 +92,15 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=6)
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
+    by_basename: dict[str, list[Path]] = {}
+    for pdf in args.pdf_root.rglob("*.pdf"):
+        by_basename.setdefault(pdf.name.casefold(), []).append(pdf)
+
     jobs = []
     with open(args.families, encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f):
-            jobs.append({"pdf": str(args.pdf_root / r["file_in_dataset_organized"]), "out": str(args.out),
+            pdf = _resolve_family_pdf(args.pdf_root, r["file_in_dataset_organized"], by_basename)
+            jobs.append({"pdf": str(pdf), "out": str(args.out),
                          "text_layer": r["text_layer"], "date": r["issue_date"], "number": r["gr_number_as_listed"],
                          "subject": r["subject_as_listed"], "lang": args.lang, "dpi": args.dpi})
     with ProcessPoolExecutor(args.workers) as pool:

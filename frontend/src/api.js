@@ -147,6 +147,7 @@ export async function ask(question, language = null, signal = undefined, onStage
   }
   return {
     question,
+    language: r.language,
     verdict: r.verdict,
     reason_code: r.reason_code,
     answer_status: answered ? overallStatus(r.citations) : 'insufficient',

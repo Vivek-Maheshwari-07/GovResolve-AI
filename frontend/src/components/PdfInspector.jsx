@@ -9,6 +9,7 @@ import {
 import { pdfUrl, pageBlocks } from '../api';
 import { courtCitation, reportText } from '../lib/lineage';
 import { displayQuote, looksGarbled } from '../lib/quote';
+import { useUiLanguage } from '../lib/i18n';
 
 // Bundled worker for offline resilience
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
@@ -62,11 +63,12 @@ function Bracket({ pos, delay }) {
 }
 
 export default function PdfInspector({ citation, question }) {
+  const { t } = useUiLanguage();
   const wrapRef = useRef(null);
   const canvasRef = useRef(null);
   const boxRef = useRef(null);
   const [width, setWidth] = useState(560);
-  const [doc, setDoc] = useState(null);
+  const [loadedDocument, setLoadedDocument] = useState(null);
   const [numPages, setNumPages] = useState(0);
   const [page, setPage] = useState(1);
   const [zoom, setZoom] = useState(1);
@@ -79,6 +81,7 @@ export default function PdfInspector({ citation, question }) {
   const [note, setNote] = useState('');
 
   const grId = citation?.gr_id;
+  const doc = loadedDocument && loadedDocument.grId === grId ? loadedDocument.doc : null;
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -91,30 +94,38 @@ export default function PdfInspector({ citation, question }) {
 
   // Load the PDF
   useEffect(() => {
-    if (!grId) return undefined;
     let alive = true;
-    setDoc(null);
+    setLoadedDocument(null);
+    setNumPages(0);
     setError(null);
-    setLoading(true);
+    setLoading(!!grId);
     setDims(null);
+    if (!grId) {
+      return () => {
+        alive = false;
+      };
+    }
+
     const task = pdfjsLib.getDocument(pdfUrl(grId));
     task.promise
       .then((d) => {
         if (alive) {
-          setDoc(d);
+          setLoadedDocument({ grId, doc: d });
           setNumPages(d.numPages);
           setLoading(false);
         }
       })
       .catch(() => {
         if (alive) {
-          setError('The original PDF document is not cached locally. The verified OCR quote is displayed below.');
+          setError(t('originalPdfUnavailable'));
           setLoading(false);
         }
       });
     return () => {
       alive = false;
-      task.destroy();
+      task.destroy().catch((destroyError) => {
+        console.error('Failed to clean up the PDF document', destroyError);
+      });
     };
   }, [grId]);
 
@@ -182,15 +193,18 @@ export default function PdfInspector({ citation, question }) {
         }
         setExactBbox(null);
       }).catch(() => setExactBbox(null));
+    }).catch(() => {
+      if (!alive) return;
+      setError(t('originalPdfUnavailable'));
     });
     return () => {
       alive = false;
       task?.cancel();
     };
-  }, [doc, page, zoom, width, mode, citation?.passage]);
+  }, [doc, grId, page, zoom, width, mode, citation?.passage, t]);
 
   const activeBox = exactBbox || citation?.bbox;
-  const showBox = !!(activeBox && dims && page === citation.page && mode === 'pdf');
+  const showBox = !!(citation && activeBox && dims && page === citation.page && mode === 'pdf');
 
   useEffect(() => {
     if (showBox) {
@@ -226,7 +240,7 @@ export default function PdfInspector({ citation, question }) {
       await navigator.clipboard.writeText(text);
       flash(msg);
     } catch {
-      flash('Clipboard action not permitted');
+      flash(t('clipboardUnavailable'));
     }
   };
 
@@ -250,12 +264,10 @@ export default function PdfInspector({ citation, question }) {
               <span className="absolute inset-x-0 h-8 animate-sweep bg-gradient-to-b from-transparent via-[#4F46E5]/20 to-transparent [animation-iteration-count:infinite] [animation-duration:2.6s]" />
             </span>
           </div>
-          <h3 className="display mt-7 text-[18px] font-bold text-[#1E293B]">The source page opens here</h3>
-          <p className="mt-2 text-[13px] leading-relaxed text-[#64748B]">
-            Pick a cited passage and its page opens here with the quoted paragraph marked.
-          </p>
+          <h3 className="display mt-7 text-[18px] font-bold text-[#1E293B]">{t('opticalInspector')}</h3>
+          <p className="mt-2 text-[13px] leading-relaxed text-[#64748B]">{t('selectCitationToInspect')}</p>
           <p className="mt-4 flex items-center justify-center gap-2 text-[12.5px] text-[#64748B]">
-            <kbd className="kbd">[</kbd><kbd className="kbd">]</kbd> step through cited passages
+            <kbd className="kbd">[</kbd><kbd className="kbd">]</kbd> {t('stepCitations')}
           </p>
         </div>
       </div>
@@ -285,9 +297,9 @@ export default function PdfInspector({ citation, question }) {
             </span>
           </div>
           <dl className="mt-2.5 grid grid-cols-3 gap-2.5">
-            <MetaField label="GR Number" mono>{citation.gr_number}</MetaField>
-            <MetaField label="Issue Date" mono>{citation.issue_date}</MetaField>
-            <MetaField label="Department">{citation.department}</MetaField>
+            <MetaField label={t('grNumber')} mono>{citation.gr_number}</MetaField>
+            <MetaField label={t('issueDate')} mono>{citation.issue_date}</MetaField>
+            <MetaField label={t('department')}>{citation.department}</MetaField>
           </dl>
         </motion.div>
       </AnimatePresence>
@@ -299,7 +311,7 @@ export default function PdfInspector({ citation, question }) {
           <div className="mb-1 flex items-center justify-between">
             <p className="mono-label flex items-center gap-1.5 text-[12.5px] font-bold text-[#92400E]">
               <span className="h-2 w-2 rounded-full bg-[#F59E0B] animate-pulse" />
-              Quoted passage · page {citation.page}
+              {t('quotedPassagePage', { page: citation.page })}
             </p>
             {looksGarbled(citation.passage) ? (
               <span className="telemetry-tag text-[12.5px] font-bold text-[#D97706]">Legacy-font text: read the PDF page</span>
@@ -314,21 +326,21 @@ export default function PdfInspector({ citation, question }) {
       {/* Instrument toolbar */}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-[#E6E4DD] bg-[#F1EFEA]/70 px-3 py-2">
         <div className="flex items-center gap-1.5">
-          <ToolbarBtn title="Previous page" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}><ChevronLeft className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title={t('previousPage')} disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}><ChevronLeft className="h-4 w-4" /></ToolbarBtn>
           <span className="min-w-[3.6rem] text-center font-mono text-[12.5px] font-bold tabular-nums text-[#1E293B]">{page} / {numPages || '–'}</span>
-          <ToolbarBtn title="Next page" disabled={!numPages || page >= numPages} onClick={() => setPage((p) => Math.min(numPages, p + 1))}><ChevronRight className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title={t('nextPage')} disabled={!numPages || page >= numPages} onClick={() => setPage((p) => Math.min(numPages, p + 1))}><ChevronRight className="h-4 w-4" /></ToolbarBtn>
         </div>
 
         <div className="flex items-center gap-1.5">
-          <ToolbarBtn title="Zoom out" onClick={() => setZoom((z) => Math.max(0.6, +(z - 0.15).toFixed(2)))}><ZoomOut className="h-4 w-4" /></ToolbarBtn>
-          <button type="button" onClick={() => setZoom(1)} title="Reset zoom to 100%" className="min-w-[3.1rem] rounded-lg bg-[rgba(255,255,255,0.92)] px-2 py-1.5 font-mono text-[12.5px] font-bold tabular-nums text-[#64748B] hover:text-[#1E293B]" style={KEYCAP}>
+          <ToolbarBtn title={t('zoomOut')} onClick={() => setZoom((z) => Math.max(0.6, +(z - 0.15).toFixed(2)))}><ZoomOut className="h-4 w-4" /></ToolbarBtn>
+          <button type="button" onClick={() => setZoom(1)} title={t('resetZoom')} className="min-w-[3.1rem] rounded-lg bg-[rgba(255,255,255,0.92)] px-2 py-1.5 font-mono text-[12.5px] font-bold tabular-nums text-[#64748B] hover:text-[#1E293B]" style={KEYCAP}>
             {Math.round(zoom * 100)}%
           </button>
-          <ToolbarBtn title="Zoom in" onClick={() => setZoom((z) => Math.min(2.4, +(z + 0.15).toFixed(2)))}><ZoomIn className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title={t('zoomIn')} onClick={() => setZoom((z) => Math.min(2.4, +(z + 0.15).toFixed(2)))}><ZoomIn className="h-4 w-4" /></ToolbarBtn>
         </div>
 
-        <div className="well flex p-0.5" role="group" aria-label="View">
-          {[['pdf', 'Scan', ScanLine, 'Scanned PDF view'], ['text', 'Text', AlignLeft, 'Raw OCR text view']].map(([k, label, Icon, title]) => (
+        <div className="well flex p-0.5" role="group" aria-label={t('view')}>
+          {[['pdf', t('scan'), ScanLine, t('scannedPdfView')], ['text', t('text'), AlignLeft, t('rawOcrView')]].map(([k, label, Icon, title]) => (
             <button key={k} type="button" title={title} aria-pressed={mode === k} onClick={() => setMode(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[12.5px] font-semibold transition ${mode === k ? 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] text-[#4F46E5] shadow-sm' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
               <Icon className="h-3.5 w-3.5" /> {label}
             </button>
@@ -343,23 +355,23 @@ export default function PdfInspector({ citation, question }) {
               </motion.span>
             )}
           </AnimatePresence>
-          <ToolbarBtn title="Copy the citation" onClick={() => copy(courtCitation(citation), 'Citation copied')}><ClipboardCheck className="h-4 w-4" /></ToolbarBtn>
-          <ToolbarBtn title="Copy a report of a wrong citation" onClick={() => copy(reportText(citation, question), 'Audit report copied')}><Flag className="h-4 w-4" /></ToolbarBtn>
-          <ToolbarBtn title="Open raw PDF in new browser tab" href={pdfUrl(grId)}><ExternalLink className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title={t('copyCitation')} onClick={() => copy(courtCitation(citation), t('citationCopied'))}><ClipboardCheck className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title={t('reportCitation')} onClick={() => copy(reportText(citation, question), t('reportCopied'))}><Flag className="h-4 w-4" /></ToolbarBtn>
+          <ToolbarBtn title={t('openRawPdf')} href={pdfUrl(grId)}><ExternalLink className="h-4 w-4" /></ToolbarBtn>
         </div>
       </div>
 
       {/* Scanner tray */}
       <div ref={wrapRef} className="dotgrid relative min-h-0 flex-1 overflow-auto p-5" style={{ boxShadow: 'inset 0 4px 12px -6px rgba(15,23,42,.1)' }}>
-        {loading && mode === 'pdf' && <div className="skeleton mx-auto h-80 max-w-md animate-shimmer rounded-lg" aria-label="Loading document" />}
+        {loading && mode === 'pdf' && <div className="skeleton mx-auto h-80 max-w-md animate-shimmer rounded-lg" aria-label={t('loadingDocument')} />}
 
         {error && mode === 'pdf' && (
           <div className="sheet mx-auto mt-6 max-w-sm space-y-3 p-6 text-center">
             <FileX2 className="mx-auto h-7 w-7 text-[#D97706]" />
-            <p className="display text-[15px] font-bold text-[#1E293B]">Source scan unavailable</p>
+            <p className="display text-[15px] font-bold text-[#1E293B]">{t('sourceScanUnavailable')}</p>
             <p className="text-[12.5px] leading-relaxed text-[#64748B]">{error}</p>
             <button type="button" onClick={() => setMode('text')} className="btn-primary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[12.5px] font-semibold text-white">
-              <AlignLeft className="h-3.5 w-3.5" /> Read the OCR text
+              <AlignLeft className="h-3.5 w-3.5" /> {t('readOcrText')}
             </button>
           </div>
         )}
@@ -382,7 +394,7 @@ export default function PdfInspector({ citation, question }) {
                     key={`${grId}|${page}|${citation.passage}`}
                     ref={boxRef}
                     data-testid="citation-box"
-                    title="Verified paragraph containing quoted sentence"
+                    title={t('verifiedParagraph')}
                     initial={{ opacity: 0, scale: 1.05 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
@@ -402,7 +414,7 @@ export default function PdfInspector({ citation, question }) {
                     <Bracket pos="bl" delay={0.55} />
                     <Bracket pos="br" delay={0.6} />
                     <span className={`mono-label absolute right-0 whitespace-nowrap rounded bg-[#D97706] px-1.5 py-0.5 text-[12.5px] font-bold text-white shadow-sm ${labelInside ? 'top-0' : '-top-[20px]'}`} style={{ mixBlendMode: 'normal' }}>
-                      p.{citation.page}{exactBbox ? ' · located' : ''}
+                      {t('lockPage', { page: citation.page })}{exactBbox ? ` · ${t('exact')}` : ''}
                     </span>
                   </motion.div>
                 )}
@@ -414,10 +426,10 @@ export default function PdfInspector({ citation, question }) {
         {mode === 'text' && (
           <div className="mx-auto max-w-prose space-y-2.5 py-1">
             <div className="flex items-center justify-between border-b border-[#E6E4DD] pb-1.5">
-              <p className="mono-label text-[12.5px] text-[#64748B]">Raw OCR text · page {page}</p>
-              <span className="mono-label text-[12.5px] text-[#64748B]">{blocks.length} blocks</span>
+              <p className="mono-label text-[12.5px] text-[#64748B]">{t('rawOcrPage', { page })}</p>
+              <span className="mono-label text-[12.5px] text-[#64748B]">{t('blockCount', { count: blocks.length })}</span>
             </div>
-            {blocks.length === 0 && <p className="py-4 text-center text-[12.5px] text-[#64748B]">No OCR blocks found for this page.</p>}
+            {blocks.length === 0 && <p className="py-4 text-center text-[12.5px] text-[#64748B]">{t('noOcrBlocks')}</p>}
             {blocks.map((b) => {
               const hit = quote && norm(b.text).includes(quote);
               return (

@@ -31,6 +31,9 @@ def load_corpus(corpus: Path) -> list[GRRecord]:
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="backslashreplace")
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--corpus", type=Path, required=True)
     ap.add_argument("--index", type=Path, default=ROOT / "data" / "index" / "chroma")

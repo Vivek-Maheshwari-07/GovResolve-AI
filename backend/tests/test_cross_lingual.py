@@ -9,6 +9,9 @@ from backend.rag.search_engine import RAGPipeline  # noqa: E402
 GU_Q = "ગુજરાતી સ્ટેનોગ્રાફર ગ્રેડ-૩ની જગ્યા માટે ઉંમરની મર્યાદા કેટલી છે?"
 LATIN_Q = "Gujarati Stenographer Grade III ni direct selection mate age limit shu che?"
 EN_Q = "What is the age limit for direct selection of a Gujarati Stenographer, Grade III?"
+MIXED_GUJLISH_Q = "Leave par hoy tyare officer ane employee e phone ane email par available rehvanu padse?"
+CCC_Q = "Which university was entrusted with conducting CCC and CCC+ examinations in place of the Technical Examination Board?"
+INQUIRY_Q = "How does the government speed up disposal of departmental inquiry cases against officers?"
 EN_TEXT = ("Notification General Administration Department of the State Secretariat Gandhinagar. "
            "Appointment to the post of Gujarati Stenographer, Grade III shall be made by direct selection. "
            "(a) not be less than twenty years and more than forty years of age and of good standing:")
@@ -71,6 +74,124 @@ def test_english_questions_need_no_english_translation(model):
     assert bundle.detected_lang == "en"
     assert not [c for c in calls if "into English" in c[0]]
     assert len(calls) <= 1
+
+
+def test_mixed_english_and_gujlish_is_translated_for_search(model):
+    calls, _ = model
+    bundle = pipeline().prepare(MIXED_GUJLISH_Q)
+
+    assert bundle.detected_lang == "gujlish"
+    assert EN_Q in bundle.query_en
+    assert {"leave", "officer", "employee", "phone", "email", "available"} <= set(bundle.query_en.lower().split())
+    assert len([c for c in calls if "into English" in c[0]]) == 1
+
+
+def test_fast_gujlish_adds_known_gujarati_terms_for_evidence_selection(model, monkeypatch):
+    calls, state = model
+    state["reply"] = "Are officers and employees required to be available on phone and email?"
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+    pipe = pipeline()
+    bundle = pipe.prepare(MIXED_GUJLISH_Q)
+    passage = {
+        "chunk_id": "GR-1:1",
+        "text": "તેમજ રજાઓ દરમિયાન કર્મચારી/અધિકારીએ ફોન/ઈ.મેઈલ પર સતત ઉપલબ્ધ રહેવાનું રહેશે.",
+        "rrf_score": 1.0,
+        "metadata": {"gr_id": "GR-1", "gr_number": "X/1", "issue_date": "2025-05-13", "pages": "[1]"},
+    }
+
+    evidence, _, _ = pipe.build_evidence(MIXED_GUJLISH_Q, [passage], bundle)
+
+    assert all(term in bundle.query_gu for term in ("ફોન", "ઈ.મેઈલ", "કર્મચારી", "અધિકારી", "ઉપલબ્ધ"))
+    assert passage["text"] in evidence
+    assert not [call for call in calls if "into Gujarati" in call[0]]
+
+
+def test_fast_english_queries_get_specific_gujarati_search_terms(monkeypatch):
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+
+    bundle = pipeline().prepare(CCC_Q)
+
+    assert bundle.detected_lang == "en"
+    assert "ટેકનિકલ પરીક્ષા બોર્ડ" in bundle.query_gu
+
+
+def test_generic_disposal_does_not_expand_to_dead_stock_terms(monkeypatch):
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+
+    bundle = pipeline().prepare(INQUIRY_Q)
+
+    assert "dead stock" not in bundle.query_en
+    assert "ડેડસ્ટોક" not in bundle.query_gu
+    assert "લોક અદાલત" in bundle.query_gu
+
+
+def test_script_mismatch_does_not_outrank_a_lower_ranked_matching_sentence():
+    from backend.rag.search_engine import select_sentences
+
+    items = [
+        {"text": "Government policy details are listed here.", "chunk": 0, "rank": 0},
+        {"text": "ખાતાકીય તપાસના કેસોનો ઝડપી નિકાલ થાય છે.", "chunk": 1, "rank": 1},
+    ]
+
+    selected = select_sentences(items, {"ખાતાકીય", "તપાસ"}, budget=300, chunk_cap=300)
+
+    assert selected[0] == 1
+
+
+def test_evidence_searches_all_retrieved_documents_for_answer_chunks(monkeypatch):
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+
+    class Index:
+        bm25_docs = [{
+            "chunk_id": "target:answer",
+            "gr_id": "target",
+            "text": "ખાતાકીય તપાસના કેસોનો ઝડપી નિકાલ કરવા લોક અદાલત જેવું તંત્ર ઊભું કરવામાં આવે છે.",
+            "gr_number": "X/target",
+            "issue_date": "2019-09-24",
+            "pages": [1],
+            "clause_status": "Unknown",
+        }]
+        bm25 = object()
+
+        def _bm25_scores(self, query):
+            return [5.0]
+
+    passages = [{
+        "chunk_id": f"other-{i}:1",
+        "text": "Government officers may face disciplinary proceedings while an inquiry is pending.",
+        "rrf_score": 1.0 / (i + 1),
+        "metadata": {"gr_id": f"other-{i}", "gr_number": f"X/{i}", "issue_date": "", "pages": "[1]"},
+    } for i in range(5)]
+    passages.append({
+        "chunk_id": "target:retrieved",
+        "text": "ખાતાકીય તપાસ અંગેની નોંધ.",
+        "rrf_score": 0.01,
+        "metadata": {"gr_id": "target", "gr_number": "X/target", "issue_date": "2019-09-24", "pages": "[1]"},
+    })
+
+    evidence, registry, _ = RAGPipeline(Index(), []).build_evidence(
+        INQUIRY_Q, passages, se.normalizer.normalize(INQUIRY_Q)
+    )
+
+    assert "લોક અદાલત જેવું તંત્ર" in evidence
+    assert any(item["gr_id"] == "target" for item in registry.values())
+
+
+@pytest.mark.parametrize("question", [EN_Q, LATIN_Q])
+def test_fast_local_mode_skips_the_extra_gujarati_translation(model, monkeypatch, question):
+    calls, state = model
+    state["reply"] = EN_Q
+    gujarati_calls = []
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+    monkeypatch.setattr(se, "translate_to_gujarati", lambda q: gujarati_calls.append(q))
+
+    bundle = pipeline().prepare(question)
+
+    assert bundle.original_query == question
+    assert gujarati_calls == []
+    if question == LATIN_Q:
+        assert bundle.query_en == EN_Q
+        assert len([c for c in calls if "into English" in c[0]]) == 1
 
 
 @pytest.mark.parametrize("question", [GU_Q, LATIN_Q])

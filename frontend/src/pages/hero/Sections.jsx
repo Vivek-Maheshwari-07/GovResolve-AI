@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Seal from '../../components/Seal';
 import { STATUS, TONES } from '../../lib/status';
+import { useUiLanguage } from '../../lib/i18n';
 
 export const rise = {
   hidden: { opacity: 0, y: 22 },
@@ -29,19 +30,20 @@ export function Eyebrow({ children, num }) {
 
 /* ------------------------------------------------------------------ consequences */
 const COSTS = [
-  ['A penalty overturned', 'A department acts on a 2015 resolution. At the Civil Services Tribunal it turns out the resolution was amended in 2018, and the defence falls apart.'],
-  ['An audit para', 'Allowances are paid under a legacy circular. The auditors flag them, and the money is recovered from clerks who followed the paper in front of them.'],
-  ['A citizen turned away', 'A local desk applies a rule that no longer stands and asks for a certificate that is no longer required. A grievance petition follows, then an RTI.'],
+  ['costPenaltyTitle', 'costPenaltyText'],
+  ['costAuditTitle', 'costAuditText'],
+  ['costCitizenTitle', 'costCitizenText'],
 ];
 
 export function Costs() {
+  const { t } = useUiLanguage();
   return (
     <ol className="mt-10 grid gap-x-10 gap-y-7 border-t border-hair pt-8 md:grid-cols-3">
-      {COSTS.map(([t, b], i) => (
-        <Reveal as="li" key={t} delay={i * 0.08}>
+      {COSTS.map(([titleKey, textKey], i) => (
+        <Reveal as="li" key={titleKey} delay={i * 0.08}>
           <span className="font-mono text-[12.5px] font-bold text-faint">0{i + 1}</span>
-          <h3 className="display mt-1 text-[17px] font-bold text-ink">{t}</h3>
-          <p className="mt-1.5 text-[13.5px] leading-relaxed text-mist">{b}</p>
+          <h3 className="display mt-1 text-[17px] font-bold text-ink">{t(titleKey)}</h3>
+          <p className="mt-1.5 text-[13.5px] leading-relaxed text-mist">{t(textKey)}</p>
         </Reveal>
       ))}
     </ol>
@@ -56,8 +58,8 @@ const Glyph = ({ children, tone = 'bg-ivory' }) => (
 const STEPS = [
   {
     n: '01',
-    t: 'Ask in whatever language comes naturally',
-    b: 'Gujarati, English, or Gujarati typed in Latin letters. The question is normalised against a glossary of administrative terms, and if it is not English it is also rendered in English so it can reach English resolutions.',
+    titleKey: 'howStepAsk',
+    bodyKey: 'howStepAskText',
     visual: (
       <div className="space-y-2">
         <p className="gu-text flex items-start gap-2 text-[12.5px] text-ink"><Glyph>અ</Glyph><span>પ્રસૂતિ રજા માટે કયા documents જોઈએ?</span></p>
@@ -68,8 +70,8 @@ const STEPS = [
   },
   {
     n: '02',
-    t: 'Search scans and digital files together',
-    b: 'Scanned Gujarati pages are read with OCR; digital PDFs are read directly. Keyword search and meaning-based search run side by side, and an exact GR number or date jumps straight to that document.',
+    titleKey: 'howStepSearch',
+    bodyKey: 'howStepSearchText',
     visual: (
       <div className="space-y-1.5 font-mono text-[12.5px] text-mist">
         <p className="flex justify-between border-b border-dashed border-stone pb-1"><span>OCR · guj + eng</span><span className="text-ink">scans</span></p>
@@ -81,8 +83,8 @@ const STEPS = [
   },
   {
     n: '03',
-    t: 'Prove it on the page',
-    b: 'The model chooses which numbered sentences support its answer. The application copies those sentences from the page, so a quote can never be reworded. The paragraph is then highlighted on the original PDF.',
+    titleKey: 'howStepProve',
+    bodyKey: 'howStepProveText',
     visual: (
       <div className="legal-text text-[12.5px] leading-[1.7] text-[#3A4356]">
         …shall be submitted{' '}
@@ -93,8 +95,8 @@ const STEPS = [
   },
   {
     n: '04',
-    t: 'Trace what happened next',
-    b: 'Explicit words such as “in supersession of” or “further to amend” create a link from the newer order to the older one. Each answer is checked against those links, and the chain is drawn so you can read the clause behind every arrow.',
+    titleKey: 'howStepTrace',
+    bodyKey: 'howStepTraceText',
     visual: (
       <svg viewBox="0 0 220 70" className="w-full" aria-hidden>
         <path d="M168 46 C168 6, 110 6, 110 44" fill="none" stroke="#C2395A" strokeWidth="1.6" />
@@ -109,13 +111,14 @@ const STEPS = [
 ];
 
 export function HowItWorks() {
+  const { t } = useUiLanguage();
   return (
     <div className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
       {STEPS.map((s, i) => (
         <Reveal key={s.n} delay={i * 0.07} className="flex flex-col border-t-2 border-ink pt-4">
           <span className="display text-[38px] font-bold italic leading-none text-iris-600">{s.n}</span>
-          <h3 className="display mt-3 text-[16.5px] font-bold leading-snug text-ink">{s.t}</h3>
-          <p className="mt-2 text-[13px] leading-relaxed text-mist">{s.b}</p>
+          <h3 className="display mt-3 text-[16.5px] font-bold leading-snug text-ink">{t(s.titleKey)}</h3>
+          <p className="mt-2 text-[13px] leading-relaxed text-mist">{t(s.bodyKey)}</p>
           <div className="well mt-4 flex-1 p-3.5">{s.visual}</div>
         </Reveal>
       ))}
@@ -125,30 +128,31 @@ export function HowItWorks() {
 
 /* ------------------------------------------------------------------ limits */
 const PROMISES = [
-  ['It never says a rule is in force.', '“No later change found” only describes the documents we hold. Absence of an amendment is not proof of validity.'],
-  ['It does not retype quotes.', 'A quote is copied from the stored page text, with its page number and the box of its paragraph.'],
-  ['It refuses, with a reason.', 'Not in the collection, too vague, outside what resolutions can answer, a broken amendment chain, or a poor scan.'],
-  ['It gives no legal advice.', 'Questions asking for an opinion on what someone should do are declined and explained.'],
+  ['promiseNoActiveTitle', 'promiseNoActiveText'],
+  ['promiseQuotesTitle', 'promiseQuotesText'],
+  ['promiseRefuseTitle', 'promiseRefuseText'],
+  ['promiseAdviceTitle', 'promiseAdviceText'],
 ];
 
 // From data/eval/SCORECARD_SUMMARY.md (local qwen3.5:4b; dev 50 questions, held-out 16). Small sets, not officer-validated.
 const HONEST = [
-  ['100%', 'quotes found verbatim on their page'],
-  ['20 / 20', 'unanswerable questions refused with the right code'],
-  ['55–69%', 'of answerable questions fully correct'],
-  ['≈ 45 s', 'median answer time on a laptop CPU'],
+  ['100%', 'honestQuotes'],
+  ['20 / 20', 'honestRefusal'],
+  ['55–69%', 'honestCorrect'],
+  ['≈ 45 s', 'honestLatency'],
 ];
 
 export function Limits() {
+  const { t } = useUiLanguage();
   return (
     <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
       <ul className="space-y-5">
-        {PROMISES.map(([t, b], i) => (
-          <Reveal as="li" key={t} delay={i * 0.06} className="grid grid-cols-[1.6rem_1fr] gap-3">
+        {PROMISES.map(([titleKey, textKey], i) => (
+          <Reveal as="li" key={titleKey} delay={i * 0.06} className="grid grid-cols-[1.6rem_1fr] gap-3">
             <span className="display text-[17px] font-bold italic text-iris-600">{['i', 'ii', 'iii', 'iv'][i]}.</span>
             <div>
-              <p className="text-[14.5px] font-bold text-ink">{t}</p>
-              <p className="mt-0.5 text-[13px] leading-relaxed text-mist">{b}</p>
+              <p className="text-[14.5px] font-bold text-ink">{t(titleKey)}</p>
+              <p className="mt-0.5 text-[13px] leading-relaxed text-mist">{t(textKey)}</p>
             </div>
           </Reveal>
         ))}
@@ -156,29 +160,29 @@ export function Limits() {
 
       <Reveal className="space-y-6">
         <div>
-          <p className="eyebrow">Every finding carries one seal</p>
+          <p className="eyebrow">{t('statusMeanings')}</p>
           <div className="mt-4 grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-5">
             {Object.values(STATUS).map((s) => (
               <div key={s.key} className="flex flex-col items-start gap-2">
                 <Seal status={s.key} size={58} />
-                <p className={`text-[12.5px] font-bold leading-tight ${TONES[s.tone].text}`}>{s.label}</p>
-                {s.reserved && <p className="mono-label text-[12.5px] text-faint">reserved</p>}
+                <p className={`text-[12.5px] font-bold leading-tight ${TONES[s.tone].text}`}>{t(s.key === 'no_change' ? 'noChange' : s.key)}</p>
+                {s.reserved && <p className="mono-label text-[12.5px] text-faint">{t('reservedNotEmitted')}</p>}
               </div>
             ))}
           </div>
         </div>
 
         <div className="rounded-2xl border border-hair bg-ivory/70 p-4">
-          <p className="eyebrow">Where it is today, honestly</p>
+          <p className="eyebrow">{t('whereToday')}</p>
           <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3.5">
-            {HONEST.map(([n, l]) => (
-              <div key={l}>
+            {HONEST.map(([n, labelKey]) => (
+              <div key={labelKey}>
                 <dt className="font-mono text-[20px] font-bold tabular-nums text-ink">{n}</dt>
-                <dd className="text-[12.5px] leading-snug text-mist">{l}</dd>
+                <dd className="text-[12.5px] leading-snug text-mist">{t(labelKey)}</dd>
               </div>
             ))}
           </dl>
-          <p className="mt-3 border-t border-hair pt-2.5 text-[12.5px] leading-relaxed text-faint">Our own tests: 50 development and 16 held-out questions on a local 4B model. The question sets were drafted by us and are not yet validated by officers. The full scorecard is in the Method workspace.</p>
+          <p className="mt-3 border-t border-hair pt-2.5 text-[12.5px] leading-relaxed text-faint">{t('honestCaveat')}</p>
         </div>
       </Reveal>
     </div>
@@ -187,19 +191,20 @@ export function Limits() {
 
 /* ------------------------------------------------------------------ audience */
 const WHO = [
-  ['Officers', 'Finding the operative rule', 'Which documents are required for this type of leave?', 'en'],
-  ['Establishment branches', 'Checking before processing', 'By how much was the upper age limit relaxed for direct selection in 2022?', 'en'],
-  ['Citizens', 'Asking in their own words', 'પ્રસૂતિ રજા માટે કયા documents જોઈએ?', 'gu'],
+  ['officers', 'officerUse', 'officerQuestion', 'en'],
+  ['establishment', 'establishmentUse', 'establishmentQuestion', 'en'],
+  ['citizens', 'citizenUse', 'citizenQuestion', 'gu'],
 ];
 
 export function ForWhom() {
+  const { t } = useUiLanguage();
   return (
     <div className="mt-10 grid gap-5 md:grid-cols-3">
-      {WHO.map(([who, what, q, lang], i) => (
-        <Reveal key={who} delay={i * 0.08} className="sheet flex flex-col p-5">
-          <p className="eyebrow">{who}</p>
-          <p className="display mt-1 text-[15px] font-bold text-ink">{what}</p>
-          <blockquote className={`mt-4 flex-1 border-l-[3px] border-gold-400 pl-3 text-[14px] leading-relaxed text-ink ${lang === 'gu' ? 'gu-text' : 'legal-text'}`}>“{q}”</blockquote>
+      {WHO.map(([whoKey, whatKey, questionKey, lang], i) => (
+        <Reveal key={whoKey} delay={i * 0.08} className="sheet flex flex-col p-5">
+          <p className="eyebrow">{t(whoKey)}</p>
+          <p className="display mt-1 text-[15px] font-bold text-ink">{t(whatKey)}</p>
+          <blockquote className={`mt-4 flex-1 border-l-[3px] border-gold-400 pl-3 text-[14px] leading-relaxed text-ink ${lang === 'gu' ? 'gu-text' : 'legal-text'}`}>“{t(questionKey)}”</blockquote>
         </Reveal>
       ))}
     </div>

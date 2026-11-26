@@ -27,6 +27,7 @@ frontend/dist/
 final_dataset/
 data/final_dataset.zip
 *.zip
+/final_dataset.rar
 data/govresolve.sqlite
 data/vector/
 data/edges_detected.csv

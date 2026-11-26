@@ -34,11 +34,13 @@ from .schemas import (
 
 ENDING = {Relation.SUPERSEDES, Relation.REPLACES, Relation.CANCELS}
 _DATE_LIKE = re.compile(r"\d{4}[-/.]\d{1,2}[-/.]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\d{4}")
+_READ_POINTER = re.compile(r"^\s*read\s*\(\s*\d{1,2}\s*\)\s*:\s*", re.I)
 
 
 def looks_like_gr_number(ref: str) -> bool:
     """A missing target worth reporting: six or more letters and digits with a digit, and not a date."""
     ref = ref.translate(str.maketrans("૦૧૨૩૪૫૬૭૮૯", "0123456789")).strip()
+    ref = _READ_POINTER.sub("", ref).strip()
     key = re.sub(r"[^0-9A-Za-z઀-૿]", "", ref)
     return len(key) >= 6 and any(c.isdigit() for c in key) and not _DATE_LIKE.fullmatch(ref)
 FUZZY_THRESHOLD = 0.88

@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FileText, TriangleAlert, ShieldCheck, MessageSquareWarning,
   ArrowRight, ChevronDown, ChevronUp, Quote, Layers,
-  Printer, RotateCcw,
+  Printer, RotateCcw, Volume2, Square,
 } from 'lucide-react';
 import Seal from './Seal';
 import TrustShield from './TrustShield';
 import { displayQuote, looksGarbled } from '../lib/quote';
+import { loadSpeechVoices, speechLocale, speechVoiceForLocale } from '../lib/speech';
+import { useUiLanguage } from '../lib/i18n';
 
 export const citeKey = (c) => (c ? `${c.gr_id}|${c.page}|${c.passage || ''}` : '');
 
@@ -45,10 +47,17 @@ function CitationChip({ cit, active, onSelect }) {
   );
 }
 
-export default function AnswerCard({ response, active, onSelect, rerun }) {
+export default function AnswerCard({ response, active, onSelect, rerun, language }) {
+  const { t } = useUiLanguage();
   const answered = response.verdict === 'answered';
   const warnings = response.warnings || [];
   const isGu = /[઀-૿]/.test(response.summary || response.insufficient_reason || '');
+  const answerLanguage = ['en', 'gu', 'gujlish'].includes(language)
+    ? language
+    : ['en', 'gu', 'gujlish'].includes(response.language)
+      ? response.language
+      : (isGu ? 'gu' : 'en');
+  const speechText = answered ? response.summary : response.insufficient_reason;
   const citations = response.citations || [];
   const statements = response.statements || [];
   // only claim checked quotes for a real answer with citations, never for the retrieval-only fallback
@@ -57,6 +66,106 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
 
   const [activeTab, setActiveTab] = useState('passages');
   const [drawerOpen, setDrawerOpen] = useState(true);
+  const [speakingTarget, setSpeakingTarget] = useState(null);
+  const [speechError, setSpeechError] = useState('');
+  const [speechErrorTarget, setSpeechErrorTarget] = useState(null);
+  const [speechVoices, setSpeechVoices] = useState([]);
+  const speechRun = useRef(0);
+
+  React.useEffect(() => {
+    if (!('speechSynthesis' in window)) return undefined;
+    const synthesis = window.speechSynthesis;
+    const updateVoices = () => setSpeechVoices(synthesis.getVoices());
+    updateVoices();
+    synthesis.addEventListener?.('voiceschanged', updateVoices);
+    return () => synthesis.removeEventListener?.('voiceschanged', updateVoices);
+  }, []);
+
+  React.useEffect(() => {
+    setSpeakingTarget(null);
+    setSpeechError('');
+    setSpeechErrorTarget(null);
+    return () => {
+      speechRun.current += 1;
+      window.speechSynthesis?.cancel();
+    };
+  }, [speechText, citations]);
+
+  const speakItems = (items, target) => {
+    const queue = items.filter((item) => typeof item.text === 'string' && item.text.trim());
+    if (!queue.length) return;
+    if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
+      setSpeechError(t('speechPlaybackUnsupported'));
+      setSpeechErrorTarget(target);
+      return;
+    }
+
+    const synthesis = window.speechSynthesis;
+    const run = ++speechRun.current;
+    synthesis.cancel();
+    setSpeakingTarget(target);
+    setSpeechError('');
+    setSpeechErrorTarget(null);
+    (speechVoices.length ? Promise.resolve(speechVoices) : loadSpeechVoices(synthesis)).then((voices) => {
+      if (run !== speechRun.current) return;
+      const voiceItems = queue.map((item) => ({
+        voice: speechVoiceForLocale(voices, speechLocale(item.language, item.text)),
+      }));
+      if (voiceItems.some(({ voice }) => !voice)) {
+        setSpeakingTarget(null);
+        setSpeechError(t('speechVoiceUnavailable'));
+        setSpeechErrorTarget(target);
+        return;
+      }
+
+      let index = 0;
+      const speakNext = () => {
+        if (run !== speechRun.current) return;
+        if (index >= queue.length) {
+          setSpeakingTarget(null);
+          return;
+        }
+
+        const item = queue[index];
+        const utterance = new SpeechSynthesisUtterance(item.text);
+        utterance.lang = speechLocale(item.language, item.text);
+        utterance.voice = voiceItems[index].voice;
+        index += 1;
+        utterance.onend = speakNext;
+        utterance.onerror = (event) => {
+          if (run !== speechRun.current) return;
+          setSpeakingTarget(null);
+          if (event.error === 'language-unavailable' || event.error === 'voice-unavailable') {
+            setSpeechError(t('speechVoiceUnavailable'));
+            setSpeechErrorTarget(target);
+          } else if (event.error !== 'canceled' && event.error !== 'interrupted') {
+            setSpeechError(t('speechPlaybackFailed'));
+            setSpeechErrorTarget(target);
+          }
+        };
+        synthesis.speak(utterance);
+      };
+
+      speakNext();
+    }).catch(() => {
+      if (run !== speechRun.current) return;
+      setSpeakingTarget(null);
+      setSpeechError(t('speechPlaybackFailed'));
+      setSpeechErrorTarget(target);
+    });
+  };
+
+  const speak = () => speakItems([{ text: speechText, language: answerLanguage }], 'answer');
+  const speakPassages = () => speakItems(
+    citations.map((citation) => ({ text: citation.passage, language: citation.language })),
+    'passages',
+  );
+
+  const stopSpeaking = () => {
+    speechRun.current += 1;
+    window.speechSynthesis?.cancel();
+    setSpeakingTarget(null);
+  };
 
   return (
     <div className="space-y-3">
@@ -83,35 +192,48 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
           <div className="flex items-center gap-2">
             <h2 className={`eyebrow flex items-center gap-1.5 ${answered ? '!text-[#4F46E5]' : '!text-[#64748B]'}`}>
               {answered ? <span className="h-2 w-2 rounded-full bg-[#4F46E5]" /> : <MessageSquareWarning className="h-3.5 w-3.5 text-[#64748B]" />}
-              {answered ? (isGu ? 'વહીવટી તારણ / Finding' : 'Administrative Finding') : (isGu ? 'જવાબ કેમ નથી / Why No Finding' : 'Why No Finding')}
+              {answered ? t('adminFinding') : t('whyNoFinding')}
             </h2>
             {rerun && (
-              <button type="button" onClick={rerun.onClick} className="inline-flex items-center gap-1.5 rounded-lg border border-[#C7D2FE] bg-[#EEF2FF] px-2.5 py-1 text-[12.5px] font-semibold text-[#4338CA] transition hover:bg-white" title="The answer language was changed after this answer. Re-run the question to get it in the new language.">
-                <RotateCcw className="h-3.5 w-3.5" /> Re-run in <span className={rerun.gu ? 'gu-text' : ''}>{rerun.label}</span>
+              <button type="button" onClick={rerun.onClick} className="inline-flex items-center gap-1.5 rounded-lg border border-[#C7D2FE] bg-[#EEF2FF] px-2.5 py-1 text-[12.5px] font-semibold text-[#4338CA] transition hover:bg-white" title={t('rerunNote')}>
+                <RotateCcw className="h-3.5 w-3.5" /> {t('rerunIn')} <span className={rerun.gu ? 'gu-text' : ''}>{rerun.label}</span>
               </button>
             )}
           </div>
           <div className="flex items-center gap-2">
+            {speechText && (
+              <button
+                type="button"
+                onClick={speakingTarget === 'answer' ? stopSpeaking : speak}
+                aria-label={speakingTarget === 'answer' ? t('stopSpeakingAnswer') : t('listenToAnswer')}
+                title={speakingTarget === 'answer' ? t('stop') : `${t('listen')} (${speechLocale(answerLanguage, speechText)})`}
+                className="print:hidden inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[12.5px] font-semibold text-[#1E293B] shadow-sm hover:border-[#4F46E5] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition-all"
+              >
+                {speakingTarget === 'answer' ? <Square className="h-3.5 w-3.5 fill-current" /> : <Volume2 className="h-3.5 w-3.5 text-[#4F46E5]" />}
+                <span>{speakingTarget === 'answer' ? t('stop') : t('listen')}</span>
+              </button>
+            )}
             {quotesChecked && (
-              <span className="inline-flex items-center gap-1.5 rounded-full badge-safe px-2.5 py-0.5 text-[12.5px] font-semibold shadow-sm" title="Every quote below appears word for word on its cited page">
-                <ShieldCheck className="h-3.5 w-3.5 text-[#10B981]" /> Quotes checked against the page
+              <span className="inline-flex items-center gap-1.5 rounded-full badge-safe px-2.5 py-0.5 text-[12.5px] font-semibold shadow-sm" title={t('quotesCheckedNote')}>
+                <ShieldCheck className="h-3.5 w-3.5 text-[#10B981]" /> {t('quotesChecked')}
               </span>
             )}
             <button
               type="button"
               onClick={() => window.print()}
-              title="Print or save a reference note of this answer"
-              aria-label="Export Action Memo"
+              title={t('exportActionMemo')}
+              aria-label={t('exportActionMemo')}
               className="print:hidden inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[12.5px] font-semibold text-[#1E293B] shadow-sm hover:border-[#4F46E5] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition-all"
             >
               <Printer className="h-3.5 w-3.5 text-[#4F46E5]" />
-              <span>Export Action Memo</span>
+              <span>{t('exportActionMemo')}</span>
             </button>
           </div>
         </div>
         <p className={`${isGu ? 'gu-text' : 'display'} text-[19px] font-normal leading-[1.62] text-[#1E293B] sm:text-[21px]`}>
           {answered ? response.summary : response.insufficient_reason}
         </p>
+        {speechError && speechErrorTarget === 'answer' && <p role="status" className="mt-2 text-[12.5px] text-[#9F1239]">{speechError}</p>}
         <TrustShield response={response} />
       </section>
 
@@ -121,7 +243,7 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
           {/* Drawer control bar */}
           <div className="flex items-center justify-between border-b border-[#E6E4DD] bg-[#F1EFEA]/80 px-4 py-2 sm:px-5">
             <div className="flex items-center gap-2">
-              <div className="well flex p-0.5" role="tablist" aria-label="Evidence views">
+              <div className="well flex p-0.5" role="tablist" aria-label={t('evidenceViews')}>
                 <button
                   type="button"
                   role="tab"
@@ -134,7 +256,7 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
                   }`}
                 >
                   <Quote className="h-3.5 w-3.5" />
-                  <span>{isGu ? 'સત્તાવાર લખાણ' : 'Verbatim Passages'}</span>
+                  <span>{t('verbatimPassages')}</span>
                   <span className="rounded-full bg-[#EEF2FF] px-1.5 py-0.2 text-[12.5px] font-bold text-[#4F46E5]">
                     {citations.length}
                   </span>
@@ -153,13 +275,25 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
                     }`}
                   >
                     <Layers className="h-3.5 w-3.5" />
-                    <span>{isGu ? 'વિધાનો' : 'Statements'}</span>
+                    <span>{t('statements')}</span>
                     <span className="rounded-full bg-[#F1EFEA] px-1.5 py-0.2 text-[12.5px] font-bold text-[#64748B]">
                       {statements.length}
                     </span>
                   </button>
                 )}
               </div>
+              {activeTab === 'passages' && citations.length > 0 && (
+                <button
+                  type="button"
+                  onClick={speakingTarget === 'passages' ? stopSpeaking : speakPassages}
+                  aria-label={speakingTarget === 'passages' ? t('stopSpeakingPassages') : t('listenToPassages')}
+                  title={speakingTarget === 'passages' ? t('stopSpeakingPassages') : t('listenToPassages')}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[12.5px] font-semibold text-[#64748B] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition"
+                >
+                  {speakingTarget === 'passages' ? <Square className="h-3.5 w-3.5 fill-current" /> : <Volume2 className="h-3.5 w-3.5" />}
+                  <span>{speakingTarget === 'passages' ? t('stop') : t('listen')}</span>
+                </button>
+              )}
             </div>
 
             <div className="flex items-center gap-2">
@@ -169,11 +303,15 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
                 aria-expanded={drawerOpen}
                 className="inline-flex items-center gap-1 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] px-2.5 py-1 text-[12.5px] font-semibold text-[#64748B] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition shadow-xs"
               >
-                <span>{drawerOpen ? 'Collapse' : 'Expand'}</span>
+                <span>{drawerOpen ? t('collapse') : t('expand')}</span>
                 {drawerOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
               </button>
             </div>
           </div>
+
+          {speechError && speechErrorTarget === 'passages' && (
+            <p role="status" className="px-4 py-2 text-[12.5px] text-[#9F1239]">{speechError}</p>
+          )}
 
           {/* Drawer content */}
           <AnimatePresence initial={false}>
@@ -234,8 +372,8 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
                               <span className="font-bold text-[#1E293B]">{c.gr_number || c.gr_id}</span>
                               {c.issue_date && <span>{c.issue_date}</span>}
                               <span className="rounded bg-[#F1EFEA] px-1.5 py-0.5 font-bold text-[#1E293B]">p.{c.page}</span>
-                              {c.lineage?.status === 'superseded' && <span className="font-bold text-[#9F1239]">superseded</span>}
-                              {c.lineage?.status === 'amended' && <span className="font-bold text-[#92400E]">amended</span>}
+                              {c.lineage?.status === 'superseded' && <span className="font-bold text-[#9F1239]">{t('superseded')}</span>}
+                              {c.lineage?.status === 'amended' && <span className="font-bold text-[#92400E]">{t('amended')}</span>}
                             </div>
                             <span className={`inline-flex items-center gap-1.5 text-[12.5px] font-semibold ${on ? 'text-[#D97706]' : 'text-[#4F46E5] group-hover:translate-x-0.5 transition-transform'}`}>
                               {on ? (
@@ -244,10 +382,10 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
                                     <span className="absolute inset-0 animate-pingSoft rounded-full bg-[#D97706]" />
                                     <span className="relative h-1.5 w-1.5 rounded-full bg-[#D97706]" />
                                   </span>
-                                  {isGu ? 'પૃષ્ઠ પર ચિહ્નિત' : 'Locked on page'}
+                                  {t('lockedOnPage')}
                                 </>
                               ) : (
-                                <>{isGu ? 'પૃષ્ઠ પર જુઓ' : 'Lock on page'} <ArrowRight className="h-3 w-3" /></>
+                                <>{t('lockOnPage')} <ArrowRight className="h-3 w-3" /></>
                               )}
                             </span>
                           </div>
@@ -264,6 +402,7 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
                       {statements.map((st, i) => {
                         const label = labelOf(st.label);
                         const L = LABELS[label] || LABELS.Unverified;
+                        const labelKey = label === 'Established' ? 'established' : label === 'Inferred' ? 'inferred' : 'unverified';
                         return (
                           <motion.li
                             key={i}
@@ -276,14 +415,14 @@ export default function AnswerCard({ response, active, onSelect, rerun }) {
                             <div className="space-y-2">
                               <div className="flex items-start justify-between gap-3">
                                 <p className="gu-text text-[14px] leading-relaxed text-[#1E293B]">{st.text}</p>
-                                <span title={L.note} className={`mt-0.5 inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[12.5px] font-bold ${L.cls}`}>
+                                <span title={t(`${labelKey}Note`)} className={`mt-0.5 inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[12.5px] font-bold ${L.cls}`}>
                                   <span className={`h-1.5 w-1.5 rounded-full ${L.dot}`} />
-                                  {label}
+                                  {t(labelKey)}
                                 </span>
                               </div>
                               {st.citations.length > 0 && (
                                 <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                                  <span className="mr-0.5 text-[12.5px] text-[#64748B]">{isGu ? 'માં સંદર્ભિત' : 'Cited in'}</span>
+                                  <span className="mr-0.5 text-[12.5px] text-[#64748B]">{t('citedIn')}</span>
                                   {st.citations.map((c, j) => (
                                     <CitationChip key={j} cit={c} active={citeKey(c) === citeKey(active)} onSelect={onSelect} />
                                   ))}

@@ -199,13 +199,18 @@ sequenceDiagram
    The original Gujarati channels stay, so a bad rendering cannot remove what worked before.
 3. **Retrieve.** BM25 (with a Gujarati stemmer and the document title in each chunk's keyword tokens) and vector search (bge-m3) are fused by rank.
    A GR number written in the question (compared by letters and digits only, Gujarati digits converted) or a written date shared by at most three GRs pulls that GR in directly.
-4. **Build evidence.** The sentences of the best `EVIDENCE_CANDIDATES` (8) chunks, plus the amending passage when the GR has one, compete for `EVIDENCE_MAX_CHARS` by
-   IDF-weighted overlap with the question (and its English rendering). Letterhead fragments are dropped. **Instruction-like sentences** inside documents
-   ("ignore previous instructions ...") are removed before numbering, so they can neither steer the model nor be cited.
+4. **Build evidence.** A broad retrieval pool is narrowed to the configured top distinct GRs (five by default); their retrieved chunks and same-document BM25 expansions, plus an amending passage when present,
+   compete for `EVIDENCE_MAX_CHARS` by IDF-weighted overlap with the question (and its English rendering). For current-status questions, an older version is excluded when a newer retrieved GR has the same GR number.
+   Letterhead, Gujarati subject-only fragments ending in "બાબત" or "અંગે", and Gujarati read-list text marked "વંચાણે લીધા" are dropped. **Instruction-like sentences** inside documents ("ignore previous instructions ...")
+   are removed before numbering, so they can neither steer the model nor be cited.
 5. **Answer.** The model receives the numbered sentences and must answer only from them, in a compact JSON (`{"statements":[{"t":..,"k":"E","ids":[..]}]}`).
-   The system prompt is fixed and says document text is evidence only. Temperature 0.
-6. **Verify.** Each cited sentence is checked to occur verbatim on its page; the citation gets the paragraph's box (`bbox`). Statements whose citations were all dropped
-   become `inferred`. An answer with no valid citation becomes a refusal.
+   The system prompt says document text is evidence only; Gujlish answers receive an explicit Roman-script example and a one-statement limit.
+   Local fast mode allows up to 256 output tokens so the JSON is not cut off mid-answer. Temperature 0.
+6. **Verify.** Each cited sentence is checked to occur verbatim on its page; the citation gets the paragraph's box (`bbox`). A claim's cited sentence must share a
+   question-specific, non-generic term with the claim itself. Gujarati-script terms are transliterated for comparison with Gujlish claims; numeric answers may instead be grounded by
+   the matching value and a question-specific term. Unsupported claims are omitted,
+   and the answer is refused if none remain. This lexical check is a minimum guardrail,
+   not proof of semantic correctness. Statements whose citations were all dropped become `inferred`. An answer with no valid citation becomes a refusal.
 7. **Status and warnings.** The API adds each cited GR's lineage status from the graph. Warnings are added when a cited GR is superseded, when it amends a GR that is not
    in the collection (`BROKEN_CHAIN:`; refusing instead is opt-in with `GOV_BROKEN_CHAIN_REFUSES=1`), when the optional answer check could not confirm the passage
    (`ANSWER_CHECK=warn`), or when no model was available.

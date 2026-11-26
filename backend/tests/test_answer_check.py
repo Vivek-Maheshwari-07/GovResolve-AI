@@ -14,10 +14,10 @@ ANSWER = '{"statements": [{"t": "Up to 180 days.", "k": "E", "ids": ["S1"]}]}'
 Q = "What is the maximum period of leave for state employees?"
 
 
-def pipeline():
+def pipeline(text=TEXT):
     rec = GRRecord(gr_id="GR-1", gr_number="X/2020/1", issue_date=date(2020, 1, 1), subject="Leave rules",
-                   chunks=[Chunk(chunk_id="GR-1:1", page=1, text=TEXT, bbox=BBox(x0=1, y0=2, x1=3, y1=4))])
-    hit = {"chunk_id": "GR-1:1", "text": TEXT, "rrf_score": 1.0,
+                   chunks=[Chunk(chunk_id="GR-1:1", page=1, text=text, bbox=BBox(x0=1, y0=2, x1=3, y1=4))])
+    hit = {"chunk_id": "GR-1:1", "text": text, "rrf_score": 1.0,
            "metadata": {"gr_id": "GR-1", "gr_number": "X/2020/1", "issue_date": "2020-01-01", "pages": "[1]"}}
 
     class Index:
@@ -98,3 +98,36 @@ def test_a_refusal_by_the_model_is_not_checked_again(model, monkeypatch):
                         (calls.append((s, u)) or '{"statements": [], "insufficient_reason": "Not stated."}', "fake"))
     resp = pipeline().answer(Q)
     assert resp.answer_status.value == "Insufficient Evidence" and [c for c in calls if c[0] is se.CHECK_SYSTEM] == []
+
+
+def test_a_claim_cited_to_irrelevant_evidence_is_refused_without_an_extra_model_call(monkeypatch):
+    question = "તલાટી કમ મંત્રીને પરસ્પર બદલી માટે કેટલી રકમ મળશે?"
+    unrelated = "Appointment delegated to Chief Registrar on 1 July 2024."
+    answer = '{"statements": [{"t": "A Talati was appointed as special officer.", "k": "E", "ids": ["S1"]}]}'
+    calls = []
+
+    def fake(system, user, max_tokens=None, json_mode=True):
+        calls.append(system)
+        return answer, "fake"
+
+    monkeypatch.setattr(se, "execute_llm_generation", fake)
+    monkeypatch.setattr(se, "translate_to_english", lambda _: "How much amount will a Talati-cum-Mantri receive for mutual transfer?")
+    monkeypatch.setattr(se, "translate_to_gujarati", lambda _: None)
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+
+    resp = pipeline(unrelated).answer(question, target_language="gu")
+
+    assert resp.answer_status.value == "Insufficient Evidence"
+    assert resp.insufficient_reason.value == "NO_DOCUMENT"
+    assert not resp.citations and "સંબંધિત પુરાવા મળ્યા નથી" in resp.summary
+    assert calls == [se.SYSTEM_PROMPT]
+
+
+def test_a_cited_sentence_with_sufficient_question_overlap_still_answers(model, monkeypatch):
+    monkeypatch.setattr(se, "translate_to_gujarati", lambda _: None)
+    monkeypatch.setenv("LOCAL_FAST_MODE", "1")
+
+    resp = pipeline().answer(Q)
+
+    assert resp.answer_status.value != "Insufficient Evidence"
+    assert resp.citations and resp.summary == "Up to 180 days."

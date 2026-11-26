@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, X, Loader2, Check } from 'lucide-react';
+import { useUiLanguage } from '../lib/i18n';
 
 /**
  * Guided tour that runs on the live application. Each step spotlights a real element (marked data-tour="...").
@@ -27,7 +28,7 @@ const TOUR_STEPS = [
     target: 'ask',
     action: 'ask',
     title: 'Ask in any language',
-    text: 'Gujarati, English, or a mix. We are typing a sample question now. The on-screen Gujarati keypad is one tap away, and the language switch in the header can pin the language.',
+    text: 'Gujarati, English, or a mix. We are typing a sample question now. Use your device keyboard for Gujarati or Gujlish input. Choose the answer language to change both the answer and interface.',
   },
   {
     id: 'verdict',
@@ -142,6 +143,7 @@ function useTargetRect(target, open, stepKey) {
 }
 
 export default function Tour({ open, onClose, ctx = {} }) {
+  const { t } = useUiLanguage();
   const [i, setI] = useState(0);
   const [waited, setWaited] = useState(0);
   const [cardH, setCardH] = useState(260);
@@ -242,7 +244,7 @@ export default function Tour({ open, onClose, ctx = {} }) {
   return (
     <AnimatePresence>
       {open && (
-        <motion.div className="fixed inset-0 z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} role="dialog" aria-modal="true" aria-label="Guided tour" data-tour-open>
+        <motion.div className="fixed inset-0 z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} role="dialog" aria-modal="true" aria-label={t('tour')} data-tour-open>
           {rect ? (
             <>
               {/* the hole stays clickable; everything around it is blocked */}
@@ -271,8 +273,8 @@ export default function Tour({ open, onClose, ctx = {} }) {
               style={{ width: sheet ? undefined : CARD_W, ...pos }}
             >
               <div className="flex items-center justify-between">
-                <span className="mono-label text-iris-700">Tour · {i + 1} of {TOUR_STEPS.length}</span>
-                <button onClick={() => onClose(false)} aria-label="Close tour" className="rounded-lg p-1 text-mist hover:bg-sand hover:text-ink">
+                <span className="mono-label text-iris-700">{t('stepCount', { current: i + 1, total: TOUR_STEPS.length })}</span>
+                <button onClick={() => onClose(false)} aria-label={t('close')} className="rounded-lg p-1 text-mist hover:bg-sand hover:text-ink">
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -282,33 +284,33 @@ export default function Tour({ open, onClose, ctx = {} }) {
                 ))}
               </div>
 
-              <h3 className="display mt-4 text-[19px] font-bold leading-snug text-ink">{step.title}</h3>
-              <p className="mt-1.5 text-[13.5px] leading-relaxed text-mist">{step.text}</p>
+              <h3 className="display mt-4 text-[19px] font-bold leading-snug text-ink">{t(`${step.id}TourTitle`)}</h3>
+              <p className="mt-1.5 text-[13.5px] leading-relaxed text-mist">{t(`${step.id}TourText`)}</p>
 
               {waiting && (
                 <div className="mt-3 flex items-start gap-2.5 rounded-xl bg-iris-50 px-3 py-2.5 text-[12.5px] text-iris-800" role="status">
                   <Loader2 className="mt-0.5 h-3.5 w-3.5 shrink-0 animate-spin" />
                   <span>
-                    Waiting for the answer. A local model can take up to a minute.
+                    {t('waitingForAnswer')}
                     {waited > 15 && (
                       <>
                         {' '}
-                        <button type="button" onClick={() => setI(TOUR_STEPS.findIndex((s) => s.id === 'timemachine'))} className="font-semibold underline underline-offset-2">Skip this part</button>
+                        <button type="button" onClick={() => setI(TOUR_STEPS.findIndex((s) => s.id === 'timemachine'))} className="font-semibold underline underline-offset-2">{t('skipThisPart')}</button>
                       </>
                     )}
                   </span>
                 </div>
               )}
               {step.id === 'ask' && ctx.hasAnswer && (
-                <p className="mt-3 flex items-center gap-2 text-[12.5px] font-medium text-[#2F5D4E]"><Check className="h-3.5 w-3.5" /> The answer is in.</p>
+                <p className="mt-3 flex items-center gap-2 text-[12.5px] font-medium text-[#2F5D4E]"><Check className="h-3.5 w-3.5" /> {t('answerReady')}</p>
               )}
 
               <div className="mt-5 flex items-center justify-between border-t border-hair pt-3">
-                {last ? <span /> : <button onClick={() => onClose(false)} className="text-[12px] font-medium text-faint underline decoration-stone underline-offset-4 hover:text-ink">Skip tour</button>}
+                {last ? <span /> : <button onClick={() => onClose(false)} className="text-[12px] font-medium text-faint underline decoration-stone underline-offset-4 hover:text-ink">{t('skipTour')}</button>}
                 <div className="flex gap-2">
                   {i > 0 && (
                     <button onClick={() => go(-1)} className="inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-[12.5px] font-semibold text-mist hover:bg-sand hover:text-ink">
-                      <ArrowLeft className="h-3.5 w-3.5" /> Back
+                      <ArrowLeft className="h-3.5 w-3.5" /> {t('back')}
                     </button>
                   )}
                   <button
@@ -316,7 +318,7 @@ export default function Tour({ open, onClose, ctx = {} }) {
                     disabled={!ready && !last}
                     className="btn-primary inline-flex items-center gap-1.5 rounded-xl px-4 py-1.5 text-[12.5px] font-bold text-white transition hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
                   >
-                    <span>{last ? step.cta : i === 0 ? 'Start the tour' : 'Next'}</span>
+                    <span>{last ? t('openApplication') : i === 0 ? t('startTour') : t('next')}</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </button>
                 </div>

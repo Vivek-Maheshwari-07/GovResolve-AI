@@ -87,6 +87,17 @@ def test_query_attaches_lineage_and_warns_on_superseded_citation():
     assert any("superseded" in w for w in res["warnings"])
 
 
+def test_query_detects_romanized_gujarati_for_the_answer_language():
+    engine = FakeEngine(EngineResult(
+        answer="Maternity leave mate aa niyam lagu pade chhe.",
+        citations=[RawCitation(doc_id="demo-2018-045", page=2, quote="medical certificate")],
+    ))
+    res = seeded_client(engine).post("/query", json={"question": "maternity leave mate kya joie?"}).json()
+
+    assert engine.seen == ("maternity leave mate kya joie?", "gujlish")
+    assert res["language"] == "gujlish"
+
+
 def test_query_with_only_unknown_citations_is_insufficient():
     engine = FakeEngine(
         EngineResult(answer="Made up.", citations=[RawCitation(doc_id="ghost", page=1, quote="x")])

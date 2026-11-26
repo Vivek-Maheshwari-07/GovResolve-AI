@@ -15,8 +15,11 @@ import threading
 import webbrowser
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 ROOT = Path(__file__).resolve().parent
 os.chdir(ROOT)                                   # so ".env" at the repo root is found
+load_dotenv(ROOT / ".env")
 
 
 def _use_project_venv() -> None:
@@ -59,6 +62,9 @@ def build_ui() -> None:
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="backslashreplace")
+
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8000)
@@ -66,7 +72,8 @@ def main() -> int:
     args = ap.parse_args()
 
     corpus = find_corpus()
-    index = Path(os.environ.get("GOV_SQUAD2_INDEX_DIR", ROOT / "data" / "index" / "chroma"))
+    index = Path(os.environ.get("GOV_SQUAD2_INDEX_DIR", os.environ.get("CHROMA_PERSIST_DIR", ROOT / "data" / "index" / "chroma")))
+    os.environ["CHROMA_PERSIST_DIR"] = str(index)
     if corpus and index.is_dir():
         os.environ.setdefault("GOV_CORPUS_DIR", str(corpus))
         os.environ.setdefault("GOV_ENGINE", "squad2")

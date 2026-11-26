@@ -21,18 +21,18 @@ import Method from './components/Method';
 import Tour from './components/Tour';
 import LandingPage from './pages/Hero';
 import { SAMPLES } from './lib/samples';
+import { LanguageProvider, useUiLanguage } from './lib/i18n';
+import { HISTORY_MAX, loadHistory, saveHistory } from './lib/history';
 
 const TOUR_KEY = 'govresolve.tour.seen';
 const LANG_LABEL = { null: 'Auto', en: 'English', gu: 'ગુજરાતી', mixed: 'Gujlish' };
 const INTRO_KEY = 'govresolve.intro.seen';
-const HISTORY_KEY = 'govresolve.history';
-const HISTORY_MAX = 8;
 const SHORTCUTS = [
-  ['/', 'Focus inquiry input'],
-  ['1  2  3', 'Inquiry · Library · Method'],
-  ['[  ]', 'Previous / next verified citation'],
-  ['?', 'Interactive guided tour'],
-  ['Esc', 'Close the open dialog'],
+  ['/', 'shortcutFocusInquiry'],
+  ['1  2  3', 'shortcutWorkspaces'],
+  ['[  ]', 'shortcutCitations'],
+  ['?', 'shortcutTour'],
+  ['Esc', 'shortcutClose'],
 ];
 
 const typing = (el) => el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
@@ -48,11 +48,8 @@ function rememberIntro() {
 }
 // ?intro=1 always shows the introduction (handy for demos); otherwise only a first visit does
 const forceIntro = () => { try { return new URLSearchParams(window.location.search).get('intro') === '1'; } catch { return false; } };
-function loadHistory() {
-  try { return JSON.parse(sessionStorage.getItem(HISTORY_KEY) || '[]').slice(0, HISTORY_MAX); } catch { return []; }
-}
-
 function ShortcutsDialog({ open, onClose }) {
+  const { t } = useUiLanguage();
   return (
     <AnimatePresence>
       {open && (
@@ -64,7 +61,7 @@ function ShortcutsDialog({ open, onClose }) {
           onClick={onClose}
           role="dialog"
           aria-modal="true"
-          aria-label="Keyboard shortcuts"
+          aria-label={t('keyboardShortcuts')}
         >
           <motion.div
             initial={{ scale: 0.95, y: 12 }}
@@ -75,8 +72,8 @@ function ShortcutsDialog({ open, onClose }) {
             className="sheet w-full max-w-sm border border-[#E6E4DD] p-5 shadow-float"
           >
             <div className="mb-3 flex items-center justify-between border-b border-[#E6E4DD] pb-3">
-              <h3 className="display text-[17px] font-bold text-[#1E293B]">Keyboard shortcuts</h3>
-              <button onClick={onClose} aria-label="Close" className="rounded-lg p-1 text-[#64748B] hover:bg-[#F1EFEA] hover:text-[#1E293B]">
+              <h3 className="display text-[17px] font-bold text-[#1E293B]">{t('keyboardShortcuts')}</h3>
+              <button onClick={onClose} aria-label={t('close')} className="rounded-lg p-1 text-[#64748B] hover:bg-[#F1EFEA] hover:text-[#1E293B]">
                 <X className="h-4 w-4" />
               </button>
             </div>
@@ -96,14 +93,15 @@ function ShortcutsDialog({ open, onClose }) {
 }
 
 function StatusBar({ onShortcuts, session }) {
+  const { t } = useUiLanguage();
   return (
     <footer className="hidden items-center justify-between gap-4 border-t border-[#E6E4DD] bg-[rgba(248,247,244,0.92)] px-4 py-1.5 backdrop-blur-md md:flex shadow-[0_-1px_2px_rgba(15,23,42,0.02)] print:hidden">
       <div className="flex items-center gap-4">
         <button onClick={onShortcuts} className="flex items-center gap-3 text-[12.5px] text-[#64748B] transition-colors hover:text-[#1E293B]">
-          {[['/', 'inquire'], ['1 2 3', 'workspaces'], ['[ ]', 'citations'], ['?', 'tour']].map(([k, v]) => (
+          {[['/', 'askWorkspace'], ['1 2 3', 'workspaces'], ['[ ]', 'citations'], ['?', 'tour']].map(([k, v]) => (
             <span key={v} className="flex items-center gap-1.5">
               <span className="flex gap-0.5">{k.split(' ').map((x) => <kbd key={x} className="kbd !h-[18px] !min-w-[18px] !text-[12.5px]">{x}</kbd>)}</span>
-              <span>{v}</span>
+              <span>{t(v)}</span>
             </span>
           ))}
         </button>
@@ -111,16 +109,16 @@ function StatusBar({ onShortcuts, session }) {
 
       <div className="flex items-center gap-4">
         {session.asked > 0 && (
-          <span className="mono-label hidden items-center gap-3 text-[12.5px] text-[#64748B] lg:flex" aria-label="This session">
-            <span><b className="text-[#1E293B]">{session.asked}</b> asked</span>
-            <span><b className="text-[#065F46]">{session.verified}</b> verified</span>
-            <span><b className="text-[#9F1239]">{session.refused}</b> refused</span>
-            <span><b className="text-[#1E293B]">{session.lastSec != null ? `${session.lastSec}s` : '—'}</b> latency</span>
+          <span className="mono-label hidden items-center gap-3 text-[12.5px] text-[#64748B] lg:flex" aria-label={t('thisSession')}>
+            <span><b className="text-[#1E293B]">{session.asked}</b> {t('asked')}</span>
+            <span><b className="text-[#065F46]">{session.verified}</b> {t('verified')}</span>
+            <span><b className="text-[#9F1239]">{session.refused}</b> {t('refused')}</span>
+            <span><b className="text-[#1E293B]">{session.lastSec != null ? `${session.lastSec}s` : '—'}</b> {t('latency')}</span>
           </span>
         )}
         <span className="mono-label flex items-center gap-2 text-[12.5px] text-[#64748B]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulseDot" />
-          Indexed official resolutions only · Quoted verbatim
+          {t('indexedOfficialVerbatim')}
         </span>
       </div>
     </footer>
@@ -146,6 +144,7 @@ function useSplit() {
 }
 
 function SplitHandle({ ratio, onChange, containerRef }) {
+  const { t } = useUiLanguage();
   const [drag, setDrag] = useState(false);
   const move = (x) => {
     const b = containerRef.current?.getBoundingClientRect();
@@ -155,12 +154,12 @@ function SplitHandle({ ratio, onChange, containerRef }) {
     <div
       role="separator"
       aria-orientation="vertical"
-      aria-label="Resize panes"
+      aria-label={t('resizePanes')}
       aria-valuemin={32}
       aria-valuemax={68}
       aria-valuenow={Math.round(ratio * 100)}
       tabIndex={0}
-      title="Drag to resize · double-click to reset"
+      title={t('resizeHint')}
       className="group hidden cursor-col-resize touch-none select-none items-center justify-center lg:flex print:hidden"
       onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); setDrag(true); move(e.clientX); }}
       onPointerMove={(e) => drag && move(e.clientX)}
@@ -177,7 +176,8 @@ function SplitHandle({ ratio, onChange, containerRef }) {
   );
 }
 
-export default function App() {
+function AppContent() {
+  const { t, setLanguage: setUiLanguage } = useUiLanguage();
   const [workspace, setWorkspace] = useState('ask');
   const [stats, setStats] = useState(null);
   const [online, setOnline] = useState(true);
@@ -331,9 +331,9 @@ export default function App() {
   const chain = response?.lineage_chain || [];
   const firstId = response?.citations?.[0]?.gr_id;
 
-  // remember the session's questions (answers included) so an earlier one can be reopened without asking again
+  // Persist answered questions so saved chats can be reopened across browser sessions.
   useEffect(() => {
-    try { sessionStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch { /* storage full or unavailable */ }
+    saveHistory(history);
   }, [history]);
 
   // the lineage shown follows the selected citation: when an answer cites several resolutions, each has its own chain
@@ -420,7 +420,11 @@ export default function App() {
         stats={stats}
         online={online}
         language={language}
-        onLanguage={setLanguage /* applies to the next question; an open answer offers a manual re-run */}
+        onLanguage={(lang) => {
+          // applies to the next question (an open answer offers a manual re-run); it also sets the interface language
+          setLanguage(lang);
+          if (lang) setUiLanguage(lang === 'mixed' ? 'gujlish' : lang);
+        }}
         asOf={asOf}
         onAsOf={setAsOf}
         session={session}
@@ -467,11 +471,11 @@ export default function App() {
                         <motion.div key="error" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="sheet flex gap-3.5 border border-[#FECDD3] border-l-[3px] border-l-[#F43F5E] bg-[#FFF1F2] p-4" role="alert">
                           <ServerCrash className="mt-0.5 h-5 w-5 shrink-0 text-[#F43F5E]" />
                           <div className="min-w-0 flex-1">
-                            <p className="display text-[15px] font-bold text-[#9F1239]">The inquiry could not be completed</p>
+                            <p className="display text-[15px] font-bold text-[#9F1239]">{t('inquiryCouldNotComplete')}</p>
                             <p className="mt-1 text-[12.5px] leading-relaxed text-[#64748B]">{error}</p>
                             {query.trim() && (
                               <button type="button" onClick={() => submit(query)} className="mt-2.5 inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.88)] px-2.5 py-1 text-[12px] font-semibold text-[#4F46E5] hover:text-[#4338CA] hover:bg-[#EEF2FF]" style={{ boxShadow: '0 1px 2px rgba(15,23,42,.04)' }}>
-                                <RotateCcw className="h-3 w-3" /> Try again
+                                <RotateCcw className="h-3 w-3" /> {t('tryAgain')}
                               </button>
                             )}
                           </div>
@@ -503,6 +507,7 @@ export default function App() {
                             response={response}
                             active={active}
                             onSelect={setActive}
+                            language={language}
                             rerun={askedLang !== language && query.trim() ? { label: LANG_LABEL[String(language)] || 'Auto', gu: language === 'gu', onClick: () => submit(query) } : null}
                           />
                           <LineageGraph chain={shownChain} forGr={shownFor?.gr_number} asOf={asOf} onAsOf={setAsOf} activeId={active?.gr_id} onSelectNode={openNode} />
@@ -514,7 +519,7 @@ export default function App() {
 
                 <SplitHandle ratio={ratio} onChange={setRatio} containerRef={mainRef} />
 
-                <section data-tour="evidence" className="min-h-[30rem] lg:min-h-0 print:hidden" aria-label="Evidence">
+                <section data-tour="evidence" className="min-h-[30rem] lg:min-h-0 print:hidden" aria-label={t('evidence')}>
                   <PdfInspector citation={active} question={query} />
                 </section>
               </>
@@ -526,7 +531,7 @@ export default function App() {
                   <Library selectedId={libActive?.gr_id} onOpen={setLibActive} asOf={asOf} onAsOf={setAsOf} />
                 </section>
                 <SplitHandle ratio={ratio} onChange={setRatio} containerRef={mainRef} />
-                <section className="min-h-[30rem] lg:min-h-0" aria-label="Document">
+                <section className="min-h-[30rem] lg:min-h-0" aria-label={t('document')}>
                   <PdfInspector citation={libActive} question="" />
                 </section>
               </>
@@ -554,5 +559,13 @@ export default function App() {
       <ShortcutsDialog open={keys} onClose={() => setKeys(false)} />
     </div>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }

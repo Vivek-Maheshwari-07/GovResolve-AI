@@ -1,5 +1,6 @@
 """Corpus builder helpers: Gujarati text-quality score, portal listing parse, metadata override."""
 from scripts.build_corpus import apply_listing, gujarati_score, parse_listing
+from scripts.ocr_to_gr_json import _resolve_family_pdf
 
 
 def test_clean_gujarati_scores_higher_than_a_remapped_text_layer():
@@ -50,3 +51,24 @@ def test_language_is_judged_from_the_script_of_the_text():
     assert script_language("કર્મચારીને રજા મળવાપાત્ર રહેશે") == "gu"
     assert script_language("The leave shall be admissible") == "en"
     assert script_language("The leave shall be admissible. કર્મચારીને મહત્તમ રજા મળવાપાત્ર રહેશે") == "mixed"
+
+
+def test_family_pdf_resolver_finds_archive_file_by_basename(tmp_path):
+    pdf = tmp_path / "archive" / "supplement.pdf"
+    pdf.parent.mkdir()
+    pdf.write_bytes(b"pdf")
+
+    assert _resolve_family_pdf(tmp_path, "old/layout/supplement.pdf", {"supplement.pdf": [pdf]}) == pdf
+
+
+def test_family_pdf_resolver_rejects_different_files_with_same_basename(tmp_path):
+    first, second = tmp_path / "one" / "same.pdf", tmp_path / "two" / "same.pdf"
+    first.parent.mkdir()
+    second.parent.mkdir()
+    first.write_bytes(b"first")
+    second.write_bytes(b"second")
+
+    import pytest
+
+    with pytest.raises(ValueError, match="Ambiguous family PDF basename"):
+        _resolve_family_pdf(tmp_path, "old/layout/same.pdf", {"same.pdf": [first, second]})

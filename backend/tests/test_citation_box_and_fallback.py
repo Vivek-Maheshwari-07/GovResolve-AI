@@ -31,7 +31,7 @@ def pipeline(text=TEXT):
 
 
 def ask(monkeypatch, reply, provider="fake"):
-    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up: (reply, provider))
+    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up, **kwargs: (reply, provider))
     return pipeline().answer("What is the maximum period of leave for state employees?")
 
 
@@ -48,7 +48,7 @@ def test_a_chunk_without_a_box_gives_a_citation_without_one(monkeypatch):
                    chunks=[Chunk(chunk_id="GR-1:1", page=1, text=TEXT)])
     squad2 = to_squad2_records([rec])
     squad2[0].chunks[0].bboxes = []
-    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up: ('{"statements": [{"t": "x", "ids": ["S1"]}]}', "fake"))
+    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up, **kwargs: ('{"statements": [{"t": "Up to 180 days.", "ids": ["S1"]}]}', "fake"))
     pipe = pipeline()
     pipe._chunk_box = {}
     assert pipe.answer("What is the maximum period of leave for state employees?").citations[0].bbox is None
@@ -71,14 +71,14 @@ def test_the_most_relevant_sentence_comes_first_in_the_fallback(monkeypatch):
 
 
 def test_a_passage_that_shares_almost_none_of_the_questions_words_is_not_quoted(monkeypatch):
-    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up: ("{}", "fallback"))
+    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up, **kwargs: ("{}", "fallback"))
     resp = pipeline().answer("What is the monthly salary of the Chief Minister of Gujarat?")   # only 'maximum'-style filler overlaps
     assert resp.citations == [] and resp.answer_status.value == "Insufficient Evidence"
     assert "language model is unavailable" in resp.summary
 
 
 def test_with_no_evidence_at_all_the_fallback_still_refuses(monkeypatch):
-    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up: ("{}", "fallback"))
+    monkeypatch.setattr(se, "execute_llm_generation", lambda sp, up, **kwargs: ("{}", "fallback"))
     resp = pipeline("ok").answer("What is the maximum period of leave for state employees?")
     assert resp.answer_status.value == "Insufficient Evidence" and resp.citations == [] and resp.insufficient_reason.value == "NO_DOCUMENT"
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Check } from 'lucide-react';
+import { useUiLanguage } from '../lib/i18n';
 
 // Shown only until the first live event arrives (or if the server cannot stream): an estimate of the usual order.
 const ESTIMATED = [
@@ -32,6 +33,7 @@ function fmt(t) {
 }
 
 export default function PipelineLoader({ onCancel, live = [] }) {
+  const { t } = useUiLanguage();
   const [sec, setSec] = useState(0);
 
   useEffect(() => {
@@ -56,14 +58,14 @@ export default function PipelineLoader({ onCancel, live = [] }) {
           <div>
             <p className="mono-label flex items-center gap-2 text-iris-700">
               <span className="relative flex h-2 w-2"><span className="absolute inset-0 animate-pingSoft rounded-full bg-iris-500" /><span className="relative h-2 w-2 rounded-full bg-iris-600" /></span>
-              {isLive ? 'Live from the server' : 'Working'}
+              {isLive ? t('liveFromServer') : t('working')}
             </p>
-            <h3 className="display mt-1.5 text-[19px] font-bold text-ink">Investigating the resolutions</h3>
-            <p className="mt-1 text-[12.5px] text-mist">Nothing is shown until every quote is matched to its page.</p>
+            <h3 className="display mt-1.5 text-[19px] font-bold text-ink">{t('investigating')}</h3>
+            <p className="mt-1 text-[12.5px] text-mist">{t('nothingShownUntilMatched')}</p>
           </div>
           <div className="text-right">
             <p className="font-mono text-[28px] font-bold leading-none tabular-nums text-ink">{mm}<span className="animate-pulse text-iris-500">:</span>{ss}</p>
-            <p className="mono-label mt-1.5 text-[12.5px] text-faint">elapsed</p>
+            <p className="mono-label mt-1.5 text-[12.5px] text-faint">{t('elapsed')}</p>
           </div>
         </div>
 
@@ -118,7 +120,7 @@ export default function PipelineLoader({ onCancel, live = [] }) {
           <p className="text-[12.5px] text-faint">{isLive ? 'Each step is reported by the server as it happens, with its time.' : 'Waiting for the first step from the server…'}</p>
           {onCancel && (
             <button type="button" onClick={onCancel} className="inline-flex items-center gap-1.5 rounded-lg bg-ivory px-2.5 py-1 text-[12px] font-semibold text-mist transition hover:text-[#8E1F3A]" style={{ boxShadow: '0 0 0 1px rgba(30,41,59,.12), inset 0 1px 0 #fff' }}>
-              <X className="h-3.5 w-3.5" /> Cancel
+              <X className="h-3.5 w-3.5" /> {t('cancel')}
             </button>
           )}
         </div>

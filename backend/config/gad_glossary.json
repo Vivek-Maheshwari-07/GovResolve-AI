@@ -495,7 +495,6 @@
       "canonical_en": "procedure for disposal of unserviceable obsolete items and dead stock",
       "synonyms": [
         "nikal",
-        "disposal",
         "binjaruri",
         "bin jaruri",
         "deadstock",
@@ -510,6 +509,16 @@
         "નિકાલ",
         "બિનજરૂરી",
         "ડેડસ્ટોક"
+      ]
+    },
+    {
+      "key": "technical_examination_board",
+      "canonical_gu": "ટેકનિકલ પરીક્ષા બોર્ડ",
+      "canonical_en": "technical examination board",
+      "synonyms": [
+        "technical examination board",
+        "technical exam board",
+        "ટેકનિકલ પરીક્ષા બોર્ડ"
       ]
     },
     {
@@ -544,6 +553,16 @@
         "શિસ્ત",
         "તપાસ",
         "દંડ"
+      ]
+    },
+    {
+      "key": "departmental_inquiry_fast_disposal",
+      "canonical_gu": "ખાતાકીય તપાસના કેસોનો ઝડપી નિકાલ / લોક અદાલત જેવું તંત્ર",
+      "canonical_en": "fast disposal of departmental inquiry cases Lok Adalat mechanism",
+      "synonyms": [
+        "speed up disposal of departmental inquiry cases",
+        "speedy disposal of departmental inquiry cases",
+        "fast disposal of departmental inquiry cases"
       ]
     },
     {
