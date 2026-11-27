@@ -1329,10 +1329,10 @@ class RAGPipeline:
                 )
 
         need_en = bundle.detected_lang != "en" or not bundle.query_en
-        # LOCAL_FAST_MODE (Kunj) also skips the Gujarati rendering of English and Gujlish questions on a CPU-only model
+        # LOCAL_FAST_MODE also skips the Gujarati rendering of English and Gujlish questions on a CPU-only model
         skip_gujarati = local_fast_mode_enabled() and bundle.detected_lang in ("en", "gujlish")
         need_gu = not has_gujarati_script and want_gujarati_rendering(bundle.detected_lang) and not skip_gujarati
-        # ENABLE_GUJARATI_QUERY_TRANSLATION=0 (bilingual UX branch) also turns the Gujarati rendering off
+        # ENABLE_GUJARATI_QUERY_TRANSLATION=0 also turns the Gujarati rendering off
         if os.getenv("ENABLE_GUJARATI_QUERY_TRANSLATION", "1").strip().lower() in ("0", "false", "no", "off"):
             need_gu = False
         if not (need_en or need_gu):
@@ -1347,7 +1347,7 @@ class RAGPipeline:
 
         # 1. High-quality English query (bridges Gujarati/Gujlish to English GRs)
         if english:
-            # the model's rendering plus the question's own English terms (Kunj), so a term the model dropped still matches
+            # the model's rendering plus the question's own English terms, so a term the model dropped still matches
             translated_words = [w.lower() for w in re.findall(r"[A-Za-z0-9]{3,}", english)]
             source_words = normalizer.english_terms(raw_query)
             english_query = " ".join([english, *(w for w in source_words if w not in translated_words)])
@@ -1941,7 +1941,7 @@ class RAGPipeline:
 
         first = primary_provider_name() or "none"
         _emit(progress, "generate", f"Writing the answer from the numbered sentences only ({first})", provider=first)
-        if local_fast_mode_enabled():  # Kunj: a shorter reply keeps a CPU-only local model fast
+        if local_fast_mode_enabled():  # a shorter reply keeps a CPU-only local model fast
             raw_llm, provider_used = execute_llm_generation(system_prompt, user_prompt, max_tokens=LOCAL_FAST_MAX_TOKENS)
         else:
             raw_llm, provider_used = execute_llm_generation(system_prompt, user_prompt)
