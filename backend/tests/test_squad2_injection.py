@@ -260,7 +260,7 @@ def test_evidence_is_capped_and_the_system_prompt_is_the_same_for_every_language
 def test_response_cache_preserves_verdict_when_switching_languages(monkeypatch):
     calls = 0
 
-    def fake_gen(sp, up):
+    def fake_gen(sp, up, **kwargs):
         nonlocal calls
         calls += 1
         return ('{"statements": [{"explanation": "Leave is granted for 180 days.", "label": "Established", '

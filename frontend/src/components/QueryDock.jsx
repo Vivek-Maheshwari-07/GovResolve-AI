@@ -265,7 +265,7 @@ function ChatButton({ onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-3.5 py-1 text-[12px] font-semibold text-[#4338CA] transition-all hover:bg-[#E0E7FF]"
+      className="inline-flex items-center gap-1.5 rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-3.5 py-1 text-[12px] font-semibold text-[#4338CA] transition-all hover:bg-[#E0E7FF]"
     >
       <Mic className="h-3.5 w-3.5" />
       <span>{tb('query.voice_assistant')}</span>

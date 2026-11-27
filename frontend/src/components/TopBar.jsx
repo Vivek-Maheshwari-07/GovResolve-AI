@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Scale, Clock3, X, Search, Activity, Cpu } from 'lucide-react';
+import { Scale, Clock3, X, Activity, Cpu } from 'lucide-react';
 import CountUp from './CountUp';
 import { useUiLanguage } from '../lib/i18n';
 
@@ -20,7 +20,7 @@ function Readout({ label, children, tone = 'text-[#1E293B]', title }) {
   );
 }
 
-export default function TopBar({ stats, online, language, onLanguage, asOf, onAsOf, session, onCommand, onHome }) {
+export default function TopBar({ stats, online, language, onLanguage, asOf, onAsOf, session, onHome }) {
   const { t } = useUiLanguage();
   return (
     <header className="sticky top-0 z-30 border-b border-[#E6E4DD] bg-[#F8F7F4]/90 backdrop-blur-xl shadow-[0_1px_3px_rgba(15,23,42,0.02)] print:hidden">
@@ -48,18 +48,6 @@ export default function TopBar({ stats, online, language, onLanguage, asOf, onAs
             <p className="mono-label mt-1 hidden text-[9px] text-[#64748B] sm:block">PS000230 · Executive Legal Command</p>
           </div>
         </motion.button>
-
-        {/* Command bar */}
-        <button
-          type="button"
-          onClick={onCommand}
-          className="group hidden min-w-[13rem] items-center gap-2.5 rounded-xl border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-3 py-1.5 text-left text-[12px] text-[#64748B] transition hover:border-[#C7D2FE] hover:bg-white md:flex shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
-          aria-label={t('focusQuestion')}
-        >
-          <Search className="h-3.5 w-3.5 text-[#64748B] transition group-hover:text-[#4F46E5]" />
-          <span className="flex-1 font-medium">{t('askAnyResolution')}</span>
-          <kbd className="kbd">/</kbd>
-        </button>
 
         {/* High-Density Live Telemetry (Swarm-SAR / Flight Dashboard style) */}
         <div className="hidden items-center gap-2.5 lg:flex pl-1" aria-label="System telemetry">

@@ -795,6 +795,9 @@ class GRIndex:
         self.collection = None
         self.vector_error: Optional[str] = None
         self._ef = None
+        # True when the saved collection records a different embedder: queries are then embedded here and sent as
+        # vectors, so Chroma never has to load (or download) the embedder named in the index.
+        self._query_with_own_embeddings = False
         self.bm25: Optional[BM25Okapi] = None
         self.bm25_docs: list[dict] = []
         self._bm25_by_id: dict[str, dict] = {}
@@ -803,6 +806,7 @@ class GRIndex:
     def _setup_chroma(self):
         if not CHROMA_AVAILABLE:
             return
+        self._query_with_own_embeddings = False
         Path(self.persist_dir).mkdir(parents=True, exist_ok=True)
         self.chroma_client = chromadb.PersistentClient(path=self.persist_dir)
         try:
@@ -834,20 +838,32 @@ class GRIndex:
                 metadata={"hnsw:space": "cosine"},
             )
         except Exception as e:
-            # The saved index was built with another embedder (e.g. sentence-transformers e5 vs Ollama bge-m3). Try the embedder the
-            # index itself records; if that cannot be loaded either, keep answering with keyword search instead of failing every question.
+            # The saved index was built with another embedder (e.g. sentence-transformers e5 vs Ollama bge-m3). Open the
+            # collection without any embedder and embed the queries ourselves; if even that fails, keep answering with
+            # keyword search instead of failing every question.
             logger.warning(f"Vector index does not match EMBEDDING_MODEL={EMBEDDING_MODEL}: {e}")
             try:
-                self.collection = self.chroma_client.get_collection(name="gr_chunks")
-                self.collection.query(query_texts=["probe"], n_results=1)
-                logger.warning("Using the embedder recorded in the saved index instead.")
+                self.collection = self.chroma_client.get_collection(name="gr_chunks", embedding_function=None)
+                self._query_with_own_embeddings = True
+                logger.warning(
+                    f"Using EMBEDDING_MODEL={EMBEDDING_MODEL} to embed queries against the saved index "
+                    f"({self.collection.count()} docs)."
+                )
             except Exception as e2:
                 self.collection = None
-                self.vector_error = (f"Vector search is off: the saved index was built with a different embedder ({type(e2).__name__}). "
+                self.vector_error = (f"Vector search is off: the saved index could not be opened ({type(e2).__name__}). "
                                      "Keyword search still works. Rebuild the index or set EMBEDDING_MODEL to the one it was built with.")
                 logger.warning(self.vector_error)
                 return
         logger.info(f"ChromaDB collection 'gr_chunks': {self.collection.count()} docs")
+
+    def _embed_texts(self, texts: list[str], query: bool = False) -> list[list[float]]:
+        """Embed texts with EMBEDDING_MODEL itself, for an index whose recorded embedder differs from it."""
+        if self._ef is None:
+            raise RuntimeError("No embedding function is available.")
+        embed_query = getattr(self._ef, "embed_query", None)
+        vectors = embed_query(texts) if (query and callable(embed_query)) else self._ef(texts)
+        return [[float(x) for x in vector] for vector in vectors]
 
     def build(self, records: list[GRRecord], reset: bool = False) -> None:
         """Index all chunks with both Dense Embeddings and Suffix-Stripped BM25."""
@@ -911,10 +927,16 @@ class GRIndex:
             logger.info(f"Adding {len(new_ids)} new chunks to ChromaDB (already existed: {len(existing)})...")
             for start in range(0, len(new_ids), batch):
                 logger.info(f"  Adding batch {start}/{len(new_ids)} chunks to ChromaDB...")
+                part_docs = new_docs[start:start+batch]
+                add_kwargs = {}
+                if self._query_with_own_embeddings:
+                    # The collection has no embedder attached (it was opened without one), so send vectors explicitly.
+                    add_kwargs["embeddings"] = self._embed_texts(part_docs)
                 self.collection.add(
-                    documents=new_docs[start:start+batch],
+                    documents=part_docs,
                     ids=new_ids[start:start+batch],
                     metadatas=new_metas[start:start+batch],
+                    **add_kwargs,
                 )
             logger.info(f"Indexed {len(new_ids)} new chunks into ChromaDB.")
             # Chunks already embedded keep their vectors, but their metadata (GR number, issue date) may have been corrected since:
@@ -1058,12 +1080,21 @@ class GRIndex:
                 }
             return ranks, chunks
 
+        def _dense_query(texts: list[str], n_results: int):
+            if getattr(self, "_query_with_own_embeddings", False):
+                return self.collection.query(
+                    query_embeddings=self._embed_texts(texts, query=True),
+                    n_results=n_results,
+                    where=where if where else None,
+                )
+            return self.collection.query(query_texts=texts, n_results=n_results, where=where if where else None)
+
         def _dense_search(queries: list[tuple[str, str]]) -> list[tuple[dict[str, int], dict[str, dict]]]:
             """One vector search per (label, text), sent as one batched embedding request (Ollama/Chroma accept several query
             texts at once); if the batch fails, each query is retried on its own."""
             n_results = min(top_k, self.collection.count() or 1)
             try:
-                res = self.collection.query(query_texts=[q for _, q in queries], n_results=n_results, where=where if where else None)
+                res = _dense_query([q for _, q in queries], n_results)
                 return [_dense_ranks(res, qi) for qi in range(len(queries))]
             except Exception as e:
                 if len(queries) == 1:
@@ -1073,7 +1104,7 @@ class GRIndex:
             out = []
             for label, q in queries:
                 try:
-                    res = self.collection.query(query_texts=[q], n_results=n_results, where=where if where else None)
+                    res = _dense_query([q], n_results)
                     out.append(_dense_ranks(res, 0))
                 except Exception as e:
                     logger.warning(f"Dense {label} query failed: {e}")

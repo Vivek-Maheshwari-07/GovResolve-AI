@@ -336,11 +336,6 @@ function AppContent() {
       }
     }, 22);
   }, []);
-  const focusQuestion = () => {
-    setWorkspace('ask');
-    setFocusAsk((n) => n + 1);
-  };
-
   const landing = workspace === 'ask' && !loading && !response && !error;
   const chain = response?.lineage_chain || [];
   const firstId = response?.citations?.[0]?.gr_id;
@@ -447,7 +442,6 @@ function AppContent() {
         asOf={asOf}
         onAsOf={setAsOf}
         session={session}
-        onCommand={focusQuestion}
         onHome={() => setStage('hero')}
       />
       {stageOn && <StageBar onOpen={openStagePin} onCache={onStageCache} />}

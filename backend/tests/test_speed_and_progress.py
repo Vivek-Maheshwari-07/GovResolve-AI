@@ -108,6 +108,8 @@ def test_both_renderings_of_a_gujlish_question_run_at_the_same_time(monkeypatch)
         return "સ્ટેનોગ્રાફર માટે ઉંમર મર્યાદા"
 
     monkeypatch.setenv("GU_QUERY_TRANSLATION", "on")
+    # LOCAL_FAST_MODE skips the Gujarati rendering on a CPU model; this test is about the two calls running together.
+    monkeypatch.setattr(se, "local_fast_mode_enabled", lambda: False)
     monkeypatch.setattr(se, "translate_to_english", english)
     monkeypatch.setattr(se, "translate_to_gujarati", gujarati)
     events = []
