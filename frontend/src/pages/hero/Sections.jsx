@@ -41,7 +41,7 @@ export function Costs() {
     <ol className="mt-10 grid gap-x-10 gap-y-7 border-t border-hair pt-8 md:grid-cols-3">
       {COSTS.map(([titleKey, textKey], i) => (
         <Reveal as="li" key={titleKey} delay={i * 0.08}>
-          <span className="font-mono text-[12.5px] font-bold text-faint">0{i + 1}</span>
+          <span className="font-mono text-[11px] font-bold text-faint">0{i + 1}</span>
           <h3 className="display mt-1 text-[17px] font-bold text-ink">{t(titleKey)}</h3>
           <p className="mt-1.5 text-[13.5px] leading-relaxed text-mist">{t(textKey)}</p>
         </Reveal>
@@ -73,7 +73,7 @@ const STEPS = [
     titleKey: 'howStepSearch',
     bodyKey: 'howStepSearchText',
     visual: (
-      <div className="space-y-1.5 font-mono text-[12.5px] text-mist">
+      <div className="space-y-1.5 font-mono text-[11px] text-mist">
         <p className="flex justify-between border-b border-dashed border-stone pb-1"><span>OCR · guj + eng</span><span className="text-ink">scans</span></p>
         <p className="flex justify-between border-b border-dashed border-stone pb-1"><span>text layer</span><span className="text-ink">digital PDFs</span></p>
         <p className="flex justify-between border-b border-dashed border-stone pb-1"><span>BM25 + bge-m3</span><span className="text-ink">fused by rank</span></p>
@@ -86,10 +86,10 @@ const STEPS = [
     titleKey: 'howStepProve',
     bodyKey: 'howStepProveText',
     visual: (
-      <div className="legal-text text-[12.5px] leading-[1.7] text-[#3A4356]">
+      <div className="legal-text text-[11.5px] leading-[1.7] text-[#3A4356]">
         …shall be submitted{' '}
         <span className="rounded-[2px] px-0.5 text-ink" style={{ background: 'rgba(245,184,61,.55)' }}>with the leave application</span>.
-        <p className="mono-label mt-2 text-[12.5px] text-[#B45309]">GR/EX/2018/045 · p.2 · 20 May 2018</p>
+        <p className="mono-label mt-2 text-[8.5px] text-[#B45309]">GR/EX/2018/045 · p.2 · 20 May 2018</p>
       </div>
     ),
   },
@@ -165,8 +165,8 @@ export function Limits() {
             {Object.values(STATUS).map((s) => (
               <div key={s.key} className="flex flex-col items-start gap-2">
                 <Seal status={s.key} size={58} />
-                <p className={`text-[12.5px] font-bold leading-tight ${TONES[s.tone].text}`}>{t(s.key === 'no_change' ? 'noChange' : s.key)}</p>
-                {s.reserved && <p className="mono-label text-[12.5px] text-faint">{t('reservedNotEmitted')}</p>}
+                <p className={`text-[11px] font-bold leading-tight ${TONES[s.tone].text}`}>{t(s.key === 'no_change' ? 'noChange' : s.key)}</p>
+                {s.reserved && <p className="mono-label text-[8px] text-faint">{t('reservedNotEmitted')}</p>}
               </div>
             ))}
           </div>
@@ -178,11 +178,11 @@ export function Limits() {
             {HONEST.map(([n, labelKey]) => (
               <div key={labelKey}>
                 <dt className="font-mono text-[20px] font-bold tabular-nums text-ink">{n}</dt>
-                <dd className="text-[12.5px] leading-snug text-mist">{t(labelKey)}</dd>
+                <dd className="text-[11.5px] leading-snug text-mist">{t(labelKey)}</dd>
               </div>
             ))}
           </dl>
-          <p className="mt-3 border-t border-hair pt-2.5 text-[12.5px] leading-relaxed text-faint">{t('honestCaveat')}</p>
+          <p className="mt-3 border-t border-hair pt-2.5 text-[11px] leading-relaxed text-faint">{t('honestCaveat')}</p>
         </div>
       </Reveal>
     </div>

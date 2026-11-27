@@ -7,11 +7,11 @@ import { STATUS, TONES } from '../lib/status';
 import LineageGraph from './LineageGraph';
 import Seal from './Seal';
 import CountUp from './CountUp';
-import { displayNumber } from '../lib/grnumber';
 import GujaratiKeyboard from './GujaratiKeyboard';
 import { useUiLanguage } from '../lib/i18n';
 import { useLanguage } from '../lib/LanguageContext';
 import { pickSubject } from '../lib/bilingualStrings';
+import { displayNumber } from '../lib/grnumber';
 
 const UNKNOWN = { key: 'insufficient', label: 'Status unknown', short: 'Unknown', tone: 'slate' };
 
@@ -38,7 +38,7 @@ function Seg({ on, onClick, children, gu, ...attributes }) {
       onClick={onClick}
       aria-pressed={on}
       {...attributes}
-      className={`rounded-[9px] px-2.5 py-1 text-[12.5px] font-semibold transition ${on ? 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.88)] text-[#4F46E5] shadow-card' : 'text-[#64748B] hover:text-[#1E293B]'} ${gu ? 'gu-text' : ''}`}
+      className={`rounded-[9px] px-2.5 py-1 text-[11.5px] font-semibold transition ${on ? 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.88)] text-[#4F46E5] shadow-card' : 'text-[#64748B] hover:text-[#1E293B]'} ${gu ? 'gu-text' : ''}`}
     >
       {children}
     </button>
@@ -267,16 +267,16 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
             <div className="well flex p-0.5" role="group" aria-label={t('status')}>
               {STATUS_FILTERS.map((f) => (
                 <Seg key={f.id} on={status === f.id} onClick={() => setStatus(f.id)}>
-                  {t(f.labelKey)} <span className="font-mono text-[12.5px] opacity-60">{counts[f.id]}</span>
+                  {t(f.labelKey)} <span className="font-mono text-[10px] opacity-60">{counts[f.id]}</span>
                 </Seg>
               ))}
             </div>
           </div>
           <div className="flex items-center gap-2">
           {depts.length > 1 && (
-            <label className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#64748B]">
+            <label className="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-[#64748B]">
               <span className="sr-only">{t('department')}</span>
-              <select value={dept} onChange={(e) => setDept(e.target.value)} aria-label={t('filterDepartment')} className="max-w-[11rem] truncate rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.88)] px-2 py-1.5 text-[12.5px] font-semibold text-[#64748B] outline-none hover:text-[#1E293B]">
+              <select value={dept} onChange={(e) => setDept(e.target.value)} aria-label={t('filterDepartment')} className="max-w-[11rem] truncate rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.88)] px-2 py-1.5 text-[11.5px] font-semibold text-[#64748B] outline-none hover:text-[#1E293B]">
                 <option value="all">{t('allDepartments')}</option>
                 {depts.map((d) => <option key={d} value={d}>{d}</option>)}
               </select>
@@ -285,7 +285,7 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
           <button
             type="button"
             onClick={() => setSortOrder((o) => (o === 'newest' ? 'oldest' : 'newest'))}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.88)] px-2.5 py-1.5 text-[12.5px] font-semibold text-[#64748B] hover:text-[#1E293B]"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.88)] px-2.5 py-1.5 text-[11.5px] font-semibold text-[#64748B] hover:text-[#1E293B]"
             style={{ boxShadow: '0 1px 2px rgba(15,23,42,.04)' }}
           >
             <ArrowUpDown className="h-3 w-3" /> {t(sortOrder === 'newest' ? 'newestFirst' : 'oldestFirst')}
@@ -298,7 +298,7 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
 
       {/* register */}
       <div className="sheet flex min-h-[16rem] flex-1 flex-col overflow-hidden">
-        <div className="mono-label hidden grid-cols-[minmax(0,1fr)_7.5rem_8.5rem] gap-3 border-b border-[#E6E4DD] bg-[#F1EFEA]/80 px-4 py-2 text-[12.5px] text-[#64748B] md:grid">
+        <div className="mono-label hidden grid-cols-[minmax(0,1fr)_7.5rem_8.5rem] gap-3 border-b border-[#E6E4DD] bg-[#F1EFEA]/80 px-4 py-2 text-[9px] text-[#64748B] md:grid">
           <span>{t('subjectNumber')}</span>
           <span>{t('issued')}</span>
           <span className="text-right">{t('status')}</span>
@@ -329,15 +329,15 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
                       <span aria-hidden className={`absolute inset-y-0 left-0 w-[3px] origin-top transition-transform duration-300 ${on ? 'scale-y-100 bg-[#4F46E5]' : 'scale-y-0 bg-[#4F46E5]/70 group-hover:scale-y-100'}`} />
                       <span className="min-w-0">
                         <span className="gu-text block truncate text-[13.5px] font-semibold text-[#1E293B]">{pickSubject(r, uiLang) || displayNumber(r)}</span>
-                        <span className="mt-0.5 flex flex-wrap items-center gap-x-2 font-mono text-[12.5px] text-[#64748B]">
+                        <span className="mt-0.5 flex flex-wrap items-center gap-x-2 font-mono text-[11px] text-[#64748B]">
                           <span className="gu-text font-bold text-[#1E293B]">{displayNumber(r)}</span>
                           <span className="hidden truncate sm:inline">{r.department || t('generalAdministration')}</span>
                           <span className="rounded border border-[#E6E4DD] bg-[#F1EFEA] px-1.5 font-semibold text-[#64748B]">{r.language === 'gu' ? 'ગુજ' : r.language === 'en' ? 'EN' : r.language}</span>
                         </span>
                       </span>
-                      <span className="hidden font-mono text-[12.5px] tabular-nums text-[#64748B] md:block">{r.issue_date || t('undated')}</span>
+                      <span className="hidden font-mono text-[11.5px] tabular-nums text-[#64748B] md:block">{r.issue_date || t('undated')}</span>
                       <span className="flex justify-end">
-                        <span className={`inline-flex items-center gap-1.5 rounded-full border py-0.5 pl-0.5 pr-2.5 text-[12.5px] font-bold ${tone.ring} ${tone.pill} ${tone.text}`}>
+                        <span className={`inline-flex items-center gap-1.5 rounded-full border py-0.5 pl-0.5 pr-2.5 text-[10.5px] font-bold ${tone.ring} ${tone.pill} ${tone.text}`}>
                           <Seal status={s.key} size={20} />
                           {s.key === 'no_change' ? t('noLaterChange') : s.key === 'insufficient' && s.label === UNKNOWN.label ? t('statusUnknown') : t(s.key)}
                         </span>
@@ -352,7 +352,7 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
         )}
       </div>
 
-      <p className="px-1 text-[12.5px] text-[#64748B]">{t('statusDerivedExplicit')}</p>
+      <p className="px-1 text-[11.5px] text-[#64748B]">{t('statusDerivedExplicit')}</p>
       {keyboardPopup}
     </div>
   );

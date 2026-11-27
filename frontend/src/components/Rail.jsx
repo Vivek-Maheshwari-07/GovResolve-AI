@@ -16,7 +16,7 @@ function RailButton({ active, onClick, icon: Icon, label, hint, keyHint }) {
       onClick={onClick}
       aria-current={active ? 'page' : undefined}
       title={hint}
-      className={`group relative flex w-full flex-col items-center gap-1.5 rounded-xl px-1 py-2.5 text-[12.5px] font-semibold transition-colors ${active ? 'text-[#4F46E5]' : 'text-[#64748B] hover:text-[#1E293B]'}`}
+      className={`group relative flex w-full flex-col items-center gap-1.5 rounded-xl px-1 py-2.5 text-[11px] font-semibold transition-colors ${active ? 'text-[#4F46E5]' : 'text-[#64748B] hover:text-[#1E293B]'}`}
     >
       {active && (
         <>
@@ -60,7 +60,7 @@ export function MobileTabs({ active, onChange }) {
       {WORKSPACES.map((w) => {
         const on = active === w.id;
         return (
-          <button key={w.id} type="button" onClick={() => onChange(w.id)} className={`flex flex-1 flex-col items-center gap-0.5 py-1.5 text-[12.5px] font-semibold transition-colors ${on ? 'text-[#4F46E5]' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
+          <button key={w.id} type="button" onClick={() => onChange(w.id)} className={`flex flex-1 flex-col items-center gap-0.5 py-1.5 text-[10.5px] font-semibold transition-colors ${on ? 'text-[#4F46E5]' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
             <w.icon className="h-[18px] w-[18px]" strokeWidth={on ? 2.3 : 1.9} />
             <span>{t(w.labelKey)}</span>
           </button>

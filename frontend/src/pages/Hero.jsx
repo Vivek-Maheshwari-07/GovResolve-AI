@@ -30,12 +30,12 @@ export default function Hero({ onGetStarted, onSkip }) {
     const onKey = (e) => {
       if (e.key === 'Enter' && document.activeElement === document.body) {
         e.preventDefault();
-        onSkip();
+        onGetStarted();
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [onSkip]);
+  }, [onGetStarted]);
 
   return (
     <div ref={scroller} onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 12)} className="fixed inset-0 z-40 overflow-y-auto overflow-x-hidden scroll-smooth" data-page="hero">
@@ -56,9 +56,9 @@ export default function Hero({ onGetStarted, onSkip }) {
             ))}
           </nav>
           <div className="flex items-center gap-3">
-            <button type="button" onClick={onGetStarted} className="hidden text-[13px] font-medium text-mist underline decoration-stone underline-offset-4 transition hover:text-ink sm:block">{t('guidedTour')}</button>
-            <button type="button" onClick={onSkip} className="btn-primary group inline-flex items-center gap-2 rounded-xl px-4 py-2 text-[13px] font-semibold text-white transition hover:brightness-110">
-              {t('openApp')} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            <button type="button" onClick={onSkip} className="hidden text-[12.5px] font-medium text-mist underline decoration-stone underline-offset-4 transition hover:text-ink sm:block">{t('skipToApp')}</button>
+            <button type="button" onClick={onGetStarted} className="btn-primary group inline-flex items-center gap-2 rounded-xl px-4 py-2 text-[13px] font-semibold text-white transition hover:brightness-110">
+              {t('getStarted')} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
             </button>
           </div>
         </div>
@@ -85,14 +85,14 @@ export default function Hero({ onGetStarted, onSkip }) {
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <button type="button" onClick={onSkip} className="btn-primary group inline-flex items-center gap-2.5 rounded-[14px] px-6 py-3.5 text-[15px] font-semibold text-white transition hover:brightness-110 active:scale-[.98]">
-                {t('openApp')}
+              <button type="button" onClick={onGetStarted} className="btn-primary group inline-flex items-center gap-2.5 rounded-[14px] px-6 py-3.5 text-[15px] font-semibold text-white transition hover:brightness-110 active:scale-[.98]">
+                {t('getStarted')}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
               <button type="button" onClick={() => go('why')} className="inline-flex items-center gap-2 text-[14px] font-semibold text-ink transition hover:text-iris-700">
                 {t('seeWhy')} <ArrowDown className="h-3.5 w-3.5" />
               </button>
-              <span className="hidden items-center gap-1.5 text-[12.5px] text-faint sm:flex"><kbd className="kbd">Enter</kbd> {t('toOpenApp')}</span>
+              <span className="hidden items-center gap-1.5 text-[11.5px] text-faint sm:flex"><kbd className="kbd">Enter</kbd> {t('toBegin')}</span>
             </motion.div>
 
             <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.75 }} className="mt-10 flex flex-wrap gap-x-5 gap-y-1.5 border-t border-hair pt-4 text-[12px] text-mist">
@@ -154,18 +154,18 @@ export default function Hero({ onGetStarted, onSkip }) {
             <h2 className="display text-[34px] font-bold leading-[1.12] text-ink [text-wrap:balance] sm:text-[46px]">{t('heroCtaHeadline')}</h2>
             <p className="mx-auto mt-4 max-w-[30rem] text-[15.5px] leading-relaxed text-mist">{t('heroCtaText')}</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-5">
-              <button type="button" onClick={onSkip} className="btn-primary group inline-flex items-center gap-2.5 rounded-[14px] px-7 py-4 text-[16px] font-semibold text-white transition hover:brightness-110 active:scale-[.98]">
-                {t('openApp')} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <button type="button" onClick={onGetStarted} className="btn-primary group inline-flex items-center gap-2.5 rounded-[14px] px-7 py-4 text-[16px] font-semibold text-white transition hover:brightness-110 active:scale-[.98]">
+                {t('getStarted')} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
-              <button type="button" onClick={onGetStarted} className="text-[13.5px] font-medium text-mist underline decoration-stone underline-offset-4 transition hover:text-ink">{t('takeTour')}</button>
+              <button type="button" onClick={onSkip} className="text-[13.5px] font-medium text-mist underline decoration-stone underline-offset-4 transition hover:text-ink">{t('skipTourOpenApp')}</button>
             </div>
           </Reveal>
         </section>
 
         <footer className="border-t border-hair">
-          <div className="mx-auto flex max-w-[1180px] flex-col gap-2 px-5 py-6 text-[12.5px] leading-relaxed text-faint sm:px-8 md:flex-row md:items-start md:justify-between">
+          <div className="mx-auto flex max-w-[1180px] flex-col gap-2 px-5 py-6 text-[11.5px] leading-relaxed text-faint sm:px-8 md:flex-row md:items-start md:justify-between">
             <p className="max-w-[44rem]">{t('heroFooterDisclaimer')}</p>
-            <p className="mono-label text-[12.5px]">PS000230 · Seva First Innovation Challenge</p>
+            <p className="mono-label text-[9.5px]">PS000230 · Seva First Innovation Challenge</p>
           </div>
         </footer>
       </main>

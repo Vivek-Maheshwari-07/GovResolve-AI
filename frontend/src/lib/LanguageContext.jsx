@@ -1,9 +1,9 @@
 /**
- * LanguageContext.jsx: the bilingual-UX branch's language hooks (`useLanguage`, `useT`), backed by the one interface-language
- * state of `lib/i18n.jsx` (`useUiLanguage`). There is a single language selector (TopBar); the chat helpline and the other
- * components of that branch read and set the same state through these hooks.
+ * LanguageContext.jsx: the language hooks of the chat helpline (`useLanguage`, `useT`), backed by the one interface-language
+ * state of `lib/i18n.jsx` (`useUiLanguage`). There is a single language selector (TopBar); the chat helpline and the meaning
+ * translations read and set the same state through these hooks.
  *
- *  - `lang` is 'gu' or 'en' (Gujlish reads the English strings of the branch's own table, `bilingualStrings.js`).
+ *  - `lang` is 'gu' or 'en' (Gujlish reads the English strings of the chat's own table, `bilingualStrings.js`).
  *  - `mode` is always 'auto' for the chat: a chat turn follows the language of the question unless the user asks for another.
  *  - `detectedLang` is the language of the last question or reply (see `LanguageBridge`).
  *  - `useT()` looks a key up in `translations.js` first (camelCase keys) and then in `bilingualStrings.js` (dotted keys).

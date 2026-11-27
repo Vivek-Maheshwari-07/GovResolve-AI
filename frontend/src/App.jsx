@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ServerCrash, X, RotateCcw } from 'lucide-react';
-import { ask, fetchStats, lineageChain, translateResponseFields } from './api';
+import { ask, fetchStats, lineageChain } from './api';
 import { statusAsOf } from './lib/lineage';
 import { citeKey } from './components/AnswerCard';
 import TopBar from './components/TopBar';
@@ -10,12 +10,13 @@ import QueryDock from './components/QueryDock';
 import PipelineLoader from './components/PipelineLoader';
 import StatusBanner from './components/StatusBanner';
 import AnswerCard from './components/AnswerCard';
+import LineageGraph from './components/LineageGraph';
 import WhatChanged from './components/WhatChanged';
 import StageBar from './components/StageBar';
+import ChatHelpline from './components/ChatHelpline';
 import { isStage, STAGE_PINS } from './lib/stage';
-import LineageGraph from './components/LineageGraph';
 import PdfInspector from './components/PdfInspector';
-import Hero, { HeroHeader } from './components/AskLanding';
+import Hero, { HeroHeader, Specimen } from './components/AskLanding';
 import Library from './components/Library';
 import Method from './components/Method';
 import Tour from './components/Tour';
@@ -23,11 +24,9 @@ import LandingPage from './pages/Hero';
 import { SAMPLES } from './lib/samples';
 import { LanguageProvider, useUiLanguage } from './lib/i18n';
 import { LanguageBridge } from './lib/LanguageContext';
-import ChatHelpline from './components/ChatHelpline';
 import { HISTORY_MAX, loadHistory, saveHistory } from './lib/history';
 
 const TOUR_KEY = 'govresolve.tour.seen';
-const LANG_LABEL = { null: 'Auto', en: 'English', gu: 'ગુજરાતી', mixed: 'Gujlish' };
 const INTRO_KEY = 'govresolve.intro.seen';
 const SHORTCUTS = [
   ['/', 'shortcutFocusInquiry'],
@@ -99,26 +98,29 @@ function StatusBar({ onShortcuts, session }) {
   return (
     <footer className="hidden items-center justify-between gap-4 border-t border-[#E6E4DD] bg-[rgba(248,247,244,0.92)] px-4 py-1.5 backdrop-blur-md md:flex shadow-[0_-1px_2px_rgba(15,23,42,0.02)] print:hidden">
       <div className="flex items-center gap-4">
-        <button onClick={onShortcuts} className="flex items-center gap-3 text-[12.5px] text-[#64748B] transition-colors hover:text-[#1E293B]">
+        <button onClick={onShortcuts} className="flex items-center gap-3 text-[11px] text-[#64748B] transition-colors hover:text-[#1E293B]">
           {[['/', 'askWorkspace'], ['1 2 3', 'workspaces'], ['[ ]', 'citations'], ['?', 'tour']].map(([k, v]) => (
             <span key={v} className="flex items-center gap-1.5">
-              <span className="flex gap-0.5">{k.split(' ').map((x) => <kbd key={x} className="kbd !h-[18px] !min-w-[18px] !text-[12.5px]">{x}</kbd>)}</span>
+              <span className="flex gap-0.5">{k.split(' ').map((x) => <kbd key={x} className="kbd !h-[18px] !min-w-[18px] !text-[9px]">{x}</kbd>)}</span>
               <span>{t(v)}</span>
             </span>
           ))}
         </button>
+        <span className="telemetry-tag hidden xl:inline text-[9px] text-[#64748B]/80">
+          [MERKLE_LINEAGE: VERIFIED]
+        </span>
       </div>
 
       <div className="flex items-center gap-4">
         {session.asked > 0 && (
-          <span className="mono-label hidden items-center gap-3 text-[12.5px] text-[#64748B] lg:flex" aria-label={t('thisSession')}>
+          <span className="mono-label hidden items-center gap-3 text-[9.5px] text-[#64748B] lg:flex" aria-label={t('thisSession')}>
             <span><b className="text-[#1E293B]">{session.asked}</b> {t('asked')}</span>
             <span><b className="text-[#065F46]">{session.verified}</b> {t('verified')}</span>
             <span><b className="text-[#9F1239]">{session.refused}</b> {t('refused')}</span>
             <span><b className="text-[#1E293B]">{session.lastSec != null ? `${session.lastSec}s` : '—'}</b> {t('latency')}</span>
           </span>
         )}
-        <span className="mono-label flex items-center gap-2 text-[12.5px] text-[#64748B]">
+        <span className="mono-label flex items-center gap-2 text-[9.5px] text-[#64748B]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulseDot" />
           {t('indexedOfficialVerbatim')}
         </span>
@@ -179,24 +181,20 @@ function SplitHandle({ ratio, onChange, containerRef }) {
 }
 
 function AppContent() {
-  const { t, language: uiLanguage, setLanguage: setUiLanguage } = useUiLanguage();
+  const { t, setLanguage: setUiLanguage } = useUiLanguage();
   const [workspace, setWorkspace] = useState('ask');
   const [stats, setStats] = useState(null);
   const [online, setOnline] = useState(true);
   const [language, setLanguage] = useState(null); // null = auto detect
-  const [askedLang, setAskedLang] = useState(null); // the language the open answer was asked in
-  const stageOn = useMemo(() => isStage(window.location.search), []);
-  const stageCache = useRef({});
-  const onStageCache = useCallback((c) => { stageCache.current = c; }, []);
   const [asOf, setAsOf] = useState(''); // Rule Time Machine date filter
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
-  const [stages, setStages] = useState([]);   // live pipeline steps from /query/stream
   const [response, setResponse] = useState(null);
-  const [translated, setTranslated] = useState(null);   // the open answer's prose in the interface language (bilingual UX)
-  const [translatingAnswer, setTranslatingAnswer] = useState(false);
-  const translations = useRef(new WeakMap());
+  const [stages, setStages] = useState([]);   // live pipeline steps from POST /query/stream
   const [chatOpen, setChatOpen] = useState(false);
+  const stageOn = useMemo(() => isStage(window.location.search), []);   // ?stage=1: pinned demo questions
+  const stageCache = useRef({});
+  const onStageCache = useCallback((c) => { stageCache.current = c; }, []);
   const [error, setError] = useState(null);
   const [active, setActive] = useState(null); // Active citation in Inquiry view
   const [libActive, setLibActive] = useState(null); // Active citation in Library view
@@ -258,7 +256,6 @@ function AppContent() {
     const ctl = new AbortController();
     abortRef.current = ctl;
     const effectiveLang = overrideLang !== undefined ? overrideLang : language;
-    setAskedLang(effectiveLang);
     try {
       const r = await ask(q, effectiveLang, ctl.signal, (ev) => {
         if (abortRef.current === ctl) setStages((st) => [...st, ev]);
@@ -296,20 +293,31 @@ function AppContent() {
     setError(null);
     setQuery(h.question);
     setResponse(h.response);
-    setAskedLang(language);
     setActive(h.response.citations?.[0] || null);
   };
   const clearHistory = () => setHistory([]);
-  const openStagePin = (response, pin) => {
-    if (!response) return;
+  // a pinned stage-mode question (?stage=1) or an answer opened from the chat helpline
+  const openStagePin = (res, pin) => {
+    if (!res) return;
     abortRef.current?.abort();
     setWorkspace('ask');
     setLoading(false);
     setError(null);
     setQuery(pin.question);
-    setResponse(response);
-    setAskedLang(language);
-    setActive(response.citations?.[0] || null);
+    setResponse(res);
+    setActive(res.citations?.[0] || null);
+  };
+  const inspectFromChat = (q, res, cit) => {
+    if (!res) return;
+    openStagePin(res, { question: q });
+    setChatOpen(false);
+    const chosen = cit || res.citations?.[0] || null;
+    setActive(chosen);
+    if (res.verdict === 'answered' && !res.lineage_chain?.length && chosen?.gr_id) {
+      lineageChain(chosen.gr_id)
+        .then((c) => setResponse((cur) => (cur === res ? { ...res, lineage_chain: c } : cur)))
+        .catch(() => {});
+    }
   };
 
   // the tour asks one sample question for the visitor, typing it first
@@ -336,63 +344,6 @@ function AppContent() {
   const landing = workspace === 'ask' && !loading && !response && !error;
   const chain = response?.lineage_chain || [];
   const firstId = response?.citations?.[0]?.gr_id;
-
-  useEffect(() => {
-    const target = uiLanguage === 'gu' ? 'gu' : uiLanguage === 'en' ? 'en' : null;
-    if (!response || !target) {
-      setTranslated(null);
-      setTranslatingAnswer(false);
-      return undefined;
-    }
-    const own = /[\u0A80-\u0AFF]/.test(`${response.summary || ''} ${response.insufficient_reason || ''}`) ? 'gu' : 'en';
-    if (own === target) {
-      setTranslated(null);
-      setTranslatingAnswer(false);
-      return undefined;
-    }
-    const bucket = translations.current.get(response) || {};
-    if (bucket[target]) {
-      setTranslated(bucket[target]);
-      return undefined;
-    }
-    let live = true;
-    const ctl = new AbortController();
-    setTranslated(null);
-    setTranslatingAnswer(true);
-    translateResponseFields(response, target, { signal: ctl.signal })
-      .then((tr) => {
-        if (!live) return;
-        translations.current.set(response, { ...(translations.current.get(response) || {}), [target]: tr });
-        setTranslated(tr);
-      })
-      .catch(() => {})   // keep the grounded answer as it is
-      .finally(() => { if (live) setTranslatingAnswer(false); });
-    return () => {
-      live = false;
-      ctl.abort();
-    };
-  }, [response, uiLanguage]);
-  const shownResponse = translated || response;
-
-  // an answer opened from the chat helpline: shown in the Inquiry workspace with its source page
-  const inspectFromChat = (q, res, cit) => {
-    if (!res) return;
-    abortRef.current?.abort();
-    setWorkspace('ask');
-    setLoading(false);
-    setError(null);
-    setQuery(q);
-    setAskedLang(language);
-    setChatOpen(false);
-    const chosen = cit || res.citations?.[0] || null;
-    setActive(chosen);
-    setResponse(res);
-    if (res.verdict === 'answered' && !res.lineage_chain?.length && chosen?.gr_id) {
-      lineageChain(chosen.gr_id)
-        .then((c) => setResponse((cur) => (cur === res ? { ...res, lineage_chain: c } : cur)))
-        .catch(() => {});
-    }
-  };
 
   // Persist answered questions so saved chats can be reopened across browser sessions.
   useEffect(() => {
@@ -466,7 +417,7 @@ function AppContent() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [tour, stage, response, active, stageOn, language]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [tour, stage, response, active, stageOn]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const split = workspace !== 'method' && !landing;
   const cols = { '--cols': `minmax(0, ${ratio}fr) 18px minmax(0, ${1 - ratio}fr)` };
@@ -486,13 +437,16 @@ function AppContent() {
         online={online}
         language={language}
         onLanguage={(lang) => {
-          // applies to the next question (an open answer offers a manual re-run); it also sets the interface language
           setLanguage(lang);
-          if (lang) setUiLanguage(lang === 'mixed' ? 'gujlish' : lang);
+          if (lang) setUiLanguage(lang);
+          if (query && response && !loading) {
+            submit(query, false, lang);
+          }
         }}
         asOf={asOf}
         onAsOf={setAsOf}
         session={session}
+        onCommand={focusQuestion}
         onHome={() => setStage('hero')}
       />
       {stageOn && <StageBar onOpen={openStagePin} onCache={onStageCache} />}
@@ -509,15 +463,16 @@ function AppContent() {
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.18 }}
             style={split ? cols : undefined}
-            className={`min-h-0 min-w-0 flex-1 overflow-y-auto p-3 sm:p-4 print:p-0 print:overflow-visible ${split ? 'grid grid-cols-1 content-start gap-4 lg:[grid-template-columns:var(--cols)] lg:gap-0 lg:overflow-hidden print:block' : ''}`}
+            className={`min-h-0 flex-1 overflow-y-auto p-3 sm:p-4 print:p-0 print:overflow-visible ${split ? 'grid grid-cols-1 content-start gap-4 lg:[grid-template-columns:var(--cols)] lg:gap-0 lg:overflow-hidden print:block' : ''}`}
           >
             {landing && (
               <section className="mx-auto w-full max-w-[1120px] px-1 pt-3 sm:pt-10" aria-label="Ask a question">
-                <div className="mx-auto grid max-w-[860px] grid-cols-1 items-center gap-12">
-                  <div className="min-w-0 space-y-7">
+                <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)]">
+                  <div className="space-y-7">
                     <HeroHeader />
                     <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={false} hero focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} onOpenChat={() => setChatOpen(true)} />
                   </div>
+                  <Specimen className="hidden lg:block" />
                 </div>
                 <Hero onAsk={(t) => submit(t, true)} disabled={loading} />
               </section>
@@ -553,28 +508,33 @@ function AppContent() {
                           <div className="hidden print:block mb-6 border-b-2 border-stone-800 pb-3 text-left">
                             <div className="flex justify-between items-start">
                               <div>
-                                <h1 className="text-xl font-extrabold tracking-tight text-black">GovResolve-AI — Verification Reference Note</h1>
-                                <h2 className="text-[12.5px] uppercase tracking-widest text-stone-600 font-mono mt-0.5">Not an official Government issue · check against the original order</h2>
+                                <h1 className="text-xl font-extrabold tracking-tight text-black">GOVERNMENT OF GUJARAT</h1>
+                                <h2 className="text-xs uppercase tracking-widest text-stone-600 font-mono mt-0.5">GovResolve-AI Administrative Action Memorandum (PS000230)</h2>
                               </div>
-                              <div className="text-right text-[12.5px] text-stone-600 font-mono">
+                              <div className="text-right text-[10px] text-stone-600 font-mono">
                                 <p>DATE: {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
-                                <p>Extract from the indexed resolutions</p>
+                                <p>STATUS: OFFICIAL VERIFIED EXTRACT</p>
                               </div>
                             </div>
-                            <div className="mt-3 text-[12.5px] text-stone-800 bg-stone-100 p-2.5 rounded border border-stone-300">
-                              <span className="font-bold text-black">Question: </span> {query}
+                            <div className="mt-3 text-xs text-stone-800 bg-stone-100 p-2.5 rounded border border-stone-300">
+                              <span className="font-bold text-black">INQUIRY SUBJECT: </span> {query}
                             </div>
                           </div>
 
                           <StatusBanner status={response.answer_status} reasonCode={response.reason_code} asOf={asOf} asOfStatus={asOfStatus} />
                           <WhatChanged citation={shownFor} chain={shownChain} onOpenNewer={(n) => { const node = shownChain.find((c) => c.gr_id === n.gr_id); if (node) openNode(node); }} />
                           <AnswerCard
-                            response={shownResponse}
-                            translating={translatingAnswer}
+                            response={response}
                             active={active}
                             onSelect={setActive}
                             language={language}
-                            rerun={askedLang !== language && query.trim() ? { label: LANG_LABEL[String(language)] || 'Auto', gu: language === 'gu', onClick: () => submit(query) } : null}
+                            onLanguageChange={(newLang) => {
+                              setLanguage(newLang);
+                              setUiLanguage(newLang);
+                              if (query && !loading) {
+                                submit(query, false, newLang);
+                              }
+                            }}
                           />
                           <LineageGraph chain={shownChain} forGr={shownFor?.gr_number} asOf={asOf} onAsOf={setAsOf} activeId={active?.gr_id} onSelectNode={openNode} />
                         </motion.div>

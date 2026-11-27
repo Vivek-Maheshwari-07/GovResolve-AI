@@ -112,7 +112,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
         {hero && (
           <div className="mb-2 flex items-center justify-between px-1">
             <span className="mono-label text-[#64748B]">{t('officialInquiry')}</span>
-            <span className="hidden items-center gap-1.5 text-[12.5px] text-[#64748B] sm:flex">
+            <span className="hidden items-center gap-1.5 text-[11px] text-[#64748B] sm:flex">
               <kbd className="kbd">/</kbd> to focus
             </span>
           </div>
@@ -148,7 +148,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
               onChange={(event) => setDictationLanguage(event.target.value)}
               disabled={listening}
               aria-label={t('dictationLanguage')}
-              className="max-w-[7.5rem] rounded-lg border border-[#E6E4DD] bg-white px-2 py-1.5 text-[12.5px] font-semibold text-[#64748B]"
+              className="max-w-[7.5rem] rounded-lg border border-[#E6E4DD] bg-white px-2 py-1.5 text-[11px] font-semibold text-[#64748B]"
             >
               <option value="en">{t('english')}</option>
               <option value="gu">{t('gujarati')}</option>
@@ -182,7 +182,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
               <button
                 type="button"
                 onClick={() => setKb((v) => !v)}
-                className={`gu-text inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[12.5px] font-semibold transition-all ${
+                className={`gu-text inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-semibold transition-all ${
                   kb
                     ? 'border border-[#C7D2FE] bg-[#EEF2FF] text-[#4F46E5] shadow-sm'
                     : 'border border-[#E6E4DD] bg-[#F1EFEA] text-[#64748B] hover:text-[#1E293B] hover:bg-white'
@@ -205,7 +205,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
             </div>
 
             {(dictationError || listening || dictationLanguage === 'gujlish') && (
-              <p role={dictationError ? 'alert' : 'status'} className={`w-full px-1 text-[12.5px] ${dictationError ? 'text-[#9F1239]' : 'text-[#64748B]'}`}>
+              <p role={dictationError ? 'alert' : 'status'} className={`w-full px-1 text-[11px] ${dictationError ? 'text-[#9F1239]' : 'text-[#64748B]'}`}>
                 {dictationError || (listening ? t('listening') : t('gujlishDictationHint'))}
               </p>
             )}
@@ -237,7 +237,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
 
       {hero && (
         <div className="flex flex-wrap items-center gap-2 px-1">
-          <span className="mr-0.5 text-[12.5px] font-medium text-[#64748B]">{t('quickExamples')}</span>
+          <span className="mr-0.5 text-[11.5px] font-medium text-[#64748B]">{t('quickExamples')}</span>
           {TEMPLATES.map((t) => (
             <button
               key={t.label}
@@ -265,7 +265,7 @@ function ChatButton({ onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-3.5 py-1 text-[12.5px] font-semibold text-[#4338CA] transition-all hover:bg-[#E0E7FF]"
+      className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-3.5 py-1 text-[12px] font-semibold text-[#4338CA] transition-all hover:bg-[#E0E7FF]"
     >
       <Mic className="h-3.5 w-3.5" />
       <span>{tb('query.voice_assistant')}</span>

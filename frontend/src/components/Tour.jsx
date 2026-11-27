@@ -309,14 +309,14 @@ export default function Tour({ open, onClose, ctx = {} }) {
                 {last ? <span /> : <button onClick={() => onClose(false)} className="text-[12px] font-medium text-faint underline decoration-stone underline-offset-4 hover:text-ink">{t('skipTour')}</button>}
                 <div className="flex gap-2">
                   {i > 0 && (
-                    <button onClick={() => go(-1)} className="inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-[12.5px] font-semibold text-mist hover:bg-sand hover:text-ink">
+                    <button onClick={() => go(-1)} className="inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-xs font-semibold text-mist hover:bg-sand hover:text-ink">
                       <ArrowLeft className="h-3.5 w-3.5" /> {t('back')}
                     </button>
                   )}
                   <button
                     onClick={() => (last ? onClose(true) : go(1))}
                     disabled={!ready && !last}
-                    className="btn-primary inline-flex items-center gap-1.5 rounded-xl px-4 py-1.5 text-[12.5px] font-bold text-white transition hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
+                    className="btn-primary inline-flex items-center gap-1.5 rounded-xl px-4 py-1.5 text-xs font-bold text-white transition hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
                   >
                     <span>{last ? t('openApplication') : i === 0 ? t('startTour') : t('next')}</span>
                     <ArrowRight className="h-3.5 w-3.5" />

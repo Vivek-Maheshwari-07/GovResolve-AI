@@ -4,14 +4,14 @@ import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.js?url';
 import {
   ChevronLeft, ChevronRight, ZoomIn, ZoomOut, ExternalLink,
-  ClipboardCheck, Flag, ScanLine, AlignLeft, Check, FileX2,
+  ClipboardCheck, Flag, ScanLine, AlignLeft, Check, FileX2, Crosshair,
   Languages, Loader2,
 } from 'lucide-react';
 import { pdfUrl, pageBlocks, needsTextTranslation, translateText } from '../api';
 import { courtCitation, reportText } from '../lib/lineage';
-import { displayQuote, looksGarbled } from '../lib/quote';
 import { useUiLanguage } from '../lib/i18n';
 import { useLanguage, useT } from '../lib/LanguageContext';
+import { displayQuote, looksGarbled } from '../lib/quote';
 
 // Bundled worker for offline resilience
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
@@ -21,7 +21,7 @@ const norm = (s) => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
 function MetaField({ label, children, mono }) {
   return (
     <div className="min-w-0">
-      <dt className="mono-label text-[12.5px] text-[#64748B]">{label}</dt>
+      <dt className="mono-label text-[9px] text-[#64748B]">{label}</dt>
       <dd className={`mt-0.5 truncate text-[12px] font-semibold text-[#1E293B] ${mono ? 'font-mono' : 'gu-text'}`}>{children || '—'}</dd>
     </div>
   );
@@ -293,7 +293,7 @@ export default function PdfInspector({ citation, question }) {
           </div>
           <h3 className="display mt-7 text-[18px] font-bold text-[#1E293B]">{t('opticalInspector')}</h3>
           <p className="mt-2 text-[13px] leading-relaxed text-[#64748B]">{t('selectCitationToInspect')}</p>
-          <p className="mt-4 flex items-center justify-center gap-2 text-[12.5px] text-[#64748B]">
+          <p className="mt-4 flex items-center justify-center gap-2 text-[11px] text-[#64748B]">
             <kbd className="kbd">[</kbd><kbd className="kbd">]</kbd> {t('stepCitations')}
           </p>
         </div>
@@ -317,9 +317,18 @@ export default function PdfInspector({ citation, question }) {
         >
           <div className="flex items-start justify-between gap-3">
             <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="telemetry-tag flex items-center gap-1 text-[9px] text-[#4F46E5]">
+                  <Crosshair className="h-3 w-3" />
+                  OPTICAL_SCANNER_HUD
+                </span>
+                <span className="telemetry-tag text-[9px] text-[#64748B]">
+                  [DOC_ID: {citation.gr_id}]
+                </span>
+              </div>
               <h3 className="gu-text line-clamp-1 text-[13.5px] font-semibold text-[#1E293B]">{citation.subject || citation.gr_number}</h3>
             </div>
-            <span className="mono-label shrink-0 rounded border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2 py-0.5 text-[12.5px] font-bold text-[#64748B]">
+            <span className="mono-label shrink-0 rounded border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2 py-0.5 text-[9.5px] font-bold text-[#64748B]">
               {citation.language === 'gu' ? 'ગુજરાતી' : citation.language === 'en' ? 'English' : citation.language || 'Official GR'}
             </span>
           </div>
@@ -336,14 +345,16 @@ export default function PdfInspector({ citation, question }) {
         <div className="relative border-b border-[#FDE68A] bg-[#FFFBEB] py-2.5 pl-4 pr-3.5 shadow-xs">
           <span aria-hidden className="absolute inset-y-0 left-0 w-[4px] bg-[#D97706]" />
           <div className="mb-1 flex items-center justify-between">
-            <p className="mono-label flex items-center gap-1.5 text-[12.5px] font-bold text-[#92400E]">
+            <p className="mono-label flex items-center gap-1.5 text-[9.5px] font-bold text-[#92400E]">
               <span className="h-2 w-2 rounded-full bg-[#F59E0B] animate-pulse" />
-              {t('quotedPassagePage', { page: citation.page })}
+              {t('verbatimPassages').toUpperCase()} · {t('page').toUpperCase()} {citation.page}
             </p>
             {looksGarbled(citation.passage) ? (
-              <span className="telemetry-tag text-[12.5px] font-bold text-[#D97706]">Legacy-font text: read the PDF page</span>
+              <span className="telemetry-tag text-[9px] font-bold text-[#D97706]">LEGACY FONT: READ THE PDF PAGE</span>
             ) : exactBbox && mode === 'pdf' ? (
-              <span className="telemetry-tag text-[12.5px] font-bold text-[#D97706]">Located in the PDF text</span>
+              <span className="telemetry-tag text-[9px] font-bold text-[#D97706]">
+                MATCH: EXACT_VERBATIM
+              </span>
             ) : null}
           </div>
           <p className="legal-text line-clamp-2 text-[12.5px] text-[#1E293B]">“{displayQuote(citation.passage)}”</p>
@@ -354,13 +365,13 @@ export default function PdfInspector({ citation, question }) {
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-[#E6E4DD] bg-[#F1EFEA]/70 px-3 py-2">
         <div className="flex items-center gap-1.5">
           <ToolbarBtn title={t('previousPage')} disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}><ChevronLeft className="h-4 w-4" /></ToolbarBtn>
-          <span className="min-w-[3.6rem] text-center font-mono text-[12.5px] font-bold tabular-nums text-[#1E293B]">{page} / {numPages || '–'}</span>
+          <span className="min-w-[3.6rem] text-center font-mono text-[11.5px] font-bold tabular-nums text-[#1E293B]">{page} / {numPages || '–'}</span>
           <ToolbarBtn title={t('nextPage')} disabled={!numPages || page >= numPages} onClick={() => setPage((p) => Math.min(numPages, p + 1))}><ChevronRight className="h-4 w-4" /></ToolbarBtn>
         </div>
 
         <div className="flex items-center gap-1.5">
           <ToolbarBtn title={t('zoomOut')} onClick={() => setZoom((z) => Math.max(0.6, +(z - 0.15).toFixed(2)))}><ZoomOut className="h-4 w-4" /></ToolbarBtn>
-          <button type="button" onClick={() => setZoom(1)} title={t('resetZoom')} className="min-w-[3.1rem] rounded-lg bg-[rgba(255,255,255,0.92)] px-2 py-1.5 font-mono text-[12.5px] font-bold tabular-nums text-[#64748B] hover:text-[#1E293B]" style={KEYCAP}>
+          <button type="button" onClick={() => setZoom(1)} title={t('resetZoom')} className="min-w-[3.1rem] rounded-lg bg-[rgba(255,255,255,0.92)] px-2 py-1.5 font-mono text-[10.5px] font-bold tabular-nums text-[#64748B] hover:text-[#1E293B]" style={KEYCAP}>
             {Math.round(zoom * 100)}%
           </button>
           <ToolbarBtn title={t('zoomIn')} onClick={() => setZoom((z) => Math.min(2.4, +(z + 0.15).toFixed(2)))}><ZoomIn className="h-4 w-4" /></ToolbarBtn>
@@ -368,7 +379,7 @@ export default function PdfInspector({ citation, question }) {
 
         <div className="well flex p-0.5" role="group" aria-label={t('view')}>
           {[['pdf', t('scan'), ScanLine, t('scannedPdfView')], ['text', t('text'), AlignLeft, t('rawOcrView')]].map(([k, label, Icon, title]) => (
-            <button key={k} type="button" title={title} aria-pressed={mode === k} onClick={() => setMode(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[12.5px] font-semibold transition ${mode === k ? 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] text-[#4F46E5] shadow-sm' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
+            <button key={k} type="button" title={title} aria-pressed={mode === k} onClick={() => setMode(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[11px] font-semibold transition ${mode === k ? 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] text-[#4F46E5] shadow-sm' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
               <Icon className="h-3.5 w-3.5" /> {label}
             </button>
           ))}
@@ -377,7 +388,7 @@ export default function PdfInspector({ citation, question }) {
         <div className="ml-auto flex items-center gap-1.5">
           <AnimatePresence>
             {note && (
-              <motion.span initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="mr-1 inline-flex items-center gap-1 text-[12.5px] font-semibold text-[#065F46]">
+              <motion.span initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="mr-1 inline-flex items-center gap-1 text-[11.5px] font-semibold text-[#065F46]">
                 <Check className="h-3.5 w-3.5 text-[#10B981]" /> {note}
               </motion.span>
             )}
@@ -397,7 +408,7 @@ export default function PdfInspector({ citation, question }) {
             <FileX2 className="mx-auto h-7 w-7 text-[#D97706]" />
             <p className="display text-[15px] font-bold text-[#1E293B]">{t('sourceScanUnavailable')}</p>
             <p className="text-[12.5px] leading-relaxed text-[#64748B]">{error}</p>
-            <button type="button" onClick={() => setMode('text')} className="btn-primary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[12.5px] font-semibold text-white">
+            <button type="button" onClick={() => setMode('text')} className="btn-primary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white">
               <AlignLeft className="h-3.5 w-3.5" /> {t('readOcrText')}
             </button>
           </div>
@@ -440,7 +451,7 @@ export default function PdfInspector({ citation, question }) {
                     <Bracket pos="tr" delay={0.5} />
                     <Bracket pos="bl" delay={0.55} />
                     <Bracket pos="br" delay={0.6} />
-                    <span className={`mono-label absolute right-0 whitespace-nowrap rounded bg-[#D97706] px-1.5 py-0.5 text-[12.5px] font-bold text-white shadow-sm ${labelInside ? 'top-0' : '-top-[20px]'}`} style={{ mixBlendMode: 'normal' }}>
+                    <span className={`mono-label absolute right-0 whitespace-nowrap rounded bg-[#D97706] px-1.5 py-0.5 text-[8.5px] font-bold text-white shadow-sm ${labelInside ? 'top-0' : '-top-[20px]'}`} style={{ mixBlendMode: 'normal' }}>
                       {t('lockPage', { page: citation.page })}{exactBbox ? ` · ${t('exact')}` : ''}
                     </span>
                   </motion.div>
@@ -453,10 +464,10 @@ export default function PdfInspector({ citation, question }) {
         {mode === 'text' && (
           <div className="mx-auto max-w-prose space-y-2.5 py-1">
             <div className="flex items-center justify-between border-b border-[#E6E4DD] pb-1.5">
-              <p className="mono-label text-[12.5px] text-[#64748B]">{t('rawOcrPage', { page })}</p>
-              <span className="mono-label text-[12.5px] text-[#64748B]">{t('blockCount', { count: blocks.length })}</span>
+              <p className="mono-label text-[9.5px] text-[#64748B]">{t('rawOcrPage', { page })}</p>
+              <span className="mono-label text-[9px] text-[#64748B]">{t('blockCount', { count: blocks.length })}</span>
             </div>
-            {blocks.length === 0 && <p className="py-4 text-center text-[12.5px] text-[#64748B]">{t('noOcrBlocks')}</p>}
+            {blocks.length === 0 && <p className="py-4 text-center text-xs text-[#64748B]">{t('noOcrBlocks')}</p>}
             {blocks.map((b) => {
               const hit = quote && norm(b.text).includes(quote);
               const canTr = needsTextTranslation(b.text, uiLang === 'gu' ? 'gu' : 'en');

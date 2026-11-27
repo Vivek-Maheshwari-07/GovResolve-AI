@@ -102,7 +102,7 @@ export default function HistoryMenu({ history, onOpen, onClear }) {
                   <li key={h.id}>
                     <button type="button" role="option" onClick={() => { onOpen(h); setOpen(false); }} className="group w-full rounded-lg px-3 py-2.5 text-left transition hover:bg-iris-50">
                       <span className="gu-text line-clamp-2 block text-[13px] leading-snug text-ink">{h.question}</span>
-                      <span className="mt-1 flex items-center gap-2 text-[12.5px] text-faint">
+                      <span className="mt-1 flex items-center gap-2 text-[10.5px] text-faint">
                         <span className={`rounded-full px-1.5 py-px font-semibold ${h.response.verdict === 'answered' ? 'bg-[#EEF5F1] text-[#2F5D4E]' : 'bg-sand text-mist'}`}>{h.response.verdict === 'answered' ? t('answered') : t('refused')}</span>
                         <span>{ago(h.at)}</span>
                       </span>
@@ -128,12 +128,12 @@ export default function HistoryMenu({ history, onOpen, onClear }) {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="inline-flex items-center gap-1 rounded-lg bg-sand px-2 py-0.5 text-[12.5px] font-semibold text-mist ring-1 ring-stone transition hover:text-ink"
+        className="inline-flex items-center gap-1 rounded-lg bg-sand px-2 py-0.5 text-[11px] font-semibold text-mist ring-1 ring-stone transition hover:text-ink"
         title={t('earlierQuestions')}
       >
         <History className="h-3 w-3 text-iris-500" />
         <span>{t('history')}</span>
-        <span className="font-mono text-[12.5px] text-faint">{history.length}</span>
+        <span className="font-mono text-[10px] text-faint">{history.length}</span>
       </button>
       {panel}
     </>

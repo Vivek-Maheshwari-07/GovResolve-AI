@@ -3,15 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   FileText, TriangleAlert, ShieldCheck, MessageSquareWarning,
   ArrowRight, ChevronDown, ChevronUp, Quote, Layers,
-  Printer, RotateCcw, Volume2, Square, Languages, Loader2,
+  Printer, Volume2, Square, Languages, Loader2,
 } from 'lucide-react';
 import Seal from './Seal';
 import TrustShield from './TrustShield';
-import { displayQuote, looksGarbled } from '../lib/quote';
 import { loadSpeechVoices, speechLocale, speechVoiceForLocale } from '../lib/speech';
 import { useUiLanguage } from '../lib/i18n';
 import { useLanguage, useT } from '../lib/LanguageContext';
 import { pickSubject } from '../lib/bilingualStrings';
+import { displayQuote, looksGarbled } from '../lib/quote';
 import { translateText } from '../api';
 
 export const citeKey = (c) => (c ? `${c.gr_id}|${c.page}|${c.passage || ''}` : '');
@@ -35,7 +35,7 @@ function CitationChip({ cit, active, onSelect, uiLang }) {
       onClick={() => onSelect(cit)}
       aria-pressed={active}
       title={pickSubject(cit, uiLang) || cit.gr_number}
-      className={`inline-flex max-w-full items-center gap-1.5 rounded-lg px-2.5 py-1 text-[12.5px] font-medium transition-all ${
+      className={`inline-flex max-w-full items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11.5px] font-medium transition-all ${
         active
           ? 'bg-[#EEF2FF] text-[#4F46E5] ring-1.5 ring-[#4F46E5] shadow-[0_2px_8px_-2px_rgba(79,70,229,0.25)]'
           : 'bg-[rgba(255,255,255,0.92)] text-[#64748B] hover:bg-[#EEF2FF] hover:text-[#4F46E5] border border-[#E6E4DD]'
@@ -52,7 +52,7 @@ function CitationChip({ cit, active, onSelect, uiLang }) {
   );
 }
 
-export default function AnswerCard({ response, active, onSelect, rerun, language, translating = false }) {
+export default function AnswerCard({ response, active, onSelect, language, onLanguageChange }) {
   const { t } = useUiLanguage();
   const tb = useT();
   const { lang: uiLang } = useLanguage();
@@ -87,9 +87,6 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
   const speechText = answered ? response.summary : response.insufficient_reason;
   const citations = response.citations || [];
   const statements = response.statements || [];
-  // only claim checked quotes for a real answer with citations, never for the retrieval-only fallback
-  const fallback = /retrieval-only|answer engine (not connected|unavailable)/i.test([response.summary, ...warnings].join(' '));
-  const quotesChecked = answered && citations.length > 0 && !fallback;
 
   const [activeTab, setActiveTab] = useState('passages');
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -221,17 +218,52 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
               {answered ? <span className="h-2 w-2 rounded-full bg-[#4F46E5]" /> : <MessageSquareWarning className="h-3.5 w-3.5 text-[#64748B]" />}
               {answered ? t('adminFinding') : t('whyNoFinding')}
             </h2>
-            {translating && (
-              <span className="inline-flex items-center gap-1 rounded-md border border-[#C7D2FE] bg-[#EEF2FF] px-2 py-0.5 text-[12.5px] font-semibold text-[#4338CA]">
-                <Loader2 className="h-3 w-3 animate-spin" />
-                <span>{tb('answer.translating')}</span>
-              </span>
+            {onLanguageChange && (
+              <div
+                role="group"
+                aria-label={t('answerLanguage')}
+                className="inline-flex items-center rounded-lg bg-[#F1EFEA] p-0.5 text-[11px]"
+                style={{ boxShadow: 'inset 0 1px 2px rgba(30,41,59,.07)' }}
+              >
+                <button
+                  type="button"
+                  onClick={() => onLanguageChange('en')}
+                  className={`rounded-md px-2 py-0.5 font-semibold transition-all ${
+                    answerLanguage === 'en'
+                      ? 'bg-white text-[#4F46E5] shadow-sm ring-1 ring-black/5'
+                      : 'text-[#64748B] hover:text-[#1E293B]'
+                  }`}
+                  title={t('showAnswerInEnglish')}
+                >
+                  {t('english')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onLanguageChange('gu')}
+                  className={`gu-text rounded-md px-2 py-0.5 font-semibold transition-all ${
+                    answerLanguage === 'gu'
+                      ? 'bg-white text-[#4F46E5] shadow-sm ring-1 ring-black/5'
+                      : 'text-[#64748B] hover:text-[#1E293B]'
+                  }`}
+                  title={t('showAnswerInGujarati')}
+                >
+                  {t('gujarati')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onLanguageChange('gujlish')}
+                  className={`rounded-md px-2 py-0.5 font-semibold transition-all ${
+                    answerLanguage === 'gujlish'
+                      ? 'bg-white text-[#4F46E5] shadow-sm ring-1 ring-black/5'
+                      : 'text-[#64748B] hover:text-[#1E293B]'
+                  }`}
+                  title={t('showAnswerInGujlish')}
+                >
+                  {t('gujlish')}
+                </button>
+              </div>
             )}
-            {rerun && (
-              <button type="button" onClick={rerun.onClick} className="inline-flex items-center gap-1.5 rounded-lg border border-[#C7D2FE] bg-[#EEF2FF] px-2.5 py-1 text-[12.5px] font-semibold text-[#4338CA] transition hover:bg-white" title={t('rerunNote')}>
-                <RotateCcw className="h-3.5 w-3.5" /> {t('rerunIn')} <span className={rerun.gu ? 'gu-text' : ''}>{rerun.label}</span>
-              </button>
-            )}
+            <span className="telemetry-tag hidden sm:inline text-[9px] text-[#64748B]">· [LEGAL_EXTRACT]</span>
           </div>
           <div className="flex items-center gap-2">
             {speechText && (
@@ -240,15 +272,15 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                 onClick={speakingTarget === 'answer' ? stopSpeaking : speak}
                 aria-label={speakingTarget === 'answer' ? t('stopSpeakingAnswer') : t('listenToAnswer')}
                 title={speakingTarget === 'answer' ? t('stop') : `${t('listen')} (${speechLocale(answerLanguage, speechText)})`}
-                className="print:hidden inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[12.5px] font-semibold text-[#1E293B] shadow-sm hover:border-[#4F46E5] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition-all"
+                className="print:hidden inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[11.5px] font-semibold text-[#1E293B] shadow-sm hover:border-[#4F46E5] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition-all"
               >
                 {speakingTarget === 'answer' ? <Square className="h-3.5 w-3.5 fill-current" /> : <Volume2 className="h-3.5 w-3.5 text-[#4F46E5]" />}
                 <span>{speakingTarget === 'answer' ? t('stop') : t('listen')}</span>
               </button>
             )}
-            {quotesChecked && (
-              <span className="inline-flex items-center gap-1.5 rounded-full badge-safe px-2.5 py-0.5 text-[12.5px] font-semibold shadow-sm" title={t('quotesCheckedNote')}>
-                <ShieldCheck className="h-3.5 w-3.5 text-[#10B981]" /> {t('quotesChecked')}
+            {answered && citations.length > 0 && !/retrieval-only|answer engine (not connected|unavailable)/i.test([response.summary, ...(response.warnings || [])].join(' ')) && (
+              <span className="inline-flex items-center gap-1.5 rounded-full badge-safe px-2.5 py-0.5 text-[11px] font-semibold shadow-sm">
+                <ShieldCheck className="h-3.5 w-3.5 text-[#10B981]" /> {t('verifiedOfficialText')}
               </span>
             )}
             <button
@@ -256,7 +288,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
               onClick={() => window.print()}
               title={t('exportActionMemo')}
               aria-label={t('exportActionMemo')}
-              className="print:hidden inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[12.5px] font-semibold text-[#1E293B] shadow-sm hover:border-[#4F46E5] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition-all"
+              className="print:hidden inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[11.5px] font-semibold text-[#1E293B] shadow-sm hover:border-[#4F46E5] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition-all"
             >
               <Printer className="h-3.5 w-3.5 text-[#4F46E5]" />
               <span>{t('exportActionMemo')}</span>
@@ -266,7 +298,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
         <p className={`${isGu ? 'gu-text' : 'display'} text-[19px] font-normal leading-[1.62] text-[#1E293B] sm:text-[21px]`}>
           {answered ? response.summary : response.insufficient_reason}
         </p>
-        {speechError && speechErrorTarget === 'answer' && <p role="status" className="mt-2 text-[12.5px] text-[#9F1239]">{speechError}</p>}
+        {speechError && speechErrorTarget === 'answer' && <p role="status" className="mt-2 text-[11.5px] text-[#9F1239]">{speechError}</p>}
         <TrustShield response={response} />
       </section>
 
@@ -282,7 +314,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                   role="tab"
                   aria-selected={activeTab === 'passages'}
                   onClick={() => { setActiveTab('passages'); setDrawerOpen(true); }}
-                  className={`inline-flex items-center gap-1.5 rounded-[9px] px-3 py-1 text-[12.5px] font-semibold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-[9px] px-3 py-1 text-[11.5px] font-semibold transition-all ${
                     activeTab === 'passages'
                       ? 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] text-[#4F46E5] shadow-sm'
                       : 'text-[#64748B] hover:text-[#1E293B]'
@@ -290,7 +322,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                 >
                   <Quote className="h-3.5 w-3.5" />
                   <span>{t('verbatimPassages')}</span>
-                  <span className="rounded-full bg-[#EEF2FF] px-1.5 py-0.2 text-[12.5px] font-bold text-[#4F46E5]">
+                  <span className="rounded-full bg-[#EEF2FF] px-1.5 py-0.2 text-[9.5px] font-bold text-[#4F46E5]">
                     {citations.length}
                   </span>
                 </button>
@@ -301,7 +333,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                     role="tab"
                     aria-selected={activeTab === 'statements'}
                     onClick={() => { setActiveTab('statements'); setDrawerOpen(true); }}
-                    className={`inline-flex items-center gap-1.5 rounded-[9px] px-3 py-1 text-[12.5px] font-semibold transition-all ${
+                    className={`inline-flex items-center gap-1.5 rounded-[9px] px-3 py-1 text-[11.5px] font-semibold transition-all ${
                       activeTab === 'statements'
                         ? 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] text-[#4F46E5] shadow-sm'
                         : 'text-[#64748B] hover:text-[#1E293B]'
@@ -309,7 +341,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                   >
                     <Layers className="h-3.5 w-3.5" />
                     <span>{t('statements')}</span>
-                    <span className="rounded-full bg-[#F1EFEA] px-1.5 py-0.2 text-[12.5px] font-bold text-[#64748B]">
+                    <span className="rounded-full bg-[#F1EFEA] px-1.5 py-0.2 text-[9.5px] font-bold text-[#64748B]">
                       {statements.length}
                     </span>
                   </button>
@@ -321,7 +353,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                   onClick={speakingTarget === 'passages' ? stopSpeaking : speakPassages}
                   aria-label={speakingTarget === 'passages' ? t('stopSpeakingPassages') : t('listenToPassages')}
                   title={speakingTarget === 'passages' ? t('stopSpeakingPassages') : t('listenToPassages')}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[12.5px] font-semibold text-[#64748B] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[11px] font-semibold text-[#64748B] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition"
                 >
                   {speakingTarget === 'passages' ? <Square className="h-3.5 w-3.5 fill-current" /> : <Volume2 className="h-3.5 w-3.5" />}
                   <span>{speakingTarget === 'passages' ? t('stop') : t('listen')}</span>
@@ -330,11 +362,14 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
             </div>
 
             <div className="flex items-center gap-2">
+              <span className="telemetry-tag hidden sm:inline text-[9px] text-[#64748B]">
+                [EVIDENCE_VAULT]
+              </span>
               <button
                 type="button"
                 onClick={() => setDrawerOpen((v) => !v)}
                 aria-expanded={drawerOpen}
-                className="inline-flex items-center gap-1 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] px-2.5 py-1 text-[12.5px] font-semibold text-[#64748B] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition shadow-xs"
+                className="inline-flex items-center gap-1 rounded-lg border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] px-2.5 py-1 text-[11px] font-semibold text-[#64748B] hover:bg-[#EEF2FF] hover:text-[#4F46E5] transition shadow-xs"
               >
                 <span>{drawerOpen ? t('collapse') : t('expand')}</span>
                 {drawerOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
@@ -343,7 +378,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
           </div>
 
           {speechError && speechErrorTarget === 'passages' && (
-            <p role="status" className="px-4 py-2 text-[12.5px] text-[#9F1239]">{speechError}</p>
+            <p role="status" className="px-4 py-2 text-[11.5px] text-[#9F1239]">{speechError}</p>
           )}
 
           {/* Drawer content */}
@@ -401,13 +436,13 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                             “{displayQuote(c.passage)}”
                           </p>
                           {looksGarbled(c.passage) && (
-                            <p className="relative mt-1.5 text-[12.5px] font-medium text-[#92400E]">
+                            <p className="relative mt-1.5 text-[11.5px] font-medium text-[#92400E]">
                               This PDF's text layer uses an old Gujarati font, so the stored text reads poorly. Open the page to read the original.
                             </p>
                           )}
                           {helpState?.open && (
                             <div onClick={(e) => e.stopPropagation()} className="relative mt-2.5 rounded-lg border border-[#C7D2FE] bg-[#EEF2FF]/70 px-3 py-2 text-[12.5px] leading-relaxed text-[#1E293B]">
-                              <p className="text-[12.5px] font-semibold text-[#4338CA]">
+                              <p className="text-[10.5px] font-semibold text-[#4338CA]">
                                 {trTarget === 'gu' ? tb('answer.translation_helper_gu') : tb('answer.translation_helper_en')}
                               </p>
                               <p className={`${trTarget === 'gu' ? 'gu-text' : ''} mt-0.5`}>
@@ -416,13 +451,13 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                             </div>
                           )}
                           {(subj || c.department) && (
-                            <p className="gu-text relative mt-2 text-[12.5px] leading-snug text-[#64748B]">
+                            <p className="gu-text relative mt-2 text-[11.5px] leading-snug text-[#64748B]">
                               {subj}{subj && c.department ? ' · ' : ''}{c.department}
                             </p>
                           )}
 
                           <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-[#E6E4DD] pt-2.5">
-                            <div className="flex flex-wrap items-center gap-x-2.5 font-mono text-[12.5px] text-[#64748B]">
+                            <div className="flex flex-wrap items-center gap-x-2.5 font-mono text-[11px] text-[#64748B]">
                               <Seal status={sealOf(c)} size={20} />
                               <span className="font-bold text-[#1E293B]">{c.gr_number || c.gr_id}</span>
                               {c.issue_date && <span>{c.issue_date}</span>}
@@ -435,7 +470,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                               <button
                                 type="button"
                                 onClick={(e) => toggleQuoteTranslation(e, c, trTarget)}
-                                className="inline-flex items-center gap-1 rounded-md border border-[#E6E4DD] bg-white px-2 py-0.5 text-[12.5px] font-semibold text-[#4338CA] hover:border-[#C7D2FE] hover:bg-[#EEF2FF]"
+                                className="inline-flex items-center gap-1 rounded-md border border-[#E6E4DD] bg-white px-2 py-0.5 text-[10.5px] font-semibold text-[#4338CA] hover:border-[#C7D2FE] hover:bg-[#EEF2FF]"
                               >
                                 {helpState?.loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Languages className="h-3 w-3" />}
                                 <span className={trTarget === 'gu' && !(helpState?.open && !helpState?.loading) ? 'gu-text' : ''}>
@@ -445,7 +480,7 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                                 </span>
                               </button>
                             )}
-                            <span className={`inline-flex items-center gap-1.5 text-[12.5px] font-semibold ${on ? 'text-[#D97706]' : 'text-[#4F46E5] group-hover:translate-x-0.5 transition-transform'}`}>
+                            <span className={`inline-flex items-center gap-1.5 text-[11px] font-semibold ${on ? 'text-[#D97706]' : 'text-[#4F46E5] group-hover:translate-x-0.5 transition-transform'}`}>
                               {on ? (
                                 <>
                                   <span className="relative flex h-1.5 w-1.5">
@@ -482,18 +517,18 @@ export default function AnswerCard({ response, active, onSelect, rerun, language
                             transition={{ delay: i * 0.04 }}
                             className="grid grid-cols-[1.8rem_minmax(0,1fr)] gap-2 py-3.5 first:pt-1 last:pb-1"
                           >
-                            <span className="pt-0.5 font-mono text-[12.5px] font-bold text-[#64748B]">¶{i + 1}</span>
+                            <span className="pt-0.5 font-mono text-[11px] font-bold text-[#64748B]">¶{i + 1}</span>
                             <div className="space-y-2">
                               <div className="flex items-start justify-between gap-3">
                                 <p className="gu-text text-[14px] leading-relaxed text-[#1E293B]">{st.text}</p>
-                                <span title={t(`${labelKey}Note`)} className={`mt-0.5 inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[12.5px] font-bold ${L.cls}`}>
+                                <span title={t(`${labelKey}Note`)} className={`mt-0.5 inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10.5px] font-bold ${L.cls}`}>
                                   <span className={`h-1.5 w-1.5 rounded-full ${L.dot}`} />
                                   {t(labelKey)}
                                 </span>
                               </div>
                               {st.citations.length > 0 && (
                                 <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                                  <span className="mr-0.5 text-[12.5px] text-[#64748B]">{t('citedIn')}</span>
+                                  <span className="mr-0.5 text-[11px] text-[#64748B]">{t('citedIn')}</span>
                                   {st.citations.map((c, j) => (
                                     <CitationChip key={j} cit={c} active={citeKey(c) === citeKey(active)} onSelect={onSelect} uiLang={uiLang} />
                                   ))}

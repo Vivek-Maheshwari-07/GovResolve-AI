@@ -56,7 +56,7 @@ export default function Method({ stats }) {
               <span className="relative z-10 grid h-10 w-10 place-items-center rounded-full bg-ink text-white" style={{ boxShadow: '0 0 0 4px #F8F7F4, 0 6px 14px -6px rgba(15,23,42,.6)' }}>
                 <s.icon className="h-[17px] w-[17px]" strokeWidth={1.9} />
               </span>
-              <p className="mono-label mt-4 text-[12.5px] text-faint">{t('stageNumber', { number: i + 1 })}</p>
+              <p className="mono-label mt-4 text-[9px] text-faint">{t('stageNumber', { number: i + 1 })}</p>
               <h3 className="display mt-0.5 text-[16px] font-bold text-ink">{t(s.titleKey)}</h3>
               <p className="mt-1.5 text-[12.5px] leading-relaxed text-mist">{t(s.textKey)}</p>
             </li>
@@ -76,7 +76,7 @@ export default function Method({ stats }) {
           <div className="sheet overflow-hidden">
             <table className="w-full text-left">
               <thead>
-                <tr className="mono-label border-b border-hair bg-sand/60 text-[12.5px] text-faint">
+                <tr className="mono-label border-b border-hair bg-sand/60 text-[9px] text-faint">
                   <th className="px-4 py-2 font-medium">{t('metric')}</th>
                   <th className="px-3 py-2 text-right font-medium">{t('developmentSet')}</th>
                   <th className="px-4 py-2 text-right font-medium">{t('heldOutSet')}</th>
@@ -93,7 +93,7 @@ export default function Method({ stats }) {
               </tbody>
             </table>
           </div>
-          <p className="mt-2.5 text-[12.5px] leading-relaxed text-faint">
+          <p className="mt-2.5 text-[11.5px] leading-relaxed text-faint">
             {t('scorecardCaveat')}
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function Method({ stats }) {
               </div>
             ))}
           </dl>
-          <p className="mt-4 text-[12.5px] leading-relaxed text-faint">{t('knowledgeBaseNote')}</p>
+          <p className="mt-4 text-[11.5px] leading-relaxed text-faint">{t('knowledgeBaseNote')}</p>
         </div>
       </motion.section>
 

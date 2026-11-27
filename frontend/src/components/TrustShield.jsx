@@ -11,7 +11,7 @@ function Row({ ok = true, children, sub }) {
       </span>
       <span className="min-w-0 text-[12px] leading-snug text-[#1E293B]">
         <b className="font-semibold text-[#1E293B]">{children}</b>
-        {sub && <span className="block text-[12.5px] text-[#64748B]">{sub}</span>}
+        {sub && <span className="block text-[11px] text-[#64748B]">{sub}</span>}
       </span>
     </li>
   );

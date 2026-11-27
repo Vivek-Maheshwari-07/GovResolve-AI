@@ -4,10 +4,10 @@ import { GitBranch, Rows3, Waypoints, ArrowUpRight, RotateCcw } from 'lucide-rea
 import Seal from './Seal';
 import { STATUS, TONES } from '../lib/status';
 import { statusAsOf, issuedCount } from '../lib/lineage';
-import { displayQuote } from '../lib/quote';
 import { useUiLanguage } from '../lib/i18n';
 import { useLanguage } from '../lib/LanguageContext';
 import { pickSubject } from '../lib/bilingualStrings';
+import { displayQuote } from '../lib/quote';
 
 // Evolution map: orders sit left (oldest) to right (newest). Every link is an arc drawn from the NEWER order to the OLDER
 // one it acts on, so the arrowhead lands on the order that was changed. Clicking a link opens the verbatim clause behind it.
@@ -161,7 +161,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
                 onClick={() => setEdgeId(on ? null : e.id)}
                 aria-pressed={on}
                 title={`${e.link_type} ${e.to_gr_number}: read the clause`}
-                className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-2.5 py-1 text-[12.5px] font-bold transition-all ${t.text}`}
+                className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-2.5 py-1 text-[10.5px] font-bold transition-all ${t.text}`}
                 style={{
                   left: e.mx,
                   top: e.my,
@@ -210,16 +210,16 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
               >
                 <div className="flex items-center justify-between gap-1.5">
                   <Seal status={sealKey} size={28} />
-                  <span className={`inline-flex items-center gap-1 rounded-full border ${tone.ring} ${tone.pill} px-2 py-0.5 text-[12.5px] font-bold ${tone.text}`}>
+                  <span className={`inline-flex items-center gap-1 rounded-full border ${tone.ring} ${tone.pill} px-2 py-0.5 text-[8.5px] font-bold ${tone.text}`}>
                     <span className={`h-1.5 w-1.5 rounded-full ${tone.dot}`} />
                     <span className="truncate">{external ? t('noCorpus') : !st.issued ? t('notYetIssued') : t(st.status === 'no_change' ? 'noLaterChange' : st.status || 'noLaterChange')}</span>
                   </span>
                 </div>
                 <p className="mt-2 truncate font-mono text-[12.5px] font-bold text-[#1E293B]" title={c.gr_number}>{c.gr_number}</p>
-                <p className="font-mono text-[12.5px] text-[#64748B]">{c.date || 'Undated'}</p>
-                {(c.subject || c.subject_gu || c.subject_en) && <p className="gu-text mt-0.5 line-clamp-2 text-[12.5px] leading-snug text-[#1E293B]">{pickSubject(c, uiLang)}</p>}
-                {first && !(c.subject || c.subject_gu || c.subject_en) && <p className="mt-1 truncate text-[12.5px] text-[#64748B]">{first.link_type} {first.to_gr_number}</p>}
-                {selected && <span className="mono-label absolute -top-2 right-3 rounded bg-[#4F46E5] px-1.5 py-0.5 text-[12.5px] font-bold text-white shadow-sm">{t('open')}</span>}
+                <p className="font-mono text-[11px] text-[#64748B]">{c.date || 'Undated'}</p>
+                {(c.subject || c.subject_gu || c.subject_en) && <p className="gu-text mt-0.5 line-clamp-2 text-[11.5px] leading-snug text-[#1E293B]">{pickSubject(c, uiLang)}</p>}
+                {first && !(c.subject || c.subject_gu || c.subject_en) && <p className="mt-1 truncate text-[11px] text-[#64748B]">{first.link_type} {first.to_gr_number}</p>}
+                {selected && <span className="mono-label absolute -top-2 right-3 rounded bg-[#4F46E5] px-1.5 py-0.5 text-[8.5px] font-bold text-white shadow-sm">{t('open')}</span>}
               </motion.button>
             );
           })}
@@ -267,7 +267,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
                   <span className="h-2 w-2 rounded-full bg-[#4F46E5]" />
                 </motion.div>
                 <motion.span
-                  className="mono-label pointer-events-none absolute -top-0.5 -translate-x-1/2 whitespace-nowrap rounded bg-[#1E293B] px-1.5 py-0.5 text-[12.5px] text-white"
+                  className="mono-label pointer-events-none absolute -top-0.5 -translate-x-1/2 whitespace-nowrap rounded bg-[#1E293B] px-1.5 py-0.5 text-[9px] text-white"
                   animate={{ left: xOfP(pOf) }}
                   transition={drag ? { duration: 0 } : { type: 'spring', stiffness: 380, damping: 32 }}
                 >
@@ -291,7 +291,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
               <button
                 type="button"
                 onClick={() => onSelectNode({ ...fromNode, edges_out: [sel, ...(fromNode.edges_out || []).filter((x) => x !== sel)] })}
-                className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-[#4F46E5] hover:text-[#4338CA]"
+                className="inline-flex items-center gap-1 text-[11.5px] font-semibold text-[#4F46E5] hover:text-[#4338CA]"
               >
                 {t('openPage', { page: sel.page })} <ArrowUpRight className="h-3 w-3" />
               </button>
@@ -299,10 +299,10 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
             {sel.quote ? (
               <p className="legal-text mt-2 border-l-[3px] border-[#F59E0B] bg-[#FFFBEB]/50 pl-3 py-1 text-[13px] text-[#1E293B]">“{displayQuote(sel.quote)}”</p>
             ) : (
-              <p className="mt-2 text-[12.5px] text-[#64748B]">{t('noVerbatimLink')}</p>
+              <p className="mt-2 text-xs text-[#64748B]">{t('noVerbatimLink')}</p>
             )}
             {sel.warnings?.length > 0 && (
-              <p className="mt-2 text-[12.5px] font-medium text-[#92400E]">⚠ {sel.warnings.join(' · ')} (drawn dashed)</p>
+              <p className="mt-2 text-[11.5px] font-medium text-[#92400E]">⚠ {sel.warnings.join(' · ')} (drawn dashed)</p>
             )}
           </motion.div>
         ) : (
@@ -311,7 +311,7 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
               {t('amendmentChainEmpty')}
             </motion.p>
           ) : (
-            <motion.p key="hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-2 text-[12.5px] text-[#64748B]">
+            <motion.p key="hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-2 text-[11.5px] text-[#64748B]">
               {t('selectLinkHint')}{canScrub ? t('dragDateHint') : ''}
             </motion.p>
           )
@@ -332,18 +332,18 @@ function Ledger({ chain, onSelectNode }) {
         return (
           <li key={`${c.gr_id}-${e.to_gr_id}-${k}`} className="py-2.5">
             <button type="button" onClick={() => onSelectNode({ ...c, edges_out: [e] })} className="group block w-full text-left">
-              <p className="flex flex-wrap items-center gap-x-2 font-mono text-[12.5px]">
+              <p className="flex flex-wrap items-center gap-x-2 font-mono text-[11.5px]">
                 <span className="font-bold text-[#1E293B]">{c.gr_number}</span>
-                <span className={`rounded-full px-2 py-0.5 text-[12.5px] font-bold ${tone.text}`} style={{ background: tone.wash, boxShadow: `0 0 0 1px ${tone.edge}55` }}>{relationLabel(t, e.relation)}</span>
+                <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${tone.text}`} style={{ background: tone.wash, boxShadow: `0 0 0 1px ${tone.edge}55` }}>{relationLabel(t, e.relation)}</span>
                 <span className="font-bold text-[#1E293B]">{byId[e.to_gr_id]?.gr_number || e.to_gr_number}</span>
                 <span className="text-[#64748B]">{c.date || t('undated')} · p.{e.page}</span>
               </p>
-              {e.quote && <p className="legal-text mt-1 line-clamp-2 text-[12.5px] text-[#64748B] group-hover:text-[#1E293B]">“{displayQuote(e.quote)}”</p>}
+              {e.quote && <p className="legal-text mt-1 line-clamp-2 text-[12.5px] text-[#64748B] group-hover:text-[#1E293B]">“{e.quote}”</p>}
             </button>
           </li>
         );
       })}
-      {rows.length === 0 && <li className="py-3 text-[12.5px] text-[#64748B]">{t('noAmendmentLinks')}</li>}
+      {rows.length === 0 && <li className="py-3 text-xs text-[#64748B]">{t('noAmendmentLinks')}</li>}
     </ul>
   );
 }
@@ -365,19 +365,19 @@ export default function LineageGraph({ chain, asOf, onAsOf, activeId, onSelectNo
           </span>
           <div>
             <h2 className="display text-[17px] font-bold leading-tight text-[#1E293B]">{t('amendmentLineage')}</h2>
-            <p className="mono-label mt-1 text-[12.5px] text-[#64748B]">{counts.total} {counts.total === 1 ? 'order' : 'orders'} · newer → older{forGr ? ` · chain of ${forGr}` : ''}</p>
+            <p className="mono-label mt-1 text-[9.5px] text-[#64748B]">{counts.total} {counts.total === 1 ? 'order' : 'orders'} · newer → older{forGr ? ` · chain of ${forGr}` : ''}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {asOf && (
-            <button type="button" onClick={() => onAsOf?.('')} className="inline-flex items-center gap-1.5 rounded-full bg-[#FFFBEB] px-2.5 py-1 font-mono text-[12.5px] font-semibold text-[#92400E] ring-1 ring-[#FDE68A] hover:bg-[#FEF3C7]" title={t('backToToday')}>
+            <button type="button" onClick={() => onAsOf?.('')} className="inline-flex items-center gap-1.5 rounded-full bg-[#FFFBEB] px-2.5 py-1 font-mono text-[10.5px] font-semibold text-[#92400E] ring-1 ring-[#FDE68A] hover:bg-[#FEF3C7]" title={t('backToToday')}>
               {t('asOfDate', { date: asOf })} · {counts.issued}/{counts.total} {t('issued')} <RotateCcw className="h-3 w-3" />
             </button>
           )}
           <div className="well flex p-0.5 print:hidden" role="group" aria-label={t('lineageView')}>
             {[['map', t('map'), Waypoints], ['ledger', t('ledger'), Rows3]].map(([k, label, Icon]) => (
-              <button key={k} type="button" aria-pressed={view === k} onClick={() => setView(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[12.5px] font-semibold transition ${view === k ? 'bg-[rgba(255,255,255,0.88)] text-[#1E293B] shadow-card' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
+              <button key={k} type="button" aria-pressed={view === k} onClick={() => setView(k)} className={`inline-flex items-center gap-1.5 rounded-[9px] px-2.5 py-1 text-[11.5px] font-semibold transition ${view === k ? 'bg-[rgba(255,255,255,0.88)] text-[#1E293B] shadow-card' : 'text-[#64748B] hover:text-[#1E293B]'}`}>
                 <Icon className="h-3.5 w-3.5" /> {label}
               </button>
             ))}

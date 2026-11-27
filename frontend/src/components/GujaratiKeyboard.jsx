@@ -26,7 +26,7 @@ export default function GujaratiKeyboard({ onInsert, onClose }) {
       <div className="flex items-center justify-between border-b border-[#E6E4DD] pb-2">
         <div className="flex items-center gap-2">
           <span className="gu-text text-[13px] font-semibold text-[#1E293B]">ગુજરાતી કીબોર્ડ સહાયક</span>
-          <span className="mono-label text-[12.5px] text-[#64748B]">Virtual Keypad</span>
+          <span className="mono-label text-[9.5px] text-[#64748B]">Virtual Keypad</span>
         </div>
         <button
           type="button"
@@ -41,7 +41,7 @@ export default function GujaratiKeyboard({ onInsert, onClose }) {
       <div className="space-y-3">
         {SECTIONS.map((sec) => (
           <div key={sec.title} className="space-y-1.5">
-            <p className="mono-label px-0.5 text-[12.5px] text-[#64748B]">{sec.title}</p>
+            <p className="mono-label px-0.5 text-[9px] text-[#64748B]">{sec.title}</p>
             <div className="flex flex-wrap gap-1.5">
               {sec.keys.map((ch) => (
                 <button key={ch} type="button" onClick={() => onInsert(ch)} className={KEY}>
