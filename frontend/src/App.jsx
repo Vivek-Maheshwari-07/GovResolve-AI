@@ -388,6 +388,7 @@ function AppContent() {
       if (tour || stage === 'hero') return;
       if (e.key === 'Escape') {
         setKeys(false);
+        setChatOpen(false);
         return;
       }
       if (typing(document.activeElement) || e.ctrlKey || e.metaKey || e.altKey) return;
