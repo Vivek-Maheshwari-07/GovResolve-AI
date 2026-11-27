@@ -32,6 +32,15 @@ from backend.models import (
     BoundingBox, Chunk, ClauseStatus, GRRecord, Language,
     PageRecord, SourceType, TextBlock,
 )
+from backend.ingestion.metadata import (
+    build_complete_chunks,
+    clean_ligatures,
+    extract_department as _shared_extract_department,
+    extract_gr_number as _shared_extract_gr_number,
+    extract_issue_date as _shared_extract_issue_date,
+    extract_subject as _shared_extract_subject,
+    has_garbled_font_stream,
+)
 
 try:
     import pytesseract
@@ -151,9 +160,11 @@ def file_hash(path: str) -> str:
 
 
 def detect_page_type(page: fitz.Page) -> SourceType:
-    """Digital if the page has enough extractable text chars."""
+    """Digital only when extractable text is substantial and free of broken non-Unicode font bytes."""
     text = page.get_text("text")
-    return SourceType.DIGITAL if len(text.strip()) > DIGITAL_TEXT_THRESHOLD else SourceType.SCANNED
+    if len(text.strip()) <= DIGITAL_TEXT_THRESHOLD or has_garbled_font_stream(text):
+        return SourceType.SCANNED
+    return SourceType.DIGITAL
 
 
 def preprocess_image(img: Image.Image) -> Image.Image:
@@ -266,7 +277,7 @@ def extract_digital_page(fitz_page: fitz.Page, page_number: int) -> tuple[str, l
         for line in block.get("lines", []):
             for span in line.get("spans", []):
                 lines.append(span["text"])
-        block_text = " ".join(lines).strip()
+        block_text = clean_ligatures(" ".join(lines).strip())
         if not block_text:
             continue
         full_text_parts.append(block_text)
@@ -290,76 +301,19 @@ def extract_digital_page(fitz_page: fitz.Page, page_number: int) -> tuple[str, l
 # ──────────────────────────────────────────────
 
 def extract_gr_number(text: str) -> tuple[str, float]:
-    for pat in GR_NUMBER_PATTERNS:
-        m = re.search(pat, text)
-        if m:
-            return m.group(1).strip(), 0.9
-    norm_text = normalise_gujarati_digits(text)
-    for pat in GR_NUMBER_PATTERNS:
-        m = re.search(pat, norm_text)
-        if m:
-            return m.group(1).strip(), 0.8
-    return "UNKNOWN", 0.3
+    return _shared_extract_gr_number(text)
 
 
-def extract_date(text: str) -> Optional[str]:
-    """Try to extract the first date and return YYYY-MM-DD."""
-    text = normalise_gujarati_digits(text)
-    MONTHS = {
-        "January": "01", "February": "02", "March": "03", "April": "04",
-        "May": "05", "June": "06", "July": "07", "August": "08",
-        "September": "09", "October": "10", "November": "11", "December": "12",
-        "જાન્યુઆરી": "01", "ફેબ્રુઆરી": "02", "માર્ચ": "03", "એપ્રિલ": "04",
-        "મે": "05", "જૂન": "06", "જુલાઈ": "07", "ઓગસ્ટ": "08",
-        "સપ્ટેમ્બર": "09", "ઓક્ટોબર": "10", "નવેમ્બર": "11", "ડિસેમ્બર": "12",
-    }
-    # DD/MM/YYYY or DD-MM-YYYY
-    m = re.search(r"(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})", text)
-    if m:
-        d, mo, y = m.group(1).zfill(2), m.group(2).zfill(2), m.group(3)
-        if 1 <= int(d) <= 31 and 1 <= int(mo) <= 12:
-            return f"{y}-{mo}-{d}"
-    # DD Month YYYY (English or Gujarati)
-    months_pattern = "|".join(MONTHS.keys())
-    m = re.search(
-        rf"(\d{{1,2}})\s+({months_pattern})\s+(\d{{4}})", text, re.IGNORECASE
-    )
-    if m:
-        d = m.group(1).zfill(2)
-        month_name = m.group(2).capitalize() if m.group(2).isascii() else m.group(2)
-        mo = MONTHS.get(month_name, "01")
-        y = m.group(3)
-        return f"{y}-{mo}-{d}"
-    return None
+def extract_date(text: str, filename: str = "") -> Optional[str]:
+    return _shared_extract_issue_date(text, filename=filename)
 
 
 def extract_department(text: str) -> str:
-    for kw, dept in DEPT_KEYWORDS.items():
-        if kw.lower() in text.lower():
-            return dept
-    return "Unknown Department"
+    return _shared_extract_department(text)
 
 
 def extract_subject(text: str) -> str:
-    """Find the line after 'Subject:' or 'વિષય:', or search window before Preamble/આમુખ."""
-    for pat in [r"Subject\s*[:\-]\s*(.+)", r"વિષય\s*[:\-]\s*(.+)"]:
-        m = re.search(pat, text)
-        if m:
-            return m.group(1).strip()[:200]
-
-    preamble_match = re.search(r"(?:Preamble|આમુખ|વાંચાણે\s*લીધા|READ\s*[:\-])", text, re.IGNORECASE)
-    if preamble_match:
-        header_text = text[:preamble_match.start()]
-        candidate_lines = []
-        for line in header_text.splitlines():
-            line = line.strip()
-            if len(line) >= 15 and not re.search(r"^(?:ક્રમાંક|No\.?|તારીખ|Date|સચિવાલય|Government|ગુજરાત|ગાંધીનગર)", line, re.I):
-                candidate_lines.append(line)
-        if candidate_lines:
-            return " ".join(candidate_lines[:2])[:200]
-
-    lines = [l.strip() for l in text.splitlines() if l.strip() and len(l.strip()) >= 15]
-    return lines[1] if len(lines) > 1 else lines[0] if lines else "Unknown Subject"
+    return _shared_extract_subject(text)
 
 
 def detect_language(text: str) -> Language:
@@ -515,12 +469,11 @@ def ingest_pdf(
     full_text = "\n\n".join(full_text_parts)
     majority_type = SourceType.SCANNED if scanned_count > len(all_pages) / 2 else SourceType.DIGITAL
 
-    # --- Metadata extraction (from first 3 pages) ---
-    header_text = "\n".join(full_text_parts[:3])
-    gr_number, meta_conf = extract_gr_number(header_text)
-    issue_date  = extract_date(header_text)
-    department  = extract_department(header_text)
-    subject     = extract_subject(header_text)
+    # --- Metadata extraction (across header + signature footer) ---
+    gr_number, meta_conf = extract_gr_number(full_text)
+    issue_date  = extract_date(full_text, filename=pdf_path)
+    department  = extract_department(full_text)
+    subject     = extract_subject(full_text)
     language    = detect_language(full_text)
 
     # --- Auto-generate gr_id if not provided ---
@@ -530,8 +483,15 @@ def ingest_pdf(
         fhash = file_hash(pdf_path)[:6]
         gr_id = f"{dept_prefix}-{year}-{fhash}"
 
-    # --- Chunking ---
-    chunks = chunk_text(gr_id, full_text, all_pages)
+    # --- Complete structural chunking (retains Read/Preamble, Clauses, and Footer) ---
+    chunks = build_complete_chunks(
+        gr_id,
+        all_pages,
+        subject=subject,
+        department=department,
+        gr_number=gr_number,
+        issue_date=issue_date,
+    )
 
     record = GRRecord(
         gr_id=gr_id,

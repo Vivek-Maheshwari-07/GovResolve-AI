@@ -54,11 +54,17 @@ def to_engine_result(resp: Any) -> EngineResult:
         # prefer the pipeline's own words ("The sentences do not give the age range") over the generic text for the code
         why = (resp.summary or "").strip() or _REASONS.get(code, "The available documents do not support an answer.")
         extra = (resp.follow_up_question or "").strip()
+        ans_lang = _val(getattr(resp, "language_detected", None) or "").lower()
         return EngineResult(insufficient_reason=f"{code}: {why}" + (f" {extra}" if extra else "") if code else why,
-                            reason_code=ReasonCode(code) if code in _REASONS else None, warnings=list(getattr(resp, "warnings", None) or []))
-    return EngineResult(answer=resp.summary.strip(), citations=cites,
+                            reason_code=ReasonCode(code) if code in _REASONS else None,
+                            warnings=list(getattr(resp, "warnings", None) or []),
+                            language=ans_lang if ans_lang in ("gu", "en", "mixed") else None)
+    summary = resp.summary.strip()
+    inferred_lang = "gu" if any("઀" <= ch <= "૿" for ch in summary) else "en"
+    return EngineResult(answer=summary, citations=cites,
                         statements=_statements(getattr(resp, "statements", None) or [], cites),
-                        warnings=list(getattr(resp, "warnings", None) or []))
+                        warnings=list(getattr(resp, "warnings", None) or []),
+                        language=inferred_lang)
 
 
 def _statements(stmts: list[Any], cites: list[RawCitation]) -> list[Statement]:

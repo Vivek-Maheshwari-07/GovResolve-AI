@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ServerCrash, X, RotateCcw } from 'lucide-react';
-import { ask, fetchStats, lineageChain } from './api';
+import { ask, fetchStats, lineageChain, translateResponseFields } from './api';
 import { statusAsOf } from './lib/lineage';
 import { citeKey } from './components/AnswerCard';
 import TopBar from './components/TopBar';
@@ -22,6 +22,8 @@ import Tour from './components/Tour';
 import LandingPage from './pages/Hero';
 import { SAMPLES } from './lib/samples';
 import { LanguageProvider, useUiLanguage } from './lib/i18n';
+import { LanguageBridge } from './lib/LanguageContext';
+import ChatHelpline from './components/ChatHelpline';
 import { HISTORY_MAX, loadHistory, saveHistory } from './lib/history';
 
 const TOUR_KEY = 'govresolve.tour.seen';
@@ -177,7 +179,7 @@ function SplitHandle({ ratio, onChange, containerRef }) {
 }
 
 function AppContent() {
-  const { t, setLanguage: setUiLanguage } = useUiLanguage();
+  const { t, language: uiLanguage, setLanguage: setUiLanguage } = useUiLanguage();
   const [workspace, setWorkspace] = useState('ask');
   const [stats, setStats] = useState(null);
   const [online, setOnline] = useState(true);
@@ -191,6 +193,10 @@ function AppContent() {
   const [loading, setLoading] = useState(false);
   const [stages, setStages] = useState([]);   // live pipeline steps from /query/stream
   const [response, setResponse] = useState(null);
+  const [translated, setTranslated] = useState(null);   // the open answer's prose in the interface language (bilingual UX)
+  const [translatingAnswer, setTranslatingAnswer] = useState(false);
+  const translations = useRef(new WeakMap());
+  const [chatOpen, setChatOpen] = useState(false);
   const [error, setError] = useState(null);
   const [active, setActive] = useState(null); // Active citation in Inquiry view
   const [libActive, setLibActive] = useState(null); // Active citation in Library view
@@ -331,6 +337,63 @@ function AppContent() {
   const chain = response?.lineage_chain || [];
   const firstId = response?.citations?.[0]?.gr_id;
 
+  useEffect(() => {
+    const target = uiLanguage === 'gu' ? 'gu' : uiLanguage === 'en' ? 'en' : null;
+    if (!response || !target) {
+      setTranslated(null);
+      setTranslatingAnswer(false);
+      return undefined;
+    }
+    const own = /[\u0A80-\u0AFF]/.test(`${response.summary || ''} ${response.insufficient_reason || ''}`) ? 'gu' : 'en';
+    if (own === target) {
+      setTranslated(null);
+      setTranslatingAnswer(false);
+      return undefined;
+    }
+    const bucket = translations.current.get(response) || {};
+    if (bucket[target]) {
+      setTranslated(bucket[target]);
+      return undefined;
+    }
+    let live = true;
+    const ctl = new AbortController();
+    setTranslated(null);
+    setTranslatingAnswer(true);
+    translateResponseFields(response, target, { signal: ctl.signal })
+      .then((tr) => {
+        if (!live) return;
+        translations.current.set(response, { ...(translations.current.get(response) || {}), [target]: tr });
+        setTranslated(tr);
+      })
+      .catch(() => {})   // keep the grounded answer as it is
+      .finally(() => { if (live) setTranslatingAnswer(false); });
+    return () => {
+      live = false;
+      ctl.abort();
+    };
+  }, [response, uiLanguage]);
+  const shownResponse = translated || response;
+
+  // an answer opened from the chat helpline: shown in the Inquiry workspace with its source page
+  const inspectFromChat = (q, res, cit) => {
+    if (!res) return;
+    abortRef.current?.abort();
+    setWorkspace('ask');
+    setLoading(false);
+    setError(null);
+    setQuery(q);
+    setAskedLang(language);
+    setChatOpen(false);
+    const chosen = cit || res.citations?.[0] || null;
+    setActive(chosen);
+    setResponse(res);
+    if (res.verdict === 'answered' && !res.lineage_chain?.length && chosen?.gr_id) {
+      lineageChain(chosen.gr_id)
+        .then((c) => setResponse((cur) => (cur === res ? { ...res, lineage_chain: c } : cur)))
+        .catch(() => {});
+    }
+  };
+
   // Persist answered questions so saved chats can be reopened across browser sessions.
   useEffect(() => {
     saveHistory(history);
@@ -363,6 +426,8 @@ function AppContent() {
       issue_date: n.date,
       department: n.department,
       subject: n.subject,
+      subject_en: n.subject_en,
+      subject_gu: n.subject_gu,
       language: n.language,
     });
   };
@@ -451,7 +516,7 @@ function AppContent() {
                 <div className="mx-auto grid max-w-[860px] grid-cols-1 items-center gap-12">
                   <div className="min-w-0 space-y-7">
                     <HeroHeader />
-                    <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={false} hero focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} />
+                    <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact={false} hero focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} onOpenChat={() => setChatOpen(true)} />
                   </div>
                 </div>
                 <Hero onAsk={(t) => submit(t, true)} disabled={loading} />
@@ -461,7 +526,7 @@ function AppContent() {
             {workspace === 'ask' && !landing && (
               <>
                 <section className="flex flex-col gap-3.5 lg:min-h-0 lg:overflow-y-auto lg:pr-1 print:overflow-visible print:block print:w-full" aria-label="Investigation">
-                  <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} />
+                  <QueryDock value={query} onChange={setQuery} onSubmit={submit} loading={loading} compact focusSignal={focusAsk} history={history} onOpenHistory={openHistory} onClearHistory={clearHistory} onOpenChat={() => setChatOpen(true)} />
 
                   <div data-tour="answer" className="space-y-3.5 print:space-y-4">
                     <AnimatePresence mode="wait">
@@ -504,7 +569,8 @@ function AppContent() {
                           <StatusBanner status={response.answer_status} reasonCode={response.reason_code} asOf={asOf} asOfStatus={asOfStatus} />
                           <WhatChanged citation={shownFor} chain={shownChain} onOpenNewer={(n) => { const node = shownChain.find((c) => c.gr_id === n.gr_id); if (node) openNode(node); }} />
                           <AnswerCard
-                            response={response}
+                            response={shownResponse}
+                            translating={translatingAnswer}
                             active={active}
                             onSelect={setActive}
                             language={language}
@@ -557,6 +623,7 @@ function AppContent() {
         }}
       />
       <ShortcutsDialog open={keys} onClose={() => setKeys(false)} />
+      {stage !== 'hero' && <ChatHelpline open={chatOpen} onOpenChange={setChatOpen} onInspect={inspectFromChat} />}
     </div>
     </>
   );
@@ -565,7 +632,9 @@ function AppContent() {
 export default function App() {
   return (
     <LanguageProvider>
-      <AppContent />
+      <LanguageBridge>
+        <AppContent />
+      </LanguageBridge>
     </LanguageProvider>
   );
 }

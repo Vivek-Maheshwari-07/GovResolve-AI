@@ -19,19 +19,24 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-_QUESTION_PATHS = {"/query", "/api/query", "/query/stream", "/ask"}
+_QUESTION_PATHS = {"/query", "/api/query", "/query/stream", "/ask", "/translate", "/voice/transcribe"}
+_VOICE_CALL_PATHS = {"/voice/query", "/voice/webhook"}
 _LOOPBACK = {"127.0.0.1", "::1", "localhost", "testclient"}   # "testclient" is Starlette's TestClient
 
 
 def _is_admin_call(request: Request) -> bool:
     path, method = request.url.path, request.method
-    return path.startswith(("/admin", "/logs", "/api/upload")) or (path.startswith("/documents") and method in ("POST", "PUT", "PATCH", "DELETE"))
+    return (
+        path.startswith(("/admin", "/logs", "/api/upload", "/voice/calls", "/voice/monitor"))
+        or (path.startswith("/documents") and method in ("POST", "PUT", "PATCH", "DELETE"))
+    )
 
 
 class HardeningMiddleware(BaseHTTPMiddleware):
-    def __init__(self, app, admin_token: str | None = None, rate_per_min: int | None = None):
+    def __init__(self, app, admin_token: str | None = None, rate_per_min: int | None = None, voice_token: str | None = None):
         super().__init__(app)
         self.admin_token = os.environ.get("GOV_ADMIN_TOKEN", "") if admin_token is None else admin_token
+        self.voice_token = os.environ.get("GOV_VOICE_TOKEN", "") if voice_token is None else voice_token
         self.rate = int(os.environ.get("GOV_QUERY_RATE_PER_MIN", "120")) if rate_per_min is None else rate_per_min
         self.trust_proxy = os.environ.get("GOV_TRUST_PROXY", "0") == "1"
         self._hits: dict[str, deque] = defaultdict(deque)
@@ -68,6 +73,13 @@ class HardeningMiddleware(BaseHTTPMiddleware):
             elif self._client(request) not in _LOOPBACK:
                 msg = "Admin calls are accepted from this machine only; set GOV_ADMIN_TOKEN to allow remote use"
                 return JSONResponse({"error": msg, "reason": msg}, status_code=403)
+        if self.voice_token and request.url.path in _VOICE_CALL_PATHS and request.method == "POST":
+            auth = request.headers.get("authorization", "")
+            bearer = auth[7:].strip() if auth.lower().startswith("bearer ") else ""
+            given = request.headers.get("x-voice-token", "") or bearer
+            if not hmac.compare_digest(given.encode(), self.voice_token.encode()):
+                msg = "Voice token required"
+                return JSONResponse({"error": msg, "reason": msg}, status_code=401)
         if self.rate > 0 and request.method == "POST" and request.url.path in _QUESTION_PATHS:
             if self._too_many(self._client(request)):
                 msg = "Too many questions; wait a minute and try again"

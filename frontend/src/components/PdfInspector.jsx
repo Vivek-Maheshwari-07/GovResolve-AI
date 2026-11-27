@@ -5,11 +5,13 @@ import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.js?url';
 import {
   ChevronLeft, ChevronRight, ZoomIn, ZoomOut, ExternalLink,
   ClipboardCheck, Flag, ScanLine, AlignLeft, Check, FileX2,
+  Languages, Loader2,
 } from 'lucide-react';
-import { pdfUrl, pageBlocks } from '../api';
+import { pdfUrl, pageBlocks, needsTextTranslation, translateText } from '../api';
 import { courtCitation, reportText } from '../lib/lineage';
 import { displayQuote, looksGarbled } from '../lib/quote';
 import { useUiLanguage } from '../lib/i18n';
+import { useLanguage, useT } from '../lib/LanguageContext';
 
 // Bundled worker for offline resilience
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
@@ -75,6 +77,10 @@ export default function PdfInspector({ citation, question }) {
   const [dims, setDims] = useState(null);
   const [exactBbox, setExactBbox] = useState(null);
   const [error, setError] = useState(null);
+  const [pdfMissing, setPdfMissing] = useState(false);   // no stored PDF: the page text is shown instead
+  const [blockTr, setBlockTr] = useState({});            // block id -> { open, loading, text }: meaning on request
+  const tb = useT();
+  const { lang: uiLang } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState('pdf'); // 'pdf' | 'text'
   const [blocks, setBlocks] = useState([]);
@@ -98,6 +104,8 @@ export default function PdfInspector({ citation, question }) {
     setLoadedDocument(null);
     setNumPages(0);
     setError(null);
+    setPdfMissing(false);
+    setBlockTr({});
     setLoading(!!grId);
     setDims(null);
     if (!grId) {
@@ -118,6 +126,8 @@ export default function PdfInspector({ citation, question }) {
       .catch(() => {
         if (alive) {
           setError(t('originalPdfUnavailable'));
+          setPdfMissing(true);
+          setMode('text');   // the stored page text still shows the quoted paragraph
           setLoading(false);
         }
       });
@@ -133,10 +143,27 @@ export default function PdfInspector({ citation, question }) {
   useEffect(() => {
     if (citation) {
       setPage(citation.page || 1);
-      setMode('pdf');
+      setMode(pdfMissing ? 'text' : 'pdf');
       setExactBbox(null);
     }
-  }, [grId, citation?.page, citation?.passage]);
+  }, [grId, citation?.page, citation?.passage, pdfMissing]);
+
+  const toggleBlockMeaning = async (key, text) => {
+    const target = uiLang === 'gu' ? 'gu' : 'en';
+    const cur = blockTr[key];
+    if (cur?.text) {
+      setBlockTr((p) => ({ ...p, [key]: { ...cur, open: !cur.open } }));
+      return;
+    }
+    if (cur?.loading) return;
+    setBlockTr((p) => ({ ...p, [key]: { open: true, loading: true, text: '' } }));
+    try {
+      const tr = await translateText(text, target);
+      setBlockTr((p) => ({ ...p, [key]: { open: true, loading: false, text: tr } }));
+    } catch {
+      setBlockTr((p) => ({ ...p, [key]: { open: false, loading: false, text: '' } }));
+    }
+  };
 
   // Render canvas page
   useEffect(() => {
@@ -432,10 +459,25 @@ export default function PdfInspector({ citation, question }) {
             {blocks.length === 0 && <p className="py-4 text-center text-[12.5px] text-[#64748B]">{t('noOcrBlocks')}</p>}
             {blocks.map((b) => {
               const hit = quote && norm(b.text).includes(quote);
+              const canTr = needsTextTranslation(b.text, uiLang === 'gu' ? 'gu' : 'en');
+              const tr = blockTr[b.id];
               return (
-                <p key={b.id} className={`legal-text rounded-xl p-3 text-[12.5px] leading-relaxed transition-colors ${hit ? 'border-l-[4px] border-l-[#D97706] border border-[#FDE68A] bg-[#FFFBEB] font-medium text-[#1E293B]' : 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)] text-[#64748B]'}`} style={{ boxShadow: hit ? '0 0 0 1px #FDE68A' : '0 2px 8px -2px rgba(15,23,42,.04)' }}>
-                  {b.text}
-                </p>
+                <div key={b.id} className={`rounded-xl p-3 transition-colors ${hit ? 'border-l-[4px] border-l-[#D97706] border border-[#FDE68A] bg-[#FFFBEB]' : 'border border-[#E6E4DD] bg-[rgba(255,255,255,0.90)]'}`} style={{ boxShadow: hit ? '0 0 0 1px #FDE68A' : '0 2px 8px -2px rgba(15,23,42,.04)' }}>
+                  <p className={`legal-text text-[12.5px] leading-relaxed ${hit ? 'font-medium text-[#1E293B]' : 'text-[#64748B]'}`}>{b.text}</p>
+                  {tr?.open && (
+                    <p className={`mt-2 rounded-lg border border-[#C7D2FE] bg-[#EEF2FF]/70 px-2.5 py-1.5 text-[12.5px] leading-relaxed text-[#1E293B] ${uiLang === 'gu' ? 'gu-text' : ''}`}>
+                      {tr.loading ? tb('answer.translating') : tr.text}
+                    </p>
+                  )}
+                  {canTr && (
+                    <button type="button" onClick={() => toggleBlockMeaning(b.id, b.text)} className="mt-1.5 inline-flex items-center gap-1 rounded-md border border-[#E6E4DD] bg-white px-2 py-0.5 text-[12.5px] font-semibold text-[#4338CA] hover:border-[#C7D2FE] hover:bg-[#EEF2FF]">
+                      {tr?.loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Languages className="h-3 w-3" />}
+                      <span className={uiLang === 'gu' && !tr?.open ? 'gu-text' : ''}>
+                        {tr?.open && !tr?.loading ? tb('answer.hide_translation') : uiLang === 'gu' ? tb('answer.translate_gu') : tb('answer.translate_en')}
+                      </span>
+                    </button>
+                  )}
+                </div>
               );
             })}
           </div>

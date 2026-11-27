@@ -157,3 +157,55 @@ def test_a_gujarati_script_question_keeps_double_weight_on_the_vector_search():
     en = SearchBundle(original_query="leave rules", query_en="leave rules", query_gu="leave rules", keywords=[], detected_lang="en")
     out = [c["chunk_id"] for c in _search_index(["A", "B", "C"], bm25_best="T").search(en, top_k=10)]
     assert out.index("T") < out.index("B")
+
+
+def test_switching_target_language_preserves_verdict_and_citations(monkeypatch):
+    """Switching English <-> Gujarati on the same question must translate the verified finding instead of re-rolling sufficiency."""
+    import json
+    from backend.models import AnswerStatus, StatementLabel
+    from backend.rag import search_engine as se
+
+    idx = _search_index(["doc1"], bm25_best="doc1")
+    idx.bm25_docs[0].update({
+        "gr_id": "GR-1",
+        "gr_number": "GR/2022/10",
+        "issue_date": "2022-04-08",
+        "text": "House building advances are sanctioned for government servants up to twenty-five lakhs.",
+        "pages": [2],
+    })
+    idx.bm25_docs = idx.bm25_docs[:1]
+    idx.bm25 = _Bm25([5.0])
+    idx.search = lambda bundle, top_k=20, filters=None: [{
+        "chunk_id": "doc1",
+        "text": idx.bm25_docs[0]["text"],
+        "metadata": {"gr_id": "GR-1", "gr_number": "GR/2022/10", "issue_date": "2022-04-08", "pages": "[2]"},
+        "rrf_score": 0.9,
+    }]
+
+    pipeline = se.RAGPipeline(idx, [])
+    llm_calls = []
+
+    def fake_llm(sys_p, usr_p, **kw):
+        llm_calls.append(usr_p)
+        return json.dumps({
+            "statements": [{"t": "House building advances are sanctioned up to twenty-five lakhs.", "k": "E", "ids": ["S1"]}],
+            "answer_status": "Found, no later change",
+        }), "nvidia"
+
+    monkeypatch.setattr(se, "execute_llm_generation", fake_llm)
+    monkeypatch.setattr(se, "translate_to_gujarati", lambda q: "ઘર બનાવવાની લોનની પ્રક્રિયા શું છે")
+    monkeypatch.setattr(se, "translate_answer_text", lambda txt, tgt: "સરકારી કર્મચારીઓને પચીસ લાખ સુધીનું ઘર બાંધકામ પેશગી મળે છે." if tgt == "gu" else txt)
+
+    r_en = pipeline.answer("what is house advance limit", target_language="en")
+    assert r_en.answer_status == AnswerStatus.NO_LATER_CHANGE
+    assert len(r_en.citations) == 1
+    assert len(llm_calls) == 1
+
+    # Second call with Gujarati target reuses verified verdict+citations and translates cleanly
+    r_gu = pipeline.answer("what is house advance limit", target_language="gu")
+    assert r_gu.answer_status == AnswerStatus.NO_LATER_CHANGE
+    assert len(r_gu.citations) == 1
+    assert r_gu.citations[0].gr_id == "GR-1"
+    assert r_gu.statements[0].label == StatementLabel.ESTABLISHED
+    assert "ઘર બાંધકામ પેશગી" in r_gu.summary
+    assert len(llm_calls) == 1  # did NOT re-roll the main LLM sufficiency decision

@@ -10,6 +10,8 @@ import CountUp from './CountUp';
 import { displayNumber } from '../lib/grnumber';
 import GujaratiKeyboard from './GujaratiKeyboard';
 import { useUiLanguage } from '../lib/i18n';
+import { useLanguage } from '../lib/LanguageContext';
+import { pickSubject } from '../lib/bilingualStrings';
 
 const UNKNOWN = { key: 'insufficient', label: 'Status unknown', short: 'Unknown', tone: 'slate' };
 
@@ -45,6 +47,7 @@ function Seg({ on, onClick, children, gu, ...attributes }) {
 
 export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
   const { t } = useUiLanguage();
+  const { lang: uiLang } = useLanguage();
   const [rows, setRows] = useState(null);
   const [error, setError] = useState(null);
   const [q, setQ] = useState('');
@@ -129,17 +132,18 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
         (lang === 'all' || r.language === lang) &&
         (status === 'all' || r.status === status) &&
         (dept === 'all' || r.department === dept) &&
-        (!nq || norm(r.gr_number).includes(nq) || norm(r.subject).includes(nq) || String(r.issue_date || '').includes(q.trim())),
+        (!nq || norm(r.gr_number).includes(nq) || norm(r.subject).includes(nq) || norm(r.subject_en).includes(nq)
+          || norm(r.subject_gu).includes(nq) || String(r.issue_date || '').includes(q.trim())),
     );
     if (sortOrder === 'oldest') filtered = [...filtered].reverse();
     return filtered;
   }, [rows, q, lang, status, dept, sortOrder]);
 
   const open = (r) =>
-    onOpen({ gr_id: r.gr_id, gr_number: r.gr_number, page: 1, issue_date: r.issue_date, department: r.department, subject: r.subject, language: r.language });
+    onOpen({ gr_id: r.gr_id, gr_number: r.gr_number, page: 1, issue_date: r.issue_date, department: r.department, subject: r.subject, subject_en: r.subject_en, subject_gu: r.subject_gu, language: r.language });
 
   const openNode = (n) =>
-    onOpen({ gr_id: n.gr_id, gr_number: n.gr_number, page: (n.edges_out || [])[0]?.page || 1, issue_date: n.date, department: n.department, subject: n.subject, language: n.language });
+    onOpen({ gr_id: n.gr_id, gr_number: n.gr_number, page: (n.edges_out || [])[0]?.page || 1, issue_date: n.date, department: n.department, subject: n.subject, subject_en: n.subject_en, subject_gu: n.subject_gu, language: n.language });
 
   const insertGujarati = (character) => {
     const input = searchRef.current;
@@ -324,7 +328,7 @@ export default function Library({ selectedId, onOpen, asOf, onAsOf }) {
                     >
                       <span aria-hidden className={`absolute inset-y-0 left-0 w-[3px] origin-top transition-transform duration-300 ${on ? 'scale-y-100 bg-[#4F46E5]' : 'scale-y-0 bg-[#4F46E5]/70 group-hover:scale-y-100'}`} />
                       <span className="min-w-0">
-                        <span className="gu-text block truncate text-[13.5px] font-semibold text-[#1E293B]">{r.subject || displayNumber(r)}</span>
+                        <span className="gu-text block truncate text-[13.5px] font-semibold text-[#1E293B]">{pickSubject(r, uiLang) || displayNumber(r)}</span>
                         <span className="mt-0.5 flex flex-wrap items-center gap-x-2 font-mono text-[12.5px] text-[#64748B]">
                           <span className="gu-text font-bold text-[#1E293B]">{displayNumber(r)}</span>
                           <span className="hidden truncate sm:inline">{r.department || t('generalAdministration')}</span>

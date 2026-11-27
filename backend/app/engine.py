@@ -15,6 +15,7 @@ class EngineResult(BaseModel):
     reason_code: ReasonCode | None = None
     statements: list[Statement] = Field(default_factory=list)  # citation indexes point into `citations`
     warnings: list[str] = Field(default_factory=list)  # e.g. answered without the language model; shown with the lineage warnings
+    language: str | None = None  # actual language of the synthesized answer when resolved automatically
 
 
 class AnswerEngine(Protocol):

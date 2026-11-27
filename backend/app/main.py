@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import os
 import queue
-import re
 import threading
 import time
 from contextlib import asynccontextmanager
@@ -19,10 +18,10 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from .config import Settings, settings as default_settings
 from .engine import AnswerEngine, NullEngine, RetrievalEngine
 from .graph import LineageGraph, load_corpus
-from .normalize import detect_language
+from .query_eval import evaluate_query
 from .routers.api import router as member_b_router
+from .routers.voice import router as voice_router
 from .security import HardeningMiddleware
-from .schemas.member_a import Citation
 from .schemas import (
     DocumentDetail,
     DocumentIn,
@@ -31,14 +30,8 @@ from .schemas import (
     IngestResult,
     LineageGraphResponse,
     LineageInfo,
-    LineageStatus,
     QueryRequest,
     QueryResponse,
-    ReasonCode,
-    Relation,
-    Statement,
-    StatementLabel,
-    Verdict,
 )
 from .seed import load_demo
 from .squad2_runtime import LazySquad2Engine
@@ -101,11 +94,14 @@ def create_app(
         version=cfg.version if cfg else "0.1.0",
         lifespan=lifespan,
     )
+    app.state.contract_graph = graph
+    app.state.engine = engine
     cors_origins = cfg.cors_origins if cfg else ["*"]
     app.add_middleware(CORSMiddleware, allow_origins=cors_origins, allow_methods=["*"], allow_headers=["*"])
     if cfg is not None:
         app.add_middleware(HardeningMiddleware)
 
+    app.include_router(voice_router)
     if cfg is not None:
         app.include_router(member_b_router)
 
@@ -214,15 +210,13 @@ def create_app(
         @app.post("/query", response_model=QueryResponse)
         @app.post("/api/query", response_model=QueryResponse, include_in_schema=False)
         def query(req: QueryRequest) -> QueryResponse:
-            language = req.language or detect_language(req.question)
-            return respond(engine.answer(req.question, language), language)
+            return evaluate_query(req.question, req.language, graph, engine)
 
         @app.post("/query/stream")
         def query_stream(req: QueryRequest):
             """Same answer as `POST /query`, streamed as newline-delimited JSON so the UI can show each step as it happens:
             `{"type": "stage", "stage": ..., "detail": ..., "t": seconds}` lines, then one `{"type": "result", "response": {...},
             "t": seconds}` line whose `response` is exactly what `/query` returns."""
-            language = req.language or detect_language(req.question)
             events: queue.Queue = queue.Queue()
             t0 = time.perf_counter()
 
@@ -231,11 +225,7 @@ def create_app(
 
             def work() -> None:
                 try:
-                    if getattr(engine, "supports_progress", False):
-                        result = engine.answer(req.question, language, progress=progress)
-                    else:
-                        result = engine.answer(req.question, language)
-                    resp = respond(result, language)
+                    resp = evaluate_query(req.question, req.language, graph, engine, progress=progress)
                     events.put({"type": "result", "response": resp.model_dump(mode="json"), "t": round(time.perf_counter() - t0, 2)})
                 except Exception as exc:  # never leave the client waiting
                     events.put({"type": "error", "reason": f"{type(exc).__name__}: {exc}", "t": round(time.perf_counter() - t0, 2)})
@@ -255,99 +245,6 @@ def create_app(
 
             return StreamingResponse(lines(), media_type="application/x-ndjson", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
-        def respond(result, language: str) -> QueryResponse:
-            citations: list[Citation] = []
-            warnings: list[str] = list(result.warnings)
-            vector_off = getattr(engine, "vector_warning", lambda: None)()
-            if vector_off:
-                warnings.append(vector_off)
-            kept: dict[int, int] = {}  # engine citation index -> response citation index
-            for i, raw in enumerate(result.citations):
-                meta = graph.get_meta(raw.doc_id)
-                if meta is None:
-                    warnings.append(f"Dropped citation to unknown document {raw.doc_id!r}.")
-                    continue
-                kept[i] = len(citations)
-                lineage = graph.status_of(raw.doc_id)
-                citations.append(
-                    Citation(
-                        doc_id=raw.doc_id,
-                        page=raw.page,
-                        quote=raw.quote,
-                        issue_date=meta.issue_date,
-                        bbox=raw.bbox,
-                        lineage=lineage,
-                    )
-                )
-                if lineage.status is LineageStatus.SUPERSEDED:
-                    warnings.append(
-                        f"{raw.doc_id} is superseded ({lineage.summary}); this passage may no longer apply."
-                    )
-                elif lineage.status is LineageStatus.AMENDED:
-                    warnings.append(
-                        f"{raw.doc_id} has been amended ({lineage.summary}); read the passage together with the amendment."
-                    )
-                elif lineage.status is LineageStatus.UNKNOWN:
-                    warnings.append(f"Current applicability of {raw.doc_id} cannot be established.")
-
-            # A cited GR that changes a GR we do not hold: say so. Refusing when every citation is only an amendment of a
-            # missing base is opt-in (GOV_BROKEN_CHAIN_REFUSES=1): the scorecard showed it refuses questions the amendment
-            # answers by itself (e.g. "from which date is this amendment in force?"), so by default we answer with the warning.
-            fragments: list[str] = []
-            reported_broken_warnings: set[str] = set()
-            for cit in citations:
-                broken = graph.broken_links(cit.doc_id)
-                for rel, ref in broken:
-                    warning = (f"BROKEN_CHAIN: {cit.doc_id} {rel.value} {ref}, which is not in the collection; "
-                               "the text it changes cannot be checked.")
-                    if warning not in reported_broken_warnings:
-                        warnings.append(warning)
-                        reported_broken_warnings.add(warning)
-                if any(rel is Relation.AMENDS for rel, _ in broken):
-                    fragments.append(cit.doc_id)
-            if (os.environ.get("GOV_BROKEN_CHAIN_REFUSES") == "1" and result.answer and citations
-                    and len(set(fragments)) == len({c.doc_id for c in citations})):
-                return QueryResponse(
-                    verdict=Verdict.INSUFFICIENT_EVIDENCE,
-                    reason="Every document found only amends a GR that is not in the collection, so the full rule "
-                           "cannot be established: " + ", ".join(sorted(set(fragments))) + ".",
-                    reason_code=ReasonCode.BROKEN_CHAIN,
-                    warnings=warnings,
-                    language=language,
-                )
-
-            warnings = list(dict.fromkeys(warnings))   # one citation per quote, one warning per fact
-            if not result.answer or not citations:
-                return QueryResponse(
-                    verdict=Verdict.INSUFFICIENT_EVIDENCE,
-                    reason=result.insufficient_reason
-                    or "The available documents do not support an answer.",
-                    reason_code=result.reason_code or ReasonCode.NO_DOCUMENT,
-                    warnings=warnings,
-                    language=language,
-                )
-            statements = [_remap_statement(st, kept) for st in result.statements]
-            answer = _strip_sentence_ids(result.answer)
-            # Lineage is decided by explicit references, never by the model: a statement denying an amendment that the graph
-            # records for a cited GR is removed, and the amending order is named instead.
-            changed = {c.doc_id: c.lineage for c in citations if c.lineage.status in (LineageStatus.AMENDED, LineageStatus.SUPERSEDED)}
-            if changed and statements:
-                denying = [st for st in statements if _DENIES_CHANGE.search(st.text)]
-                if denying and len(denying) < len(statements):
-                    statements = [st for st in statements if st not in denying]
-                    answer = " ".join(st.text for st in statements)
-                    for doc_id, lin in changed.items():
-                        warnings.append(f"A sentence saying no amendment was made was removed: {doc_id} has been "
-                                        f"{lin.status.value} ({lin.summary}). Read the amending order.")
-            return QueryResponse(
-                verdict=Verdict.ANSWERED,
-                answer=answer,
-                citations=citations,
-                warnings=warnings,
-                language=language,
-                statements=statements,
-            )
-
         if cfg is None and os.environ.get("SFIC_SEED") == "1" and not graph.list_documents():
             load_demo(graph)
             persist()
@@ -357,29 +254,6 @@ def create_app(
         app.mount("/", StaticFiles(directory=cfg.frontend_dir, html=True), name="ui")
 
     return app
-
-
-_SENTENCE_ID = re.compile(r"\s*[\[(]\s*S\d+(?:\s*,\s*S\d+)*\s*[\])]")
-# "No amendment has changed ...", "it has not been amended", "કોઈ સુધારો થયો નથી" (no amendment was made)
-_DENIES_CHANGE = re.compile(
-    r"\bno (?:later |subsequent )?(?:amendment|change|modification)s?\b(?! (?:to|in) the (?:\d|age|limit))"
-    r"|\b(?:has|have|was|were) not been (?:amended|modified|superseded|changed by)"
-    r"|\bnot (?:been )?amended\b"
-    r"|કોઈ\s+સુધારો\s+(?:થયો|કરવામાં\s+આવ્યો)\s+નથી|સુધારો\s+થયો\s+નથી", re.I)
-
-
-def _strip_sentence_ids(text: str | None) -> str | None:
-    """The model sometimes leaves evidence ids in its prose ("... (S1) ..."): they mean nothing to a reader."""
-    return _SENTENCE_ID.sub("", text).strip() if text else text
-
-
-def _remap_statement(st: Statement, kept: dict[int, int]) -> Statement:
-    """Point a statement at the citations that survived; an "established" one left with none is only inferred."""
-    cites = [kept[i] for i in st.citations if i in kept]
-    label = st.label
-    if label is StatementLabel.ESTABLISHED and not cites:
-        label = StatementLabel.INFERRED
-    return Statement(text=_strip_sentence_ids(st.text), label=label, citations=cites)
 
 
 app = create_app()

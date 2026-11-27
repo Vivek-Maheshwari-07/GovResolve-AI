@@ -59,8 +59,9 @@ class LLMProvider(abc.ABC):
 
 
 def is_set(value: Optional[str]) -> bool:
-    """A setting counts as set when it is non-empty and not one of the `your_...` placeholders from .env.example."""
-    return bool(value) and not str(value).strip().lower().startswith("your_")
+    """A setting counts as set when it is non-empty and not a placeholder (`your_...`, `nvapi-your_...`)."""
+    s = str(value or "").strip().lower()
+    return bool(s) and not s.startswith("your_") and "your_key_here" not in s and not s.startswith("nvapi-your_")
 
 
 def env_first(*names: str, default: str = "", allow_empty: bool = False) -> str:

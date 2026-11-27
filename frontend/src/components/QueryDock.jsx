@@ -5,6 +5,7 @@ import GujaratiKeyboard from './GujaratiKeyboard';
 import HistoryMenu from './HistoryMenu';
 import { speechRecognitionConstructor, recognitionLocale, appendTranscript } from '../lib/speechInput';
 import { useUiLanguage } from '../lib/i18n';
+import { useT } from '../lib/LanguageContext';
 
 const TEMPLATES = [
   { label: 'GR No. search', text: 'GR No. ' },
@@ -12,7 +13,7 @@ const TEMPLATES = [
   { label: 'Pay & allowances', text: 'Pay fixation: ' },
 ];
 
-export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal, hero = false, history = [], onOpenHistory, onClearHistory }) {
+export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal, hero = false, history = [], onOpenHistory, onClearHistory, onOpenChat }) {
   const { language: uiLanguage, t } = useUiLanguage();
   const [kb, setKb] = useState(false);
   const [dictationLanguage, setDictationLanguage] = useState(uiLanguage);
@@ -250,8 +251,24 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
               {t.label}
             </button>
           ))}
+          {onOpenChat && <ChatButton onClick={onOpenChat} />}
         </div>
       )}
     </div>
+  );
+}
+
+// opens the chat & helpline drawer (bilingual UX branch)
+function ChatButton({ onClick }) {
+  const tb = useT();
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-3.5 py-1 text-[12.5px] font-semibold text-[#4338CA] transition-all hover:bg-[#E0E7FF]"
+    >
+      <Mic className="h-3.5 w-3.5" />
+      <span>{tb('query.voice_assistant')}</span>
+    </button>
   );
 }

@@ -36,7 +36,8 @@ def from_legacy(raw: dict) -> dict:
     language = raw.get("language") if raw.get("language") in ("gu", "en", "mixed") else "mixed"
     return {
         "gr_id": raw["gr_id"], "gr_number": number, "department": raw.get("department"),
-        "issue_date": raw.get("issue_date"), "effective_date": raw.get("effective_date"), "subject": raw.get("subject"),
+        "issue_date": raw.get("issue_date"), "effective_date": raw.get("effective_date"),
+        "subject": raw.get("subject"), "subject_en": raw.get("subject_en"), "subject_gu": raw.get("subject_gu"),
         "language": language, "source_pdf": str(raw.get("file_path") or "").replace("\\", "/").rsplit("/", 1)[-1] or None,
         "page_count": len(pages) or max((c["page"] for c in new_chunks), default=1), "chunks": new_chunks,
         "field_confidence": confidence,

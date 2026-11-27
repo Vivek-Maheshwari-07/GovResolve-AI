@@ -6,6 +6,8 @@ import { STATUS, TONES } from '../lib/status';
 import { statusAsOf, issuedCount } from '../lib/lineage';
 import { displayQuote } from '../lib/quote';
 import { useUiLanguage } from '../lib/i18n';
+import { useLanguage } from '../lib/LanguageContext';
+import { pickSubject } from '../lib/bilingualStrings';
 
 // Evolution map: orders sit left (oldest) to right (newest). Every link is an arc drawn from the NEWER order to the OLDER
 // one it acts on, so the arrowhead lands on the order that was changed. Clicking a link opens the verbatim clause behind it.
@@ -29,6 +31,7 @@ const dayBefore = (iso) => {
 
 function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact = false }) {
   const { t } = useUiLanguage();
+  const { lang: uiLang } = useLanguage();
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
   const trackRef = useRef(null);
   const [edgeId, setEdgeId] = useState(null);
@@ -214,8 +217,8 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
                 </div>
                 <p className="mt-2 truncate font-mono text-[12.5px] font-bold text-[#1E293B]" title={c.gr_number}>{c.gr_number}</p>
                 <p className="font-mono text-[12.5px] text-[#64748B]">{c.date || 'Undated'}</p>
-                {c.subject && <p className="gu-text mt-0.5 line-clamp-2 text-[12.5px] leading-snug text-[#1E293B]">{c.subject}</p>}
-                {first && !c.subject && <p className="mt-1 truncate text-[12.5px] text-[#64748B]">{first.link_type} {first.to_gr_number}</p>}
+                {(c.subject || c.subject_gu || c.subject_en) && <p className="gu-text mt-0.5 line-clamp-2 text-[12.5px] leading-snug text-[#1E293B]">{pickSubject(c, uiLang)}</p>}
+                {first && !(c.subject || c.subject_gu || c.subject_en) && <p className="mt-1 truncate text-[12.5px] text-[#64748B]">{first.link_type} {first.to_gr_number}</p>}
                 {selected && <span className="mono-label absolute -top-2 right-3 rounded bg-[#4F46E5] px-1.5 py-0.5 text-[12.5px] font-bold text-white shadow-sm">{t('open')}</span>}
               </motion.button>
             );

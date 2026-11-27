@@ -243,6 +243,14 @@
     "aadesh": {
       "gu": "આદેશ",
       "en": "office order"
+    },
+    "yojana": {
+      "gu": "યોજના",
+      "en": "scheme yojana"
+    },
+    "yojna": {
+      "gu": "યોજના",
+      "en": "scheme yojana"
     }
   },
   "secretariat_terms": [
@@ -642,6 +650,21 @@
         "maramat",
         "વાહન",
         "ખરીદી"
+      ]
+    },
+    {
+      "key": "panchvati_yojana",
+      "canonical_gu": "પંચવટી યોજના ગ્રામીણ બાગ બગીચા વિકાસ",
+      "canonical_en": "Panchvati Yojana rural village garden scheme guidelines",
+      "synonyms": [
+        "panchvati",
+        "panchwati",
+        "panchvati yojana",
+        "panchwati yojna",
+        "panchvati yojna",
+        "panchwati yojana",
+        "પંચવટી",
+        "પંચવટી યોજના"
       ]
     }
   ]

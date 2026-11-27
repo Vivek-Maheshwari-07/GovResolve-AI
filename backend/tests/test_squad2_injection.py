@@ -254,6 +254,28 @@ def test_evidence_is_capped_and_the_system_prompt_is_the_same_for_every_language
     (sys_en, user_en), (sys_gu, user_gu) = seen
     assert sys_en == sys_gu  # same text for every question, so the server can reuse its processed form
     assert user_en.count("[S") <= 5 and "in English" in user_en and "in Gujarati" in user_gu
+    assert "મુખ્ય સદર" in user_gu and "મકાન બાંધકામ પેશગી" in user_gu
+
+
+def test_response_cache_preserves_verdict_when_switching_languages(monkeypatch):
+    calls = 0
+
+    def fake_gen(sp, up):
+        nonlocal calls
+        calls += 1
+        return ('{"statements": [{"explanation": "Leave is granted for 180 days.", "label": "Established", '
+                '"cited_sentence_ids": ["S1"]}], "answer_status": "Found, no later change"}', "fake")
+
+    monkeypatch.setattr(se, "execute_llm_generation", fake_gen)
+    monkeypatch.setattr(se, "translate_answer_text", lambda txt, tgt: "૧૮૦ દિવસની રજા મળવાપાત્ર છે." if tgt == "gu" else txt)
+    pipe = RAGPipeline(OneChunkIndex("The leave shall be admissible for a maximum period of 180 days."), [])
+    q = "What is the maximum casual leave period?"
+    r_en = pipe.answer(q, target_language="en")
+    r_gu = pipe.answer(q, target_language="gu")
+    assert calls == 1  # second call reused grounded verdict + citations instead of re-judging
+    assert r_en.answer_status == r_gu.answer_status
+    assert len(r_gu.citations) == len(r_en.citations) == 1
+    assert "૧૮૦" in r_gu.summary
 
 
 

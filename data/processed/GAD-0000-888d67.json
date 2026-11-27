@@ -4,7 +4,7 @@
   "department": "General Administration Department",
   "issue_date": "1969-03-13",
   "effective_date": null,
-  "subject": "Unknown Subject",
+  "subject": "“ગ: orders, in cases of Check. Memorandum for Disciplinary \"Government of Gujarat, ra ae er or © ટ અડ",
   "language": "en",
   "source_type": "scanned",
   "file_path": "C:\\Users\\HP\\Desktop\\GovResolve-AI\\data\\grs\\circulars\\1_3802_1_13_03_1969_240710_174500.pdf",
@@ -80,8 +80,8 @@
     {
       "chunk_id": "GAD-0000-888d67_p1_c000",
       "gr_id": "GAD-0000-888d67",
-      "text": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: } CpR~1069-356.c\nતારીખ: None",
-      "text_clean": "વિષય: Unknown Subject\nઠરાવ ક્રમાંક: } CpR~1069-356.c\nતારીખ: None",
+      "text": "વિષય / Subject: “ગ: orders, in cases of Check. Memorandum for Disciplinary \"Government of Gujarat, ra ae er or © ટ અડ\nવિભાગ / Department: General Administration Department\nઠરાવ ક્રમાંક / GR No.: } CpR~1069-356.c\nતારીખ / Date: 1969-03-13",
+      "text_clean": "વિષય / Subject: “ગ: orders, in cases of Check. Memorandum for Disciplinary \"Government of Gujarat, ra ae er or © ટ અડ\nવિભાગ / Department: General Administration Department\nઠરાવ ક્રમાંક / GR No.: } CpR~1069-356.c\nતારીખ / Date: 1969-03-13",
       "pages": [
         1
       ],
@@ -89,7 +89,7 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
+          "x1": 595.0,
           "y1": 200.0,
           "page": 1
         }
@@ -102,294 +102,140 @@
     {
       "chunk_id": "GAD-0000-888d67_p1_c001",
       "gr_id": "GAD-0000-888d67",
-      "text": "“ગ: orders, in cases of",
-      "text_clean": "“ગ: orders, in cases of",
+      "text": "“ગ: orders, in cases of\nteem re [97\nCheck. Memorandum for Disciplinary\nનજ, કકક... & ર\n\"Government of Gujarat, ra ae er or © ટ અડ\nGeneral Administration Department, pais\nCircular No} CpR~1069-356.c,",
+      "text_clean": "“ગ: orders, in cases of\nteem re [97\nCheck. Memorandum for Disciplinary\nનજ, કકક... & ર\n\"Government of Gujarat, ra ae er or © ટ અડ\nGeneral Administration Department, pais\nCircular No} CpR~1069-356.c,",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
           "page": 1
         }
       ],
       "chunk_type": "clause",
       "section_ref": null,
-      "ocr_confidence": null,
+      "ocr_confidence": 0.85,
       "clause_status": "Active"
     },
     {
       "chunk_id": "GAD-0000-888d67_p1_c002",
       "gr_id": "GAD-0000-888d67",
-      "text": "Check. Memorandum for Disciplinary નજ, કકક... & ર \"Government of Gujarat, ra ae er or © ટ અડ General Administration Department, pais Circular No} CpR~1069-356.c,",
-      "text_clean": "Check. Memorandum for Disciplinary નજ, કકક... & ર \"Government of Gujarat, ra ae er or © ટ અડ General Administration Department, pais Circular No} CpR~1069-356.c,",
+      "text": "‘Sachivalaya, Ahmefiabaded5, 13th March, 1969, fe\nOe ૬5.3. eer , .\nTo enable competent Authorities ‘to ensure that in\ndealing: with cases of departmental eriduiry no lacuna or\nirregularity should océ¢ur or escape notice er remain unsettlea@\nbefore final orders of’ punishments? particularly those *\ninvolving major punishment are passed it is considered\ncesirable‘to prescribe suitable check metiorandum.. Gévern=\nment as now pléaseg to prescribe.the enclosed check. memeran=\ndium and desires. that all competent -authérittes. should ર\n. invariably make use of it\" bé fere. approving and passing\n7 Departmental inquiries against\nGovernment Servants, thé compefent authorities are expected\n_to-record their’ answers against-@ach and every: item of the check\nmemorandum in each ang every case. ofthe de partmenta 1\nenquiry, iigate સ્મ\" હામ gy સ હ ;",
+      "text_clean": "‘Sachivalaya, Ahmefiabaded5, 13th March, 1969, fe\nOe 65.3. eer , .\nTo enable competent Authorities ‘to ensure that in\ndealing: with cases of departmental eriduiry no lacuna or\nirregularity should océ¢ur or escape notice er remain unsettlea@\nbefore final orders of’ punishments? particularly those *\ninvolving major punishment are passed it is considered\ncesirable‘to prescribe suitable check metiorandum.. Gévern=\nment as now pléaseg to prescribe.the enclosed check. memeran=\ndium and desires. that all competent -authérittes. should ર\n. invariably make use of it\" bé fere. approving and passing\n7 Departmental inquiries against\nGovernment Servants, thé compefent authorities are expected\n_to-record their’ answers against-@ach and every: item of the check\nmemorandum in each ang every case. ofthe de partmenta 1\nenquiry, iigate સ્મ\" હામ gy સ હ ;",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
           "page": 1
         }
       ],
       "chunk_type": "clause",
       "section_ref": null,
-      "ocr_confidence": null,
+      "ocr_confidence": 0.85,
       "clause_status": "Active"
     },
     {
       "chunk_id": "GAD-0000-888d67_p1_c003",
       "gr_id": "GAD-0000-888d67",
-      "text": "‘Sachivalaya, Ahmefiabaded5, 13th March, 1969, fe Oe ૬5.3. eer , .",
-      "text_clean": "‘Sachivalaya, Ahmefiabaded5, 13th March, 1969, fe Oe 65.3. eer , .",
+      "text": "BY order and in the name of the Governor of Gujarat,\nદ ક્ત... geo .\".\nUnder Secretary. to ‘the “Goves of qu jarat,\nGeneral Adminis tration Department?",
+      "text_clean": "BY order and in the name of the Governor of Gujarat,\nદ ક્ત... geo .\".\nUnder Secretary. to ‘the “Goves of qu jarat,\nGeneral Adminis tration Department?",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
           "page": 1
         }
       ],
       "chunk_type": "clause",
       "section_ref": null,
-      "ocr_confidence": null,
+      "ocr_confidence": 0.85,
       "clause_status": "Active"
     },
     {
       "chunk_id": "GAD-0000-888d67_p1_c004",
       "gr_id": "GAD-0000-888d67",
-      "text": "To enable competent Authorities ‘to ensure that in dealing: with cases of departmental eriduiry no lacuna or irregularity should océ¢ur or escape notice er remain unsettlea@ before final orders of’ punishments? particularly those * involving major punishment are passed it is considered cesirable‘to prescribe suitable check metiorandum.. Gévern= ment as now pléaseg to prescribe.the enclosed check. memeran= dium and desires. that all competent -authérittes. should ર . invariably make use of it\" bé fere. approving and passing 7 Departmental inquiries against Government Servants, thé compefent authorities are expected _to-record their’ answers against-@ach and every: item of the check memorandum in each ang every case. ofthe de partmenta 1 enquiry, iigate સ્મ\" હામ gy સ હ ;",
-      "text_clean": "To enable competent Authorities ‘to ensure that in dealing: with cases of departmental eriduiry no lacuna or irregularity should océ¢ur or escape notice er remain unsettlea@ before final orders of’ punishments? particularly those * involving major punishment are passed it is considered cesirable‘to prescribe suitable check metiorandum.. Gévern= ment as now pléaseg to prescribe.the enclosed check. memeran= dium and desires. that all competent -authérittes. should ર . invariably make use of it\" bé fere. approving and passing 7 Departmental inquiries against Government Servants, thé compefent authorities are expected _to-record their’ answers against-@ach and every: item of the check memorandum in each ang every case. ofthe de partmenta 1 enquiry, iigate સ્મ\" હામ gy સ હ ;",
+      "text": "i?\nક\nઇજ. ૯\na\nge “cCretary to the G6vernor, :\nThe Secretary to the Chief Minister, ..\nThe Registrar, High Court, Gujarat,’ Ahtte dabad;",
+      "text_clean": "i?\nક\nઇજ. 9\na\nge “cCretary to the G6vernor, :\nThe Secretary to the Chief Minister, ..\nThe Registrar, High Court, Gujarat,’ Ahtte dabad;",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
           "page": 1
         }
       ],
       "chunk_type": "clause",
       "section_ref": null,
-      "ocr_confidence": null,
+      "ocr_confidence": 0.85,
       "clause_status": "Active"
     },
     {
       "chunk_id": "GAD-0000-888d67_p1_c005",
       "gr_id": "GAD-0000-888d67",
-      "text": "BY order and in the name of the Governor of Gujarat,",
-      "text_clean": "BY order and in the name of the Governor of Gujarat,",
+      "text": "the Secretary, Gujarat Vigilance Commis sion, Ahmedabad. .\nThe Secretary, Gujarat Légis lature Secretariat, Ahmedabad, . ~\nThe Secretary, Gujarat Public. Service Commission, Ahmedabad. ”\nAll Secretariat Departments, (15' dépies)., tee",
+      "text_clean": "the Secretary, Gujarat Vigilance Commis sion, Ahmedabad. .\nThe Secretary, Gujarat Légis lature Secretariat, Ahmedabad, . ~\nThe Secretary, Gujarat Public. Service Commission, Ahmedabad. ”\nAll Secretariat Departments, (15' dépies)., tee",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
           "page": 1
         }
       ],
       "chunk_type": "clause",
       "section_ref": null,
-      "ocr_confidence": null,
+      "ocr_confidence": 0.85,
       "clause_status": "Active"
     },
     {
       "chunk_id": "GAD-0000-888d67_p1_c006",
       "gr_id": "GAD-0000-888d67",
-      "text": "દ ક્ત... geo .\". Under Secretary. to ‘the “Goves of qu jarat, General Adminis tration Department?",
-      "text_clean": "દ ક્ત... geo .\". Under Secretary. to ‘the “Goves of qu jarat, General Adminis tration Department?",
+      "text": "Ali Heads of Departments, and Heads: of Offices; |\nAll Special Officers for Departmental Enquiries, _ ક\nAll Branches in General Administration Department:\nSs\nSS",
+      "text_clean": "Ali Heads of Departments, and Heads: of Offices; |\nAll Special Officers for Departmental Enquiries, _ ક\nAll Branches in General Administration Department:\nSs\nSS",
       "pages": [
         1
       ],
       "bboxes": [
         {
           "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
           "page": 1
         }
       ],
       "chunk_type": "clause",
       "section_ref": null,
-      "ocr_confidence": null,
+      "ocr_confidence": 0.85,
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-888d67_p1_c007",
+      "chunk_id": "GAD-0000-888d67_p2_c007",
       "gr_id": "GAD-0000-888d67",
-      "text": "ge “cCretary to the G6vernor, :",
-      "text_clean": "ge “cCretary to the G6vernor, :",
-      "pages": [
-        1
-      ],
-      "bboxes": [
-        {
-          "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
-          "page": 1
-        }
-      ],
-      "chunk_type": "clause",
-      "section_ref": null,
-      "ocr_confidence": null,
-      "clause_status": "Active"
-    },
-    {
-      "chunk_id": "GAD-0000-888d67_p1_c008",
-      "gr_id": "GAD-0000-888d67",
-      "text": "The Secretary to the Chief Minister, ..",
-      "text_clean": "The Secretary to the Chief Minister, ..",
-      "pages": [
-        1
-      ],
-      "bboxes": [
-        {
-          "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
-          "page": 1
-        }
-      ],
-      "chunk_type": "clause",
-      "section_ref": null,
-      "ocr_confidence": null,
-      "clause_status": "Active"
-    },
-    {
-      "chunk_id": "GAD-0000-888d67_p1_c009",
-      "gr_id": "GAD-0000-888d67",
-      "text": "The Registrar, High Court, Gujarat,’ Ahtte dabad;",
-      "text_clean": "The Registrar, High Court, Gujarat,’ Ahtte dabad;",
-      "pages": [
-        1
-      ],
-      "bboxes": [
-        {
-          "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
-          "page": 1
-        }
-      ],
-      "chunk_type": "clause",
-      "section_ref": null,
-      "ocr_confidence": null,
-      "clause_status": "Active"
-    },
-    {
-      "chunk_id": "GAD-0000-888d67_p1_c010",
-      "gr_id": "GAD-0000-888d67",
-      "text": "the Secretary, Gujarat Vigilance Commis sion, Ahmedabad. .",
-      "text_clean": "the Secretary, Gujarat Vigilance Commis sion, Ahmedabad. .",
-      "pages": [
-        1
-      ],
-      "bboxes": [
-        {
-          "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
-          "page": 1
-        }
-      ],
-      "chunk_type": "clause",
-      "section_ref": null,
-      "ocr_confidence": null,
-      "clause_status": "Active"
-    },
-    {
-      "chunk_id": "GAD-0000-888d67_p1_c011",
-      "gr_id": "GAD-0000-888d67",
-      "text": "The Secretary, Gujarat Légis lature Secretariat, Ahmedabad, . ~ The Secretary, Gujarat Public. Service Commission, Ahmedabad. ” All Secretariat Departments, (15' dépies)., tee",
-      "text_clean": "The Secretary, Gujarat Légis lature Secretariat, Ahmedabad, . ~ The Secretary, Gujarat Public. Service Commission, Ahmedabad. ” All Secretariat Departments, (15' dépies)., tee",
-      "pages": [
-        1
-      ],
-      "bboxes": [
-        {
-          "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
-          "page": 1
-        }
-      ],
-      "chunk_type": "clause",
-      "section_ref": null,
-      "ocr_confidence": null,
-      "clause_status": "Active"
-    },
-    {
-      "chunk_id": "GAD-0000-888d67_p1_c012",
-      "gr_id": "GAD-0000-888d67",
-      "text": "Ali Heads of Departments, and Heads: of Offices; |",
-      "text_clean": "Ali Heads of Departments, and Heads: of Offices; |",
-      "pages": [
-        1
-      ],
-      "bboxes": [
-        {
-          "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
-          "page": 1
-        }
-      ],
-      "chunk_type": "clause",
-      "section_ref": null,
-      "ocr_confidence": null,
-      "clause_status": "Active"
-    },
-    {
-      "chunk_id": "GAD-0000-888d67_p1_c013",
-      "gr_id": "GAD-0000-888d67",
-      "text": "All Special Officers for Departmental Enquiries, _ ક All Branches in General Administration Department:",
-      "text_clean": "All Special Officers for Departmental Enquiries, _ ક All Branches in General Administration Department:",
-      "pages": [
-        1
-      ],
-      "bboxes": [
-        {
-          "x0": 0.0,
-          "y0": 200.0,
-          "x1": 500.0,
-          "y1": 600.0,
-          "page": 1
-        }
-      ],
-      "chunk_type": "clause",
-      "section_ref": null,
-      "ocr_confidence": null,
-      "clause_status": "Active"
-    },
-    {
-      "chunk_id": "GAD-0000-888d67_p2_c014",
-      "gr_id": "GAD-0000-888d67",
-      "text": "Lok.\n\n_ACuompaniment to Government ‘Circular,\n\necco agninistration\nDepartment No, @9R.1069-358-G, gated 13th March,\n\nCHECK MEMORANDUM FOR DISCIPLINARY CASES\n?\n(1) . Whether definite aria specific charges have been framed\n\n“In the case of charges relating to receipt of illegal gratifi-\n\ncation, the particulars of date, time and place cto the extent\n\nknown or established in the preliminary inquiry have been\nmentioned, ' ‘\n\n. (2) Whether the poe sheet is? adcompanied by a Statement\n\nof allegations and copies of evidence on which each charge is\n\nbased?\n\n(3) If. the ee officer does” not want an oral inquiry\nwhether such. an inquiry was directed by the authority concerned?\n\n(4) ° Whether evidence Hide been recorded at the oral inquiry\n\n_in the presence of the person charged?”\n\n(5) Whether the evidence recorded has been read over to\nthe person charged and his signature obtained in ‘token of the\nevidence having been correctly recorded.\n\n(હ) Whether the witnesses examined at ce: preliminary enquiry,\n\nif any, were recalled during theoral inqtidry to prove the charges?\n\n(7) nnetner the documeutary evidence including inspection\nreports, Statements by witness recorded by the Vigilance and\nAnti Corruption Departments, etc. relied upon both by prose-\ncution and defence, have been filed as exhibits and properly\nproved?\n\n(8) Whether the person charged was allowed to call witnesses\non his behalf, and to cross-examine the witnesses pease Lae by\nthe prosecution and to give evidence in person?\n\n(9) Was any witniss alakad for by the person charged,\nrefused to be allowed, and if’ so, was sufficient reason\nrecorded to that effect?: ‘\n\n(To) Did any contingency arise.where the request of the\naccused officer for furnishing certain records could not be\nSonceded or disclosed to him in public interest or for any\nother substantial and justifiable reason. If so, whether the\n\nfact/such refusal together with the reasons there for recorded\nin writing?\n\n(11) Was the person charged asked to put in, if he so desired,\n\nany further statement of his defence, after completion of the\naral inquiry? .\n\n(12) \" Was there any request fo be heard in person in additio\n\n- £0 the oral inquiry, and if so, was it complied with?\n\n(13) Dida the emquiring officer ask in writing the delinquent\nofficer usmeaiately after the emuiry is over whether the #\naccused efficer had a reasonable epportunity of presenting his\n\ncase? If there has been any complaint, was it set right by the\neee officer?\n\n~",
-      "text_clean": "Lok.\n\n_ACuompaniment to Government ‘Circular,\n\necco agninistration\nDepartment No, @9R.1069-358-G, gated 13th March,\n\nCHECK MEMORANDUM FOR DISCIPLINARY CASES\n?\n(1) . Whether definite aria specific charges have been framed\n\n“In the case of charges relating to receipt of illegal gratifi-\n\ncation, the particulars of date, time and place cto the extent\n\nknown or established in the preliminary inquiry have been\nmentioned, ' ‘\n\n. (2) Whether the poe sheet is? adcompanied by a Statement\n\nof allegations and copies of evidence on which each charge is\n\nbased?\n\n(3) If. the ee officer does” not want an oral inquiry\nwhether such. an inquiry was directed by the authority concerned?\n\n(4) ° Whether evidence Hide been recorded at the oral inquiry\n\n_in the presence of the person charged?”\n\n(5) Whether the evidence recorded has been read over to\nthe person charged and his signature obtained in ‘token of the\nevidence having been correctly recorded.\n\n(હ) Whether the witnesses examined at ce: preliminary enquiry,\n\nif any, were recalled during theoral inqtidry to prove the charges?\n\n(7) nnetner the documeutary evidence including inspection\nreports, Statements by witness recorded by the Vigilance and\nAnti Corruption Departments, etc. relied upon both by prose-\ncution and defence, have been filed as exhibits and properly\nproved?\n\n(8) Whether the person charged was allowed to call witnesses\non his behalf, and to cross-examine the witnesses pease Lae by\nthe prosecution and to give evidence in person?\n\n(9) Was any witniss alakad for by the person charged,\nrefused to be allowed, and if’ so, was sufficient reason\nrecorded to that effect?: ‘\n\n(To) Did any contingency arise.where the request of the\naccused officer for furnishing certain records could not be\nSonceded or disclosed to him in public interest or for any\nother substantial and justifiable reason. If so, whether the\n\nfact/such refusal together with the reasons there for recorded\nin writing?\n\n(11) Was the person charged asked to put in, if he so desired,\n\nany further statement of his defence, after completion of the\naral inquiry? .\n\n(12) \" Was there any request fo be heard in person in additio\n\n- £0 the oral inquiry, and if so, was it complied with?\n\n(13) Dida the emquiring officer ask in writing the delinquent\nofficer usmeaiately after the emuiry is over whether the #\naccused efficer had a reasonable epportunity of presenting his\n\ncase? If there has been any complaint, was it set right by the\neee officer?\n\n~",
+      "text": "Lok.\n_ACuompaniment to Government ‘Circular,\necco agninistration\nDepartment No, @9R.1069-358-G, gated 13th March,",
+      "text_clean": "Lok.\n_ACuompaniment to Government ‘Circular,\necco agninistration\nDepartment No, @9R.1069-358-G, gated 13th March,",
       "pages": [
         2
       ],
@@ -397,21 +243,329 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
           "page": 2
         }
       ],
       "chunk_type": "clause",
       "section_ref": null,
-      "ocr_confidence": null,
+      "ocr_confidence": 0.85,
       "clause_status": "Active"
     },
     {
-      "chunk_id": "GAD-0000-888d67_p3_c015",
+      "chunk_id": "GAD-0000-888d67_p2_c008",
       "gr_id": "GAD-0000-888d67",
-      "text": "2 ૧\nક ક\n\n(14) Does the proceedings of the oral enquiry contain’a\n\ni sufficient record of the evidence and a statement of the\nfinding and the grounds thereof? ‘ ર 4\n\n\" ૬15). રે the provisional conclusion arrived at by\n\nthe Guthority competént to impose the penalty was with refer~\n\nence te Article 311.°(1) of ‘the’ nstitution af India?\n\n(16)\n\nWhether the accused officer's past record was taken\ninto account in assessing the penalty proposed: to be imposed,\nand if so, xhether he\n\nwas informed that his previous record\nand penalitis imposed on his have been taken into account in\ndeciding the quantum of punishment and whether he was given an\nOpportunity to inspect the relevant records relating to the past\nService “if he so desired? ર\n(17) Was © copy of the report of the emuirying authority .in\ncase it was different that of the authority competent to impose\nthe penalty supplied along with the communication of provisional\nconclusionm ર \\\n\n(18) + Was a copy of the repert of the emuiring authority\nspplied along with\n\nthe communication of provisional conclusion, *\neven ‘in cases where the enquiring authority is the same\n\nas the authority competent to impose the penalty?\n(19) “Was the xepresentation to the: show cause notice care fully\nconsideree?\n\n7\n\n(20) Does the final order proposed to be issued Specify that _\nthe represeration to the show. cause notice has been c@refully\nconsidered? જ :\n\n(21) Ts the final order propesed to be issued self contained? \\\n(22) Has thé acknowledgement of the person been obtained\nin token of having received the copy of the final orders or\nsent by registered post' acknowledgement dle?\n\n+",
-      "text_clean": "2 1\nક ક\n\n(14) Does the proceedings of the oral enquiry contain’a\n\ni sufficient record of the evidence and a statement of the\nfinding and the grounds thereof? ‘ ર 4\n\n\" 615). રે the provisional conclusion arrived at by\n\nthe Guthority competént to impose the penalty was with refer~\n\nence te Article 311.°(1) of ‘the’ nstitution af India?\n\n(16)\n\nWhether the accused officer's past record was taken\ninto account in assessing the penalty proposed: to be imposed,\nand if so, xhether he\n\nwas informed that his previous record\nand penalitis imposed on his have been taken into account in\ndeciding the quantum of punishment and whether he was given an\nOpportunity to inspect the relevant records relating to the past\nService “if he so desired? ર\n(17) Was © copy of the report of the emuirying authority .in\ncase it was different that of the authority competent to impose\nthe penalty supplied along with the communication of provisional\nconclusionm ર \\\n\n(18) + Was a copy of the repert of the emuiring authority\nspplied along with\n\nthe communication of provisional conclusion, *\neven ‘in cases where the enquiring authority is the same\n\nas the authority competent to impose the penalty?\n(19) “Was the xepresentation to the: show cause notice care fully\nconsideree?\n\n7\n\n(20) Does the final order proposed to be issued Specify that _\nthe represeration to the show. cause notice has been c@refully\nconsidered? જ :\n\n(21) Ts the final order propesed to be issued self contained? \\\n(22) Has thé acknowledgement of the person been obtained\nin token of having received the copy of the final orders or\nsent by registered post' acknowledgement dle?\n\n+",
+      "text": "CHECK MEMORANDUM FOR DISCIPLINARY CASES\n?\n(1) . Whether definite aria specific charges have been framed",
+      "text_clean": "CHECK MEMORANDUM FOR DISCIPLINARY CASES\n?\n(1) . Whether definite aria specific charges have been framed",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c009",
+      "gr_id": "GAD-0000-888d67",
+      "text": "“In the case of charges relating to receipt of illegal gratifi-\ncation, the particulars of date, time and place cto the extent",
+      "text_clean": "“In the case of charges relating to receipt of illegal gratifi-\ncation, the particulars of date, time and place cto the extent",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c010",
+      "gr_id": "GAD-0000-888d67",
+      "text": "known or established in the preliminary inquiry have been\nmentioned, ' ‘\n. (2) Whether the poe sheet is? adcompanied by a Statement",
+      "text_clean": "known or established in the preliminary inquiry have been\nmentioned, ' ‘\n. (2) Whether the poe sheet is? adcompanied by a Statement",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c011",
+      "gr_id": "GAD-0000-888d67",
+      "text": "of allegations and copies of evidence on which each charge is\nbased?\n(3) If. the ee officer does” not want an oral inquiry\nwhether such. an inquiry was directed by the authority concerned?",
+      "text_clean": "of allegations and copies of evidence on which each charge is\nbased?\n(3) If. the ee officer does” not want an oral inquiry\nwhether such. an inquiry was directed by the authority concerned?",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c012",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(4) ° Whether evidence Hide been recorded at the oral inquiry\n_in the presence of the person charged?”",
+      "text_clean": "(4) ° Whether evidence Hide been recorded at the oral inquiry\n_in the presence of the person charged?”",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c013",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(5) Whether the evidence recorded has been read over to\nthe person charged and his signature obtained in ‘token of the\nevidence having been correctly recorded.",
+      "text_clean": "(5) Whether the evidence recorded has been read over to\nthe person charged and his signature obtained in ‘token of the\nevidence having been correctly recorded.",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c014",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(હ) Whether the witnesses examined at ce: preliminary enquiry,\nif any, were recalled during theoral inqtidry to prove the charges?",
+      "text_clean": "(હ) Whether the witnesses examined at ce: preliminary enquiry,\nif any, were recalled during theoral inqtidry to prove the charges?",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c015",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(7) nnetner the documeutary evidence including inspection\nreports, Statements by witness recorded by the Vigilance and\nAnti Corruption Departments, etc. relied upon both by prose-\ncution and defence, have been filed as exhibits and properly\nproved?",
+      "text_clean": "(7) nnetner the documeutary evidence including inspection\nreports, Statements by witness recorded by the Vigilance and\nAnti Corruption Departments, etc. relied upon both by prose-\ncution and defence, have been filed as exhibits and properly\nproved?",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c016",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(8) Whether the person charged was allowed to call witnesses\non his behalf, and to cross-examine the witnesses pease Lae by\nthe prosecution and to give evidence in person?",
+      "text_clean": "(8) Whether the person charged was allowed to call witnesses\non his behalf, and to cross-examine the witnesses pease Lae by\nthe prosecution and to give evidence in person?",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c017",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(9) Was any witniss alakad for by the person charged,\nrefused to be allowed, and if’ so, was sufficient reason\nrecorded to that effect?: ‘",
+      "text_clean": "(9) Was any witniss alakad for by the person charged,\nrefused to be allowed, and if’ so, was sufficient reason\nrecorded to that effect?: ‘",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c018",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(To) Did any contingency arise.where the request of the\naccused officer for furnishing certain records could not be\nSonceded or disclosed to him in public interest or for any\nother substantial and justifiable reason. If so, whether the",
+      "text_clean": "(To) Did any contingency arise.where the request of the\naccused officer for furnishing certain records could not be\nSonceded or disclosed to him in public interest or for any\nother substantial and justifiable reason. If so, whether the",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c019",
+      "gr_id": "GAD-0000-888d67",
+      "text": "fact/such refusal together with the reasons there for recorded\nin writing?\n(11) Was the person charged asked to put in, if he so desired,",
+      "text_clean": "fact/such refusal together with the reasons there for recorded\nin writing?\n(11) Was the person charged asked to put in, if he so desired,",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c020",
+      "gr_id": "GAD-0000-888d67",
+      "text": "any further statement of his defence, after completion of the\naral inquiry? .\n(12) \" Was there any request fo be heard in person in additio",
+      "text_clean": "any further statement of his defence, after completion of the\naral inquiry? .\n(12) \" Was there any request fo be heard in person in additio",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p2_c021",
+      "gr_id": "GAD-0000-888d67",
+      "text": "- £0 the oral inquiry, and if so, was it complied with?\n(13) Dida the emquiring officer ask in writing the delinquent\nofficer usmeaiately after the emuiry is over whether the #\naccused efficer had a reasonable epportunity of presenting his\ncase? If there has been any complaint, was it set right by the\neee officer?\n~",
+      "text_clean": "- £0 the oral inquiry, and if so, was it complied with?\n(13) Dida the emquiring officer ask in writing the delinquent\nofficer usmeaiately after the emuiry is over whether the #\naccused efficer had a reasonable epportunity of presenting his\ncase? If there has been any complaint, was it set right by the\neee officer?\n~",
+      "pages": [
+        2
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 2
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p3_c022",
+      "gr_id": "GAD-0000-888d67",
+      "text": "2 ૧\nક ક\n(14) Does the proceedings of the oral enquiry contain’a\ni sufficient record of the evidence and a statement of the\nfinding and the grounds thereof? ‘ ર 4",
+      "text_clean": "2 1\nક ક\n(14) Does the proceedings of the oral enquiry contain’a\ni sufficient record of the evidence and a statement of the\nfinding and the grounds thereof? ‘ ર 4",
       "pages": [
         3
       ],
@@ -419,14 +573,190 @@
         {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 500.0,
-          "y1": 700.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
           "page": 3
         }
       ],
       "chunk_type": "clause",
       "section_ref": null,
-      "ocr_confidence": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p3_c023",
+      "gr_id": "GAD-0000-888d67",
+      "text": "\" ૬15). રે the provisional conclusion arrived at by\nthe Guthority competént to impose the penalty was with refer~",
+      "text_clean": "\" 615). રે the provisional conclusion arrived at by\nthe Guthority competént to impose the penalty was with refer~",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p3_c024",
+      "gr_id": "GAD-0000-888d67",
+      "text": "ence te Article 311.°(1) of ‘the’ nstitution af India?\n(16)\nWhether the accused officer's past record was taken\ninto account in assessing the penalty proposed: to be imposed,\nand if so, xhether he",
+      "text_clean": "ence te Article 311.°(1) of ‘the’ nstitution af India?\n(16)\nWhether the accused officer's past record was taken\ninto account in assessing the penalty proposed: to be imposed,\nand if so, xhether he",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p3_c025",
+      "gr_id": "GAD-0000-888d67",
+      "text": "was informed that his previous record\nand penalitis imposed on his have been taken into account in\ndeciding the quantum of punishment and whether he was given an\nOpportunity to inspect the relevant records relating to the past\nService “if he so desired? ર",
+      "text_clean": "was informed that his previous record\nand penalitis imposed on his have been taken into account in\ndeciding the quantum of punishment and whether he was given an\nOpportunity to inspect the relevant records relating to the past\nService “if he so desired? ર",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p3_c026",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(17) Was © copy of the report of the emuirying authority .in\ncase it was different that of the authority competent to impose\nthe penalty supplied along with the communication of provisional\nconclusionm ર \\",
+      "text_clean": "(17) Was © copy of the report of the emuirying authority .in\ncase it was different that of the authority competent to impose\nthe penalty supplied along with the communication of provisional\nconclusionm ર \\",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p3_c027",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(18) + Was a copy of the repert of the emuiring authority\nspplied along with\nthe communication of provisional conclusion, *\neven ‘in cases where the enquiring authority is the same",
+      "text_clean": "(18) + Was a copy of the repert of the emuiring authority\nspplied along with\nthe communication of provisional conclusion, *\neven ‘in cases where the enquiring authority is the same",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p3_c028",
+      "gr_id": "GAD-0000-888d67",
+      "text": "as the authority competent to impose the penalty?\n(19) “Was the xepresentation to the: show cause notice care fully\nconsideree?",
+      "text_clean": "as the authority competent to impose the penalty?\n(19) “Was the xepresentation to the: show cause notice care fully\nconsideree?",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p3_c029",
+      "gr_id": "GAD-0000-888d67",
+      "text": "7\n(20) Does the final order proposed to be issued Specify that _\nthe represeration to the show. cause notice has been c@refully\nconsidered? જ :",
+      "text_clean": "7\n(20) Does the final order proposed to be issued Specify that _\nthe represeration to the show. cause notice has been c@refully\nconsidered? જ :",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
+      "clause_status": "Active"
+    },
+    {
+      "chunk_id": "GAD-0000-888d67_p3_c030",
+      "gr_id": "GAD-0000-888d67",
+      "text": "(21) Ts the final order propesed to be issued self contained? \\\n(22) Has thé acknowledgement of the person been obtained\nin token of having received the copy of the final orders or\nsent by registered post' acknowledgement dle?\n+",
+      "text_clean": "(21) Ts the final order propesed to be issued self contained? \\\n(22) Has thé acknowledgement of the person been obtained\nin token of having received the copy of the final orders or\nsent by registered post' acknowledgement dle?\n+",
+      "pages": [
+        3
+      ],
+      "bboxes": [
+        {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 595.2760009765625,
+          "y1": 841.8900146484375,
+          "page": 3
+        }
+      ],
+      "chunk_type": "clause",
+      "section_ref": null,
+      "ocr_confidence": 0.85,
       "clause_status": "Active"
     }
   ],
@@ -436,5 +766,7 @@
   "metadata_sources": {
     "issue_date": "file_name"
   },
-  "source_url": "https://gad.gujarat.gov.in/Personnel/Portal/Document/1_3802_1_13_03_1969_240710_174500.pdf"
+  "source_url": "https://gad.gujarat.gov.in/Personnel/Portal/Document/1_3802_1_13_03_1969_240710_174500.pdf",
+  "subject_en": "Prescribing Check Memorandum for Departmental Disciplinary Cases against Government Servants",
+  "subject_gu": "સરકારી કર્મચારીઓ વિરુદ્ધ વિભાગીય શિસ્તભંગના કેસો માટે ચેક મેમોરેન્ડમનું નિર્ધારણ"
 }

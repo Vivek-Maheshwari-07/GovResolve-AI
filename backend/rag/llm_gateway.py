@@ -152,6 +152,16 @@ def _load_translation_cache(path: Optional[str]) -> None:
         _TRANSLATIONS.update({k: v for k, v in data.items() if isinstance(v, str)})
         if isinstance(gu, dict):
             _TRANSLATIONS_GU.update({k: v for k, v in gu.items() if isinstance(v, str)})
+    legacy_gu = os.path.join(os.path.dirname(path), "translations_gu.json")  # separate Gujarati file of an earlier build
+    try:
+        with open(legacy_gu, encoding="utf-8") as f:
+            old_gu = json.load(f)
+        if isinstance(old_gu, dict):
+            for k, v in old_gu.items():
+                if isinstance(v, str):
+                    _TRANSLATIONS_GU.setdefault(k, v)
+    except (OSError, ValueError):
+        pass
 
 
 def _save_translation_cache(path: Optional[str]) -> None:
@@ -202,3 +212,77 @@ def translate_to_gujarati(question: str) -> Optional[str]:
     _remember(_TRANSLATIONS_GU, key, gujarati or "")
     _save_translation_cache(path)
     return gujarati
+
+
+GUJARAT_GOV_GLOSSARY = """Use authentic Gujarat Secretariat / Government Resolution Gujarati terminology (never word-for-word literal translations):
+- Major Head -> મુખ્ય સદર
+- Sub-head -> પેટા-સદર
+- Detailed Head -> વિગતવાર સદર
+- House Building Advance -> મકાન બાંધકામ પેશગી
+- Government Resolution -> સરકારી ઠરાવ
+- Circular -> પરિપત્ર
+- Notification -> જાહેરનામું
+- Amendment / Amended -> સુધારો / સુધારેલ
+- Superseded / In supersession of -> રદબાતલ / અવેજીમાં
+- Sanctioned / Approved -> મંજૂર થયેલ
+- All India Service Officers -> અખિલ ભારતીય સેવા અધિકારીઓ
+- Government Servants -> સરકારી કર્મચારીઓ
+- Recruitment Rules -> ભરતી નિયમો
+- Upper age limit relaxation -> ઉપલી વયમર્યાદામાં છૂટછાટ
+- Direct Selection / Recruitment -> સીધી ભરતી / પસંદગી
+- Departmental Examination -> ખાતાકીય પરીક્ષા
+- Maternity Leave / Casual Leave / Earned Leave -> પ્રસૂતિ રજા / પરચુરણ રજા / હક રજા
+- Finance Department -> નાણા વિભાગ
+- General Administration Department (GAD) -> સામાન્ય વહીવટ વિભાગ
+- Home Department -> ગૃહ વિભાગ"""
+
+TRANSLATE_ANSWER_TO_GU_SYSTEM = (
+    "You translate official Gujarat Government Resolution findings or passages from English into clear, natural, formal "
+    "administrative Gujarati (ગુજરાતી લિપિ). Preserve every GR number, date, amount, percentage, office name, and citation fact accurately.\n"
+    f"{GUJARAT_GOV_GLOSSARY}\n"
+    "Reply ONLY with natural Gujarati text, nothing else."
+)
+TRANSLATE_ANSWER_TO_EN_SYSTEM = (
+    "You translate official Gujarat Government Resolution findings or passages from Gujarati into clear, concise, formal English. "
+    "Preserve every GR number, date, amount, percentage, person/office name, and citation fact accurately. "
+    "Reply ONLY with the English translation text, nothing else."
+)
+_ANSWER_TRANSLATE_CACHE: dict[tuple[str, str], str] = {}
+
+
+def translate_answer_text(text: str, target_lang: str) -> Optional[str]:
+    """Translate a grounded answer statement, summary, or passage into 'gu' or 'en', preserving factual tokens."""
+    src = (text or "").strip()
+    if not src:
+        return None
+    lang = (target_lang or "").strip().lower()
+    if lang in ("gu", "gujarati"):
+        norm_lang = "gu"
+        sys_p = TRANSLATE_ANSWER_TO_GU_SYSTEM
+    elif lang in ("en", "english"):
+        norm_lang = "en"
+        sys_p = TRANSLATE_ANSWER_TO_EN_SYSTEM
+    else:
+        return None
+
+    ckey = (norm_lang, src)
+    with _TRANSLATION_LOCK:
+        cached = _ANSWER_TRANSLATE_CACHE.get(ckey)
+    if cached:
+        return cached
+
+    reply, provider = execute_llm_generation(sys_p, src[:2500], max_tokens=450, json_mode=False)
+    if provider == "fallback" or not reply:
+        return None
+    cleaned = re.sub(r"^(?:translation\s*[:\-]\s*)", "", reply.strip(), flags=re.I).strip().strip("\"'`")
+    if not cleaned:
+        return None
+    if norm_lang == "gu":
+        if sum("઀" <= ch <= "૿" for ch in cleaned) < 2:
+            return None
+    else:
+        if len(re.findall(r"[A-Za-z]", cleaned)) < 3:
+            return None
+    out = cleaned[:1800]
+    _remember(_ANSWER_TRANSLATE_CACHE, ckey, out)
+    return out

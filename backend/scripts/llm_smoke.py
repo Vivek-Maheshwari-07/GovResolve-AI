@@ -23,7 +23,7 @@ USER = "ping"
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--provider", choices=["ollama", "groq", "openai", "gemini"], help="check only this provider")
+    ap.add_argument("--provider", choices=["ollama", "groq", "nvidia", "openai", "gemini"], help="check only this provider")
     ap.add_argument("--no-ping", action="store_true", help="skip the one-word generation test")
     args = ap.parse_args(argv)
 
@@ -31,10 +31,12 @@ def main(argv: list[str] | None = None) -> int:
     from dotenv import load_dotenv
 
     load_dotenv(ROOT / ".env")
-    from backend.rag.providers import build_providers, selected_provider
+    from backend.rag.providers import CLASSES, build_providers, selected_provider
 
     first = selected_provider()
     chain = build_providers()
+    if args.provider and all(p.name != args.provider for p in chain):
+        chain = [CLASSES[args.provider]()]
     print(f"LLM_PROVIDER={first}   order tried: {' -> '.join(p.name for p in chain)}\n")
 
     results: list[tuple[str, bool]] = []

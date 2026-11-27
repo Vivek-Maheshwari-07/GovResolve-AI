@@ -77,3 +77,30 @@ class ChatCompletionsProvider(LLMProvider):
 
     def diagnose(self) -> Diagnosis:  # pragma: no cover - overridden
         return Diagnosis(self.is_configured(), "configured" if self.is_configured() else "not configured")
+
+
+def diagnose_models_endpoint(
+    *,
+    base_url: str,
+    headers: dict,
+    model: str,
+    configured: bool,
+    key_env: str,
+    model_env: str,
+    base_url_env: str,
+    key_hint: str,
+) -> Diagnosis:
+    """Shared reachability and model-availability check against OpenAI-style `/models` endpoints."""
+    if not configured:
+        return Diagnosis(False, f"{key_env} is not set", key_hint)
+    try:
+        data = request_json(f"{base_url}/models", headers=headers, timeout=10)
+    except HTTPFailure as e:
+        hint = {401: f"The key was rejected: check {key_env}.", 403: "Access refused: check the key and your region."}.get(
+            e.status, f"Check your network and {base_url_env}."
+        )
+        return Diagnosis(False, f"request failed: {e.status or 'network error'} {e.reason}", hint)
+    models = sorted(m.get("id", "") for m in data.get("data", []))
+    if model not in models:
+        return Diagnosis(False, f"key works, but model '{model}' is not available to it", f"Pick one from the list below and set {model_env}.", models)
+    return Diagnosis(True, f"key works, model '{model}' available", models=models)
