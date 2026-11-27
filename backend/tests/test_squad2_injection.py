@@ -328,8 +328,9 @@ def _it(text, chunk, rank=None, bonus=0.0):
 Q_AGE = {"age", "range", "direct", "selection", "post", "stenographer", "grade"}
 
 
-def test_the_sentence_that_answers_beats_letterhead_even_from_a_lower_ranked_chunk():
+def test_the_sentence_that_answers_beats_letterhead_even_from_a_lower_ranked_chunk(monkeypatch):
     from backend.rag.search_engine import select_sentences
+    monkeypatch.setattr(se, "TOP_K_RERANK", 3)  # pin it: the default (5) and a local .env value (3) must not change the outcome
     items = [_it("Appointment to the post of Stenographer, Grade III shall be made by direct selection.", 0),
              _it("Notification General Administration Department of the State Secretariat Gandhinagar.", 1),
              _it("(a) not be less than twenty years and more than forty years of age and of good standing:", 5)]
