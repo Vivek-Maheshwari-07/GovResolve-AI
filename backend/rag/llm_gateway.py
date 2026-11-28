@@ -74,6 +74,14 @@ TRANSLATE_GU_SYSTEM = (
     "Reply with the Gujarati translation in Gujarati script only: one concise search query, no quotes, no explanation. "
     "Keep numbers, dates, and GR identifiers intact. If the question is already pure Gujarati script, repeat it."
 )
+REWRITE_SYSTEM = (
+    "You help search Gujarat Government Resolutions: service rules, recruitment and age limits, leave and LTC, allowances, pay, pension, "
+    "training and departmental exams, Panchayat and rural development. An officer or a citizen asks a question in everyday words, in "
+    "English, Gujarati or Gujarati in Latin letters. Reply with 6 to 10 formal English search terms or short phrases, comma separated, "
+    "in the wording such resolutions and rules use (for example: family pension, death-cum-retirement gratuity, compassionate "
+    "appointment). Terms only: no sentence, no explanation, no answer, no invented GR numbers or dates."
+)
+_REWRITES: dict[str, str] = {}
 _TRANSLATIONS: dict[str, str] = {}
 _TRANSLATIONS_GU: dict[str, str] = {}
 _TRANSLATION_LOCK = threading.Lock()
@@ -135,6 +143,46 @@ def translate_to_english(question: str) -> Optional[str]:
     return english
 
 
+def _clean_rewrite(reply: str) -> Optional[str]:
+    """The model's reply as one line of comma-separated English search terms, or None if it is empty, not English or not terms."""
+    reply = (reply or "").strip()
+    if reply.startswith("{"):
+        try:
+            values = [v for v in json.loads(reply).values() if isinstance(v, str)]
+        except (ValueError, AttributeError):
+            values = []
+        reply = values[0] if values else ""
+    lines = [ln.strip() for ln in reply.splitlines() if ln.strip()]
+    if not lines:
+        return None
+    text = re.sub(r"^(?:search\s+terms|terms|keywords)\s*[:\-]\s*", "", " ".join(lines), flags=re.I).strip().strip("\"'`“”‘’ ")
+    latin = len(re.findall(r"[A-Za-z]", text))
+    gujarati = len(re.findall(r"[઀-૿]", text))
+    if latin < 6 or gujarati > latin // 2 or len(text) > 400:
+        return None
+    return text[:240]
+
+
+def rewrite_for_search(question: str) -> Optional[str]:
+    """One short model call that turns an everyday question into the formal terms the resolutions use, so search can find a resolution
+    whose words the question does not share. The terms are only ever added to the search, never shown as an answer. None when no model
+    answers or the reply is unusable. Remembered in memory and in the translation cache file."""
+    path = _translation_cache_path()
+    _load_translation_cache(path)
+    key = question.strip()
+    if not key:
+        return None
+    if key in _REWRITES:
+        return _REWRITES[key] or None
+    reply, provider = execute_llm_generation(REWRITE_SYSTEM, key, max_tokens=90, json_mode=False)
+    if provider == "fallback":
+        return None
+    terms = _clean_rewrite(reply)
+    _remember(_REWRITES, key, terms or "")
+    _save_translation_cache(path)
+    return terms
+
+
 def _load_translation_cache(path: Optional[str]) -> None:
     """Read the saved translations once. English renderings sit at the top level of the file (the original format), Gujarati ones
     under the key "__gu__", so a file written by an older build still loads."""
@@ -149,6 +197,9 @@ def _load_translation_cache(path: Optional[str]) -> None:
         return
     if isinstance(data, dict):
         gu = data.pop("__gu__", None)
+        rw = data.pop("__rw__", None)
+        if isinstance(rw, dict):
+            _REWRITES.update({k: v for k, v in rw.items() if isinstance(v, str)})
         _TRANSLATIONS.update({k: v for k, v in data.items() if isinstance(v, str)})
         if isinstance(gu, dict):
             _TRANSLATIONS_GU.update({k: v for k, v in gu.items() if isinstance(v, str)})
@@ -172,7 +223,7 @@ def _save_translation_cache(path: Optional[str]) -> None:
         tmp = f"{path}.{threading.get_ident()}.tmp"
         with _TRANSLATION_LOCK:
             with open(tmp, "w", encoding="utf-8") as f:
-                json.dump({**_TRANSLATIONS, "__gu__": dict(_TRANSLATIONS_GU)}, f, ensure_ascii=False, indent=0)
+                json.dump({**_TRANSLATIONS, "__gu__": dict(_TRANSLATIONS_GU), "__rw__": dict(_REWRITES)}, f, ensure_ascii=False, indent=0)
             os.replace(tmp, path)   # atomic: a crash never leaves a half-written cache
     except OSError:
         pass

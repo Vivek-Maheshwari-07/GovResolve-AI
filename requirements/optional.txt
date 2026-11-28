@@ -2,3 +2,4 @@
 
 google-genai>=1.0                 # LLM_PROVIDER=gemini
 sentence-transformers>=3.0        # EMBEDDING_MODEL=<huggingface name>, e.g. BAAI/bge-m3, instead of ollama:bge-m3
+edge-tts>=7.0                      # spoken chat replies in Gujarati and English (POST /voice/speak); TTS_PROVIDER=off disables

@@ -4,6 +4,7 @@ import { CornerDownLeft, X, Keyboard, Loader2, Mic, MicOff } from 'lucide-react'
 import GujaratiKeyboard from './GujaratiKeyboard';
 import HistoryMenu from './HistoryMenu';
 import { speechRecognitionConstructor, recognitionLocale, appendTranscript } from '../lib/speechInput';
+import { createSpeechSession } from '../lib/speechSession';
 import { useUiLanguage } from '../lib/i18n';
 import { useT } from '../lib/LanguageContext';
 
@@ -13,6 +14,9 @@ const TEMPLATES = [
   { label: 'Pay & allowances', text: 'Pay fixation: ' },
 ];
 
+// the last question asked from any dock, so a new dictation replaces it instead of being glued to it
+const lastAskedQuestion = { current: '' };
+
 export default function QueryDock({ value, onChange, onSubmit, loading, compact, focusSignal, hero = false, history = [], onOpenHistory, onClearHistory, onOpenChat }) {
   const { language: uiLanguage, t } = useUiLanguage();
   const [kb, setKb] = useState(false);
@@ -21,9 +25,15 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
   const [dictationError, setDictationError] = useState('');
   const ref = useRef(null);
   const recognitionRef = useRef(null);
+  // latest values for the speech callbacks, which outlive the render that created them
+  const live = useRef({});
+  const lastAsked = lastAskedQuestion; // shared: the landing and the compact dock are different components
+  live.current = { value, loading, onSubmit, onChange };
 
   useEffect(() => {
-    recognitionRef.current?.stop();
+    recognitionRef.current?.abort(); // the language changed under it: drop this dictation
+    recognitionRef.current = null;
+    setListening(false);
     setDictationLanguage(uiLanguage);
   }, [uiLanguage]);
 
@@ -32,7 +42,10 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
   }, [focusSignal]);
 
   const submit = () => {
-    if (value.trim() && !loading) onSubmit(value.trim());
+    if (value.trim() && !loading) {
+      lastAsked.current = value.trim();
+      onSubmit(value.trim());
+    }
   };
   const clear = () => {
     onChange('');
@@ -51,39 +64,36 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
       return;
     }
 
-    const recognition = new Recognition();
-    recognition.lang = recognitionLocale(dictationLanguage);
-    recognition.continuous = true;
-    recognition.interimResults = false;
-    recognitionRef.current = recognition;
+    // keeps listening through short pauses; ends after a silence that fits what was said (lib/speechSession.js)
+    const base = !!lastAsked.current && live.current.value.trim() === lastAsked.current ? '' : live.current.value; // a new dictation replaces the question just asked
     setDictationError('');
-    recognition.onresult = (event) => {
-      const transcript = Array.from(event.results)
-        .slice(event.resultIndex)
-        .filter((result) => result.isFinal)
-        .map((result) => result[0]?.transcript?.trim())
-        .filter(Boolean)
-        .join(' ');
-      if (transcript) {
-        onChange((current) => appendTranscript(current, transcript));
-      }
-    };
-    recognition.onerror = (event) => {
-      if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
-        setDictationError(t('speechPermission'));
-      } else if (event.error === 'no-speech') {
-        setDictationError(t('speechNoResult'));
-      } else if (event.error !== 'aborted') {
-        setDictationError(t('speechFailed'));
-      }
-    };
-    recognition.onend = () => {
-      recognitionRef.current = null;
-      setListening(false);
-    };
-
+    const session = createSpeechSession({
+      Recognition,
+      lang: recognitionLocale(dictationLanguage),
+      onInterim: (text) => live.current.onChange(appendTranscript(base, text)),
+      onError: (code) => {
+        if (code === 'not-allowed' || code === 'service-not-allowed') setDictationError(t('speechPermission'));
+        else setDictationError(t('speechFailed'));
+      },
+      onEnd: ({ text, reason }) => {
+        recognitionRef.current = null;
+        setListening(false);
+        const heard = text.trim();
+        if (!heard) {
+          if (reason === 'nospeech') setDictationError(t('speechNoResult'));
+          return;
+        }
+        const question = appendTranscript(base, heard).trim();
+        live.current.onChange(question);
+        if (reason !== 'error' && question && !live.current.loading) {
+          lastAsked.current = question; // ask straight away with what was heard
+          live.current.onSubmit(question);
+        }
+      },
+    });
+    recognitionRef.current = session;
     try {
-      recognition.start();
+      session.start();
       setListening(true);
     } catch (error) {
       recognitionRef.current = null;
@@ -92,15 +102,7 @@ export default function QueryDock({ value, onChange, onSubmit, loading, compact,
     }
   };
 
-  useEffect(() => () => {
-    const recognition = recognitionRef.current;
-    if (recognition) {
-      recognition.onresult = null;
-      recognition.onerror = null;
-      recognition.onend = null;
-      recognition.abort();
-    }
-  }, []);
+  useEffect(() => () => recognitionRef.current?.abort(), []);
 
   return (
     <div className="space-y-3 print:hidden" data-tour="ask">

@@ -17,34 +17,20 @@ from concurrent.futures import ProcessPoolExecutor
 from datetime import date
 from pathlib import Path
 
-import pymupdf
-import pytesseract
-from PIL import Image
-
 from scripts.pdf_to_gr_json import convert
 
 
 def _ocr_reader(lang: str, dpi: int, confs: list[float]):
-    zoom = dpi / 72
+    """Page reader for `convert`. `lang` is a Tesseract language string, or "auto" to choose Gujarati or Gujarati+English per page."""
+    try:
+        from backend.ingestion import ocr
+    except ImportError:   # run from backend/ (python -m scripts.…): the package is `ingestion`
+        from ingestion import ocr
 
     def read(page):
-        pix = page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom), colorspace=pymupdf.csGRAY)
-        img = Image.frombytes("L", (pix.width, pix.height), pix.samples)
-        data = pytesseract.image_to_data(img, lang=lang, config="--psm 6", output_type=pytesseract.Output.DICT)
-        paras: dict[tuple, dict] = {}
-        for i, word in enumerate(data["text"]):
-            word = word.strip()
-            conf = float(data["conf"][i])
-            if not word or conf < 0:
-                continue
-            confs.append(conf)
-            key = (data["block_num"][i], data["par_num"][i])
-            x0, y0 = data["left"][i] / zoom, data["top"][i] / zoom
-            x1, y1 = x0 + data["width"][i] / zoom, y0 + data["height"][i] / zoom
-            p = paras.setdefault(key, {"words": [], "bb": [x0, y0, x1, y1]})
-            p["words"].append(word)
-            p["bb"] = [min(p["bb"][0], x0), min(p["bb"][1], y0), max(p["bb"][2], x1), max(p["bb"][3], y1)]
-        return [(" ".join(p["words"]), tuple(p["bb"])) for p in paras.values() if len(" ".join(p["words"])) >= 15]
+        result = ocr.ocr_pdf_page(page, dpi=dpi, lang=None if lang == "auto" else lang)
+        confs.extend(result.word_confidences)
+        return [(p.text, p.bbox) for p in result.paragraphs]
     return read
 
 
@@ -87,7 +73,7 @@ def main() -> int:
     ap.add_argument("--families", type=Path, required=True)
     ap.add_argument("--pdf-root", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
-    ap.add_argument("--lang", default="eng")
+    ap.add_argument("--lang", default="auto", help='Tesseract language, or "auto" (default): Gujarati or Gujarati+English per page')
     ap.add_argument("--dpi", type=int, default=300)
     ap.add_argument("--workers", type=int, default=6)
     args = ap.parse_args()

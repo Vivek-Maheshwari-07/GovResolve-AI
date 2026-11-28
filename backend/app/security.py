@@ -4,6 +4,7 @@
 - `GOV_ADMIN_TOKEN`: when set, `/admin/*`, `/logs`, `/api/upload` and every write to `/documents` need the header `X-Admin-Token`.
   When it is empty (local development) those calls are accepted from this machine only (loopback); remote clients get 403.
   These calls change the graph, rebuild data or expose the query log; a shared demo must set the token.
+- The admin page (`GET /admin`) is public HTML; 5 wrong tokens from one address in a minute are answered 429 for the rest of that minute.
 - `GOV_QUERY_RATE_PER_MIN` (default 120, 0 = off): questions (`POST /query`, `/api/query`, `/ask`) per client address per minute. Each question can cost a model call.
 - `GOV_TRUST_PROXY=1`: take the client address from the first `X-Forwarded-For` entry. Set it only behind a reverse proxy you control.
 """
@@ -19,13 +20,15 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-_QUESTION_PATHS = {"/query", "/api/query", "/query/stream", "/ask", "/translate", "/voice/transcribe"}
+_QUESTION_PATHS = {"/query", "/api/query", "/query/stream", "/ask", "/translate", "/voice/transcribe", "/voice/speak", "/explain"}
 _VOICE_CALL_PATHS = {"/voice/query", "/voice/webhook"}
 _LOOPBACK = {"127.0.0.1", "::1", "localhost", "testclient"}   # "testclient" is Starlette's TestClient
 
 
 def _is_admin_call(request: Request) -> bool:
     path, method = request.url.path, request.method
+    if method == "GET" and path.rstrip("/") == "/admin":
+        return False   # the admin PAGE (login form) is public HTML with no data; every admin API call behind it still needs the token
     return (
         path.startswith(("/admin", "/logs", "/api/upload", "/voice/calls", "/voice/monitor"))
         or (path.startswith("/documents") and method in ("POST", "PUT", "PATCH", "DELETE"))
@@ -40,7 +43,21 @@ class HardeningMiddleware(BaseHTTPMiddleware):
         self.rate = int(os.environ.get("GOV_QUERY_RATE_PER_MIN", "120")) if rate_per_min is None else rate_per_min
         self.trust_proxy = os.environ.get("GOV_TRUST_PROXY", "0") == "1"
         self._hits: dict[str, deque] = defaultdict(deque)
+        self._bad_tokens: dict[str, deque] = defaultdict(deque)   # wrong admin tokens per client, to slow down password guessing
         self._lock = threading.Lock()
+
+    def _too_many_bad_tokens(self, client: str, add: bool = False) -> bool:
+        """5 wrong admin tokens from one address within a minute lock that address out of admin calls for the rest of the minute."""
+        now = time.monotonic()
+        with self._lock:
+            q = self._bad_tokens[client]
+            while q and now - q[0] > 60:
+                q.popleft()
+            if add:
+                q.append(now)
+            if not q:
+                self._bad_tokens.pop(client, None)
+            return len(q) >= 5
 
     def _too_many(self, client: str) -> bool:
         now = time.monotonic()
@@ -66,8 +83,12 @@ class HardeningMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         if _is_admin_call(request):
             if self.admin_token:
+                if self._too_many_bad_tokens(self._client(request)):
+                    msg = "Too many wrong passwords; wait a minute and try again"
+                    return JSONResponse({"error": msg, "reason": msg}, status_code=429, headers={"Retry-After": "60"})
                 given = request.headers.get("x-admin-token", "")
                 if not hmac.compare_digest(given.encode(), self.admin_token.encode()):
+                    self._too_many_bad_tokens(self._client(request), add=True)
                     msg = "Admin token required"
                     return JSONResponse({"error": msg, "reason": msg}, status_code=401)
             elif self._client(request) not in _LOOPBACK:

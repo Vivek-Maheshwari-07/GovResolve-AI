@@ -15,15 +15,13 @@ Pipeline stages:
 from __future__ import annotations
 
 import hashlib
-import os
 import re
-import shutil
 import sys
 from pathlib import Path
 from typing import Optional
 
 import pymupdf as fitz       # PyMuPDF (modern import)
-from PIL import Image, ImageFilter, ImageOps
+from PIL import Image
 from loguru import logger
 
 # Add parent to path
@@ -42,34 +40,11 @@ from backend.ingestion.metadata import (
     has_garbled_font_stream,
 )
 
-try:
-    import pytesseract
-    TESSERACT_AVAILABLE = True
+from backend.ingestion import ocr as _ocr
 
-    # Auto-detect Tesseract binary on Windows and standard paths
-    candidates = [
-        os.getenv("TESSERACT_CMD", ""),
-        r"C:\Program Files\Tesseract-OCR\tesseract.exe",
-        r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
-        shutil.which("tesseract") or "",
-    ]
-    for c in candidates:
-        if c and Path(c).is_file():
-            pytesseract.pytesseract.tesseract_cmd = c
-            logger.info(f"Using Tesseract OCR at: {c}")
-            break
-
-    # Setup local or custom tessdata prefix
-    local_tessdata = Path(__file__).parent.parent.parent / "data" / "tessdata"
-    if local_tessdata.exists() and "TESSDATA_PREFIX" not in os.environ:
-        os.environ["TESSDATA_PREFIX"] = str(local_tessdata.resolve())
-        logger.info(f"Using TESSDATA_PREFIX: {local_tessdata.resolve()}")
-except ImportError:
-    TESSERACT_AVAILABLE = False
-    logger.warning("pytesseract not installed — scanned pages will have empty text.")
+TESSERACT_AVAILABLE = _ocr.PYTESSERACT and _ocr.configure()
 
 # ── Config ────────────────────────────────────
-TESSERACT_LANG = "guj+eng"         # Gujarati + English
 DIGITAL_TEXT_THRESHOLD = 50        # chars per page → digital if above
 
 # Gujarati digit map
@@ -167,103 +142,39 @@ def detect_page_type(page: fitz.Page) -> SourceType:
     return SourceType.DIGITAL
 
 
-def preprocess_image(img: Image.Image) -> Image.Image:
-    """Denoise + auto-contrast + convert to grayscale for better OCR."""
-    img = img.convert("L")
-    img = ImageOps.autocontrast(img)
-    img = img.filter(ImageFilter.MedianFilter(size=3))
-    return img
-
-
 def ocr_image(img: Image.Image) -> tuple[str, float]:
-    """Run Tesseract, return (text, confidence 0-1)."""
+    """OCR one image: (text, mean word confidence 0-1). The language is chosen per page (see ingestion/ocr.py)."""
     if not TESSERACT_AVAILABLE:
         return "", 0.0
     try:
-        lang = TESSERACT_LANG
-        try:
-            avail = pytesseract.get_languages()
-            if "guj" not in avail and "eng" in avail:
-                lang = "eng"
-        except Exception:
-            pass
-
-        data = pytesseract.image_to_data(
-            img, lang=lang, output_type=pytesseract.Output.DICT
-        )
-        texts, confs = [], []
-        for i, word in enumerate(data.get("text", [])):
-            c = float(data.get("conf", [0])[i])
-            if c > 0 and word.strip():
-                texts.append(word)
-                confs.append(c / 100.0)
-        confidence = sum(confs) / len(confs) if confs else 0.0
-        return " ".join(texts), confidence
+        page = _ocr.ocr_image(img.convert("L"), dpi=_ocr.DEFAULT_DPI)
+        return page.text, page.confidence
     except Exception as e:
         logger.warning(f"OCR failed for image: {e}")
         return "", 0.0
 
 
 def ocr_page(fitz_page: fitz.Page, page_number: int) -> tuple[str, float, list[TextBlock]]:
-    """OCR a fitz page; return (full_text, confidence, blocks)."""
-    zoom = 2.0
-    mat = fitz.Matrix(zoom, zoom)          # 2x scale for better OCR
-    pix = fitz_page.get_pixmap(matrix=mat)
-    img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-    img = preprocess_image(img)
-
+    """OCR a fitz page at 300 DPI; return (full_text, confidence, blocks)."""
     if not TESSERACT_AVAILABLE:
         return "", 0.0, []
-
-    lang = TESSERACT_LANG
     try:
-        avail = pytesseract.get_languages()
-        if "guj" not in avail and "eng" in avail:
-            lang = "eng"
-    except Exception:
-        pass
-
-    try:
-        data = pytesseract.image_to_data(img, lang=lang, output_type=pytesseract.Output.DICT)
+        page = _ocr.ocr_pdf_page(fitz_page)
     except Exception as e:
-        logger.warning(f"OCR failed for image: {e}")
+        logger.warning(f"OCR failed for page {page_number}: {e}")
         return "", 0.0, []
 
-    paras: dict[tuple[int, int], dict] = {}
-    confs: list[float] = []
-    for i, word in enumerate(data.get("text", [])):
-        word = word.strip()
-        c = float(data.get("conf", [0])[i])
-        if not word or c < 0:
-            continue
-        confs.append(c / 100.0)
-        key = (data["block_num"][i], data["par_num"][i])
-        x0, y0 = data["left"][i] / zoom, data["top"][i] / zoom
-        x1, y1 = x0 + data["width"][i] / zoom, y0 + data["height"][i] / zoom
-        p = paras.setdefault(key, {"words": [], "bb": [x0, y0, x1, y1], "confs": []})
-        p["words"].append(word)
-        p["confs"].append(c / 100.0)
-        p["bb"] = [min(p["bb"][0], x0), min(p["bb"][1], y0), max(p["bb"][2], x1), max(p["bb"][3], y1)]
-
     blocks: list[TextBlock] = []
-    full_text_parts: list[str] = []
-    for key, p in paras.items():
-        para_text = " ".join(p["words"]).strip()
-        if len(para_text) < 10:
-            continue
-        full_text_parts.append(para_text)
-        para_conf = sum(p["confs"]) / len(p["confs"]) if p["confs"] else 0.0
+    for para in page.paragraphs:
+        x0, y0, x1, y1 = para.bbox
         blocks.append(TextBlock(
             block_id=f"p{page_number}_b{len(blocks)}",
-            text=para_text,
-            text_clean=normalise_gujarati_digits(para_text),
-            bbox=BoundingBox(x0=p["bb"][0], y0=p["bb"][1], x1=p["bb"][2], y1=p["bb"][3], page=page_number),
-            ocr_confidence=para_conf,
+            text=para.text,
+            text_clean=normalise_gujarati_digits(para.text),
+            bbox=BoundingBox(x0=x0, y0=y0, x1=x1, y1=y1, page=page_number),
+            ocr_confidence=para.confidence,
         ))
-
-    overall_conf = sum(confs) / len(confs) if confs else 0.0
-    full_text = "\n".join(full_text_parts)
-    return full_text, overall_conf, blocks
+    return page.text, page.confidence, blocks
 
 
 def extract_digital_page(fitz_page: fitz.Page, page_number: int) -> tuple[str, list[TextBlock]]:

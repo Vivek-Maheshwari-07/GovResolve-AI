@@ -3,16 +3,17 @@ import { motion } from 'framer-motion';
 import Seal from '../../components/Seal';
 import { STATUS, TONES } from '../../lib/status';
 import { useUiLanguage } from '../../lib/i18n';
+import { spotlightMove } from './Motion';
 
 export const rise = {
   hidden: { opacity: 0, y: 22 },
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 170, damping: 24 } },
 };
 
-export function Reveal({ children, className = '', delay = 0, as = 'div' }) {
+export function Reveal({ children, className = '', delay = 0, as = 'div', ...rest }) {
   const Tag = motion[as];
   return (
-    <Tag className={className} variants={rise} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-12% 0px' }} transition={{ delay }}>
+    <Tag className={className} variants={rise} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-12% 0px' }} transition={{ delay }} {...rest}>
       {children}
     </Tag>
   );
@@ -115,7 +116,15 @@ export function HowItWorks() {
   return (
     <div className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
       {STEPS.map((s, i) => (
-        <Reveal key={s.n} delay={i * 0.07} className="flex flex-col border-t-2 border-ink pt-4">
+        <Reveal key={s.n} delay={i * 0.07} className="relative flex flex-col border-t-2 border-stone pt-4">
+          <motion.span
+            aria-hidden
+            className="absolute -top-[2px] left-0 h-[2px] w-full origin-left bg-ink"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, margin: '-12% 0px' }}
+            transition={{ duration: 0.9, delay: 0.25 + i * 0.18, ease: [0.22, 1, 0.36, 1] }}
+          />
           <span className="display text-[38px] font-bold italic leading-none text-iris-600">{s.n}</span>
           <h3 className="display mt-3 text-[16.5px] font-bold leading-snug text-ink">{t(s.titleKey)}</h3>
           <p className="mt-2 text-[13px] leading-relaxed text-mist">{t(s.bodyKey)}</p>
@@ -201,7 +210,7 @@ export function ForWhom() {
   return (
     <div className="mt-10 grid gap-5 md:grid-cols-3">
       {WHO.map(([whoKey, whatKey, questionKey, lang], i) => (
-        <Reveal key={whoKey} delay={i * 0.08} className="sheet flex flex-col p-5">
+        <Reveal key={whoKey} delay={i * 0.08} className="spotlight sheet-hover sheet flex flex-col p-5" onPointerMove={spotlightMove}>
           <p className="eyebrow">{t(whoKey)}</p>
           <p className="display mt-1 text-[15px] font-bold text-ink">{t(whatKey)}</p>
           <blockquote className={`mt-4 flex-1 border-l-[3px] border-gold-400 pl-3 text-[14px] leading-relaxed text-ink ${lang === 'gu' ? 'gu-text' : 'legal-text'}`}>“{t(questionKey)}”</blockquote>

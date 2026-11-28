@@ -7,7 +7,7 @@ export default defineConfig({
     port: 3000,
     // the contract API (docs/API_CONTRACT.md); in production FastAPI serves this UI from the same origin
     proxy: Object.fromEntries(
-      ['/query', '/lineage', '/grs', '/documents', '/health', '/voice', '/translate'].map((p) => [p, { target: 'http://localhost:8000', changeOrigin: true }]),
+      ['/query', '/lineage', '/grs', '/documents', '/health', '/voice', '/translate', '/coverage', '/explain', '/admin/session', '/api/upload'].map((p) => [p, { target: 'http://localhost:8000', changeOrigin: true }]),
     ),
   },
 });

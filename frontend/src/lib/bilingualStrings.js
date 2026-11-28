@@ -1349,8 +1349,8 @@ export const TRANSLATIONS = {
     gu: 'નમસ્તે! GovResolve-AI વૉઇસ સહાયક.',
   },
   'chat.welcome_desc_prefix': {
-    en: 'Press the mic to ask aloud in ગુજરાતી, English, or Gujlish—press again when done, or tap a topic:',
-    gu: 'માઇક દબાવીને ગુજરાતી, English અથવા Gujlish માં બોલો — પૂરું થાય એટલે ફરી દબાવો, અથવા વિષય પસંદ કરો:',
+    en: 'Press the mic and ask in ગુજરાતી, English, or Gujlish: it stops when you finish. You can also type, or tap a topic:',
+    gu: 'માઇક દબાવીને ગુજરાતી, English અથવા Gujlish માં બોલો: તમે પૂરું કરો ત્યારે તે બંધ થશે. લખી પણ શકો, અથવા વિષય પસંદ કરો:',
   },
   'chat.reply_lang_aria': {
     en: 'Voice reply language',
@@ -1369,8 +1369,8 @@ export const TRANSLATIONS = {
     gu: 'ઉપલબ્ધ નથી',
   },
   'chat.listening': {
-    en: 'Listening… press stop when done',
-    gu: 'સાંભળી રહ્યા છીએ… પૂરું થાય ત્યારે રોકો દબાવો',
+    en: 'Listening… it stops when you finish speaking',
+    gu: 'સાંભળી રહ્યા છીએ… તમે બોલી રહો ત્યારે આપોઆપ બંધ થશે',
   },
   'chat.finalizing': {
     en: 'Finalizing transcript…',
@@ -1667,6 +1667,56 @@ export const TRANSLATIONS = {
   },
   'timedemo.amends': { en: 'Amends', gu: 'સુધારો' },
   'timedemo.supersedes': { en: 'Supersedes', gu: 'અવેજી' },
+  'chat.reply_lang': { en: 'Reply in', gu: 'જવાબ ભાષા' },
+  'chat.reply_auto': { en: 'Auto', gu: 'ઓટો' },
+  'chat.reply_en': { en: 'English', gu: 'English' },
+  'chat.reply_gu': { en: 'ગુજરાતી', gu: 'ગુજરાતી' },
+  'chat.reply_lang_title': {
+    en: 'Language of the answers. Auto replies in the language you asked in.',
+    gu: 'જવાબની ભાષા. ઓટોમાં તમે જે ભાષામાં પૂછો તેમાં જ જવાબ મળે છે.',
+  },
+  'chat.voice_replies': { en: 'Speak replies', gu: 'જવાબ બોલો' },
+  'chat.voice_replies_title': {
+    en: 'Read the answer aloud when you asked by voice',
+    gu: 'અવાજથી પૂછો ત્યારે જવાબ મોટેથી વંચાશે',
+  },
+  'chat.speak_reply': { en: 'Listen', gu: 'સાંભળો' },
+  'chat.stop_speaking': { en: 'Stop', gu: 'બંધ કરો' },
+  'chat.loading_voice': { en: 'Loading voice…', gu: 'અવાજ તૈયાર થાય છે…' },
+  'chat.speak_failed': {
+    en: 'This reply could not be read aloud here.',
+    gu: 'આ જવાબ અહીં બોલી શકાયો નહીં.',
+  },
+  'chat.type_placeholder': { en: 'Or type your question…', gu: 'અથવા તમારો પ્રશ્ન લખો…' },
+  'chat.send': { en: 'Send', gu: 'મોકલો' },
+  'chat.voice_denied': {
+    en: 'Microphone access is blocked in this browser.',
+    gu: 'આ બ્રાઉઝરમાં માઇક્રોફોનની પરવાનગી બંધ છે.',
+  },
+  'chat.voice_no_mic': {
+    en: 'Microphone is not available in this browser.',
+    gu: 'આ બ્રાઉઝરમાં માઇક્રોફોન ઉપલબ્ધ નથી.',
+  },
+  'chat.voice_no_speech': {
+    en: 'No speech heard. Press the mic and try again.',
+    gu: 'કંઈ સંભળાયું નહીં. માઇક દબાવીને ફરી પ્રયત્ન કરો.',
+  },
+  'chat.voice_unclear': {
+    en: 'Could not hear clearly. Speak a little closer and try again.',
+    gu: 'સ્પષ્ટ સંભળાયું નહીં. થોડું નજીકથી બોલીને ફરી પ્રયત્ન કરો.',
+  },
+  'chat.voice_interrupted': {
+    en: 'Speech recognition was interrupted. Press the mic to try again.',
+    gu: 'અવાજની ઓળખ અટકી ગઈ. માઇક દબાવીને ફરી પ્રયત્ન કરો.',
+  },
+  'chat.voice_browser_mode': {
+    en: 'Using your browser’s voice recognition (it listens in the interface language).',
+    gu: 'બ્રાઉઝરની અવાજ ઓળખનો ઉપયોગ થાય છે (તે ઇન્ટરફેસની ભાષામાં સાંભળે છે).',
+  },
+  'chat.pause_ok': {
+    en: 'Take your time: a short pause will not stop it.',
+    gu: 'શાંતિથી બોલો: નાનો વિરામ લેશો તો બંધ નહીં થાય.',
+  },
 };
 
 /**

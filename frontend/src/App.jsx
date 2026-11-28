@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ServerCrash, X, RotateCcw } from 'lucide-react';
-import { ask, fetchStats, lineageChain } from './api';
+import SimpleExplain from './components/SimpleExplain';
+import { ask, fetchStats, lineageChain, translateResponseFields } from './api';
 import { statusAsOf } from './lib/lineage';
 import { citeKey } from './components/AnswerCard';
 import TopBar from './components/TopBar';
@@ -10,18 +11,25 @@ import QueryDock from './components/QueryDock';
 import PipelineLoader from './components/PipelineLoader';
 import StatusBanner from './components/StatusBanner';
 import AnswerCard from './components/AnswerCard';
-import LineageGraph from './components/LineageGraph';
 import WhatChanged from './components/WhatChanged';
 import StageBar from './components/StageBar';
 import ChatHelpline from './components/ChatHelpline';
 import { isStage, STAGE_PINS } from './lib/stage';
-import PdfInspector from './components/PdfInspector';
 import Hero, { HeroHeader, Specimen } from './components/AskLanding';
-import Library from './components/Library';
-import Method from './components/Method';
 import Tour from './components/Tour';
 import LandingPage from './pages/Hero';
 import { SAMPLES } from './lib/samples';
+
+// Loaded when first needed: the PDF viewer (pdf.js is by far the largest part), the lineage graph, the library, the method page and /admin.
+const AdminPage = lazy(() => import('./pages/AdminPage'));
+const LineageGraph = lazy(() => import('./components/LineageGraph'));
+const PdfInspector = lazy(() => import('./components/PdfInspector'));
+const Library = lazy(() => import('./components/Library'));
+const Method = lazy(() => import('./components/Method'));
+
+function PaneFallback() {
+  return <div role="status" aria-busy="true" className="skeleton m-1 min-h-[12rem] animate-shimmer rounded-2xl border border-hair" />;
+}
 import { LanguageProvider, useUiLanguage } from './lib/i18n';
 import { LanguageBridge } from './lib/LanguageContext';
 import { HISTORY_MAX, loadHistory, saveHistory } from './lib/history';
@@ -286,6 +294,21 @@ function AppContent() {
   submitRef.current = submit;
 
   const cancel = () => abortRef.current?.abort();
+
+  // Changing the answer language never asks the question again: the shown answer is translated in place (prose only; quotes,
+  // citations and lineage are untouched). Always translated from the answer as first received (`__orig`), so switching back is exact.
+  const changeAnswerLanguage = async (lang) => {
+    setLanguage(lang);
+    if (lang) setUiLanguage(lang);
+    if ((lang !== 'en' && lang !== 'gu') || !response || loading) return;
+    const orig = response.__orig || response;
+    try {
+      const next = await translateResponseFields(orig, lang);
+      setResponse((cur) => (cur === response ? (next === orig ? orig : { ...next, __orig: orig }) : cur));
+    } catch {
+      /* translation unavailable: keep the answer as it is */
+    }
+  };
   const openHistory = (h) => {
     abortRef.current?.abort();
     setWorkspace('ask');
@@ -423,7 +446,7 @@ function AppContent() {
     <AnimatePresence>
       {stage === 'hero' && (
         <motion.div key="intro" className="fixed inset-0 z-40 bg-canvas" initial={false} exit={{ opacity: 0, scale: 1.025, filter: 'blur(8px)' }} transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}>
-          <LandingPage onGetStarted={startTour} onSkip={skipIntro} />
+          <LandingPage onGetStarted={startTour} onSkip={skipIntro} stats={stats} />
         </motion.div>
       )}
     </AnimatePresence>
@@ -432,13 +455,7 @@ function AppContent() {
         stats={stats}
         online={online}
         language={language}
-        onLanguage={(lang) => {
-          setLanguage(lang);
-          if (lang) setUiLanguage(lang);
-          if (query && response && !loading) {
-            submit(query, false, lang);
-          }
-        }}
+        onLanguage={changeAnswerLanguage}
         asOf={asOf}
         onAsOf={setAsOf}
         session={session}
@@ -523,15 +540,12 @@ function AppContent() {
                             active={active}
                             onSelect={setActive}
                             language={language}
-                            onLanguageChange={(newLang) => {
-                              setLanguage(newLang);
-                              setUiLanguage(newLang);
-                              if (query && !loading) {
-                                submit(query, false, newLang);
-                              }
-                            }}
+                            onLanguageChange={changeAnswerLanguage}
+                            onAsk={(q) => submit(q, true)}
+                            onOpenDoc={(d) => setActive({ gr_id: d.gr_id, gr_number: d.gr_number, subject: d.subject, issue_date: d.issue_date, page: d.page, passage: '' })}
                           />
-                          <LineageGraph chain={shownChain} forGr={shownFor?.gr_number} asOf={asOf} onAsOf={setAsOf} activeId={active?.gr_id} onSelectNode={openNode} />
+                          <SimpleExplain response={response} active={active} language={language} />
+                          <Suspense fallback={<PaneFallback />}><LineageGraph chain={shownChain} forGr={shownFor?.gr_number} asOf={asOf} onAsOf={setAsOf} activeId={active?.gr_id} onSelectNode={openNode} /></Suspense>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -541,7 +555,7 @@ function AppContent() {
                 <SplitHandle ratio={ratio} onChange={setRatio} containerRef={mainRef} />
 
                 <section data-tour="evidence" className="min-h-[30rem] lg:min-h-0 print:hidden" aria-label={t('evidence')}>
-                  <PdfInspector citation={active} question={query} />
+                  <Suspense fallback={<PaneFallback />}><PdfInspector citation={active} question={query} /></Suspense>
                 </section>
               </>
             )}
@@ -549,16 +563,16 @@ function AppContent() {
             {workspace === 'library' && (
               <>
                 <section data-tour="library" className="flex flex-col lg:min-h-0 lg:overflow-y-auto lg:pr-1" aria-label="Library">
-                  <Library selectedId={libActive?.gr_id} onOpen={setLibActive} asOf={asOf} onAsOf={setAsOf} />
+                  <Suspense fallback={<PaneFallback />}><Library selectedId={libActive?.gr_id} onOpen={setLibActive} asOf={asOf} onAsOf={setAsOf} /></Suspense>
                 </section>
                 <SplitHandle ratio={ratio} onChange={setRatio} containerRef={mainRef} />
                 <section className="min-h-[30rem] lg:min-h-0" aria-label={t('document')}>
-                  <PdfInspector citation={libActive} question="" />
+                  <Suspense fallback={<PaneFallback />}><PdfInspector citation={libActive} question="" /></Suspense>
                 </section>
               </>
             )}
 
-            {workspace === 'method' && <Method stats={stats} />}
+            {workspace === 'method' && <Suspense fallback={<PaneFallback />}><Method stats={stats} /></Suspense>}
           </motion.main>
         </AnimatePresence>
       </div>
@@ -584,7 +598,10 @@ function AppContent() {
   );
 }
 
+const isAdminRoute = () => window.location.pathname.replace(/\/+$/, '') === '/admin';
+
 export default function App() {
+  if (isAdminRoute()) return <Suspense fallback={<PaneFallback />}><AdminPage /></Suspense>;   // /admin: its own login page, not part of the public interface
   return (
     <LanguageProvider>
       <LanguageBridge>

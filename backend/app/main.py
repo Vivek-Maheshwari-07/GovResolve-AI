@@ -12,7 +12,7 @@ from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from .config import Settings, settings as default_settings
@@ -250,6 +250,13 @@ def create_app(
             persist()
 
     if cfg is not None and (cfg.frontend_dir / "index.html").is_file():
+        @app.get("/admin", include_in_schema=False)
+        @app.get("/admin/", include_in_schema=False)
+        def admin_page():
+            """The admin login and upload page (same web app; it shows the login form). The page holds no data and is not linked from
+            the public interface. Every admin API call behind it needs the admin token (see security.py)."""
+            return FileResponse(cfg.frontend_dir / "index.html", headers={"Cache-Control": "no-store", "X-Robots-Tag": "noindex"})
+
         # last, so every API route above wins; `html=True` serves index.html at /
         app.mount("/", StaticFiles(directory=cfg.frontend_dir, html=True), name="ui")
 

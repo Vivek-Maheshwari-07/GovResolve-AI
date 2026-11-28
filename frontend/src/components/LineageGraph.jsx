@@ -17,6 +17,8 @@ const NODE_H = 138;
 const PAD_X = 26;
 const ARC_H = 132;
 const ARC_LANE_GAP = 34;
+const THREAD = '#94A3B8'; // one quiet colour for every link; the relation is named on its pill
+const THREAD_ON = '#475569';
 
 const REL_TONE = { supersedes: 'rose', replaces: 'rose', cancels: 'rose', amends: 'amber', refers_to: 'iris' };
 const REL_KEYS = { supersedes: 'relSupersedes', replaces: 'relReplaces', cancels: 'relCancels', amends: 'relAmends', refers_to: 'relRefersTo' };
@@ -117,15 +119,14 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
         <div className="relative mx-auto" style={{ width: totalW, height: AH + nodeHeight + (canScrub ? (compact ? 50 : 62) : 8) }}>
           <svg className="absolute left-0 top-0" width={totalW} height={AH + 4} aria-hidden="true">
             <defs>
-              {Object.entries(TONES).map(([k, t]) => (
-                <marker key={k} id={`ah${uid}${k}`} viewBox="0 0 10 10" refX="5" refY="8" markerWidth="8" markerHeight="8" orient="auto">
-                  <path d="M0 0 L10 0 L5 10 Z" fill={t.edge} />
-                </marker>
-              ))}
+              <marker id={`ah${uid}`} viewBox="0 0 10 10" refX="5" refY="8" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 L10 0 L5 10 Z" fill={THREAD} />
+              </marker>
+              <marker id={`ah${uid}on`} viewBox="0 0 10 10" refX="5" refY="8" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 L10 0 L5 10 Z" fill={THREAD_ON} />
+              </marker>
             </defs>
-            {edges.map((e, i) => {
-              const tone = REL_TONE[e.relation] || 'iris';
-              const t = TONES[tone] || TONES.iris;
+            {edges.map((e) => {
               const hot = e.id === edgeId || e.from === activeId || e.to === activeId;
               const issued = status[e.from]?.issued !== false;
               return (
@@ -133,15 +134,13 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
                   key={e.id}
                   d={e.d}
                   fill="none"
-                  stroke={t.edge}
-                  strokeWidth={hot ? 2.6 : 1.8}
+                  stroke={hot ? THREAD_ON : THREAD}
+                  strokeWidth={hot ? 1.8 : 1.3}
                   strokeLinecap="round"
-                  strokeDasharray="6 4"
-                  className="edge-flow"
-                  markerEnd={`url(#ah${uid}${tone})`}
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: issued ? (hot || (!edgeId && !activeId) ? 1 : 0.5) : 0.2 }}
-                  transition={{ pathLength: { delay: 0.15 + i * 0.12, duration: 0.8, ease: 'easeOut' }, opacity: { duration: 0.2 } }}
+                  markerEnd={`url(#ah${uid}${hot ? 'on' : ''})`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: issued ? (hot || (!edgeId && !activeId) ? 0.9 : 0.5) : 0.2 }}
+                  transition={{ duration: 0.25 }}
                 />
               );
             })}
@@ -149,29 +148,24 @@ function MapView({ chain, status, asOf, onAsOf, activeId, onSelectNode, compact 
 
           {/* relation pills sit on the arcs */}
           {edges.map((e) => {
-            const tone = REL_TONE[e.relation] || 'iris';
-            const t = TONES[tone] || TONES.iris;
             const on = e.id === edgeId;
             return (
-              <motion.button
+              <button
                 key={e.id}
                 type="button"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 onClick={() => setEdgeId(on ? null : e.id)}
                 aria-pressed={on}
                 title={`${e.link_type} ${e.to_gr_number}: read the clause`}
-                className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-2.5 py-1 text-[10.5px] font-bold transition-all ${t.text}`}
+                className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-2.5 py-0.5 text-[10.5px] font-semibold transition-colors ${on ? 'text-white' : 'text-[#475569] hover:text-[#1E293B]'}`}
                 style={{
                   left: e.mx,
                   top: e.my,
-                  background: on ? t.edge : t.wash,
-                  color: on ? '#fff' : undefined,
-                  boxShadow: `0 0 0 1px ${t.edge}${on ? '' : '66'}, 0 4px 10px -4px ${t.edge}88`,
+                  background: on ? THREAD_ON : '#F8FAFC',
+                  boxShadow: `0 0 0 1px ${on ? THREAD_ON : '#CBD5E1'}`,
                 }}
               >
                 {e.link_type}
-              </motion.button>
+              </button>
             );
           })}
 

@@ -12,9 +12,10 @@ A FastAPI service that serves Government Resolution (GR) records, an amendment a
 | `app/graph.py`, `app/detector.py` | Document-level contract graph and reference detector |
 | `app/store/` | Corpus loader and SQLite store (edges, query log, overrides, cache) |
 | `app/security.py` | Response headers, optional admin token, per-client rate limit |
+| `app/routers/voice.py`, `app/tts.py` | Speech to text (Whisper), text to speech (`edge-tts`) and the voice-call routes |
 | `rag/` | Hybrid search index, question normalizer, answer pipeline, model gateway and providers |
-| `ingestion/` | PDF to GR record conversion (text layer and OCR) |
-| `scripts/` | Corpus, index, dataset curation, lineage evaluation, scorecard and smoke-test tools |
+| `ingestion/` | PDF to GR record conversion; `ocr.py` is the shared Tesseract reader (language chosen per page, straightening, real confidence) |
+| `scripts/` | Corpus, index, OCR repair, lineage evaluation, scorecard and smoke-test tools (list in the root README) |
 | `tests/` | pytest suite (no model needed); `tests/manual/` has slow smoke scripts |
 | `config/` | Glossaries for Gujarati and Gujlish normalization |
 
@@ -57,6 +58,7 @@ Language-model settings (`LLM_PROVIDER`, `OLLAMA_*`, `GROQ_*`) are documented in
 The contract endpoints are specified in [API_CONTRACT.md](../docs/API_CONTRACT.md) and must not change incompatibly.
 
 - **Contract:** `POST /documents`, `GET /documents`, `GET /documents/{id}`, `GET /lineage/{id}`, `GET /lineage/{id}/status`, `GET /edges`, `POST /query`.
+- **Voice:** `POST /voice/transcribe`, `GET|POST /voice/speak`, `POST /voice/query`, `POST /voice/webhook`; **text:** `POST /explain`, `POST /translate`.
 - **Extended:** `GET /health`, `GET /grs`, `GET /grs/{id}`, `GET /grs/{id}/pdf`, `GET /grs/{id}/pages/{n}`, `GET /grs/{id}/lineage`, `GET /clauses/{chunk_id}/status`, `POST /lineage/annotate`, `GET /lineage/as-of`, `GET /lineage/broken`, `POST /ask`, `POST /feedback`, `GET /logs`, `POST /admin/rebuild`, `GET|POST /admin/edges/overrides`.
 
 ## Using your own collection

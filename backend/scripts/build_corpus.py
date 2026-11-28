@@ -121,7 +121,7 @@ def _work(job: dict) -> dict:
     layer_score = text_quality(layer_text)
     ocr_score, confs = None, []
     if job["language"] == "gu" or looks_garbled(layer_text):  # judge by the text: the manifest's language tag is wrong for many
-        ocr = convert(pdf, gr_id, job["department"], "gu", _ocr_reader("guj+eng", job["dpi"], confs))
+        ocr = convert(pdf, gr_id, job["department"], "gu", _ocr_reader("auto", job["dpi"], confs))
         ocr_text = " ".join(c["text"] for c in ocr["chunks"]) if ocr else ""
         ocr_score = text_quality(ocr_text)
         if ocr and (best is None or ocr_score > layer_score):

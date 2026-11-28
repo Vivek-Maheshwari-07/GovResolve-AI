@@ -158,6 +158,16 @@ class Statement(BaseModel):
     citations: list[int] = Field(default_factory=list)  # indexes into the response's `citations`
 
 
+class Suggestion(BaseModel):
+    """v0.3, optional: a resolution close to a question that could not be answered. Not a citation, never an answer."""
+
+    doc_id: str
+    gr_number: str = ""
+    subject: str = ""
+    issue_date: str | None = None
+    page: int = 1
+
+
 class QueryResponse(BaseModel):
     verdict: Verdict
     answer: str | None = None
@@ -167,3 +177,5 @@ class QueryResponse(BaseModel):
     language: str
     statements: list[Statement] = Field(default_factory=list)  # v0.2
     reason_code: ReasonCode | None = None  # v0.2, set only when verdict is insufficient_evidence
+    suggestions: list[Suggestion] = Field(default_factory=list)  # v0.3, closest GRs, only on a refusal
+    follow_up_options: list[str] = Field(default_factory=list)  # v0.3, questions to click when the question was too broad

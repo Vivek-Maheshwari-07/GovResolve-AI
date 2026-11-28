@@ -17,7 +17,7 @@ from .schemas import (
     StatementLabel,
     Verdict,
 )
-from .schemas.member_a import Citation
+from .schemas.member_a import Citation, Suggestion
 
 _SENTENCE_ID = re.compile(r"\s*[\[(]\s*S\d+(?:\s*,\s*S\d+)*\s*[\])]")
 # "No amendment has changed ...", "it has not been amended", "કોઈ સુધારો થયો નથી" (no amendment was made)
@@ -60,6 +60,15 @@ def resolve_languages(question: str, requested_language: str | None) -> tuple[st
     if not explicit:
         explicit = detect_requested_language(question)
     return explicit, explicit or detect_language(question)
+
+
+# Wrongly mapped legacy Gujarati fonts leave text like "ચનયમ-3ના" (for "નિયમ-3ના"). Such a reference is not worth quoting, and a
+# translation model asked to translate it refuses, so a warning says "an earlier provision" instead.
+_UNREADABLE_REF = re.compile("ચનયમ|વવભાગ|અચધચનયમ|ચવભાગ|ચનણણય|[\u0100-\u02ff\ufffd]")
+
+
+def readable_ref(ref: str) -> str:
+    return "an earlier provision" if _UNREADABLE_REF.search(str(ref)) else str(ref)
 
 
 def evaluate_query(
@@ -122,7 +131,7 @@ def build_response(result, graph: LineageGraph, engine: AnswerEngine, language: 
     for cit in citations:
         broken = graph.broken_links(cit.doc_id)
         for rel, ref in broken:
-            warnings.append(f"BROKEN_CHAIN: {cit.doc_id} {rel.value} {ref}, which is not in the collection; "
+            warnings.append(f"BROKEN_CHAIN: {cit.doc_id} {rel.value} {readable_ref(ref)}, which is not in the collection; "
                             "the text it changes cannot be checked.")
         if any(rel is Relation.AMENDS for rel, _ in broken):
             fragments.append(cit.doc_id)
@@ -145,6 +154,8 @@ def build_response(result, graph: LineageGraph, engine: AnswerEngine, language: 
             reason_code=result.reason_code or ReasonCode.NO_DOCUMENT,
             warnings=warnings,
             language=language,
+            suggestions=[Suggestion(**s) for s in result.suggestions],
+            follow_up_options=list(result.follow_up_options),
         )
     statements = [_remap_statement(st, kept) for st in result.statements]
     answer = _strip_sentence_ids(result.answer)

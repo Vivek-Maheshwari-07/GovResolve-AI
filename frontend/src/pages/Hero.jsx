@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { Scale, ArrowRight, ArrowDown } from 'lucide-react';
 import Specimen from './hero/Specimen';
 import TimeDemo from './hero/TimeDemo';
 import { Costs, HowItWorks, Limits, ForWhom, Eyebrow, Reveal } from './hero/Sections';
+import { HeroBackdrop, LiveAsk, Magnetic, SplitWords, StatsStrip } from './hero/Motion';
 import { useUiLanguage } from '../lib/i18n';
 
 /**
@@ -13,12 +14,13 @@ import { useUiLanguage } from '../lib/i18n';
  */
 const NAV = [['why', 'problem'], ['how', 'howItWorks'], ['limits', 'limits']];
 
-export default function Hero({ onGetStarted, onSkip }) {
+export default function Hero({ onGetStarted, onSkip, stats = null }) {
   const { t } = useUiLanguage();
   const scroller = useRef(null);
   const [scrolled, setScrolled] = useState(false);
   const { scrollYProgress } = useScroll({ container: scroller });
   const bar = useSpring(scrollYProgress, { stiffness: 140, damping: 26, mass: 0.4 });
+  const specimenY = useTransform(scrollYProgress, [0, 0.25], [0, -44]); // the sheet drifts up a little as the page scrolls
 
   const go = useCallback((id) => {
     const el = document.getElementById(`hero-${id}`);
@@ -67,15 +69,14 @@ export default function Hero({ onGetStarted, onSkip }) {
       <main id="top">
         {/* masthead */}
         <section className="relative mx-auto grid max-w-[1180px] items-center gap-12 px-5 pb-20 pt-10 sm:px-8 lg:min-h-[calc(100vh-64px)] lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-8 lg:pt-4">
+          <HeroBackdrop />
           <div>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="h-px w-8 bg-iris-600" />
               <span className="mono-label text-iris-700">{t('introChallenge')}</span>
             </motion.div>
 
-            <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 120, damping: 22, delay: 0.08 }} className="display mt-6 text-[40px] font-bold leading-[1.1] text-ink [text-wrap:balance] sm:text-[58px]">
-              {t('introHeadline')}
-            </motion.h1>
+            <SplitWords text={t('introHeadline')} delay={0.1} className="display mt-6 text-[40px] font-bold leading-[1.1] text-ink [text-wrap:balance] sm:text-[58px]" />
 
             <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.6 }} className="mt-6 max-w-[34rem] text-[16.5px] leading-[1.65] text-mist">
               {t('introDescription')}
@@ -84,25 +85,33 @@ export default function Hero({ onGetStarted, onSkip }) {
               {t('introGujarati')}
             </motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <button type="button" onClick={onGetStarted} className="btn-primary group inline-flex items-center gap-2.5 rounded-[14px] px-6 py-3.5 text-[15px] font-semibold text-white transition hover:brightness-110 active:scale-[.98]">
-                {t('getStarted')}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
+            <LiveAsk onOpen={onGetStarted} />
+
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Magnetic>
+                <button type="button" onClick={onGetStarted} className="btn-primary group inline-flex items-center gap-2.5 rounded-[14px] px-6 py-3.5 text-[15px] font-semibold text-white transition hover:brightness-110 active:scale-[.98]">
+                  {t('getStarted')}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </Magnetic>
               <button type="button" onClick={() => go('why')} className="inline-flex items-center gap-2 text-[14px] font-semibold text-ink transition hover:text-iris-700">
                 {t('seeWhy')} <ArrowDown className="h-3.5 w-3.5" />
               </button>
               <span className="hidden items-center gap-1.5 text-[11.5px] text-faint sm:flex"><kbd className="kbd">Enter</kbd> {t('toBegin')}</span>
             </motion.div>
 
-            <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.75 }} className="mt-10 flex flex-wrap gap-x-5 gap-y-1.5 border-t border-hair pt-4 text-[12px] text-mist">
-              <li>Gujarati · English · Gujlish</li>
-              <li>Quotes copied, never retyped</li>
-              <li>Says “insufficient evidence” instead of guessing</li>
+            <StatsStrip stats={stats} />
+
+            <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-6 flex flex-wrap gap-x-5 gap-y-1.5 text-[12px] text-mist">
+              <li>{t('heroBullet1')}</li>
+              <li>{t('heroBullet2')}</li>
+              <li>{t('heroBullet3')}</li>
             </motion.ul>
           </div>
 
-          <Specimen className="mx-auto mb-10 w-full max-w-[400px] lg:mb-0" />
+          <motion.div style={{ y: specimenY }} className="mx-auto mb-10 w-full max-w-[400px] lg:mb-0">
+            <Specimen className="w-full" />
+          </motion.div>
         </section>
 
         {/* problem */}
@@ -154,9 +163,11 @@ export default function Hero({ onGetStarted, onSkip }) {
             <h2 className="display text-[34px] font-bold leading-[1.12] text-ink [text-wrap:balance] sm:text-[46px]">{t('heroCtaHeadline')}</h2>
             <p className="mx-auto mt-4 max-w-[30rem] text-[15.5px] leading-relaxed text-mist">{t('heroCtaText')}</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-5">
-              <button type="button" onClick={onGetStarted} className="btn-primary group inline-flex items-center gap-2.5 rounded-[14px] px-7 py-4 text-[16px] font-semibold text-white transition hover:brightness-110 active:scale-[.98]">
-                {t('getStarted')} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
+              <Magnetic strength={0.3}>
+                <button type="button" onClick={onGetStarted} className="btn-primary group inline-flex items-center gap-2.5 rounded-[14px] px-7 py-4 text-[16px] font-semibold text-white transition hover:brightness-110 active:scale-[.98]">
+                  {t('getStarted')} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </Magnetic>
               <button type="button" onClick={onSkip} className="text-[13.5px] font-medium text-mist underline decoration-stone underline-offset-4 transition hover:text-ink">{t('skipTourOpenApp')}</button>
             </div>
           </Reveal>

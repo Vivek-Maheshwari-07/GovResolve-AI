@@ -201,6 +201,37 @@ Two optional fields on every `/query` response. Clients that ignore them keep wo
 
 UI rules: show each statement's label next to it (spec AI-16). Choose refusal copy from `reason_code`, not by parsing `reason`.
 
+#### v0.3 additions (2026-11-27, optional, nothing renamed or removed)
+Two optional fields on every `/query` and `/query/stream` response, plus one new read-only endpoint. Clients that ignore them keep working.
+```json
+{
+  "suggestions": [ { "doc_id": "GR-1_3989_1_36-594b69", "gr_number": "GS/2019-36/LPK/1204/3464/KH-3", "subject": "...", "issue_date": "2019-...", "page": 1 } ],
+  "follow_up_options": [ "For how long did the Central Government suspend Home Town LTC and All India LTC in 2001?" ]
+}
+```
+- `suggestions`: only on a refusal (`NO_DOCUMENT`, `MISSING_FACTS`, `POOR_SCAN`): up to 3 resolutions closest to the question, to read. Never an answer and
+  never a citation (no quote). A resolution is listed only if its subject or best passage shares at least two uncommon words with the question; an unrelated
+  question gets an empty list. Empty on an answer.
+- `follow_up_options`: only on `TOO_VAGUE`: up to 4 concrete questions to click. Each is a verified question from the gold set, in the user's language when possible.
+- `GET /coverage`: `{ total_grs, first_date, last_date, languages, topics: [ { id, group, label_en, label_gu, count, examples: [ { language, text } ] } ] }`.
+  Topics with no matching resolution are left out. Feeds the "What can I ask?" panel.
+
+#### v0.3: `POST /explain` (2026-11-27, new, optional)
+Simple-words explanation of one cited resolution, or an answer to a follow-up question about it. Request:
+```json
+{ "question": "...", "language": "en", "followup": "", "citations": [ { "doc_id": "GR-1_728_...", "page": 1 } ] }
+```
+`citations` must all name the same resolution (else 422; unknown id 404). The server writes from that resolution's stored text only; text sent by the browser is never used
+as evidence. `followup` empty = explain the resolution; else answer that question about it. Response:
+```json
+{ "available": true, "kind": "summary", "simple": "...", "steps": [], "documents": [], "language": "en", "cached": false }
+{ "available": true, "kind": "followup", "answer": "...", "stated": true, "language": "en", "cached": false }
+{ "available": false, "reason": "busy" }
+```
+`reason`: `busy` (no hosted model answered, for example the free-tier rate limit; the local model is never used), `unverified` (nothing in the reply was supported by the text) or
+`no_text`. `steps` and `documents` list only what the text states and are usually empty. Every number in the reply must occur in the text, and sentences calling a rule
+currently valid, in force or active are removed. The reply is AI-written: show it labelled as such, under the verbatim quotes. Counts against the question rate limit.
+
 Squad 2 engine: `EngineResult` gains the matching optional `reason_code` and `statements` (citation indexes point into
 `EngineResult.citations`). `app/squad2_bridge.py` fills both from `QueryResponse.insufficient_reason` and `.statements`.
 

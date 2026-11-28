@@ -4,6 +4,51 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+### Repository cleanup (28 Nov 2026)
+- Removed files nothing used: `docs/MERGE_REPORT.md`, `docs/HANDOVER_HP_LAPTOP.md`, `docs/notes/part1_ui.md` (branch notes), the early
+  `GovResolve-AI_Project_Documentation.pdf` (superseded by the Complete Project Guide), the old nightly scorer `data/eval/evaluate.py` with its
+  `gold_set.json`, and the scripts `add_gr.py` (replaced by the admin page), `sync_index.py` (replaced by `build_squad2_index`) and `repair_corpus.py`
+  (replaced by `repair_garbled_pages`). Old screenshots were replaced with ones of the current interface.
+- README rewritten (voice assistant, OCR, data layout, tools, voice setup); docs index, backend and frontend READMEs updated; `.gitignore`
+  deduplicated and now ignores local index builds and the `*_backup_before_repair*` safety copies; `make index` takes `INDEX=`.
+
+### Garbled Gujarati repaired in 15 documents (28 Nov 2026)
+- `backend/scripts/repair_garbled_pages.py` finds pages whose Gujarati text layer is garbled (legacy-font PDFs) and re-reads only the
+  blocks that contain Gujarati with OCR, clip by clip; English blocks and clean pages keep their text layer, tables fall back to the layer
+  text when OCR loses most of a block, and metadata is carried over. Garble markers in those documents went from 1,100+ to 0.
+- Originals: `data/corpus_v2_backup_before_repair/`, `data/index/chroma_bge_backup_before_repair/`. The search index was refreshed for the
+  changed chunks only (`build_squad2_index --index ../data/index/chroma_bge`); delete `data/index/answers.json` after any corpus change,
+  because the answer cache does not notice edited text.
+- Fixed: `ocr_to_gr_json.py` and the other corpus scripts failed to import the new OCR module when run from `backend/`.
+
+### Fixes found by testing two Gujlish questions (28 Nov 2026)
+- Gujlish questions such as "... kya divas thi amal ma gana jashe?" were read as English (missing common words), so Auto did not answer in Gujarati.
+- A translation model that declines ("I'm sorry, but I can't...") is no longer shown as the translation (`looksLikeModelRefusal`).
+- A BROKEN_CHAIN warning no longer quotes text read wrongly from a legacy-font PDF (it says "an earlier provision"); the garbled-font
+  detector knows a second mapping (`ચનયમ`, `વવભાગ`). Documents already in the collection are not re-read until the corpus is rebuilt.
+
+### Landing page polish (28 Nov 2026)
+- The headline's words rise out of a soft blur; a drifting indigo light and dot grid sit behind the masthead; a demo search bar types real
+  sample questions in English, Gujarati and Gujlish; live collection numbers count up (hidden when the server is unreachable); the main
+  buttons lean towards the pointer; audience cards have a pointer spotlight; the step rules draw in; the specimen sheet drifts on scroll.
+  All of it follows `prefers-reduced-motion`; colours, fonts and layout are unchanged.
+- The landing page's three bullet lines are now translated (Gujarati, Gujlish).
+- The PDF viewer, lineage graph, library, method page and `/admin` load on first use: the first-load script is 657 kB (was 1,075 kB).
+
+### Voice assistant and OCR (28 Nov 2026)
+- **Voice input no longer stops at the first pause.** The chat and the search box share one end-of-speech rule
+  (`frontend/src/lib/endpointing.js`, `speechSession.js`): it learns the room's noise, then stops after about 1.8 s of silence
+  (2.6 s after a very short utterance, +1 s when the sentence ends mid-way), or after 8 s with no speech. Tapping stop still works.
+- **Chat speaks its answers** (`POST /voice/speak`, `GET /voice/speak`, `backend/app/tts.py`): Gujarati and English neural voices via the
+  optional `edge-tts` package; the browser's own voice is the fallback. `TTS_PROVIDER=off` disables it, `TTS_VOICE_GU` / `TTS_VOICE_EN`
+  change the voices. Only the text to be read is sent to the speech service. New optional endpoint; no existing field changed.
+- **Chat reply language** (Auto / English / ગુજરાતી): Auto answers in the language of the question; a fixed choice answers in that language
+  whatever the question was. The chat also has a typing box and a Listen button on every reply.
+- **OCR** (`backend/ingestion/ocr.py`, used by upload, `ingest_accurate.py`, `ocr_to_gr_json.py`, `build_corpus.py`): the language is chosen
+  per page (a mostly Gujarati page is read with `guj` alone, which stops Gujarati words coming out as Latin junk), pages are read at
+  300 DPI and straightened, short lines such as clause numbers are kept, and `ingest_accurate.py` stores the real word confidence
+  instead of a fixed 0.85. `ocr_to_gr_json.py` now defaults to `--lang auto` (was English only).
+
 ### Finale hardening (26 Nov 2026)
 - **Fixed: no question was answered on a fresh copy.** The bundled index was built with `intfloat/multilingual-e5-large` while
   `.env` names `ollama:bge-m3`, and Chroma refused every query. A mismatched index now falls back to keyword search with a visible

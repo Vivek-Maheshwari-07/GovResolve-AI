@@ -40,6 +40,44 @@ def health(request: Request):
     }
 
 
+class ExplainCitation(BaseModel):
+    doc_id: str = Field(max_length=200)
+    page: int = Field(ge=1, le=5000)
+
+
+class ExplainIn(BaseModel):
+    question: str = Field(default="", max_length=500)
+    language: str = Field(default="en", max_length=10)
+    citations: list[ExplainCitation] = Field(min_length=1, max_length=6)
+    followup: str = Field(default="", max_length=300)   # empty: explain the resolution; else answer this question about it
+
+
+@router.post("/explain")
+def explain_gr(body: ExplainIn, request: Request):
+    """A simple-words explanation of one resolution (what it means, steps and documents it names), or an answer to a follow-up question
+    about it, written from the resolution's own stored text only (never from text sent by the browser) and checked against it.
+    Hosted model only; {"available": false, "reason": ...} when it cannot be produced. See app/explain.py."""
+    from ..explain import explain
+    st = S(request)
+    doc_ids = list(dict.fromkeys(c.doc_id for c in body.citations))
+    if len(doc_ids) != 1:
+        raise HTTPException(422, "Explain one resolution at a time.")
+    rec = _gr_or_404(st, doc_ids[0])
+    return explain(rec, [c.page for c in body.citations], body.question, body.language, body.followup.strip())
+
+
+@router.get("/coverage")
+def coverage(request: Request):
+    """What the collection covers: totals, date range, languages and topics (with the number of resolutions on each and example
+    questions that are known to be answerable). Feeds the "what can I ask?" panel."""
+    from backend.rag.topics import compute_coverage
+    st = S(request)
+    cov = getattr(st, "_coverage", None)
+    if cov is None:
+        cov = st._coverage = compute_coverage(st.corpus.grs.values())
+    return cov
+
+
 @router.get("/grs", response_model=list[GRSummary])
 def list_grs(request: Request, department: str | None = None, year: int | None = None,
              status: str | None = None, q: str | None = None):
@@ -307,6 +345,16 @@ def logs(request: Request, limit: int = Query(20, ge=1, le=500), format: str | N
     if format != "json" and "text/html" in accept:
         return HTMLResponse(render_logs_html(rows, limit), media_type="text/html; charset=utf-8")
     return JSONResponse(content=json.loads(json.dumps(rows, default=str)), media_type="application/json; charset=utf-8")
+
+
+@router.get("/admin/session")
+def admin_session():
+    """Login check for the admin page: reaching this handler means the middleware accepted the admin token (or, with no token set, that the
+    call came from this machine). With no `GOV_ADMIN_TOKEN` configured there is no password to check, so the page is told to stay locked."""
+    import os
+    if not os.environ.get("GOV_ADMIN_TOKEN", ""):
+        raise HTTPException(503, "No admin password is set. Set GOV_ADMIN_TOKEN in .env and restart the server.")
+    return {"ok": True, "max_upload_mb": int(os.getenv("GOV_MAX_UPLOAD_MB", "50"))}
 
 
 @router.post("/admin/rebuild")

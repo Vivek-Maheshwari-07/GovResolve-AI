@@ -44,14 +44,15 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from backend.models import (
     AnswerStatement, AnswerStatus, Citation, ClauseStatus,
     GRRecord, InsufficientReason, Language, QueryResponse,
-    StatementLabel,
+    StatementLabel, SuggestedDocument,
 )
 from backend.rag.gujlish_normalizer import GujlishNormalizer, SearchBundle
 from backend.rag.gujarati_stemmer import tokenize_for_bm25
 from backend.rag.llm_gateway import (
     GUJARAT_GOV_GLOSSARY, execute_llm_generation, primary_provider_name, translate_answer_text,
-    translate_to_english, translate_to_gujarati,
+    rewrite_for_search, translate_to_english, translate_to_gujarati,
 )
+from backend.rag.topics import compute_coverage, vague_options
 from backend.rag.providers import ollama_host
 
 # ── Optional vector / NLP libraries ──────────────────────────────
@@ -316,6 +317,52 @@ def is_too_vague(query: str) -> bool:
     if len(content) < 2 and all(t in _VAGUE_BROAD for t in content):
         return True
     return all(t in _VAGUE_BROAD for t in content)  # also true when nothing is left but filler
+
+
+def rewrite_enabled() -> bool:
+    """QUERY_REWRITE = off (default) | on | auto. The rewrite turns an everyday question ("my father died in service, what does the family
+    get?") into the formal words the resolutions use, as one extra model call that runs alongside the translation. OFF by default: on the
+    34-question everyday-wording set (data/eval/naive_scorecard_*.json) it did not help (6 vs 7 of 17 answerable questions answered from
+    the right document) and it turned refusals into confident answers from the wrong resolution. `auto` uses it only when a hosted model
+    answers first (on a CPU-only local model the call would cost 10-30 s)."""
+    mode = os.getenv("QUERY_REWRITE", "off").strip().lower()
+    if mode in ("on", "1", "true", "yes"):
+        return True
+    if mode == "auto":
+        return primary_provider_name() not in ("ollama", "")
+    return False
+
+
+def nearest_documents(passages: list[dict], query_text: str, records_map: dict, limit: int = 3,
+                      common: frozenset = frozenset(), min_overlap: int = 1) -> list[SuggestedDocument]:
+    """The resolutions closest to a question the collection could not answer, best first. A resolution is offered only if its subject or
+    best-matching passage shares at least `min_overlap` distinct words with the question, ignoring filler and `common` words (those
+    that turn up all over the collection, like "government" or "employees"), so an unrelated question ("bike loan") gets no suggestions
+    rather than random ones. These are pointers to read, never an answer or a citation."""
+    wanted = {t for t in tokenize_for_bm25(query_text) if len(t) >= 3 and t not in _VAGUE_FILLER and t not in common}
+    if len(wanted) < min_overlap:
+        return []
+    out: list[SuggestedDocument] = []
+    seen: set[str] = set()
+    for p in passages:
+        meta = p.get("metadata", {}) or {}
+        gid = meta.get("gr_id")
+        if not gid or gid in seen:
+            continue
+        rec = records_map.get(gid)
+        subject = (getattr(rec, "subject", "") or "") if rec else ""
+        if len(wanted & set(tokenize_for_bm25(f"{subject} {p.get('text', '')}"))) < min_overlap:
+            continue
+        seen.add(gid)
+        try:
+            page = int((json.loads(meta.get("pages", "[1]")) or [1])[0])
+        except (ValueError, TypeError):
+            page = 1
+        out.append(SuggestedDocument(gr_id=gid, gr_number=meta.get("gr_number", "") or (getattr(rec, "gr_number", "") if rec else ""),
+                                     subject=subject, issue_date=meta.get("issue_date") or None, page=max(page, 1)))
+        if len(out) >= limit:
+            break
+    return out
 
 
 # ──────────────────────────────────────────────
@@ -1333,6 +1380,26 @@ class RAGPipeline:
         self._response_cache: dict[tuple[str, str], QueryResponse] = {}
         self._cache_lock = threading.Lock()
 
+    def common_words(self) -> frozenset:
+        """Words found in more than 3% of the passages (cached): too general to show that a resolution is about the question."""
+        cw = getattr(self, "_common_words", None)
+        if cw is None:
+            df: Counter = Counter()
+            n = 0
+            for r in self.records_map.values():
+                for ch in r.chunks:
+                    n += 1
+                    df.update(set(tokenize_for_bm25(ch.text_clean)))
+            cw = self._common_words = frozenset(t for t, c in df.items() if n and c / n > 0.03)
+        return cw
+
+    def coverage(self) -> dict:
+        """Topics the collection covers (cached); see `backend.rag.topics`."""
+        cov = getattr(self, "_coverage", None)
+        if cov is None:
+            cov = self._coverage = compute_coverage(self.records_map.values())
+        return cov
+
     def _get_latest_date(self, records: list[GRRecord]) -> str:
         dates = [r.issue_date for r in records if r.issue_date]
         return max(dates) if dates else "unknown"
@@ -1366,15 +1433,19 @@ class RAGPipeline:
         # ENABLE_GUJARATI_QUERY_TRANSLATION=0 also turns the Gujarati rendering off
         if os.getenv("ENABLE_GUJARATI_QUERY_TRANSLATION", "1").strip().lower() in ("0", "false", "no", "off"):
             need_gu = False
-        if not (need_en or need_gu):
+        need_rw = rewrite_enabled()
+        if not (need_en or need_gu or need_rw):
             return bundle
         _emit(progress, "translate", "Rendering the question in " + " and ".join(
-            [x for x, on in (("English", need_en), ("Gujarati", need_gu)) if on]))
-        with ThreadPoolExecutor(max_workers=2) as pool:
+            [x for x, on in (("English", need_en), ("Gujarati", need_gu), ("the words the resolutions use", need_rw and not (need_en or need_gu))) if on]))
+        with ThreadPoolExecutor(max_workers=3) as pool:
             f_en = pool.submit(translate_to_english, raw_query) if need_en else None
             f_gu = pool.submit(translate_to_gujarati, raw_query) if need_gu else None
+            f_rw = pool.submit(rewrite_for_search, raw_query) if need_rw else None
             english = f_en.result() if f_en else None
             gujarati = f_gu.result() if f_gu else None
+            rewritten = f_rw.result() if f_rw else None
+
 
         # 1. High-quality English query (bridges Gujarati/Gujlish to English GRs)
         if english:
@@ -1389,6 +1460,15 @@ class RAGPipeline:
         if gujarati:
             gu_words = [w for w in re.findall(r"[\u0A80-\u0AFF0-9]{2,}", gujarati)]
             bundle = dataclasses.replace(bundle, query_gu=gujarati, keywords=list(dict.fromkeys(list(bundle.keywords) + gu_words)))
+
+        # 3. Formal search words for an everyday question: added after the question's own words, never in place of them
+        if rewritten:
+            rw_words = [w.lower() for w in re.findall(r"[A-Za-z0-9]{3,}", rewritten)]
+            bundle = dataclasses.replace(
+                bundle,
+                query_en=f"{bundle.query_en} {rewritten}".strip() if bundle.query_en else rewritten,
+                keywords=list(dict.fromkeys(list(bundle.keywords) + rw_words)),
+            )
 
         return bundle
 
@@ -1780,6 +1860,8 @@ class RAGPipeline:
         key = cache.key(raw_query, (target_language or "auto").strip().lower()) if cache and not filters else None
         if key and AnswerCache.enabled():
             hit = cache.get(key)
+            if hit and hit.get("answer_status") == AnswerStatus.INSUFFICIENT.value and "suggested_documents" not in hit:
+                hit = None  # a refusal saved before suggestions existed: ask again so it can carry them
             if hit:
                 try:
                     resp = QueryResponse.model_validate(hit)
@@ -1787,7 +1869,11 @@ class RAGPipeline:
                     return resp
                 except Exception:
                     pass
-        resp, from_model = self._answer_inner(raw_query, filters, target_language, progress)
+        seen: dict = {}
+        resp, from_model = self._answer_inner(raw_query, filters, target_language, progress, seen)
+        if resp.answer_status == AnswerStatus.INSUFFICIENT and not resp.suggested_documents and seen.get("passages") and                 resp.insufficient_reason in (InsufficientReason.NO_DOCUMENT, InsufficientReason.MISSING_FACTS, InsufficientReason.POOR_SCAN):
+            q = f"{raw_query} {seen['bundle'].query_en if seen.get('bundle') else ''}"
+            resp.suggested_documents = nearest_documents(seen["passages"], q, self.records_map, common=self.common_words(), min_overlap=2)
         if key and from_model:
             try:
                 cache.put(key, resp.model_dump(mode="json"))
@@ -1801,6 +1887,7 @@ class RAGPipeline:
         filters: Optional[dict] = None,
         target_language: Optional[str] = None,
         progress: Optional[Any] = None,
+        seen: Optional[dict] = None,
     ) -> tuple[QueryResponse, bool]:
         """
         Complete 5-Pillar RAG Execution:
@@ -1863,9 +1950,9 @@ class RAGPipeline:
                 else "Your question is too broad. Could you please specify the department, allowance, or leave type?"
             )
             follow_up = (
-                "તમે કયા ચોક્કસ વિભાગ અથવા નિયમ (દા.ત., કેઝ્યુઅલ રજા, એલટીસી, પ્રસુતિ રજા) વિશે પૂછી રહ્યા છો?"
+                "તમે કયા ચોક્કસ વિભાગ અથવા નિયમ (દા.ત., એલટીસી, ભથ્થાં, ઉંમર મર્યાદા) વિશે પૂછી રહ્યા છો?"
                 if effective_target_lang == Language.GU
-                else "Which specific department or rule (e.g., Casual Leave, LTC, Maternity Leave) are you asking about?"
+                else "Which specific department or rule (e.g., LTC, travelling allowance, age limit for recruitment) are you asking about?"
             )
             _emit(progress, "guard", "The question names only a broad topic: asking for detail instead of guessing")
             return QueryResponse(
@@ -1874,6 +1961,7 @@ class RAGPipeline:
                 insufficient_reason=InsufficientReason.TOO_VAGUE,
                 summary=summary,
                 follow_up_question=follow_up,
+                follow_up_options=vague_options(raw_query, self.coverage()["topics"], "gu" if effective_target_lang == Language.GU else detected_lang.value),
                 language_detected=detected_lang,
                 collection_latest_date=self.collection_latest_date,
             ), False
@@ -1914,6 +2002,8 @@ class RAGPipeline:
         _emit(progress, "search", f"Searching {n_chunks:,} passages ({'keywords + bge-m3 vectors' if vector_on else 'keywords only'})"
               if n_chunks else "Searching the collection", chunks=n_chunks)
         passages = self.index.search(bundle, top_k=TOP_K_RETRIEVE, filters=filters)
+        if seen is not None:
+            seen["passages"], seen["bundle"] = passages, bundle
         if not passages:
             summary = (
                 "આ પ્રશ્ન માટે સંગ્રહમાં કોઈ સંબંધિત સરકારી ઠરાવ (GR) મળ્યો નથી."

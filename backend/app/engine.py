@@ -16,6 +16,8 @@ class EngineResult(BaseModel):
     statements: list[Statement] = Field(default_factory=list)  # citation indexes point into `citations`
     warnings: list[str] = Field(default_factory=list)  # e.g. answered without the language model; shown with the lineage warnings
     language: str | None = None  # actual language of the synthesized answer when resolved automatically
+    suggestions: list[dict] = Field(default_factory=list)  # closest GRs on a refusal: doc_id, gr_number, subject, issue_date, page
+    follow_up_options: list[str] = Field(default_factory=list)  # questions to offer when the question was too broad
 
 
 class AnswerEngine(Protocol):

@@ -14,6 +14,52 @@ async function getJson(path, init) {
   return body;
 }
 
+/**
+ * Simple-words explanation of one cited resolution, or (with `followup`) an answer to a question about it. The server writes it from the
+ * resolution's stored text only. Returns { available, simple, steps, documents } / { available, answer, stated } or
+ * { available: false, reason: 'busy' | 'unverified' | 'no_text' }.
+ */
+export async function explainResolution({ question, language, docId, pages, followup = '' }, signal = undefined) {
+  return getJson('/explain', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question, language, followup, citations: pages.map((page) => ({ doc_id: docId, page })) }),
+    signal,
+  });
+}
+
+async function adminFetch(path, password, init = {}) {
+  const res = await fetch(path, { ...init, headers: { ...(init.headers || {}), 'X-Admin-Token': password } });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error(body.reason || body.error || body.detail || `Request failed with status ${res.status}`);
+    err.status = res.status;
+    throw err;
+  }
+  return body;
+}
+
+/** Admin page: checks the password (the server answers 401 for a wrong one, 429 after too many, 503 if none is configured). */
+export function adminLogin(password) {
+  return adminFetch('/admin/session', password);
+}
+
+/** Admin page: adds one PDF to the collection. */
+export function adminUpload(file, password) {
+  const form = new FormData();
+  form.append('file', file);
+  return adminFetch('/api/upload', password, { method: 'POST', body: form });
+}
+
+/** What the collection covers (topics with counts and example questions), or null if the server has no /coverage. */
+export async function fetchCoverage() {
+  try {
+    return await getJson('/coverage');
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchStats() {
   const h = await getJson('/health');
   return {
@@ -163,6 +209,9 @@ export async function ask(question, language = null, signal = undefined, options
     insufficient_reason: answered ? null : (r.reason || '').replace(/^[A-Z_]{4,}:\s*/, ''),  // the code is shown as its own badge
     warnings: r.warnings || [],
     citations,
+    // closest resolutions to a refused question (pointers to read, not citations) and questions to click when it was too broad
+    suggestions: (r.suggestions || []).map((s) => ({ gr_id: s.doc_id, gr_number: s.gr_number || s.doc_id, subject: s.subject, issue_date: s.issue_date, page: s.page || 1 })),
+    follow_up_options: r.follow_up_options || [],
     statements: (r.statements || []).map((s) => ({
       text: s.text,
       label: LABEL_TEXT[s.label] || s.label,
@@ -193,6 +242,18 @@ export async function transcribeAudio(blob, language = null, signal = undefined,
   return getJson('/voice/transcribe', { method: 'POST', body: fd, signal });
 }
 
+/** Server voice for a spoken reply (`POST /voice/speak`, MP3). Returns a Blob, or throws when no server voice is available. */
+export async function speakAudio(text, language = null, signal = undefined) {
+  const res = await fetch('/voice/speak', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: String(text || '').slice(0, 4000), language }),
+    signal,
+  });
+  if (!res.ok) throw new Error(`speak ${res.status}`);
+  return res.blob();
+}
+
 // The library: every GR with its status. `/grs` uses the lineage engine's internal words (ACTIVE, ABROGATED, ...);
 // they are mapped here so the UI never shows "active" (finding no later order is not proof that a rule is in force).
 const GR_STATUS = { ACTIVE: 'no_change', AMENDED: 'amended', SUPERSEDED: 'superseded', ABROGATED: 'superseded' };
@@ -218,6 +279,11 @@ export async function listGrs() {
 const _TR_CACHE = new Map();
 
 /** On-demand official translation helper for verbatim GR quotes / OCR paragraphs. */
+/** True when a "translation" is the model declining or explaining instead of translating. */
+export function looksLikeModelRefusal(text) {
+  return /^\s*(?:I['\u2019]?m sorry|I am sorry|Sorry,|I (?:can['\u2019]?t|cannot|am unable)|I['\u2019]m unable|Unfortunately,? I)/i.test(String(text || ''));
+}
+
 export async function translateText(text, targetLanguage = 'gu', signal = undefined) {
   const src = String(text || '').trim();
   const tgt = targetLanguage === 'en' ? 'en' : 'gu';
@@ -230,7 +296,7 @@ export async function translateText(text, targetLanguage = 'gu', signal = undefi
     body: JSON.stringify({ text: src.slice(0, 2500), target_language: tgt }),
     signal,
   });
-  const out = res?.translated || '';
+  const out = looksLikeModelRefusal(res?.translated) ? '' : (res?.translated || '');
   if (out) _TR_CACHE.set(key, out);
   return out;
 }

@@ -81,3 +81,12 @@ def test_ui_is_served_when_built(tmp_path):
     with TestClient(create_app(cfg, persist_vectors=False)) as c:
         assert "GovResolve UI" in c.get("/").text
         assert c.get("/health").json()["status"] == "ok"      # API routes still win over the mount
+
+
+def test_broken_chain_warning_does_not_quote_text_read_wrongly_from_a_legacy_font():
+    from app.query_eval import readable_ref
+
+    assert readable_ref("ચનયમ-3ના") == "an earlier provision"
+    assert readable_ref("પેટા-ચનયમ(5)ના") == "an earlier provision"
+    assert readable_ref("Rule 3(5)") == "Rule 3(5)"
+    assert readable_ref("નિયમ-૩") == "નિયમ-૩"      # correctly encoded Gujarati is kept

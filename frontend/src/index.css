@@ -190,16 +190,6 @@ body::before {
   animation: scannerPulse 3.6s ease-in-out infinite;
 }
 
-/* Time flow animated dash */
-@keyframes dashFlow {
-  to {
-    stroke-dashoffset: -20;
-  }
-}
-.edge-flow {
-  animation: dashFlow 1.6s linear infinite;
-}
-
 ::selection { background: rgba(79, 70, 229, 0.16); color: #1E293B; }
 :focus-visible { outline: 2px solid #4F46E5; outline-offset: 2px; border-radius: 8px; }
 
@@ -264,4 +254,30 @@ body::before {
     border: 1px solid #fecdd3 !important;
     color: #881337 !important;
   }
+}
+
+/* Landing page: drifting light, dot grid, pointer spotlight */
+.hero-grid {
+  background-image: radial-gradient(circle, rgba(79, 70, 229, 0.20) 1px, transparent 1.3px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 62% 38%, #000 0%, transparent 72%);
+  mask-image: radial-gradient(ellipse 70% 60% at 62% 38%, #000 0%, transparent 72%);
+  opacity: 0.55;
+}
+.hero-glow { position: absolute; border-radius: 9999px; filter: blur(70px); will-change: transform; }
+.hero-glow-a { width: 520px; height: 520px; right: 4%; top: -120px; background: rgba(99, 102, 241, 0.20); animation: heroDriftA 22s ease-in-out infinite alternate; }
+.hero-glow-b { width: 420px; height: 420px; left: -6%; top: 160px; background: rgba(245, 158, 11, 0.10); animation: heroDriftB 28s ease-in-out infinite alternate; }
+@keyframes heroDriftA { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-70px, 50px, 0) scale(1.12); } }
+@keyframes heroDriftB { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(60px, -40px, 0) scale(1.08); } }
+
+.spotlight { position: relative; overflow: hidden; isolation: isolate; }
+.spotlight::before {
+  content: '';
+  position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .25s ease;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(79, 70, 229, 0.10), transparent 70%);
+}
+.spotlight:hover::before { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow { animation: none; }
 }

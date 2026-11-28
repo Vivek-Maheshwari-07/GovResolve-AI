@@ -43,6 +43,8 @@ const GUJLISH_FUNC = new Set([
   'karvu', 'karva', 'batao', 'janavo', 'samjavo', 'kaho', 'aapo', 'apo', 'malse', 'malshe',
   'male', 'lagu', 'pade', 'padse', 'hethal', 'mujab', 'anusar', 'pachi', 'pahela', 'sudhi', 'vishe',
   'chalu', 'thai', 'thay', 'thayo', 'thayu', 'hati', 'hato', 'hatu', 'hata', 'avshe', 'aavshe', 'rite',
+  'kya', 'kyan', 'kaya', 'kai', 'koi', 'thi', 'jashe', 'jase', 'jaay', 'hoy', 'hova', 'chalse', 'chale', 'chalshe',
+  'amal', 'divas', 'gana', 'gani', 'athva', 'athwa', 'ane', 'tya', 'ma', 'ni', 'nu', 'na',
 ]);
 
 const GUJLISH_ADMIN = new Set([
@@ -174,6 +176,16 @@ export function resolveChatTurn(input, turns = [], pinnedLang = null) {
     isLanguageSwitch: Boolean(sw.targetLang),
     isPureSwitch: false,
   };
+}
+
+/**
+ * Language a reply should be shown in. `replyLang` is the chat's selector: 'en' | 'gu' force it, 'auto' answers in the
+ * language the question was asked in (Gujlish counts as Gujarati).
+ */
+export function replyTargetLang(message, replyLang = 'auto') {
+  if (replyLang === 'en' || replyLang === 'gu') return replyLang;
+  const asked = detectChatLanguage(message?.question);
+  return asked === 'gu' || asked === 'gujlish' ? 'gu' : 'en';
 }
 
 /** Determine the actual language of an assistant reply ('gu' or 'en'). */

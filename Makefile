@@ -1,6 +1,7 @@
 # GovResolve-AI developer shortcuts. `make help` lists them.
 PY      ?= python3
 CORPUS  ?= data/corpus_v2
+INDEX   ?= data/index/chroma
 DC      ?= docker compose -f deploy/docker-compose.yml --project-directory .
 .DEFAULT_GOAL := help
 
@@ -32,8 +33,8 @@ preflight:  ## Check this machine for the live demo and pre-warm the demo answer
 llm-check:  ## Check Ollama / Groq configuration, reachability and speed
 	$(PY) -m backend.scripts.llm_smoke
 
-index:  ## Build the search index from a corpus folder (slow with a CPU embedder). CORPUS=data/corpus_v2
-	cd backend && $(PY) -m scripts.build_squad2_index --corpus ../$(CORPUS) --index ../data/index/chroma
+index:  ## Build or refresh the search index (slow with a CPU embedder). CORPUS=data/corpus_v2 INDEX=data/index/chroma_bge
+	cd backend && $(PY) -m scripts.build_squad2_index --corpus ../$(CORPUS) --index ../$(INDEX)
 
 test: test-backend test-frontend  ## Run all tests
 

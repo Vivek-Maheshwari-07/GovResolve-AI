@@ -1,14 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   PhoneCall, X, Mic, Square, FileText, ExternalLink,
-  RotateCcw, Copy, Check, AlertTriangle, Loader2, Sparkles, Globe,
+  RotateCcw, Copy, Check, AlertTriangle, Loader2, Sparkles, Globe, Send, Volume2, VolumeX,
 } from 'lucide-react';
 import { ask, needsTextTranslation, translateResponseFields, translateText, transcribeAudio, voiceTranscribeStatus } from '../api';
 import { STATUS, TONES } from '../lib/status';
 import {
   CHAT_TOPICS, HELPLINE_NUMBER, HELPLINE_PIN,
-  buildBotMessage, detectChatLanguage, resolveChatTurn,
+  buildBotMessage, detectChatLanguage, replyTargetLang, resolveChatTurn,
 } from '../lib/chat';
+import { createEndpointer, looksIncomplete } from '../lib/endpointing';
+import { createSpeechSession } from '../lib/speechSession';
+import { speakReply, stopSpeaking } from '../lib/replyVoice';
 import { statusText, reasonText } from '../lib/bilingualStrings';
 import { useLanguage, useT } from '../lib/LanguageContext';
 
@@ -44,8 +47,7 @@ const WelcomeCard = React.memo(function WelcomeCard({ busy, onPickTopic }) {
   );
 });
 
-const ChatMessageList = React.memo(function ChatMessageList({ messages, msgTranslations, onInspect }) {
-  const { lang: uiLang } = useLanguage();
+const ChatMessageList = React.memo(function ChatMessageList({ messages, msgTranslations, replyLang, speaking, onSpeak, onInspect }) {
   const t = useT();
   return messages.map((m) => {
     if (m.role === 'user') {
@@ -58,11 +60,14 @@ const ChatMessageList = React.memo(function ChatMessageList({ messages, msgTrans
       );
     }
 
-    const tr = msgTranslations?.[`${m.id}:${uiLang}`];
+    const target = replyTargetLang(m, replyLang);
+    const tr = msgTranslations?.[`${m.id}:${target}`];
     const shownText = tr?.text ?? m.text;
     const shownWarnings = tr?.warnings ?? m.warnings ?? [];
     const tone = TONES[(STATUS[m.answerStatus] || STATUS.insufficient).tone];
-    const cardLang = uiLang === 'gu' ? 'gu' : 'en';
+    const cardLang = target;
+    const mySpeech = speaking?.id === m.id ? speaking.state : 'idle';
+    const speechActive = mySpeech === 'loading' || mySpeech === 'playing';
     const badgeLabel = m.verdict === 'unavailable'
       ? t('chat.unavailable')
       : statusText(m.answerStatus, cardLang).short;
@@ -109,15 +114,31 @@ const ChatMessageList = React.memo(function ChatMessageList({ messages, msgTrans
             </div>
           )}
 
-          {m.verdict === 'answered' && (
-            <div className="flex flex-wrap gap-1.5 border-t border-[#F1EFEA] pt-2">
+          {m.verdict !== 'unavailable' && (
+            <div className="flex flex-wrap items-center gap-1.5 border-t border-[#F1EFEA] pt-2">
               <button
                 type="button"
-                onClick={() => onInspect?.(m.question, m.rawResponse, m.citations?.[0] || null)}
-                className="rounded-md border border-[#E6E4DD] bg-[#FAF9F5] px-2 py-0.5 text-[10.5px] font-semibold text-[#475569] hover:border-[#C7D2FE] hover:text-[#4F46E5]"
+                onClick={() => onSpeak?.(m)}
+                aria-pressed={speechActive}
+                className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[10.5px] font-semibold transition-colors ${
+                  speechActive
+                    ? 'border-[#C7D2FE] bg-[#EEF2FF] text-[#4F46E5]'
+                    : 'border-[#E6E4DD] bg-[#FAF9F5] text-[#475569] hover:border-[#C7D2FE] hover:text-[#4F46E5]'
+                }`}
               >
-                {t('chat.open_dossier')}
+                {mySpeech === 'loading' ? <Loader2 className="h-3 w-3 animate-spin" /> : speechActive ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
+                <span>{mySpeech === 'loading' ? t('chat.loading_voice') : speechActive ? t('chat.stop_speaking') : t('chat.speak_reply')}</span>
               </button>
+              {m.verdict === 'answered' && (
+                <button
+                  type="button"
+                  onClick={() => onInspect?.(m.question, m.rawResponse, m.citations?.[0] || null)}
+                  className="rounded-md border border-[#E6E4DD] bg-[#FAF9F5] px-2 py-0.5 text-[10.5px] font-semibold text-[#475569] hover:border-[#C7D2FE] hover:text-[#4F46E5]"
+                >
+                  {t('chat.open_dossier')}
+                </button>
+              )}
+              {mySpeech === 'failed' && <span role="status" className="text-[10.5px] text-[#9F1239]">{t('chat.speak_failed')}</span>}
             </div>
           )}
         </div>
@@ -134,16 +155,19 @@ function pickAudioMime() {
   return '';
 }
 
+// Microphone + typing box. Recording stops by itself once you have really finished (a pause in the middle of a sentence does
+// not end it; see lib/endpointing.js) and you can still tap to stop. The language you speak is detected automatically.
 const VoiceDock = React.memo(function VoiceDock({
-  open, busy, hasHistory, uiMode, uiLang, onSubmitText, onDetectedLang,
+  open, busy, hasHistory, uiLang, onSubmitText, onDetectedLang,
 }) {
   const t = useT();
   const [voiceState, setVoiceState] = useState('idle'); // 'idle' | 'recording' | 'transcribing'
   const [liveTranscript, setLiveTranscript] = useState('');
   const [voiceNote, setVoiceNote] = useState('');
+  const [typed, setTyped] = useState('');
   const meterBarRef = useRef(null);
-  const recRef = useRef(null);
-  const mediaRef = useRef(null);
+  const sessionRef = useRef(null);   // browser recognition (fallback)
+  const mediaRef = useRef(null);     // MediaRecorder (Whisper path)
   const streamRef = useRef(null);
   const audioCtxRef = useRef(null);
   const rafRef = useRef(null);
@@ -181,7 +205,7 @@ const VoiceDock = React.memo(function VoiceDock({
       audioCtxRef.current = null;
     }
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach((t) => t.stop());
+      streamRef.current.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     }
   }, []);
@@ -191,9 +215,9 @@ const VoiceDock = React.memo(function VoiceDock({
       mediaRef.current._discardOnStop = true;
       try { mediaRef.current.stop(); } catch { /* ignore */ }
     }
-    if (recRef.current) {
-      if (recRef.current._discardOnStop) recRef.current._discardOnStop();
-      else { try { recRef.current.stop(); } catch { /* ignore */ } }
+    if (sessionRef.current) {
+      sessionRef.current.abort();
+      sessionRef.current = null;
     }
     cleanupRecordingResources();
     setVoiceState('idle');
@@ -207,64 +231,47 @@ const VoiceDock = React.memo(function VoiceDock({
     }
   }, [open, abortRecording]);
 
-  const startWebSpeechFallback = (noteText = '') => {
+  useEffect(() => () => abortRecording(), [abortRecording]);
+
+  // The browser's own recognition cannot detect the language, so it listens in the interface language.
+  const startBrowserRecognition = (noteText = '') => {
     if (!speechCtor) {
       setVoiceState('idle');
-      setVoiceNote(noteText || 'Microphone unavailable in this browser.');
+      setVoiceNote(noteText || t('chat.voice_no_mic'));
       return;
     }
-    const rec = new speechCtor();
-    const preferGuSpeech = uiLang === 'gu';
-    rec.lang = preferGuSpeech ? 'gu-IN' : 'en-IN';
-    rec.interimResults = true;
-    rec.continuous = true;
-    rec.maxAlternatives = 3;
-    let latestTranscript = '';
-    let discarded = false;
-
-    rec.onresult = (ev) => {
-      let finalChunk = '';
-      let interimChunk = '';
-      for (let i = 0; i < ev.results.length; i += 1) {
-        const txt = ev.results[i]?.[0]?.transcript || '';
-        if (ev.results[i].isFinal) finalChunk += ` ${txt}`;
-        else interimChunk += ` ${txt}`;
-      }
-      const spoken = `${finalChunk} ${interimChunk}`.trim();
-      if (spoken) {
-        latestTranscript = spoken;
-        setLiveTranscript(spoken);
-        const d = detectChatLanguage(spoken);
+    const session = createSpeechSession({
+      Recognition: speechCtor,
+      lang: uiLang === 'gu' ? 'gu-IN' : 'en-IN',
+      onInterim: (text) => {
+        setLiveTranscript(text);
+        const d = detectChatLanguage(text);
         if (d) onDetectedLang(d);
-      }
-    };
-    rec.onerror = (ev) => {
-      setVoiceState('idle');
-      if (ev?.error === 'not-allowed') setVoiceNote('Microphone access denied in browser.');
-    };
-    rec.onend = () => {
-      setVoiceState('idle');
-      const finalText = latestTranscript.trim();
-      setLiveTranscript('');
-      if (discarded) return;
-      if (finalText) {
-        setVoiceNote('');
-        onSubmitText(finalText);
-      } else {
-        setVoiceNote('No speech captured — press mic and try again.');
-      }
-    };
-    rec._discardOnStop = () => {
-      discarded = true;
-      try { rec.stop(); } catch { /* ignore */ }
-    };
-    recRef.current = rec;
+      },
+      onError: (code) => {
+        if (code === 'not-allowed' || code === 'service-not-allowed') setVoiceNote(t('chat.voice_denied'));
+      },
+      onEnd: ({ text }) => {
+        sessionRef.current = null;
+        setVoiceState('idle');
+        setLiveTranscript('');
+        const spoken = text.trim();
+        if (spoken) {
+          setVoiceNote('');
+          onSubmitText(spoken, true);
+        } else {
+          setVoiceNote((prev) => prev || t('chat.voice_no_speech'));
+        }
+      },
+    });
+    sessionRef.current = session;
     setLiveTranscript('');
+    setVoiceNote(noteText);
     setVoiceState('recording');
-    if (noteText) setVoiceNote(noteText);
     try {
-      rec.start();
+      session.start();
     } catch {
+      sessionRef.current = null;
       setVoiceState('idle');
     }
   };
@@ -273,18 +280,20 @@ const VoiceDock = React.memo(function VoiceDock({
     if (busy || voiceState === 'transcribing') return;
     setVoiceNote('');
 
-    // Second press -> stops listening cleanly & sends the question
+    // Second press: stop listening and send what was heard
     if (voiceState === 'recording') {
       if (mediaRef.current && mediaRef.current.state !== 'inactive') {
         mediaRef.current.stop();
-      } else if (recRef.current) {
-        try { recRef.current.stop(); } catch { /* ignore */ }
+      } else {
+        sessionRef.current?.stop();
       }
       return;
     }
 
+    stopSpeaking(); // never talk over the person
+
     if (!canMediaRecord) {
-      startWebSpeechFallback();
+      startBrowserRecognition();
       return;
     }
 
@@ -294,7 +303,7 @@ const VoiceDock = React.memo(function VoiceDock({
     clearTimeout(probeTimer);
 
     if (!cloudSttReady) {
-      startWebSpeechFallback('Using browser live voice (restart backend for Whisper Gujarati + English).');
+      startBrowserRecognition(t('chat.voice_browser_mode'));
       return;
     }
 
@@ -306,7 +315,7 @@ const VoiceDock = React.memo(function VoiceDock({
       const mimeType = pickAudioMime();
       const recorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
       const chunks = [];
-      let speechHeard = false;
+      const endpointer = createEndpointer();
       let livePreviewText = '';
       let previewBusy = false;
 
@@ -314,10 +323,10 @@ const VoiceDock = React.memo(function VoiceDock({
         if (ev.data && ev.data.size > 0) chunks.push(ev.data);
       };
 
-      // Live streaming partial transcription while user is speaking (stays open until second tap)
+      // Live partial transcript while the person is speaking
       previewTimerRef.current = setInterval(async () => {
         if (!mediaRef.current || mediaRef.current.state !== 'recording') return;
-        if (!speechHeard || previewBusy || chunks.length < 2) return;
+        if (!endpointer.speechStarted || previewBusy || chunks.length < 2) return;
         const previewBlob = new Blob(chunks, { type: recorder.mimeType || mimeType || 'audio/webm' });
         if (previewBlob.size < 1600) return;
 
@@ -325,7 +334,7 @@ const VoiceDock = React.memo(function VoiceDock({
         const ctl = new AbortController();
         previewCtlRef.current = ctl;
         try {
-          const res = await transcribeAudio(previewBlob, uiMode === 'auto' ? null : uiMode, ctl.signal, 'fast');
+          const res = await transcribeAudio(previewBlob, null, ctl.signal, 'fast');
           const partial = (res?.text || '').trim();
           if (partial && mediaRef.current?.state === 'recording' && !recorder._discardOnStop) {
             livePreviewText = partial;
@@ -353,12 +362,12 @@ const VoiceDock = React.memo(function VoiceDock({
         if (blob.size < 400) {
           setLiveTranscript('');
           setVoiceState('idle');
-          setVoiceNote('No speech captured — press mic, speak, then press again.');
+          setVoiceNote(t('chat.voice_no_speech'));
           return;
         }
         setVoiceState('transcribing');
         try {
-          const res = await transcribeAudio(blob, uiMode === 'auto' ? null : uiMode, undefined, 'accurate');
+          const res = await transcribeAudio(blob, null, undefined, 'accurate'); // language is detected from the audio
           const spoken = (res?.text || '').trim() || livePreviewText;
           setLiveTranscript('');
           setVoiceState('idle');
@@ -366,18 +375,18 @@ const VoiceDock = React.memo(function VoiceDock({
             const resolved = res?.detected_language || detectChatLanguage(spoken);
             if (resolved) onDetectedLang(resolved);
             setVoiceNote('');
-            onSubmitText(spoken);
+            onSubmitText(spoken, true);
           } else {
-            setVoiceNote('Could not hear clear speech — press mic and speak closer.');
+            setVoiceNote(t('chat.voice_unclear'));
           }
         } catch {
           setLiveTranscript('');
           setVoiceState('idle');
           if (livePreviewText) {
             setVoiceNote('');
-            onSubmitText(livePreviewText);
+            onSubmitText(livePreviewText, true);
           } else {
-            setVoiceNote('Speech recognition interrupted — press mic to try again.');
+            setVoiceNote(t('chat.voice_interrupted'));
           }
         }
       };
@@ -387,7 +396,7 @@ const VoiceDock = React.memo(function VoiceDock({
       recorder.start(350);
       setVoiceState('recording');
 
-      // Live volume level bar only (NO auto-stop on silence — stops strictly when pressed again)
+      // Loudness meter, and the end-of-speech decision
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (AudioCtx) {
         try {
@@ -408,32 +417,51 @@ const VoiceDock = React.memo(function VoiceDock({
               sum += v * v;
             }
             const rms = Math.sqrt(sum / buf.length);
-            if (rms > 0.025) speechHeard = true;
             if (meterBarRef.current) {
               const scale = Math.min(1, Math.max(0.12, rms * 6));
               meterBarRef.current.style.transform = `scaleX(${scale})`;
             }
+            const verdict = endpointer.push(rms, performance.now(), { incomplete: looksIncomplete(livePreviewText) });
+            if (verdict === 'end' || verdict === 'max') {
+              recorder.stop(); // finished speaking: transcribe and ask
+              return;
+            }
+            if (verdict === 'nospeech') {
+              recorder._discardOnStop = true;
+              recorder.stop();
+              setVoiceNote(t('chat.voice_no_speech'));
+              return;
+            }
             rafRef.current = requestAnimationFrame(tick);
           };
           rafRef.current = requestAnimationFrame(tick);
-        } catch { /* meter optional */ }
+        } catch { /* meter and automatic stop are optional */ }
       }
 
-      // Safety cap at 60s if forgotten
+      // Safety cap in case the meter could not start
       safetyCapRef.current = setTimeout(() => {
         if (mediaRef.current && mediaRef.current.state === 'recording') {
           mediaRef.current.stop();
         }
-      }, 60000);
+      }, 62000);
     } catch (err) {
       cleanupRecordingResources();
       if (err?.name === 'NotAllowedError') {
         setVoiceState('idle');
-        setVoiceNote('Microphone access denied in browser.');
+        setVoiceNote(t('chat.voice_denied'));
       } else {
-        startWebSpeechFallback();
+        startBrowserRecognition();
       }
     }
+  };
+
+  const submitTyped = (e) => {
+    e.preventDefault();
+    const text = typed.trim();
+    if (!text || busy) return;
+    stopSpeaking();
+    setTyped('');
+    onSubmitText(text, false);
   };
 
   const recording = voiceState === 'recording';
@@ -445,7 +473,7 @@ const VoiceDock = React.memo(function VoiceDock({
         <div className="mb-2.5 rounded-xl border border-[#C7D2FE] bg-[#EEF2FF]/60 px-3 py-2">
           <div className="mb-1 flex items-center justify-between gap-2 text-[10.5px]">
             <span className="inline-flex items-center gap-1.5 font-semibold text-[#BE123C]">
-              <span className="h-2 w-2 rounded-full bg-[#E11D48]" />
+              <span className="h-2 w-2 animate-pulse rounded-full bg-[#E11D48]" />
               <span>{transcribing ? t('chat.finalizing') : t('chat.listening')}</span>
             </span>
             {recording && (
@@ -463,17 +491,20 @@ const VoiceDock = React.memo(function VoiceDock({
               <span ref={meterBarRef} className="block h-full origin-left rounded-full bg-[#E11D48] transition-transform duration-75" style={{ transform: 'scaleX(0.15)' }} />
             </div>
           )}
-          <p className="gu-text text-[13px] font-medium leading-snug text-[#1E293B]">
+          <p aria-live="polite" className="gu-text text-[13px] font-medium leading-snug text-[#1E293B]">
             {liveTranscript || t('chat.speak_prompt')}
           </p>
+          {recording && !liveTranscript && (
+            <p className="mt-1 text-[10.5px] text-[#64748B]">{t('chat.pause_ok')}</p>
+          )}
         </div>
       )}
 
       {!recording && !transcribing && voiceNote && (
-        <p className="mb-2 text-center text-[11px] text-[#64748B]">{voiceNote}</p>
+        <p role="status" className="mb-2 text-center text-[11px] text-[#64748B]">{voiceNote}</p>
       )}
 
-      <div className="flex flex-col items-center gap-1.5">
+      <div className="flex flex-col items-center gap-2">
         {hasMic ? (
           <button
             type="button"
@@ -508,16 +539,55 @@ const VoiceDock = React.memo(function VoiceDock({
             {t('chat.voice_unavailable')}
           </p>
         )}
+
+        <form onSubmit={submitTyped} className="flex w-full items-center gap-1.5">
+          <input
+            type="text"
+            value={typed}
+            onChange={(e) => setTyped(e.target.value)}
+            maxLength={1000}
+            disabled={busy || recording || transcribing}
+            placeholder={t('chat.type_placeholder')}
+            aria-label={t('chat.type_placeholder')}
+            className="gu-text min-w-0 flex-1 rounded-xl border border-[#E6E4DD] bg-[#FAF9F5] px-3 py-2 text-[13px] text-[#1E293B] outline-none placeholder:text-[#64748B]/70 focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/15 disabled:opacity-50"
+          />
+          <button
+            type="submit"
+            disabled={!typed.trim() || busy || recording || transcribing}
+            aria-label={t('chat.send')}
+            title={t('chat.send')}
+            className="btn-primary grid h-9 w-9 shrink-0 place-items-center rounded-xl text-white disabled:opacity-40"
+          >
+            <Send className="h-4 w-4" />
+          </button>
+        </form>
       </div>
     </div>
   );
 });
 
 export default function ChatHelpline({ open, onOpenChange, onInspect }) {
-  const { mode: uiMode, lang: uiLang, detectedLang: uiDetected, setLang: setPlatformLang, setDetectedLang: setPlatformDetectedLang } = useLanguage();
+  const { lang: uiLang, setDetectedLang: setPlatformDetectedLang } = useLanguage();
   const t = useT();
   const [messages, setMessages] = useState([]);
   const [msgTranslations, setMsgTranslations] = useState({});
+  // language of the answers: 'auto' answers in the language of the question, 'en' / 'gu' force it (kept between visits)
+  const [replyLang, setReplyLang] = useState(() => {
+    try {
+      const v = localStorage.getItem('gov.chat.replyLang');
+      return v === 'en' || v === 'gu' ? v : 'auto';
+    } catch { return 'auto'; }
+  });
+  const [voiceReplies, setVoiceReplies] = useState(() => {
+    try { return localStorage.getItem('gov.chat.voiceReplies') !== '0'; } catch { return true; }
+  });
+  const [speaking, setSpeaking] = useState({ id: null, state: 'idle' });
+  const speakingRef = useRef(speaking);
+  speakingRef.current = speaking;
+  const replyLangRef = useRef(replyLang);
+  replyLangRef.current = replyLang;
+  const voiceRepliesRef = useRef(voiceReplies);
+  voiceRepliesRef.current = voiceReplies;
   const [busy, setBusy] = useState(false);
   const [copiedNum, setCopiedNum] = useState(false);
   const endRef = useRef(null);
@@ -535,13 +605,21 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
     return () => cancelAnimationFrame(raf);
   }, [messages.length, busy, open]);
 
-  useEffect(() => () => abortRef.current?.abort(), []);
-
-  // Translate existing assistant replies in place when the single TopBar language switch changes.
+  useEffect(() => () => { abortRef.current?.abort(); stopSpeaking(); }, []);
+  useEffect(() => { if (!open) { stopSpeaking(); setSpeaking({ id: null, state: 'idle' }); } }, [open]);
   useEffect(() => {
-    const target = uiLang === 'gu' ? 'gu' : 'en';
+    try { localStorage.setItem('gov.chat.replyLang', replyLang); } catch { /* storage unavailable */ }
+  }, [replyLang]);
+  useEffect(() => {
+    try { localStorage.setItem('gov.chat.voiceReplies', voiceReplies ? '1' : '0'); } catch { /* storage unavailable */ }
+  }, [voiceReplies]);
+
+  // Show every reply in its target language: the one chosen in the selector, or (Auto) the language of the question.
+  // A reply that came back in the other language is translated in place.
+  useEffect(() => {
     const pending = messages.filter((m) => {
       if (m.role !== 'assistant' || m.verdict === 'unavailable') return false;
+      const target = replyTargetLang(m, replyLang);
       if (msgTranslationsRef.current[`${m.id}:${target}`]) return false;
       const needMain = needsTextTranslation(m.text, target);
       const needWarn = (m.warnings || []).some((w) => needsTextTranslation(w, target));
@@ -553,6 +631,7 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
     const ctl = new AbortController();
     Promise.all(
       pending.map(async (m) => {
+        const target = replyTargetLang(m, replyLang);
         try {
           const text = needsTextTranslation(m.text, target)
             ? (await translateText(m.text, target, ctl.signal)) || m.text
@@ -564,7 +643,7 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
                 : w
             )),
           );
-          return [m.id, { text, warnings }];
+          return [`${m.id}:${target}`, { text, warnings }];
         } catch {
           return null;
         }
@@ -573,7 +652,7 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
       if (cancelled) return;
       const updates = {};
       for (const row of rows) {
-        if (row) updates[`${row[0]}:${target}`] = row[1];
+        if (row) updates[row[0]] = row[1];
       }
       if (Object.keys(updates).length > 0) {
         setMsgTranslations((prev) => ({ ...prev, ...updates }));
@@ -583,15 +662,34 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
       cancelled = true;
       ctl.abort();
     };
-  }, [messages, uiLang]);
+  }, [messages, replyLang]);
 
   const handleDetectedVoiceOrTextLang = useCallback((code) => {
     if (!code) return;
     setPlatformDetectedLang(code);
   }, [setPlatformDetectedLang]);
 
+  // Read one reply aloud (a second press stops it). Uses the shown text, translated first if it is in the other language.
+  const speakMessage = useCallback(async (m) => {
+    const cur = speakingRef.current;
+    if (cur.id === m.id && (cur.state === 'loading' || cur.state === 'playing')) {
+      stopSpeaking();
+      setSpeaking({ id: null, state: 'idle' });
+      return;
+    }
+    const target = replyTargetLang(m, replyLangRef.current);
+    let text = msgTranslationsRef.current[`${m.id}:${target}`]?.text ?? m.text;
+    setSpeaking({ id: m.id, state: 'loading' });
+    if (needsTextTranslation(text, target)) {
+      try { text = (await translateText(text, target)) || text; } catch { /* read it as it is */ }
+    }
+    speakReply(text, target, (state) => setSpeaking((prev) => (
+      prev.id === m.id || state === 'loading' ? { id: m.id, state } : prev
+    )));
+  }, []);
+
   const runTurn = useCallback(async ({
-    displayText, resolvedQuestion, queryToSend, effectiveLang, detectedInputLang,
+    displayText, resolvedQuestion, queryToSend, effectiveLang, detectedInputLang, viaVoice = false,
   }) => {
     if (!queryToSend || busy) return;
     if (detectedInputLang) setPlatformDetectedLang(detectedInputLang);
@@ -612,9 +710,8 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
       const res = await ask(queryToSend, effectiveLang, ctl.signal, { includeChain: false });
       const bot = buildBotMessage(resolvedQuestion, res, effectiveLang);
       setMessages((prev) => [...prev, bot]);
-      const qDetected = detectChatLanguage(resolvedQuestion);
-      const qLang = (qDetected === 'gu' || qDetected === 'gujlish') ? 'gu' : 'en';
-      setPlatformDetectedLang(uiMode === 'auto' ? bot.lang : qLang);
+      setPlatformDetectedLang(replyLangRef.current === 'auto' ? bot.lang : replyLangRef.current);
+      if (viaVoice && voiceRepliesRef.current) speakMessage(bot); // asked by voice: answer by voice
     } catch (err) {
       if (err?.name === 'AbortError') return;
       setMessages((prev) => [
@@ -633,15 +730,15 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
     } finally {
       if (abortRef.current === ctl) setBusy(false);
     }
-  }, [busy, uiMode, setPlatformDetectedLang]);
+  }, [busy, setPlatformDetectedLang, speakMessage]);
 
-  const handleSubmitText = useCallback(async (rawText) => {
-    const plan = resolveChatTurn(rawText, messagesRef.current, uiMode === 'auto' ? null : uiMode);
+  const handleSubmitText = useCallback(async (rawText, viaVoice = false) => {
+    const plan = resolveChatTurn(rawText, messagesRef.current, replyLangRef.current === 'auto' ? null : replyLangRef.current);
     if (plan.isPureSwitch && plan.effectiveLang && !busy) {
       const prevAns = [...messagesRef.current].reverse().find((m) => m.role === 'assistant' && m.rawResponse);
       const target = plan.effectiveLang === 'gu' ? 'gu' : 'en';
       if (prevAns) {
-        setPlatformLang(target);
+        setReplyLang(target); // "explain in Gujarati" changes the reply language of this chat
         const userMsg = { id: `${Date.now()}-u`, role: 'user', text: plan.displayText };
         setMessages((prev) => [...prev, userMsg]);
         setBusy(true);
@@ -649,6 +746,7 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
           const translatedRes = await translateResponseFields(prevAns.rawResponse, target);
           const bot = buildBotMessage(prevAns.question, translatedRes, target);
           setMessages((prev) => [...prev, bot]);
+          if (viaVoice && voiceRepliesRef.current) speakMessage(bot);
         } catch {
           /* keep thread intact if translation call fails */
         } finally {
@@ -657,18 +755,18 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
         return;
       }
     }
-    runTurn(plan);
-  }, [busy, uiMode, setPlatformLang, runTurn]);
+    runTurn({ ...plan, viaVoice });
+  }, [busy, runTurn, speakMessage]);
 
   const handlePickTopic = useCallback((topic) => {
     runTurn({
       displayText: topic.question,
       resolvedQuestion: topic.question,
       queryToSend: topic.question,
-      effectiveLang: uiMode === 'auto' ? topic.lang : uiMode,
+      effectiveLang: replyLang === 'auto' ? topic.lang : replyLang,
       detectedInputLang: topic.lang,
     });
-  }, [uiMode, runTurn]);
+  }, [replyLang, runTurn]);
 
   const cancelInFlight = () => {
     abortRef.current?.abort();
@@ -682,13 +780,6 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
       setTimeout(() => setCopiedNum(false), 1800);
     } catch { /* clipboard unavailable */ }
   };
-
-  const syncedLangLabel = useMemo(() => {
-    if (uiMode === 'gu') return t('topbar.lang_gu');
-    if (uiMode === 'en') return t('topbar.lang_en');
-    const tag = uiDetected === 'gu' ? 'ગુ' : 'EN';
-    return `${t('topbar.ui_auto')} · ${tag}`;
-  }, [uiMode, uiDetected, t]);
 
   return (
     <div className="print:hidden">
@@ -731,6 +822,8 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
                     type="button"
                     onClick={() => {
                       cancelInFlight();
+                      stopSpeaking();
+                      setSpeaking({ id: null, state: 'idle' });
                       setMessages([]);
                       setMsgTranslations({});
                     }}
@@ -752,15 +845,45 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
               </div>
             </div>
 
-            {/* Synced platform language badge + Helpline strip */}
+            {/* Reply language + spoken replies + Helpline strip */}
             <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2">
-              <span
-                title={t('topbar.ui_lang_title')}
-                className={`inline-flex items-center gap-1.5 rounded-lg border border-[#E6E4DD] bg-[#F1EFEA] px-2.5 py-1 text-[11px] font-semibold text-[#475569] ${uiLang === 'gu' ? 'gu-text' : ''}`}
-              >
-                <Globe className="h-3 w-3 text-[#4F46E5]" aria-hidden="true" />
-                <span>{syncedLangLabel}</span>
-              </span>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <div
+                  role="group"
+                  aria-label={t('chat.reply_lang')}
+                  title={t('chat.reply_lang_title')}
+                  className="inline-flex items-center gap-1 rounded-lg border border-[#E6E4DD] bg-[#F1EFEA] p-0.5"
+                >
+                  <Globe className="ml-1.5 h-3 w-3 text-[#4F46E5]" aria-hidden="true" />
+                  {[['auto', t('chat.reply_auto')], ['en', t('chat.reply_en')], ['gu', t('chat.reply_gu')]].map(([id, label]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      aria-pressed={replyLang === id}
+                      onClick={() => setReplyLang(id)}
+                      className={`gu-text rounded-md px-2 py-0.5 text-[11px] font-semibold transition-colors ${
+                        replyLang === id ? 'bg-white text-[#4338CA] shadow-sm' : 'text-[#64748B] hover:text-[#1E293B]'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  aria-pressed={voiceReplies}
+                  onClick={() => { if (voiceReplies) stopSpeaking(); setVoiceReplies((v) => !v); }}
+                  title={t('chat.voice_replies_title')}
+                  className={`inline-flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-semibold transition-colors ${
+                    voiceReplies
+                      ? 'border-[#C7D2FE] bg-[#EEF2FF] text-[#4338CA]'
+                      : 'border-[#E6E4DD] bg-[#F1EFEA] text-[#64748B]'
+                  }`}
+                >
+                  {voiceReplies ? <Volume2 className="h-3 w-3" /> : <VolumeX className="h-3 w-3" />}
+                  <span className="gu-text">{t('chat.voice_replies')}</span>
+                </button>
+              </div>
 
               <button
                 type="button"
@@ -781,6 +904,9 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
             <ChatMessageList
               messages={messages}
               msgTranslations={msgTranslations}
+              replyLang={replyLang}
+              speaking={speaking}
+              onSpeak={speakMessage}
               onInspect={onInspect}
             />
 
@@ -806,7 +932,6 @@ export default function ChatHelpline({ open, onOpenChange, onInspect }) {
             open={open}
             busy={busy}
             hasHistory={messages.length > 0}
-            uiMode={uiMode}
             uiLang={uiLang}
             onSubmitText={handleSubmitText}
             onDetectedLang={handleDetectedVoiceOrTextLang}

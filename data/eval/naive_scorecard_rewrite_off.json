@@ -1,0 +1,536 @@
+{
+ "summary": {
+  "label": "rewrite_off",
+  "n": 34,
+  "by_kind": {
+   "in_corpus": {
+    "refused_with_pointers": 8,
+    "answered_expected_doc": 7,
+    "answered_other_doc": 2
+   },
+   "not_in_corpus": {
+    "refused_with_pointers": 5
+   },
+   "unknown": {
+    "refused_with_pointers": 6,
+    "answered_other_doc": 2
+   },
+   "vague": {
+    "refused_with_pointers": 4
+   }
+  },
+  "vague_too_vague_with_options": 4,
+  "refusals_with_pointers": 23,
+  "refusals_bare": 0,
+  "median_seconds": 3.6
+ },
+ "rows": [
+  {
+   "id": "N-01",
+   "kind": "in_corpus",
+   "question": "how old can I be to apply for the stenographer job",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 7.6,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GS/2019-34/LPK/1204/3464/KH-3",
+    "GS/2019-36/LPK/1204/3464/KH-3",
+    "GAD/REC/e-file/1/2023/2064(1)/R"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-02",
+   "kind": "in_corpus",
+   "question": "LTC kab tak band rakhi hati central sarkare",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 5.1,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GAD/HRM/e-file/1/2024/1857/HRMS Section",
+    "GAD/HRM/e-file/1/2024/1067/HRMS Section",
+    "GAD/HRM/e-file/1/2025/1857/HRMS Section"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-03",
+   "kind": "in_corpus",
+   "question": "was there a bank holiday that got cancelled for closing accounts in 2013",
+   "outcome": "answered_expected_doc",
+   "code": null,
+   "seconds": 3.9,
+   "cited": [
+    "GR-1_551_1_Gh_Notification_22-2-2013-772272"
+   ],
+   "answer": "A proposal was made in 2013 to do away with the September 30 bank holiday for half‑yearly closing, but the document only records the suggestion, not an actual cancellation. Instead, a public holiday on 11 Chaitra 1935 was designated for ban",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-04",
+   "kind": "in_corpus",
+   "question": "how many rooms are there in the Gujarat guest house in Delhi",
+   "outcome": "answered_expected_doc",
+   "code": null,
+   "seconds": 3.4,
+   "cited": [
+    "GR-1_2023_1_eng-07-09-2019-e18955"
+   ],
+   "answer": "The Gujarat guest house in Delhi has 78 rooms.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-05",
+   "kind": "in_corpus",
+   "question": "what is the mobile phone plan government employees get and since when",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 3.5,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "CEL/102009/881985/GH",
+    "GAD/REC/e-file/1/2023/2064(4)/R",
+    "GS/2017/06/BRT/102016/1050(654823)/K"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-06",
+   "kind": "in_corpus",
+   "question": "who became the chief election officer of Gujarat in 2021",
+   "outcome": "answered_expected_doc",
+   "code": null,
+   "seconds": 3.5,
+   "cited": [
+    "GR-1_2245_1_Shri-Anupam-Anand-CEO-Notification_06_2021_Date_03--781343"
+   ],
+   "answer": "Shri Anupam Anand, IAS, was appointed as Chief Electoral Officer for the State of Gujarat in 2021.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-07",
+   "kind": "in_corpus",
+   "question": "ministers na travel allowance na navi rules kyarthi lagu thaya",
+   "outcome": "answered_other_doc",
+   "code": null,
+   "seconds": 5.3,
+   "cited": [
+    "GR-1_3865_1_ViewPdf-966ed4"
+   ],
+   "answer": "Gujarat Minister's Traveling Allowances (Amendment) Rules, 2025 na 25 February 2025 thi lagu thay chhe.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-08",
+   "kind": "in_corpus",
+   "question": "senior clerk exam paper 5 how many marks and how much time",
+   "outcome": "answered_other_doc",
+   "code": null,
+   "seconds": 4.3,
+   "cited": [
+    "GR-1_2259_1_08-06-2021-Head-Clerk-Pre-Service-Rules-6617b3"
+   ],
+   "answer": "Paper 5 for the Senior Clerk exam carries 100 marks and has a duration of 3 hours.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-09",
+   "kind": "in_corpus",
+   "question": "how many years of experience should selection board members have",
+   "outcome": "answered_expected_doc",
+   "code": null,
+   "seconds": 4.6,
+   "cited": [
+    "GR-1_2375_1_5-OCT-2021-9c070a"
+   ],
+   "answer": "Half of the Board members must have at least ten years of administrative experience in State Government or Public Sector Undertakings.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-10",
+   "kind": "in_corpus",
+   "question": "since when is the computer exam compulsory for government staff",
+   "outcome": "answered_expected_doc",
+   "code": null,
+   "seconds": 5.0,
+   "cited": [
+    "GR-1_2209_1_notification-gad-30092006-f9c4e0",
+    "GR-1_3494_1_22-07-2013-1-6573bc"
+   ],
+   "answer": "The computer competency examination became compulsory for government staff under the Gujarat Civil Services Computer Competency Training and Examination Rules, 2006, effective from 30 September 2006.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-11",
+   "kind": "in_corpus",
+   "question": "how many days of training do new gazetted officers have to do",
+   "outcome": "answered_expected_doc",
+   "code": null,
+   "seconds": 8.4,
+   "cited": [
+    "GR-1_3906_1_04102025_Gazette-98889f"
+   ],
+   "answer": "New gazetted officers must complete sixty-three days of pre-service training.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-12",
+   "kind": "in_corpus",
+   "question": "રસીનું સર્ટિફિકેટ ના હોય તો ઓફિસમાં જઈ શકાય?",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 137.2,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GR-2015-ad2836",
+    "પરચ-૧૦૨૦૨૦-૫૦૧-ટ",
+    "GS/41/CRR/1167/G"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-13",
+   "kind": "in_corpus",
+   "question": "હેડક્વાર્ટર છોડીને બહાર જતા પહેલા કોને પૂછવું પડે?",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 4.6,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "પવસ/૧૦૨૦૧૬૧૦૨૦૧૬/૫૮૦/પ્રોટોકોલ",
+    "GAD/PRE/e-file/1/2023/3908/T",
+    "AIS/41-2008/553395/G"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-14",
+   "kind": "in_corpus",
+   "question": "rajama hou to phone uthavo padse ke nahi",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 2.6,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "CEL/102009/881985/GH",
+    "AIS/1098/5302/G",
+    "AIS/1098/5302/G"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-15",
+   "kind": "in_corpus",
+   "question": "are all government employee leaves cancelled right now",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 2.6,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GR-2015-ad2836",
+    "GAD/HRM/e-file/1/2024/1067/HRMS Section",
+    "GS/2013/01/ખતપ/102005/1519/Part-I/K"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-16",
+   "kind": "in_corpus",
+   "question": "did they give extra age relaxation for direct recruitment in 2022",
+   "outcome": "answered_expected_doc",
+   "code": null,
+   "seconds": 2.6,
+   "cited": [
+    "GR-1_3218_1_DocScanner-29-Sept-2022-Notification-f4ea07"
+   ],
+   "answer": "Haa, direct recruitment ma 18 September 2022 thi 31 August 2023 sudhi ek varsh extra umar ni maryada aapi che.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-17",
+   "kind": "in_corpus",
+   "question": "where is the Constitution preamble reading event in the Secretariat",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 3.8,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "પરચ-૧૦૨૦૨૦-૯૪૨-ઘ",
+    "પરચ-૧૦૨૦૨૦-૯૪૨-ઘ",
+    "GS/1/2015/CRR/14/2014/801515/G-5"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-18",
+   "kind": "not_in_corpus",
+   "question": "how much maternity leave do women employees get",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 2.4,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GAD/REC/e-file/1/2023/2064(7)/R",
+    "GS/2026/01/0125/K",
+    "GAD/HRM/e-file/1/2024/1857/HRMS Section"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-19",
+   "kind": "not_in_corpus",
+   "question": "bike loan for government employees",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 2.7,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GS/2025/4/BRT/102016/1050(654823)/K.",
+    "GAD/HRM/e-file/1/2024/1067/HRMS Section",
+    "GS/2025/12/0125/K"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-20",
+   "kind": "not_in_corpus",
+   "question": "what is the income tax slab this year",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 2.9,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GAD/REC/e-file/1/2023/2064(9)/R",
+    "GAD/REC/e-file/1/2023/2064(16)/R",
+    "GS/2025/4/BRT/102016/1050(654823)/K."
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-21",
+   "kind": "not_in_corpus",
+   "question": "driving licence kevi rite kadhvu",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 3.4,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GS/2006/31/ખતપ/102005/1519/K",
+    "GS/2021/09/BPN/10/2021/79829/K",
+    "GS-2020-28-BPN-102015-99-K"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-22",
+   "kind": "not_in_corpus",
+   "question": "મારે ઘર ખરીદવા માટે બેંક લોન કેવી રીતે મળે?",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 4.4,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "SKN-1296-CU",
+    "No: PRHRDD/1091/03/2025",
+    "No: PRHRDD/0022/04/2025"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-23",
+   "kind": "unknown",
+   "question": "my father died while in service, what does the family get",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 3.3,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "AIS/1098/5302/G",
+    "GAD/GRN/e-file/1/2024/1931/L",
+    "GS/41/CRR/ 1167/ G"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-24",
+   "kind": "unknown",
+   "question": "mane chhutti joiye che, su karvu",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 4.2,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "No: GAD/0561/04/2026",
+    "ખહલ-10-2019-31358-ક",
+    "GAD/HRM/e-file/1/2024/1067/HRMS Section"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-25",
+   "kind": "unknown",
+   "question": "salary kitni badhegi",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 2.5,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GAD/REC/e-file/1/2023/2064(21)/R",
+    "GAD/REC/e-file/1/2023/2064(4)/R",
+    "GAD/REC/e-file/1/2023/2064(20)/R"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-26",
+   "kind": "unknown",
+   "question": "I am a clerk, can I be promoted",
+   "outcome": "answered_other_doc",
+   "code": null,
+   "seconds": 3.4,
+   "cited": [
+    "GR-1_3898_1_17-roads_building_department-4ff54f"
+   ],
+   "answer": "A Junior Clerk, Class‑III can be promoted to Assistant Manager, Class‑III as per GR GAD/REC/e‑file/1/2023/2064(17)/R dated 26 September 2025.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-27",
+   "kind": "unknown",
+   "question": "how to get pension after retirement",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 3.9,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "AIS/1098/5302/G",
+    "GR-1_2924_1_20160707-bb919f",
+    "AIS/1098/5302/G"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-28",
+   "kind": "unknown",
+   "question": "can I get transferred to my home town",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 3.8,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "AIS/42.2001/2177/G",
+    "GR-2015-ad2836",
+    "GAD/REC/e-file/1/2023/2064(19)/R"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-29",
+   "kind": "unknown",
+   "question": "સરકારી કર્મચારીને દત્તક બાળક માટે કેટલી રજા મળે?",
+   "outcome": "refused_with_pointers",
+   "code": "NO_DOCUMENT",
+   "seconds": 3.6,
+   "cited": [],
+   "answer": "",
+   "suggestions": [
+    "GAD/HRM/e-file/1/2024/1857/HRMS Section",
+    "નવક-૧૦૨૦૧૨- ૨૯૦૮- ખ- 3",
+    "NVK- 102018- 1317-kh-3"
+   ],
+   "options": 0
+  },
+  {
+   "id": "N-30",
+   "kind": "unknown",
+   "question": "what allowance do I get for travelling on duty",
+   "outcome": "answered_other_doc",
+   "code": null,
+   "seconds": 4.0,
+   "cited": [
+    "GR-1_739_1_CONTRACTUAL-APPOINTMENTS-14-11-1998--ae1b08"
+   ],
+   "answer": "Travelling Allowance and Daily Allowance for journeys approved by the Government are admissible as per standing orders.",
+   "suggestions": [],
+   "options": 0
+  },
+  {
+   "id": "N-31",
+   "kind": "vague",
+   "question": "leave",
+   "outcome": "refused_with_pointers",
+   "code": "TOO_VAGUE",
+   "seconds": 0.8,
+   "cited": [],
+   "answer": "",
+   "suggestions": [],
+   "options": 4
+  },
+  {
+   "id": "N-32",
+   "kind": "vague",
+   "question": "પગાર",
+   "outcome": "refused_with_pointers",
+   "code": "TOO_VAGUE",
+   "seconds": 0.0,
+   "cited": [],
+   "answer": "",
+   "suggestions": [],
+   "options": 4
+  },
+  {
+   "id": "N-33",
+   "kind": "vague",
+   "question": "rules",
+   "outcome": "refused_with_pointers",
+   "code": "TOO_VAGUE",
+   "seconds": 0.0,
+   "cited": [],
+   "answer": "",
+   "suggestions": [],
+   "options": 4
+  },
+  {
+   "id": "N-34",
+   "kind": "vague",
+   "question": "tell me about pension",
+   "outcome": "refused_with_pointers",
+   "code": "TOO_VAGUE",
+   "seconds": 0.0,
+   "cited": [],
+   "answer": "",
+   "suggestions": [],
+   "options": 4
+  }
+ ]
+}

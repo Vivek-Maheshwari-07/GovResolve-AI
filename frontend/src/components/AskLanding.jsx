@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Languages, Quote, GitBranch, ShieldQuestion, ArrowUpRight } from 'lucide-react';
 import Seal from './Seal';
 import { SAMPLES, KIND_STYLE } from '../lib/samples';
 import { STATUS, TONES } from '../lib/status';
 import { useUiLanguage } from '../lib/i18n';
+import { fetchCoverage } from '../api';
 
 const FEATURES = [
   { icon: Languages, titleKey: 'featureLanguages', textKey: 'featureLanguagesText' },
@@ -94,6 +95,54 @@ export function Specimen({ className = '' }) {
   );
 }
 
+const EXAMPLE_PREF = { gu: ['gu', 'mixed', 'en'], gujlish: ['mixed', 'en', 'gu'], en: ['en', 'mixed', 'gu'] };
+
+/** What the collection covers: topics with how many resolutions hold them, each with a question known to give a cited answer. */
+function Coverage({ onAsk, disabled }) {
+  const { t, language } = useUiLanguage();
+  const [cov, setCov] = useState(null);
+  useEffect(() => {
+    let alive = true;
+    fetchCoverage().then((c) => { if (alive) setCov(c); });
+    return () => { alive = false; };
+  }, []);
+  if (!cov || !cov.topics?.length) return null;
+  const pref = EXAMPLE_PREF[language] || EXAMPLE_PREF.en;
+  const pick = (topic) => [...topic.examples].sort((a, b) => pref.indexOf(a.language) - pref.indexOf(b.language))[0];
+  return (
+    <section aria-label={t('coverageTitle')}>
+      <div className="mb-3 px-0.5">
+        <h2 className="eyebrow">{t('coverageTitle')}</h2>
+        <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-[#64748B]">{t('coverageNote', { count: cov.total_grs })}</p>
+        {cov.first_date && cov.last_date && (
+          <p className="mono-label mt-1 text-[10px] text-[#64748B]">{t('coverageRange', { from: cov.first_date.slice(0, 4), to: cov.last_date.slice(0, 4) })}</p>
+        )}
+      </div>
+      <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        {cov.topics.map((topic) => {
+          const ex = pick(topic);
+          return (
+            <li key={topic.id}>
+              <button
+                type="button"
+                disabled={disabled || !ex}
+                onClick={() => ex && onAsk(ex.text)}
+                className="group h-full w-full rounded-xl border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-4 py-3 text-left transition-colors hover:border-[#4F46E5] hover:bg-[#EEF2FF]/60 disabled:opacity-50"
+              >
+                <span className="flex items-baseline justify-between gap-3">
+                  <span className={`${language === 'gu' ? 'gu-text' : ''} text-[14px] font-bold text-[#1E293B]`}>{language === 'gu' ? topic.label_gu : topic.label_en}</span>
+                  <span className="mono-label shrink-0 text-[10px] text-[#64748B]">{t('coverageDocs', { count: topic.count })}</span>
+                </span>
+                {ex && <span className={`${/[઀-૿]/.test(ex.text) ? 'gu-text' : ''} mt-1.5 block line-clamp-2 text-[12.5px] leading-snug text-[#64748B] group-hover:text-[#1E293B]`}>{ex.text}</span>}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
 /** Case files, capabilities and the five seals, shown below the masthead. */
 export default function Hero({ onAsk, disabled }) {
   const { t } = useUiLanguage();
@@ -131,6 +180,8 @@ export default function Hero({ onAsk, disabled }) {
           ))}
         </ol>
       </motion.section>
+
+      <motion.div variants={rise}><Coverage onAsk={onAsk} disabled={disabled} /></motion.div>
 
       <motion.section variants={rise} aria-label={t('howItWorks')} className="grid grid-cols-1 overflow-hidden rounded-2xl border border-[#E6E4DD] sm:grid-cols-2 lg:grid-cols-4">
         {FEATURES.map((f, i) => (

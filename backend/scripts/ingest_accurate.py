@@ -25,7 +25,6 @@ import hashlib
 import json
 import os
 import re
-import shutil
 import sys
 from pathlib import Path
 from typing import Optional
@@ -67,24 +66,9 @@ try:
 except ImportError:
     import fitz
 
-try:
-    import pytesseract
-    TESSERACT_AVAILABLE = True
-    candidates = [
-        os.getenv("TESSERACT_CMD", ""),
-        r"C:\Program Files\Tesseract-OCR\tesseract.exe",
-        r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
-        shutil.which("tesseract") or "",
-    ]
-    for c in candidates:
-        if c and Path(c).is_file():
-            pytesseract.pytesseract.tesseract_cmd = c
-            break
-    local_tessdata = PROJECT_ROOT / "data" / "tessdata"
-    if local_tessdata.exists() and "TESSDATA_PREFIX" not in os.environ:
-        os.environ["TESSDATA_PREFIX"] = str(local_tessdata.resolve())
-except ImportError:
-    TESSERACT_AVAILABLE = False
+from backend.ingestion import ocr as _ocr
+
+TESSERACT_AVAILABLE = _ocr.PYTESSERACT and _ocr.configure()
 
 # Google Gemini client for multimodal vision extraction
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
@@ -303,6 +287,14 @@ def parse_sachivalaya_text(raw_text: str) -> dict:
 # High-Accuracy PDF Ingester
 # ──────────────────────────────────────────────
 
+def _tesseract_page(img) -> tuple[str, float]:
+    """Text and real mean word confidence (0-1) of a rendered page, language chosen per page."""
+    if not TESSERACT_AVAILABLE:
+        return "", 0.0
+    page = _ocr.ocr_image(img.convert("L"), dpi=300)
+    return page.text, page.confidence
+
+
 def ingest_pdf_accurate(pdf_path: str, processed_dir: str = "./data/processed") -> GRRecord:
     """Ingests a single PDF with 300 DPI rendering, vision fallback, and structural chunking."""
     pdf_path = str(Path(pdf_path).resolve())
@@ -345,6 +337,7 @@ def ingest_pdf_accurate(pdf_path: str, processed_dir: str = "./data/processed") 
             temp_img_path = PROJECT_ROOT / "data" / f"temp_p{page_num}_{file_hash(pdf_path)[:6]}.png"
             img.save(temp_img_path)
 
+            page_conf = None   # real mean word confidence, set when Tesseract reads the page
             if HAS_GEMINI_VISION and page_num <= 2:
                 logger.info(f"  Page {page_num}: Running Gemini Multimodal Vision Extractor...")
                 v_res = extract_with_gemini_vision(str(temp_img_path), page_num)
@@ -353,9 +346,9 @@ def ingest_pdf_accurate(pdf_path: str, processed_dir: str = "./data/processed") 
                     if not vision_meta:
                         vision_meta = v_res
                 else:
-                    page_text = pytesseract.image_to_string(img, lang="guj+eng") if TESSERACT_AVAILABLE else ""
+                    page_text, page_conf = _tesseract_page(img)
             else:
-                page_text = pytesseract.image_to_string(img, lang="guj+eng") if TESSERACT_AVAILABLE else ""
+                page_text, page_conf = _tesseract_page(img)
 
             if temp_img_path.exists():
                 temp_img_path.unlink()
@@ -363,7 +356,7 @@ def ingest_pdf_accurate(pdf_path: str, processed_dir: str = "./data/processed") 
             p_rec = PageRecord(
                 page_number=page_num,
                 source_type=SourceType.SCANNED,
-                ocr_confidence=0.95 if HAS_GEMINI_VISION else 0.85,
+                ocr_confidence=page_conf if page_conf is not None else 0.95,
                 width=page.rect.width,
                 height=page.rect.height,
                 blocks=[TextBlock(
@@ -371,7 +364,7 @@ def ingest_pdf_accurate(pdf_path: str, processed_dir: str = "./data/processed") 
                     text=page_text,
                     text_clean=normalize_gujarati_digits(page_text),
                     bbox=BoundingBox(x0=0, y0=0, x1=page.rect.width, y1=page.rect.height, page=page_num),
-                    ocr_confidence=0.95 if HAS_GEMINI_VISION else 0.85,
+                    ocr_confidence=page_conf if page_conf is not None else 0.95,
                 )]
             )
 

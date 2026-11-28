@@ -23,7 +23,7 @@ frontend/dist/
 .env
 *.env.local
 
-# Data (raw PDFs ignored to keep repo lightweight; processed records and index tracked)
+# Data (the source PDFs, the 366-document corpus and its live index stay local; the 156-document demo set and its index are tracked)
 final_dataset/
 data/final_dataset.zip
 *.zip
@@ -37,6 +37,7 @@ data/index/chroma_test/
 data/index/chroma_target_test/
 data/index/*.sqlite3
 data/index/translations.json
+data/index/explanations.json
 data/index/answers.json
 data/index/translations_gu.json
 
@@ -58,12 +59,10 @@ Thumbs.db
 logs/
 eval/scorecard.json
 
-# frontend build output
-frontend/node_modules/
-frontend/dist/
-
 # Unwanted / archived files
 /unwanted/
 
-# partial local index builds
+# local index builds, generated caches and safety copies made by repair tools
 data/index/chroma_bge/
+data/.cache/
+*_backup_before_repair*

@@ -55,10 +55,14 @@ def to_engine_result(resp: Any) -> EngineResult:
         why = (resp.summary or "").strip() or _REASONS.get(code, "The available documents do not support an answer.")
         extra = (resp.follow_up_question or "").strip()
         ans_lang = _val(getattr(resp, "language_detected", None) or "").lower()
+        suggestions = [{"doc_id": d.gr_id, "gr_number": d.gr_number, "subject": d.subject, "issue_date": d.issue_date, "page": d.page}
+                       for d in (getattr(resp, "suggested_documents", None) or [])]
         return EngineResult(insufficient_reason=f"{code}: {why}" + (f" {extra}" if extra else "") if code else why,
                             reason_code=ReasonCode(code) if code in _REASONS else None,
                             warnings=list(getattr(resp, "warnings", None) or []),
-                            language=ans_lang if ans_lang in ("gu", "en", "mixed") else None)
+                            language=ans_lang if ans_lang in ("gu", "en", "mixed") else None,
+                            suggestions=suggestions,
+                            follow_up_options=list(getattr(resp, "follow_up_options", None) or []))
     summary = resp.summary.strip()
     inferred_lang = "gu" if any("઀" <= ch <= "૿" for ch in summary) else "en"
     return EngineResult(answer=summary, citations=cites,

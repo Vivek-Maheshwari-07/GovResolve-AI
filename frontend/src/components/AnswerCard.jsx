@@ -52,7 +52,7 @@ function CitationChip({ cit, active, onSelect, uiLang }) {
   );
 }
 
-export default function AnswerCard({ response, active, onSelect, language, onLanguageChange }) {
+export default function AnswerCard({ response, active, onSelect, language, onLanguageChange, onAsk, onOpenDoc }) {
   const { t } = useUiLanguage();
   const tb = useT();
   const { lang: uiLang } = useLanguage();
@@ -300,6 +300,50 @@ export default function AnswerCard({ response, active, onSelect, language, onLan
         </p>
         {speechError && speechErrorTarget === 'answer' && <p role="status" className="mt-2 text-[11.5px] text-[#9F1239]">{speechError}</p>}
         <TrustShield response={response} />
+        {!answered && ((response.follow_up_options || []).length > 0 || (response.suggestions || []).length > 0) && (
+          <div className="mt-5 space-y-5 border-t border-[#E6E4DD] pt-4 print:hidden">
+            {(response.follow_up_options || []).length > 0 && onAsk && (
+              <div>
+                <h3 className="eyebrow">{t('tryOneOfThese')}</h3>
+                <ul className="mt-2 flex flex-col gap-2">
+                  {response.follow_up_options.map((q) => (
+                    <li key={q}>
+                      <button
+                        type="button"
+                        onClick={() => onAsk(q)}
+                        className={`${/[઀-૿]/.test(q) ? 'gu-text' : ''} w-full rounded-xl border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-3.5 py-2.5 text-left text-[13.5px] font-medium leading-snug text-[#1E293B] transition-colors hover:border-[#4F46E5] hover:bg-[#EEF2FF]/60`}
+                      >
+                        {q}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {(response.suggestions || []).length > 0 && (
+              <div>
+                <h3 className="eyebrow">{t('closestDocuments')}</h3>
+                <p className="mt-1 text-[12px] text-[#64748B]">{t('closestDocumentsNote')}</p>
+                <ul className="mt-2 flex flex-col gap-2">
+                  {response.suggestions.map((s) => (
+                    <li key={s.gr_id}>
+                      <button
+                        type="button"
+                        onClick={() => onOpenDoc?.(s)}
+                        className="w-full rounded-xl border border-[#E6E4DD] bg-[rgba(255,255,255,0.92)] px-3.5 py-2.5 text-left transition-colors hover:border-[#4F46E5] hover:bg-[#EEF2FF]/60"
+                      >
+                        <span className="block truncate font-mono text-[12px] font-bold text-[#1E293B]">{s.gr_number}</span>
+                        <span className={`${/[઀-૿]/.test(s.subject || '') ? 'gu-text' : ''} mt-0.5 block line-clamp-2 text-[12.5px] text-[#64748B]`}>
+                          {s.issue_date ? `${s.issue_date} · ` : ''}{s.subject || ''}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
       </section>
 
       {/* Segmented Collapsible Evidence Drawer */}

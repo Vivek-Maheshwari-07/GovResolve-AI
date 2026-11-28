@@ -156,6 +156,15 @@ class LineageNode(BaseModel):
     status:    ClauseStatus
     edges_out: list[LineageEdge] = Field(default_factory=list)
 
+class SuggestedDocument(BaseModel):
+    """A resolution that came closest to a question the collection could not answer (shown with the refusal, never as an answer)."""
+    gr_id:       str
+    gr_number:   str = ""
+    subject:     str = ""
+    issue_date:  Optional[str] = None
+    page:        int = 1
+
+
 class QueryResponse(BaseModel):
     question:        str
     answer_status:   AnswerStatus
@@ -168,4 +177,6 @@ class QueryResponse(BaseModel):
     collection_latest_date: Optional[str]  = None   # for "no later change" caveat
     language_detected: Language = Language.EN
     warnings:        list[str]             = Field(default_factory=list)  # e.g. 'answered without the language model'
+    suggested_documents: list[SuggestedDocument] = Field(default_factory=list)  # closest resolutions, only on a refusal
+    follow_up_options: list[str]           = Field(default_factory=list)  # concrete questions to click, on a too-broad question
 

@@ -8,7 +8,10 @@ import uuid
 
 import requests
 from fastapi import APIRouter, File, Form, HTTPException, Query, Request, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
+from pydantic import BaseModel, Field
+
+from .. import tts
 
 from ..normalize import detect_language
 from ..query_eval import evaluate_query
@@ -348,3 +351,30 @@ async def voice_transcribe(
         language=language,
         mode=(mode or "accurate").strip().lower(),
     )
+
+
+class SpeakRequest(BaseModel):
+    text: str = Field(..., max_length=4000)
+    language: str | None = None   # 'gu' | 'en'; omit to follow the script of the text
+
+
+@router.get("/speak")
+def voice_speak_status() -> dict:
+    """Capability check, so the web app knows whether to use server voices or the browser's own."""
+    return {"available": tts.enabled(), "voices": {lang: tts.voice_for(lang) for lang in ("gu", "en")}}
+
+
+@router.post("/speak")
+async def voice_speak(body: SpeakRequest) -> Response:
+    """Read `text` aloud (MP3). 503 when no speech service is available; the web app then uses browser voices."""
+    text = tts.speakable(body.text)
+    if not text:
+        raise HTTPException(422, "Nothing to read aloud.")
+    language = tts.pick_language(text, body.language)
+    try:
+        audio, voice = await tts.synthesize(text, language)
+    except tts.TTSUnavailable as exc:
+        raise HTTPException(503, str(exc)) from exc
+    except Exception as exc:  # the remote service failed or timed out
+        raise HTTPException(502, f"Speech service failed ({type(exc).__name__}).") from exc
+    return Response(content=audio, media_type="audio/mpeg", headers={"X-TTS-Voice": voice, "Cache-Control": "private, max-age=3600"})

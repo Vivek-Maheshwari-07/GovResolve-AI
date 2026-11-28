@@ -31,6 +31,9 @@ def no_translation_call_in_tests(monkeypatch):
     monkeypatch.setenv("ANSWER_CACHE", "")              # answers remembered in memory per pipeline only, never on disk
     monkeypatch.setenv("GU_QUERY_TRANSLATION", "off")   # no hidden model call for English questions
     monkeypatch.setenv("GOV_ENGINE", "retrieval")
+    monkeypatch.delenv("GOV_ADMIN_TOKEN", raising=False)   # a real admin password in a developer's .env must not lock the tests out; tests that need one set it
+    monkeypatch.setenv("EXPLAIN_CACHE", "")                # no explanation cache file in tests
+    monkeypatch.setenv("QUERY_REWRITE", "off")          # no hidden model call that rewrites the question; its own tests turn it on
     try:
         import backend.rag.search_engine as se
     except Exception:  # the squad2 modules are optional for the API tests
